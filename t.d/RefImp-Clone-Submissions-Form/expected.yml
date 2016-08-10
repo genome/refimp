@@ -1,0 +1,134 @@
+---
+COMMENTS:
+  AnyOtherComments:
+    - AnyOtherCommentsText: |+
+        other comments
+        MiSeq data was used to finish this clone
+
+    - AnyOtherCommentsText: "other comments\nstuff\n\n"
+  AssemblyPiecesComments:
+    - AssemblyPiecesCommentsEndBP: 115
+      AssemblyPiecesCommentsStartBP: 111
+  ContigData:
+    - ContigFinishedFrom: 1
+      ContigFinishedTo: 1413
+      ContigNumber: 1
+      EndCloneSite: 1413
+      EntireContigGoesFrom: 1
+      EntireContigGoesTo: 1413
+      StartCloneSite: 1
+  GSSAndOrMRNAOnlyDataComments:
+    - GSSAndOrMRNAOnlyDataCommentsEndBP: 135
+      GSSAndOrMRNAOnlyDataCommentsStartBP: 131
+  HomopolymericRunComments:
+    - HomopolymericRunCommentsEndBP: 45
+      HomopolymericRunCommentsStartBP: 41
+  MiniLibComments:
+    - MiniLibCommentsCloneContains: Shattered Library
+      MiniLibCommentsContigNumber: 1
+      MiniLibCommentsDNASource: one
+      MiniLibCommentsPlateName: two
+      MiniLibCommentsRegionFrom: 11
+      MiniLibCommentsRegionTo: 15
+      MiniLibCommentsTextComment: three
+      MiniLibCommentsTextCommentToggle: 1
+  NonGenbankComments:
+    - NonGenbankCommentsCoordinators: 'COMMENT{'
+      NonGenbankCommentsEndBP: 105
+      NonGenbankCommentsStartBP: 101
+  NonRepetitiveButUnresolvedRegionComments:
+    - NonRepetitiveButUnresolvedRegionCommentsEndBP: 125
+      NonRepetitiveButUnresolvedRegionCommentsStartBP: 121
+  OtherClonesComments:
+    - OtherClonesCommentsContigNumber: 1
+      OtherClonesCommentsEndBP: 145
+      OtherClonesCommentsStartBP: 141
+  PCROnlyRegionsComments:
+    - PCROnlyRegionsCommentsContigNumber: 1
+      PCROnlyRegionsCommentsDNASource: project dna
+      PCROnlyRegionsCommentsRegionFrom: 21
+      PCROnlyRegionsCommentsRegionTo: 25
+  SingleCloneCoverageComments:
+    - SingleCloneCoverageCommentsEndBP: 35
+      SingleCloneCoverageCommentsStartBP: 31
+      SingleCloneCoverageSubcloneType: Plasmid
+  UnresolvedDiTriRepeatsComments:
+    - UnresolvedDiTriRepeatsAssemblySize: 20
+      UnresolvedDiTriRepeatsCommentsDoesNotMeetFinishingStandardsCheckbox: 0
+      UnresolvedDiTriRepeatsCommentsEndBP: 65
+      UnresolvedDiTriRepeatsCommentsSizingInfo: pcr
+      UnresolvedDiTriRepeatsCommentsStartBP: 61
+      UnresolvedDiTriRepeatsProductSize: 20
+  UnresolvedInvertedRepeatsComments:
+    - UnresolvedInvertedRepeatsCommentsDiscrepanciesCheckbox: 0
+      UnresolvedInvertedRepeatsCommentsDoesNotMeetFinishingStandardsCheckbox: 0
+      UnresolvedInvertedRepeatsCommentsEndBP: 85
+      UnresolvedInvertedRepeatsCommentsOrientationCheckbox: 0
+      UnresolvedInvertedRepeatsCommentsSizingInfo: too large to size
+      UnresolvedInvertedRepeatsCommentsStartBP: 81
+  UnresolvedLargeDuplicationsComments:
+    - UnresolvedLargeDuplicationsCommentsDiscrepanciesCheckbox: 1
+      UnresolvedLargeDuplicationsCommentsDoesNotMeetFinishingStandardsCheckbox: 0
+      UnresolvedLargeDuplicationsCommentsEndBP: 75
+      UnresolvedLargeDuplicationsCommentsSizingInfo: too large to size
+      UnresolvedLargeDuplicationsCommentsStartBP: 71
+  UnresolvedTandemRepeatsComments:
+    - UnresolvedTandemRepeatsCommentsDoesNotMeetFinishingStandardsCheckbox: 0
+      UnresolvedTandemRepeatsCommentsEndBP: 55
+      UnresolvedTandemRepeatsCommentsSizingInfo: subclone
+      UnresolvedTandemRepeatsCommentsStartBP: 51
+      UnresolvedTandemRepeatsInSilico: 'subclone: AAA01A01'
+      UnresolvedTandemRepeatsLibrarySize: 2kb
+      UnresolvedTandemRepeatsSubClone: AAA01A01
+    - UnresolvedTandemRepeatsCommentsDoesNotMeetFinishingStandardsCheckbox: 0
+      UnresolvedTandemRepeatsCommentsEndBP: 720
+      UnresolvedTandemRepeatsCommentsSizingInfo: Digest
+      UnresolvedTandemRepeatsCommentsStartBP: 701
+      UnresolvedTandemRepeatsEnzyme: hindiii
+      UnresolvedTandemRepeatsInSilico: 20
+      UnresolvedTandemRepeatsReal: 20
+  UnsureBasecallComments:
+    - UnsureBasecallCommentsEndBP: 95
+      UnsureBasecallCommentsStartBP: 91
+GENINFO:
+  Chromosome: 7
+  CloneAccession: ~
+  CloneName: HMPB-AAD13A05
+  ContigFinishedFrom: 1
+  ContigFinishedTo: 1413
+  ContigNumber: 1
+  DigestAssemblyConfirmedByCombo: consed
+  DigestCommentsText: "stuff\n\n"
+  DigestCommentsToggle: 1
+  EndCloneSite: 1413
+  EntireContigGoesFrom: 1
+  EntireContigGoesTo: 1413
+  FinisherUserList:
+    - bobama
+  FinisherUserListExpanded: bobama
+  FinishingGroup: avery
+  Organism: human
+  PrefinisherUserList:
+    - jbiden
+  PrefinisherUserListExpanded: jbiden
+  ProductionGroup: WUGSC
+  SaverUserListExpanded: ''
+  StartCloneSite: 1
+TOGGLES:
+  - AnyOtherCommentsToggle
+  - MiniLibCommentsToggle
+  - PCROnlyRegionsCommentsToggle
+  - SingleCloneCoverageCommentsToggle
+  - HomopolymericRunCommentsToggle
+  - UnresolvedTandemRepeatsCommentsToggle
+  - UnresolvedDiTriRepeatsCommentsToggle
+  - UnresolvedLargeDuplicationsCommentsToggle
+  - UnresolvedInvertedRepeatsCommentsToggle
+  - UnsureBasecallCommentsToggle
+  - NonGenbankCommentsToggle
+  - AssemblyPiecesCommentsToggle
+  - NonRepetitiveButUnresolvedRegionCommentsToggle
+  - GSSAndOrMRNAOnlyDataCommentsToggle
+  - OtherClonesCommentsToggle
+  - AnyOtherCommentsToggle
+  - UnresolvedTandemRepeatsCommentsToggle

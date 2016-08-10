@@ -1,0 +1,210 @@
+=+= README =+============Last update: July 21, 2015 =============
+
+HTGS submissions at NCBI 
+-------------------------
+
+NCBI has set up a streamlined protocol for genome sequencing centers
+of high throughput to allow them to deposit their DNA sequence submissions
+to NCBI in a fast and convenient way. After consultation with a staff
+member at the NCBI you should have access to an FTP account where you
+will be able to deposit your submissions and pick reports outlining the
+status of the processing of your files. Additional information can be
+found here: http://www.ncbi.nlm.nih.gov/genbank/htgs
+
+This documents outlines the structure of the directories on your FTP account,
+and explains the various aliases which are in use, and are related to the
+HTGS processing. We also outline the general dataflow, and where you can go
+to if you have any questions or problems.
+
+Since we are constantly improving and modeling this new dataflow,
+please do not hesitate to forward comments and suggestion to us.
+
+
+outline:
+
+. Who do you contact?
+. Preparing your submission/update
+. Logging into your account
+. A description of each sub-directory
+. How we process a new submission
+. How we process an update
+. Other related e-mail addresses: htgs-collab@ncbi.nlm.nih.gov
+
+
+-- Who do you contact?
+
+Various people at NCBI are involved with the processing of HTG records,
+and the best way to make sure your requests are heard is to mail to an
+alias which includes all of them:
+
+htgs-adm@ncbi.nlm.nih.gov
+
+If mail to this alias fails to generate the response you expect, please feel
+free to contact our service desk directly, at:
+
+E-mail: info@ncbi.nlm.nih.gov
+   Tel: (301) 496-2475
+
+
+-- Preparing your submission/update
+
+The files processed through this route are Seq-submits, and can be generated
+in one of many ways. Seq-submits are a class of ASN.1 files which have all
+the contact information for the submittor in addition to the record itself.
+
+Presently we have processed Seq-submits from:
+
+1) Sequin see: http://www.ncbi.nlm.nih.gov/Sequin/ 
+2) tbl2asn see: http://www.ncbi.nlm.nih.gov/genbank/htgs/tbl2asninfo
+ 
+If you need any information about what is the best way for you, please do not
+hesitate to contact us (htgs-adm@ncbi.nlm.nih.gov) for more information.
+
+
+-- Logging into your account
+
+using any FTP client (or command line) you should be able to connect
+with the login and password that was provided to you.
+
+The machine you are connecting to is ncbi.nlm.nih.gov.
+
+    ftp to : ftp-private.ncbi.nlm.nih.gov
+     login : <login was provided to you>
+  password : <use provided password>
+
+
+-- A description of each sub-directory:
+
+Once you have logged in, you should see the following directories
+with the 'ls -l' or 'dir' commands:
+
+   1. REPORT: all the report generated from NCBI for this genome center
+
+   1.1 ARCHRPT: reports which are more than 30 days old will be moved 
+                to this subdirectory ( <home>/REPORT/ARCHRPT/)
+
+   2. SEQSUBMIT:
+      -- for the center to put the sequences files
+      -- the file type is Seq-submit ASN.1
+      -- the filename: clone.*, s.t. L118.ent or L118.SS
+
+   3. TEMP: A directory for exchange of miscellaneous files as needed
+
+
+-- How we process a new submission:
+
+   1. On a daily basis (once a day) we have an program which will 
+      check your "SEQSUBMIT" directory.  This runs every morning 
+      (7 days a week) around 4:00AM (EDT)
+
+   2. If there are files in that directory, we then copy the file(s)
+      to the intermediate area; if none are present, then the 
+      script ends here, and exits.
+
+   3. Ten minutes later, we will check that directory again, 
+      compare to the contents of the directory to the previous file(s) 
+      -- if the contain of the directory is same, then for each 
+      file in the intermediate area, we delete the file in
+      the "SEQSUBMIT" directory, move the file from intermediate 
+      area to a permanent processing area, and then start to 
+      process the file(s), then script exit.
+      -- if the contents of the directory are different,  we then copy
+      all the files over to the intermediate area again, and repeat
+      step 10 minutes later. 
+
+This procedure ensures that no intermediate files are processed, and
+that we always have the complete number of files from a given center.
+
+   4. After we have finished processing your submissions, a report 
+      is written and placed in the REPORT directory in the afternoon 
+      around 6:00PM (EDT). The file name will look like:
+
+      shgc19960614.rightDS.ent.ac4htgs       if the entry is O.K.
+      shgc19960614.rightDS.ent.ac4htgs.ERR   if the entry has errors.
+
+reports with a new accession number will look like this:
+
+   source: pgec
+    clone: YUP8H12
+accession: AC000098
+    phase: 1
+    notes: New
+   crdate: 1996-11-25
+   update: 1996-11-25
+
+   5. Please send email to "htgs@ncbi.nlm.nih.gov" if you do not hear from
+      us or do not see the report in the directory within two working days
+      after you put the submission, or if you have any concerns about the
+      processing of your submissions.
+
+
+-- How we process an update:
+
+Updates are processed the same way, deposited by you in the same directory.
+The only difference that the submitted file will have the accession number
+we provided to you the first time, hence we will recognize it as an update
+(ie your center, clone name unique tag will match the accession number you
+have in the submission, and the one we have already assigned for that clone.
+Any discrepency in accession number, clone id, center name will result in
+the rejection of the update. If this happens, please contact us if you do
+not understand why there was a failure of the update process.
+
+Reports from Updates will look like this:
+
+   source: shgc
+    clone: B175D10
+accession: AC000013
+    phase: 2
+    notes: Update
+   crdate: 1996-10-01
+   update: 1996-10-03
+
+We now have a change in policy on the submission citations for High
+Throughput Genome records. Normally your submission has two citations.
+One (we call the "Cit-sub" in ASN.1 terms) is the citation for the
+submission of the data. It is attached to the submission itself and
+appears in the GenBank flatfile as "Direct Submission ..." REFERENCE.
+It credits the people who where involved in the sequencing of the record.
+These are usually the same people as the attached scientific paper
+(see below) but it does not have to.
+
+The other citation (usually a "Cit-gen" or a "Cit-art") is the bibliographic
+REFERENCE about the paper (wich may be unpublished) describing the work.
+
+Normally, each time a sequence record is updated we add a new Cit-sub so
+that over time, a user can see a revision history of the record as a series
+of Submission REFERENCES with the date of each one. This is useful for
+regular GenBank records which are updated rarely. Unfinished sequences
+(Phase 1 or 2) get updated frequently which results in more Cit-sub then
+is informative or useful for the reader. HTG unfinished sequence records
+(phase 1 or phase 2) only show one Cit-sub, for the FIRST time it was
+submitted. Cit-subs coming in on later updates would be ignored. This
+implies that the author list on the Cit-sub will not change over time.
+
+The bibliographic citation on the other hand, is treated the same way it
+is now. It is part of the data submition, so we will always show what is
+submitted. So if you change the author list on that, change from unpublished
+to published (for example) your record will reflect the last version you
+sent to us.
+
+
+-- Other related e-mail addresses: htgs-collab@ncbi.nlm.nih.gov
+
+In addition to htgs-adm@ncbi.nlm.nih.gov, which will allow you to contact
+all the NCBI staff which are involved in HTG processing of records, NCBI
+staff members will also use this address:
+
+htgs-collab@ncbi.nlm.nih.gov
+
+which will include all contact people from the various genome sequencing
+centers. Although we prefer to not have all the people from these centers
+in this alias, more than one or two will ensure that messages we send out
+will be received in a timely fashion by at least one person from that
+center. Please send addresses you want to add to this alias to
+htgs-adm@ncbi.nlm.nih.gov
+
+Please direct any questions or concerns to:
+
+        htgs-adm@ncbi.nlm.nih.gov
+
+==============+= end of README =+=======================================

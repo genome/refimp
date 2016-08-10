@@ -1,0 +1,59 @@
+LOCUS       AC275299              221406 bp    DNA     linear   VRT 16-JUL-2016
+DEFINITION  Gallus gallus BAC clone J_AA173O01 from chromosome unknown,
+            complete sequence.
+ACCESSION   AC275299
+VERSION     AC275299
+KEYWORDS    HTG.
+SOURCE      Gallus gallus (chicken)
+  ORGANISM  Gallus gallus
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Archelosauria; Archosauria; Dinosauria; Saurischia; Theropoda;
+            Coelurosauria; Aves; Neognathae; Galloanserae; Galliformes;
+            Phasianidae; Phasianinae; Gallus.
+REFERENCE   1  (bases 1 to 221406)
+  AUTHORS   Kohlberg,S. and Rock,S.
+  TITLE     The sequence of Gallus gallus BAC clone J_AA173O01
+  JOURNAL   Unpublished
+REFERENCE   2  (bases 1 to 221406)
+  AUTHORS   Wilson,R.K.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (16-JUL-2016) Genetics, Genome Sequencing Center, 4444
+            Forest Park Parkway, St. Louis, MO 63108, USA
+COMMENT     -------------- Genome Center
+                Center: Washington University Genome Sequencing Center
+                Center code: WUGSC
+                Web site: http://genome.wustl.edu
+                Contact: submissions@watson.wustl.edu
+            -------------- Summary Statistics
+                Center project name: J_AA173O01
+            
+            
+            NOTICE:
+            
+            This sequence was finished as follows unless otherwise noted:
+            all regions were double stranded, sequenced with an alternate
+            chemistry, or covered by high quality data (i.e., phred quality >=
+            30); an attempt was made to resolve all sequencing problems, such
+            as compressions and repeats; all regions were covered by sequence
+            from more than one subclone; and the assembly was confirmed by
+            restriction digest.
+            
+            MAPPING INFORMATION:
+            
+            
+            SOURCE INFORMATION:
+            
+            
+            This sequence is the entire insert of the clone.
+FEATURES             Location/Qualifiers
+     source          1..221406
+                     /organism="Gallus gallus"
+                     /mol_type="genomic DNA"
+                     /db_xref="taxon:9031"
+                     /chromosome="unknown"
+                     /clone="J_AA173O01"
+     unsure          130875..173289
+                     /note="Unresolved tandem repeat."
+     unsure          173721..216640
+                     /note="Unresolved inverted repeat."
+//

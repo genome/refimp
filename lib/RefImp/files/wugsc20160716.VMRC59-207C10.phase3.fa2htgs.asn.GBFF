@@ -1,0 +1,56 @@
+LOCUS       AC275301              151743 bp    DNA     linear   PRI 16-JUL-2016
+DEFINITION  Homo sapiens BAC clone VMRC59-207C10 from chromosome unknown,
+            complete sequence.
+ACCESSION   AC275301
+VERSION     AC275301
+KEYWORDS    HTG.
+SOURCE      Homo sapiens (human)
+  ORGANISM  Homo sapiens
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini;
+            Catarrhini; Hominidae; Homo.
+REFERENCE   1  (bases 1 to 151743)
+  AUTHORS   Trani,L. and Rock,S.
+  TITLE     The sequence of Homo sapiens BAC clone VMRC59-207C10
+  JOURNAL   Unpublished
+REFERENCE   2  (bases 1 to 151743)
+  AUTHORS   Wilson,R.K.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (16-JUL-2016) Genome Sequencing Center, Washington
+            University School of Medicine, 4444 Forest Park Parkway, St. Louis,
+            MO 63108, USA
+COMMENT     -------------- Genome Center
+                Center: Washington University Genome Sequencing Center
+                Center code: WUGSC
+                Web site: http://genome.wustl.edu
+                Contact: submissions@watson.wustl.edu
+            -------------- Summary Statistics
+                Center project name: VMRC59-207C10
+            
+            
+            NOTICE:
+            
+            This sequence was finished as follows unless otherwise noted:
+            all regions were double stranded, sequenced with an alternate
+            chemistry, or covered by high quality data (i.e., phred quality >=
+            30); an attempt was made to resolve all sequencing problems, such
+            as compressions and repeats; all regions were covered by sequence
+            from more than one subclone; and the assembly was confirmed by
+            restriction digest.
+            
+            MAPPING INFORMATION:
+            
+            
+            This sequence is the entire insert of the clone.
+FEATURES             Location/Qualifiers
+     source          1..151743
+                     /organism="Homo sapiens"
+                     /mol_type="genomic DNA"
+                     /db_xref="taxon:9606"
+                     /chromosome="unknown"
+                     /clone="VMRC59-207C10"
+     misc_feature    66415..66432
+                     /note="Unresolved homopolymeric repeat."
+     misc_feature    99791..99822
+                     /note="Unresolved homopolymeric repeat."
+//

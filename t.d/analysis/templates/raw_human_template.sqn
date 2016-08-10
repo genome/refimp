@@ -1,0 +1,116 @@
+Seq-submit ::= {
+  sub {
+    contact {
+      contact {
+        name
+          name {
+            last "Wilson" ,
+            first "Richard" ,
+            initials "R.K." ,
+            suffix "" } ,
+        affil
+          std {
+            affil "Washington University School of Medicine" ,
+            div "Genome Sequencing Center" ,
+            city "St. Louis" ,
+            sub "MO" ,
+            country "USA" ,
+            street "4444 Forest Park Parkway" ,
+            email "submissions@watson.wustl.edu" ,
+            fax "314-286-1810" ,
+            phone "314-286-1800" ,
+            postal-code "63108" } } } ,
+    cit {
+      authors {
+        names
+          std {
+            {
+              name
+                name {
+                  last "Wilson" ,
+                  first "Richard" ,
+                  initials "R.K." } } } ,
+        affil
+          std {
+            affil "Washington University School of Medicine" ,
+            div "Genome Sequencing Center" ,
+            city "St. Louis" ,
+            sub "MO" ,
+            country "USA" ,
+            street "4444 Forest Park Parkway" ,
+            postal-code "63108" } } ,
+      date
+        std {
+          year 1998 ,
+          month 6 ,
+          day 7 } } ,
+    subtype new ,
+    tool "Sequin 2.60" } ,
+  data
+    entrys {
+      seq {
+        id {
+          local
+            str "h" } ,
+        descr {
+          source {
+            genome genomic ,
+            org {
+              taxname "Homo sapiens" ,
+              common "human" ,
+              orgname {
+                lineage "Eukaryotae; Metazoa; Chordata; Vertebrata; Mammalia;
+ Eutheria; Primates; Catarrhini; Hominidae; Homo" ,
+                gcode 1 ,
+                div "PRI" } } } ,
+          molinfo {
+            biomol genomic } ,
+          create-date
+            std {
+              year 1998 ,
+              month 6 ,
+              day 7 } ,
+          pub {
+            pub {
+              gen {
+                cit "Unpublished" ,
+                authors {
+                  names
+                    std {
+                      {
+                        name
+                          name {
+                            last "Wilson" ,
+                            first "Richard" ,
+                            initials "R.K." } } } ,
+                  affil
+                    std {
+                      affil "Washington University School of Medicine" ,
+                      div "Genome Sequencing Center" ,
+                      city "St. Louis" ,
+                      sub "MO" ,
+                      country "USA" ,
+                      street "4444 Forest Park Parkway" ,
+                      postal-code "63108" } } ,
+                title "The sequence of Homo sapiens clone" } } } } ,
+        inst {
+          repr raw ,
+          mol dna ,
+          length 8 ,
+          seq-data
+            ncbi2na '0A5F'H } } } }
+ENTERFINISHERS
+Seqdesc ::= comment "-------------- Genome Center~    Center: Washington
+ University Genome Sequencing Center~    Center code: WUGSC~    Web site:
+ http://genome.wustl.edu~    Contact:
+ submissions@watson.wustl.edu~-------------- Summary Statistics~    Center project
+ name: SUMMARYSTATISTICS
+~~NOTICE: ~~This sequence was finished as follows unless otherwise noted:
+ ~all regions were double stranded, sequenced with an alternate chemistry, or
+ covered by high quality data (i.e., phred quality >= 30); an attempt was made
+ to resolve all sequencing problems, such as compressions and repeats; all
+ regions were covered by sequence from more than one subclone; and the assembly
+ was confirmed by restriction digest.
+~~MAPPING INFORMATION:~MAPINFORMATION
+ANYTHINGELSE
+"
