@@ -3,7 +3,6 @@ package RefImp::Resources::SSO;
 use strict;
 use warnings 'FATAL';
 
-use Genome::Config;
 use JSON;
 use LWP::UserAgent;
 use Params::Validate ':types';
@@ -30,8 +29,8 @@ sub login { # new
     $mech->submit_form (
         form_number =>  1,
         fields =>  {
-            j_username => Genome::Config::get('rt_login'),
-            j_password => Genome::Config::get('rt_auth'),
+            j_username => RefImp::Config::get('rt_login'),
+            j_password => RefImp::Config::get('rt_auth'),
         },
     );
     $mech->submit();
