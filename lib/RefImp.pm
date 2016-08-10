@@ -9,8 +9,7 @@ use Carp;
 use Carp::Heavy;
 require Sys::Hostname;
 
-require Genome::Config;
-require RefImp::Config;
+use RefImp::Config;
 use UR;
 
 UR::Object::Type->define(
@@ -21,7 +20,7 @@ UR::Object::Type->define(
 
 RefImp::Config::load_refimp_config_file();
 
-if ( Genome::Config::get('dev_mode') || UR::DBI->no_commit ) {
+if ( UR::DBI->no_commit ) {
     my $h = Sys::Hostname::hostname;
     warn "***** DEV MODE ($h) *****";
 }
