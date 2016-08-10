@@ -19,6 +19,8 @@ UR::Object::Type->define(
     english_name => 'reference improvement',
 );
 
+RefImp::Config::load_refimp_config_file();
+
 if ( Genome::Config::get('dev_mode') || UR::DBI->no_commit ) {
     my $h = Sys::Hostname::hostname;
     warn "***** DEV MODE ($h) *****";
