@@ -7,9 +7,8 @@ our $VERSION = '0.010100';
 
 use Carp;
 use Carp::Heavy;
-require Sys::Hostname;
-
 use RefImp::Config;
+require Sys::Hostname;
 use UR;
 
 UR::Object::Type->define(
@@ -18,11 +17,11 @@ UR::Object::Type->define(
     english_name => 'reference improvement',
 );
 
-RefImp::Config::load_refimp_config_file();
-
-if ( UR::DBI->no_commit ) {
-    my $h = Sys::Hostname::hostname;
-    warn "***** DEV MODE ($h) *****";
+INIT {
+    RefImp::Config::load_refimp_config_file();
+    if ( RefImp::Config::get('environment') eq 'test' ) {
+        printf(STDERR "***** TEST ENV on %s *****\n", Sys::Hostname::hostname);
+    }
 }
 
 # Account for a perl bug in pre-5.10 by applying a runtime patch to Carp::Heavy
