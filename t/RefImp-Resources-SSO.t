@@ -3,12 +3,11 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use Test::Exception;
 use Test::MockObject;
-use Test::More;
-plan tests => 3;
+use Test::More tests => 3;
 
 my $class = 'RefImp::Resources::SSO';
 use_ok($class) or die;

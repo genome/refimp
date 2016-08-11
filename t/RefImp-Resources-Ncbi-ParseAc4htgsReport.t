@@ -3,10 +3,8 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
-use RefImp::Test;
-use RefImp::Test::Factory;
 use Test::More;
 
 my %setup;

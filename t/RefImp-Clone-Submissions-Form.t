@@ -3,11 +3,10 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use File::Slurp 'slurp';
 use File::Spec;
-use RefImp::Test;
 use Test::More tests => 2;
 use YAML;
 

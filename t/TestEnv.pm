@@ -15,7 +15,14 @@ INIT { # runs after compilation, right before execution
     eval "use lib '$lib';";
     die "FATAL: $@" if $@;
 
-    eval "use RefImp;";
+    my $use = <<USE;
+    use RefImp;
+    use RefImp::Test;
+    use RefImp::Test::Factory;
+USE
+    #eval "use RefImp;";
+    #die "FATAL: $@" if $@;
+    eval $use;
     die "FATAL: $@" if $@;
 }
 

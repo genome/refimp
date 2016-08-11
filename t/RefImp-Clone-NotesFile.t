@@ -3,10 +3,9 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use File::Spec;
-use RefImp::Test;
 use Test::Exception;
 use Test::More tests => 3;
 

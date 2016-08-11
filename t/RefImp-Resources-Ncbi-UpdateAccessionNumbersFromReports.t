@@ -1,16 +1,11 @@
 #!/usr/bin/env lims-perl
 
-BEGIN {
-    $ENV{UR_DBI_NO_COMMIT} = 1;
-};
-
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use Cwd 'cwd';
-use RefImp::Test::Factory;
 use Test::More tests => 3;
 
 my %setup;

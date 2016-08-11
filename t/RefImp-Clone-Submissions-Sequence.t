@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use File::Spec;
 use Test::Exception;

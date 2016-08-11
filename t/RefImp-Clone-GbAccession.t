@@ -3,16 +3,16 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
-use RefImp::Test;
-use Test::More tests => 2;
+use Test::More tests => 1;
 
 my $pkg = 'RefImp::Clone::GbAccession';
-use_ok($pkg) or die;
 
 subtest 'basics' => sub {
-    plan tests => 5;
+    plan tests => 6;
+
+    use_ok($pkg) or die;
 
     my $gb_accession = $pkg->create(
         acc_number => 'AC1111',

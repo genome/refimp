@@ -3,17 +3,16 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use File::Spec qw();
-use RefImp::Test::Factory;
-use Test::More tests => 6;
-
-use_ok('RefImp::Clone') or die;
+use Test::More tests => 5;
 
 my $clone;
 subtest "basics" => sub{
-    plan tests => 6;
+    plan tests => 7;
+
+    use_ok('RefImp::Clone') or die;
 
     $clone = RefImp::Test::Factory->setup_test_clone;
     ok($clone, 'got clone');
