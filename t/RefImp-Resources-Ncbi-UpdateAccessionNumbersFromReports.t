@@ -37,6 +37,10 @@ subtest setup => sub{
         center => 'wugsc',
     );
 
+    RefImp::Config::set('ncbi_ftp_host', 'ftp-host');
+    RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
+    RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
+
 };
 
 subtest 'execute' => sub{

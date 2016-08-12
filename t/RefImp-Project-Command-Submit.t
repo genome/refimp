@@ -38,6 +38,10 @@ subtest 'setup' => sub{
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     RefImp::Config::set('analysis_directory', $tempdir);
 
+    RefImp::Config::set('ncbi_ftp_host', 'ftp-host');
+    RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
+    RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
+
 };
 
 subtest 'cannot submit project with incorrect status' => sub{
