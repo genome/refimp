@@ -9,11 +9,11 @@ use Test::More tests => 3;
 
 use TestEnv;
 
-subtest 'resolve_lib_path' => sub{
+subtest 'resolve_repo_path' => sub{
     plan tests => 2;
 
-    throws_ok(sub{ TestEnv::resolve_lib_path(); }, qr/No file given/, 'fails w/o file');
-    throws_ok(sub{ TestEnv::resolve_lib_path('/blah'); }, qr/does not exist/, 'fails with invalid file');
+    throws_ok(sub{ TestEnv::resolve_repo_path(); }, qr/No file given/, 'fails w/o file');
+    throws_ok(sub{ TestEnv::resolve_repo_path('/blah'); }, qr/does not exist/, 'fails with invalid file');
 
 };
 
@@ -23,8 +23,8 @@ subtest 'RefImp' => sub {
     my ($refimp_in_inc) = grep { /RefImp\.pm/ } keys %INC;
     ok($refimp_in_inc, 'RefImp is in INC');
 
-    my $lib_path = TestEnv::resolve_lib_path(__FILE__);
-    is($INC{$refimp_in_inc}, File::Spec->join($lib_path, 'RefImp.pm'), 'RefImp path is correct');
+    my $repo_path = TestEnv::resolve_repo_path(__FILE__);
+    is($INC{$refimp_in_inc}, File::Spec->join($repo_path, 'lib', 'RefImp.pm'), 'RefImp path is correct');
 
 };
 
