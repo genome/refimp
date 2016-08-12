@@ -5,6 +5,7 @@ use warnings;
 
 use File::Basename 'dirname';
 use File::Spec;
+use Sys::Hostname;
 
 INIT { # runs after compilation, right before execution
     $ENV{REFIMP_CONFIG_FILE} = '/gscuser/ebelter/dev/refimp-env/config.test.yml';
@@ -22,6 +23,8 @@ INIT { # runs after compilation, right before execution
 USE
     eval $use;
     die "FATAL: $@" if $@;
+
+    printf(STDERR "***** TEST ENV on %s *****\n", Sys::Hostname::hostname);
 }
 
 sub resolve_lib_path {

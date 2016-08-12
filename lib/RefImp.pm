@@ -8,7 +8,6 @@ our $VERSION = '0.010100';
 use Carp;
 use Carp::Heavy;
 use RefImp::Config;
-require Sys::Hostname;
 use UR;
 
 UR::Object::Type->define(
@@ -17,12 +16,7 @@ UR::Object::Type->define(
     english_name => 'reference improvement',
 );
 
-INIT {
-    RefImp::Config::load_refimp_config_file();
-    if ( RefImp::Config::get('environment') eq 'test' ) {
-        printf(STDERR "***** TEST ENV on %s *****\n", Sys::Hostname::hostname);
-    }
-}
+RefImp::Config::load_refimp_config_file();
 
 # Account for a perl bug in pre-5.10 by applying a runtime patch to Carp::Heavy
 if ($] < 5.01) {
