@@ -49,7 +49,7 @@ class RefImp::User {
             doc => 'User functions.',
         },
     },
-    data_source => 'RefImp::DataSource::Oltp',
+    data_source => RefImp::Config::get('ds_oltp'),
 };
 
 sub email_domain { 'wustl.edu' }

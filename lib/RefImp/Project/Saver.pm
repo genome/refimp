@@ -17,7 +17,7 @@ PROJECT_SAVERS	GSC::ProjectSaver	oltp	production
 class RefImp::Project::Saver { 
     is => 'RefImp::Project::Claimer', 
     table_name => 'project_savers',
-    data_source => 'RefImp::DataSource::Oltp',
+    data_source => RefImp::Config::get('ds_oltp'),
     id_by => {
         project_id => { is => 'Integer', column_name => 'project_project_id', },
         ei_id => { is => 'Integer', column_name => 'ei_ei_id', },

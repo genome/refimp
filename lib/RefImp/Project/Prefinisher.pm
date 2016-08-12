@@ -17,7 +17,7 @@ PROJECT_PREFINISHERS	GSC::ProjectPrefinisher	oltp	production
 class RefImp::Project::Prefinisher { 
     is => 'RefImp::Project::Claimer', 
     table_name => 'project_prefinishers',
-    data_source => 'RefImp::DataSource::Oltp',
+    data_source => RefImp::Config::get('ds_oltp'),
     id_by => {
         project_id => { is => 'Integer', column_name => 'project_project_id', },
         ei_id => { is => 'Integer', column_name => 'ei_ei_id', },

@@ -43,7 +43,7 @@ class RefImp::User::Function {
             calculate => q/ $status eq 'active' /,
         },
     },
-    data_source => 'RefImp::DataSource::Oltp',
+    data_source => RefImp::Config::get('ds_oltp'),
 };
 
 1;

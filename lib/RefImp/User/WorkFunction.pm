@@ -28,7 +28,7 @@ class RefImp::User::WorkFunction {
         name => { is => 'String', },
         status => { is => 'String', },
     },
-    data_source => 'RefImp::DataSource::Oltp',
+    data_source => RefImp::Config::get('ds_oltp'),
 };
 
 1;
