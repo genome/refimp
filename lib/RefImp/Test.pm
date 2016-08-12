@@ -3,15 +3,9 @@ package RefImp::Test;
 use strict;
 use warnings;
 
-use RefImp;
-
 use File::Spec;
 use File::Basename 'dirname';
 use Params::Validate ':types';
-
-class RefImp::Test { 
-    doc => 'Helper methods for running tests.',
-};
 
 sub test_data_directory {
     my @directory_parts = File::Spec->splitdir( File::Spec->rel2abs( dirname(__FILE__) ) );
