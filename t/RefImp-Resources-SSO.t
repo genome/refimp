@@ -7,28 +7,54 @@ use TestEnv;
 
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 3;
+use Test::More tests => 2;
 
 my $class = 'RefImp::Resources::SSO';
-use_ok($class) or die;
+subtest 'setup' => sub{
+    plan tests => 1;
 
-subtest 'login' => sub{
-    plan tests => 2;
+    use_ok($class) or die;
 
-    throws_ok(sub{ $class->login(); }, qr/but 2 were expected/, 'login fails w/o url');
+    my $mech = Test::MockObject->new;
+    $mech->set_true('get');
+    $mech->mock('submit_form', sub{});
+    $mech->set_true('submit');
 
-    my $url = 'https://rt.gsc.wustl.edu';
-    my $sso = $class->login($url);
-    ok($sso, 'login'); 
+    Sub::Install::reinstall_sub({
+            code => sub { $mech },
+            into => 'WWW::Mechanize',
+            as => 'new',
+        });
+
+    my $uri = Test::MockObject->new;
+    $uri->set_always('host', 'sso.gsc.wustl.edu');
+    $mech->set_always('uri', $uri);
+
+    my $ua = Test::MockObject->new;
+    $ua->set_true('timeout');
+    $ua->set_true('env_proxy');
+    $ua->set_true('cookie_jar');
+
+    Sub::Install::reinstall_sub({
+            code => sub { $ua },
+            into => 'LWP::UserAgent',
+            as => 'new',
+        });
+
+    RefImp::Config::set('rt_login', 'rt-login');
+    RefImp::Config::set('rt_auth', 'rt-auth');
 
 };
 
 subtest 'request_json' => sub{
-    plan tests => 5;
+    plan tests => 7;
 
-    my $user_agent = Test::MockObject->new();
-    my $sso = bless { user_agent => $user_agent }, $class;
+    throws_ok(sub{ $class->login(); }, qr/but 2 were expected/, 'login fails w/o url');
 
+    my $sso =  $class->login('url');
+    ok($sso, 'login');
+
+    my $user_agent = $sso->user_agent;
     my $response = Test::MockObject->new();
     $user_agent->set_always('get', $response);
 

@@ -8,15 +8,32 @@ use TestEnv;
 require Sub::Install;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 5;
+use Test::More tests => 4;
 
 my $class = 'RefImp::Resources::LimsRestApi';
-use_ok($class) or die;
+my $clone;
+subtest 'setup' => sub{
+    plan tests => 1;
 
-my $lims_rest_api = $class->new();
-ok($lims_rest_api, 'create lims_rest_api');
+    use_ok($class) or die;
 
-my $clone = RefImp::Clone->create(name => 'HMPB-AAD13A05');
+    my $sso = Test::MockObject->new();
+    Sub::Install::reinstall_sub({
+            code => sub{ $sso },
+            into => 'RefImp::Resources::SSO',
+            as => 'login',
+        });
+
+    my $user_agent = Test::MockObject->new();
+    $sso->set_always('user_agent', $user_agent);
+
+    $clone = RefImp::Clone->create(name => 'HMPB-AAD13A05');
+
+    my $json = JSON->new->allow_nonref;
+    my $data = $json->decode( sprintf('{"data":["%s"]}', $clone->name) );
+    $sso->set_always('request_json', $data);
+
+};
 
 subtest 'resolve_gsc_class_for_object' => sub{
     plan tests => 3;
@@ -52,21 +69,14 @@ subtest 'url_for_object_and_method' => sub{
 };
 
 subtest 'query' => sub{
-    plan tests => 3;
+    plan tests => 4;
 
     throws_ok(sub{ $class->url_for_object_and_method(); }, qr/but 3 were expected/, 'fails w/o clone');
     throws_ok(sub{ $class->url_for_object_and_method($clone); }, qr/but 3 were expected/, 'fails w/o method');
     
-    my $user_agent = Test::MockObject->new();
-    my $sso = Test::MockObject->new();
-    $sso->set_always('user_agent', $user_agent);
-    my $lims_rest_api = bless { sso => $sso }, $class;
-    my $json = JSON->new->allow_nonref;
-
-    my $data = $json->decode( sprintf('{"data":["%s"]}', $clone->name) );
-    $sso->set_always('request_json', $data);
-    my $method = 'name';
-    my $value = $lims_rest_api->query($clone, $method);
+    my $lims_rest_api = $class->new();
+    ok($lims_rest_api, 'create lims_rest_api');
+    my $value = $lims_rest_api->query($clone, 'name');
     is($value, $clone->name, 'query clone name');
 
 };
