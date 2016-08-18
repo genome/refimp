@@ -20,7 +20,6 @@ my $project = RefImp::Test::Factory->setup_test_project;
 subtest 'from analysis directory' => sub{
     plan tests => 2;
 
-    RefImp::Test->set_analysis_directory_test_data_directory;
     my $output_file = File::Spec->join($tempdir, 'from_ace.con');
     my $makecon = $pkg_name->execute(
         project => $project,

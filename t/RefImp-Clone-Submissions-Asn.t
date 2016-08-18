@@ -16,7 +16,7 @@ use_ok($pkg) or die;
 subtest 'create' => sub{
     plan tests => 3;
 
-    my $data_dir = RefImp::Test->test_data_directory_for_package($pkg);
+    my $data_dir = TestEnv::test_data_directory_for_package($pkg);
     my $project = RefImp::Test::Factory->setup_test_project;
 
     my $clone = RefImp::Test::Factory->setup_test_clone;

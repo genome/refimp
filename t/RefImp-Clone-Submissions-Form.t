@@ -16,8 +16,9 @@ use_ok($pkg) or die;
 subtest 'create' => sub{
     plan tests => 1;
 
-    my $hash = YAML::LoadFile( File::Spec->join(RefImp::Test->test_data_directory_for_package($pkg), 'expected.yml') );
-    my $expected_form = slurp( File::Spec->join(RefImp::Test->test_data_directory_for_package($pkg), 'expected.form') );
+    my $test_data_dir = TestEnv::test_data_directory_for_package($pkg);
+    my $hash = YAML::LoadFile( File::Spec->join($test_data_dir, 'expected.yml') );
+    my $expected_form = slurp( File::Spec->join($test_data_dir, 'expected.form') );
     my $form = $pkg->create($hash);
     is($form, $expected_form, 'submissions form');
 

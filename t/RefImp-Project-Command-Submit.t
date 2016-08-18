@@ -17,10 +17,10 @@ subtest 'setup' => sub{
     use_ok($setup{pkg}) or die;
 
     $setup{project} = RefImp::Test::Factory->setup_test_project;
-    $setup{test_data_dir} = RefImp::Test->test_data_directory_for_package($setup{pkg});
+    $setup{test_data_dir} = TestEnv::test_data_directory_for_package($setup{pkg});
 
     Sub::Install::reinstall_sub({
-            code => sub { File::Spec->join(RefImp::Test->test_data_directory, 'analysis', 'templates', 'raw_human_template.sqn') },
+            code => sub { File::Spec->join(RefImp::Config::get('test_data'), 'analysis', 'templates', 'raw_human_template.sqn') },
             as => 'raw_sqn_template_for_taxon',
             into => 'RefImp::Clone::Submissions',
         });

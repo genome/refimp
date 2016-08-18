@@ -17,7 +17,7 @@ subtest 'load_config' =>  sub{
     throws_ok(sub{ RefImp::Config::load_config(); }, qr/No file given/, 'load_config fails w/o file');
     throws_ok(sub{ RefImp::Config::load_config("/blah"); }, qr/does not exist/, 'load_config fails with non exisiting file');
 
-    my $test_directory = RefImp::Test->test_data_directory_for_package("RefImp::Config");
+    my $test_directory = TestEnv::test_data_directory_for_package("RefImp::Config");
     my $invalid_yml = File::Spec->join($test_directory, 'config.invalid.yml');
     throws_ok(sub{ RefImp::Config::load_config($invalid_yml); }, qr/YAML Error/, 'load_config fails w/ invalid yml');
 

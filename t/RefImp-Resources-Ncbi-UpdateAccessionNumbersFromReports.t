@@ -14,7 +14,7 @@ subtest setup => sub{
 
     use_ok('RefImp::Resources::Ncbi::UpdateAccessionNumbersFromReports') or die;
     $setup{file} = File::Spec->join(
-        RefImp::Test->test_data_directory_for_package("RefImp::Resources::Ncbi::ParseAc4htgsReport"),
+        TestEnv::test_data_directory_for_package("RefImp::Resources::Ncbi::ParseAc4htgsReport"),
         "wugsc20160707.HMPB-AAD13A05.phase3.fa2htgs.asn.ac4htgs",
     );
 

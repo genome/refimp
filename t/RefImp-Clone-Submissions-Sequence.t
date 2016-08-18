@@ -12,7 +12,7 @@ use Test::More tests => 4;
 my $pkg = 'RefImp::Clone::Submissions::Sequence';
 use_ok($pkg) or die;
 
-my $ace = File::Spec->join(RefImp::Test->test_data_directory_for_package($pkg), 'HMPB-AAD13A05.fasta.ace.0');
+my $ace = File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'HMPB-AAD13A05.fasta.ace.0');
 my $clone_name = 'HMPB-AAD13A05';
 
 subtest 'fails' => sub{
@@ -31,7 +31,7 @@ subtest 'fails' => sub{
     throws_ok(
         sub{
             $pkg->create(
-                ace => File::Spec->join(RefImp::Test->test_data_directory_for_package($pkg), 'HMPB-AAD13A05.fasta.ace.with-ambiguous-bases'),
+                ace => File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'HMPB-AAD13A05.fasta.ace.with-ambiguous-bases'),
                 contig_data => [ { ContigNumber => '1', ContigFinishedFrom => 1, ContigFinishedTo => 1413, }, ],
                 clone_name => 'HMPB-AAD13A05',
             );
