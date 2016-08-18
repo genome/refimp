@@ -19,13 +19,19 @@ INIT { # runs after compilation, right before execution
 
     my $use = <<USE;
     use RefImp;
-    use RefImp::Test;
     use RefImp::Test::Factory;
 USE
     eval $use;
     die "FATAL: $@" if $@;
 
-    RefImp::Config::set('ds_testdb_server', File::Spec->join($current_repo_path, 'db', 'test.db'));
+    my $test_data_path = File::Spec->join($current_repo_path, 't.d');
+
+    RefImp::Config::set('analysis_directory', File::Spec->join($test_data_path, 'analysis'));
+    RefImp::Config::set('environment', 'test');
+    RefImp::Config::set('ds_oltp', 'RefImp::DataSource::TestDb');
+    RefImp::Config::set('ds_testdb_server', File::Spec->join($test_data_path, 'db', 'test.db'));
+    RefImp::Config::set('seqmgr', File::Spec->join($test_data_path, 'seqmgr'));
+    RefImp::Config::set('test_data_path', $test_data_path);
 
     printf(STDERR "***** TEST ENV on %s *****\n", Sys::Hostname::hostname);
 }
@@ -41,7 +47,11 @@ sub resolve_repo_path {
     File::Spec->join(@directory_parts);
 }
 
-sub test_data_path { File::Spec->join(resolve_repo_path(@_), 't.d'); }
+sub test_data_directory_for_package {
+    my $pkg = shift;
+    die 'No package given to get test data directory' if not $pkg;
+    File::Spec->join( RefImp::Config::get('test_data_path'), join('-', split('::', $pkg)) );
+}
 
 1;
 
