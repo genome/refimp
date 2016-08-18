@@ -25,6 +25,8 @@ USE
     eval $use;
     die "FATAL: $@" if $@;
 
+    RefImp::Config::set('ds_testdb_server', File::Spec->join($repo_path, 'db', 'test.db'));
+
     printf(STDERR "***** TEST ENV on %s *****\n", Sys::Hostname::hostname);
 }
 
