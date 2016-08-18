@@ -10,10 +10,11 @@ use Test::More tests => 3;
 use TestEnv;
 
 subtest 'resolve_repo_path' => sub{
-    plan tests => 2;
+    plan tests => 3;
 
     throws_ok(sub{ TestEnv::resolve_repo_path(); }, qr/No file given/, 'fails w/o file');
     throws_ok(sub{ TestEnv::resolve_repo_path('/blah'); }, qr/does not exist/, 'fails with invalid file');
+    ok(TestEnv::current_repo_path, 'current_repo_path set');
 
 };
 
