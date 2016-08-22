@@ -24,12 +24,12 @@ USE
     eval $use;
     die "FATAL: $@" if $@;
 
-    my $test_data_path = File::Spec->join($current_repo_path, 't.d');
+    my $test_data_path = File::Spec->join($current_repo_path, 't', 'data');
 
     RefImp::Config::set('analysis_directory', File::Spec->join($test_data_path, 'analysis'));
     RefImp::Config::set('environment', 'test');
     RefImp::Config::set('ds_oltp', 'RefImp::DataSource::TestDb');
-    RefImp::Config::set('ds_testdb_server', File::Spec->join($test_data_path, 'db', 'test.db'));
+    RefImp::Config::set('ds_testdb_server', File::Spec->join($test_data_path, 'test.db'));
     RefImp::Config::set('seqmgr', File::Spec->join($test_data_path, 'seqmgr'));
     RefImp::Config::set('test_data_path', $test_data_path);
 
