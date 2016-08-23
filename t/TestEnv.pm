@@ -87,5 +87,21 @@ sub setup_test_lims_rest_api {
         });
 }
 
+package TestEnv::Project;
+
+use strict;
+use warnings 'FATAL';
+
+sub setup_test_overlaps {
+    my @overlaps = @_;
+
+    eval('use RefImp::Project::Command::Overlaps;');
+    Sub::Install::reinstall_sub({
+        code => sub{ $_[0]->overlaps(\@overlaps); 1; },
+        into => 'RefImp::Project::Command::Overlaps',
+        as => 'set_overlaps',
+    });
+}
+
 1;
 

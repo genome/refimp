@@ -5,7 +5,7 @@ use warnings;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 use TestEnv;
 
@@ -60,6 +60,13 @@ subtest 'lims rest api' => sub{
 
     my $lims = TestEnv::Clone::setup_test_lims_rest_api();
     ok($lims, 'setup test lims rest api');
+
+};
+
+subtest 'project overlaps' => sub{
+    plan tests => 1;
+
+    ok(TestEnv::Project::setup_test_overlaps, 'setup test overlaps');
 
 };
 

@@ -32,13 +32,8 @@ subtest 'setup' => sub{
             as => 'send',
         });
 
-    Sub::Install::reinstall_sub({
-            code => sub{ $_[0]->overlaps([]); 1; },
-            into => 'RefImp::Project::Command::Overlaps',
-            as => 'set_overlaps',
-        });
-
     TestEnv::Clone::setup_test_lims_rest_api;
+    TestEnv::Project::setup_test_overlaps;
 
 };
 

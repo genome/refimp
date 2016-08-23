@@ -15,13 +15,8 @@ my $pkg = 'RefImp::Clone::Submissions::Info';
 use_ok($pkg) or die;
 
 my $expected_hash = YAML::LoadFile( File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'expected.yml') );
-
 TestEnv::Clone::setup_test_lims_rest_api;
-Sub::Install::reinstall_sub({
-        code => sub{ $_[0]->overlaps([]); 1; },
-        into => 'RefImp::Project::Command::Overlaps',
-        as => 'set_overlaps',
-    });
+TestEnv::Project::setup_test_overlaps;
 
 subtest 'generate' => sub{
     plan tests => 1;

@@ -35,12 +35,7 @@ my @expected_overlaps = (
         'PROJECT_STATUS' => 'redundant'
     },
 );
-Sub::Install::reinstall_sub({
-        code => sub{ $_[0]->overlaps(\@expected_overlaps); 1; },
-        into => 'RefImp::Project::Command::Overlaps',
-        as => 'set_overlaps',
-    });
-
+TestEnv::Project::setup_test_overlaps(@expected_overlaps);
 
 my $left_neighbor = $expected_overlaps[0];
 my $right_neighbor = $expected_overlaps[1];
