@@ -29,11 +29,7 @@ subtest "basics" => sub{
 subtest 'taxonomy' => sub {
     plan tests => 4;
 
-    TestEnv::setup_test_lims_rest_api(
-        species_name => 'human',
-        species_latin_name => 'Homo sapiens',
-        chromosome => 7,
-    );
+    TestEnv::Clone::setup_test_lims_rest_api;
 
     my $taxon = $clone->taxonomy;
     ok($taxon, 'taxon');

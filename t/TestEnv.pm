@@ -5,7 +5,6 @@ use warnings;
 
 use File::Basename 'dirname';
 use File::Spec;
-use Sub::Install;
 use Sys::Hostname;
 use Test::MockObject;
 
@@ -55,8 +54,21 @@ sub test_data_directory_for_package {
     File::Spec->join( RefImp::Config::get('test_data_path'), join('-', split('::', $pkg)) );
 }
 
+package TestEnv::Clone;
+
+use strict;
+use warnings 'FATAL';
+
+use Sub::Install;
+
 sub setup_test_lims_rest_api {
-    my %info = @_;
+    my %info = ( @_ ) # pass in if ya wanna
+    ? @_
+    : (
+        species_name => 'human',
+        chromosome => 7,
+        species_latin_name => 'Homo sapiens',
+    );
 
     my $lims_rest_api = Test::MockObject->new;
     $lims_rest_api->mock(

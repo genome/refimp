@@ -11,7 +11,7 @@ use Test::More tests => 4;
 
 my %setup;
 subtest 'setup' => sub{
-    plan tests => 2;
+    plan tests => 1;
 
     $setup{pkg} = 'RefImp::Project::Command::Presubmit';
     use_ok($setup{pkg}) or die;
@@ -38,7 +38,7 @@ subtest 'setup' => sub{
             as => 'set_overlaps',
         });
 
-    ok(TestEnv::setup_test_lims_rest_api(species_name => 'human', chromosome => 7), 'setup_test_lims_rest_api');
+    TestEnv::Clone::setup_test_lims_rest_api;
 
 };
 

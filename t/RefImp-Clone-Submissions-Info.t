@@ -16,7 +16,7 @@ use_ok($pkg) or die;
 
 my $expected_hash = YAML::LoadFile( File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'expected.yml') );
 
-TestEnv::setup_test_lims_rest_api(species_name => 'human', chromosome => 7, species_latin_name => 'Homo sapiens');
+TestEnv::Clone::setup_test_lims_rest_api;
 Sub::Install::reinstall_sub({
         code => sub{ $_[0]->overlaps([]); 1; },
         into => 'RefImp::Project::Command::Overlaps',

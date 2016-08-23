@@ -13,7 +13,7 @@ my $pkg = 'RefImp::Clone::Submissions';
 use_ok($pkg) or die;
 
 my $clone = RefImp::Clone->get(1);
-TestEnv::setup_test_lims_rest_api(species_name => 'human', chromosome => 7);
+TestEnv::Clone::setup_test_lims_rest_api;
 
 subtest 'analysis directories' => sub{
     plan tests => 4;

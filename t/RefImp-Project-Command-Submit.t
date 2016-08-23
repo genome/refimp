@@ -15,7 +15,7 @@ $SIG{__DIE__} = sub{ Carp::confess(@_); };
 
 my %setup;
 subtest 'setup' => sub{
-    plan tests => 2;
+    plan tests => 1;
 
     $setup{pkg} = 'RefImp::Project::Command::Submit';
     use_ok($setup{pkg}) or die;
@@ -45,7 +45,7 @@ subtest 'setup' => sub{
     RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
     RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
 
-    ok(TestEnv::setup_test_lims_rest_api(species_name => 'human', chromosome => 7), 'setup_test_lims_rest_api');
+    TestEnv::Clone::setup_test_lims_rest_api;
     
     Sub::Install::reinstall_sub({
             code => sub{ $_[0]->overlaps([]); 1; },

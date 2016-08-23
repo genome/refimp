@@ -17,7 +17,7 @@ subtest 'create' => sub{
     plan tests => 3;
 
     my $data_dir = TestEnv::test_data_directory_for_package($pkg);
-    TestEnv::setup_test_lims_rest_api(species_name => 'human');
+    TestEnv::Clone::setup_test_lims_rest_api;
 
     my $clone = RefImp::Clone->get(1);
     my $clone_name = $clone->name;
