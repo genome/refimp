@@ -14,7 +14,7 @@ subtest "setup" => sub{
 
     use_ok($pkg) or die;
 
-    $setup{project} = RefImp::Test::Factory->setup_test_project;
+    $setup{project} = RefImp::Project->get(1);
     $setup{project}->status('10X done');
 
 };

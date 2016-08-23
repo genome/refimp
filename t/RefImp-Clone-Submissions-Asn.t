@@ -17,10 +17,9 @@ subtest 'create' => sub{
     plan tests => 3;
 
     my $data_dir = TestEnv::test_data_directory_for_package($pkg);
-    my $project = RefImp::Test::Factory->setup_test_project;
+    TestEnv::setup_test_lims_rest_api(species_name => 'human');
 
-    my $clone = RefImp::Test::Factory->setup_test_clone;
-    #my $clone = RefImp::Clone->get(name => 'H_GD-274A02'); # H_GD-274A02 VMRC59-114G17
+    my $clone = RefImp::Clone->get(1);
     my $clone_name = $clone->name;
     my $submit_info = LoadFile( File::Spec->join($data_dir, 'HMPB-AAD13A05.yml') );
     #use Storable; my $submit_info = retrieve( File::Spec->join($data_dir, "$clone_name.serialized.dat") );

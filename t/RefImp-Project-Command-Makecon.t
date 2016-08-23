@@ -10,12 +10,14 @@ use File::Spec;
 use Test::MockObject;
 use Test::More tests => 2;
 
+use Carp; $SIG{__DIE__} = sub{ Carp::confess(@_); };
+
 my $pkg_name = 'RefImp::Project::Command::Makecon';
 use_ok($pkg_name) or die;
 
 my $tempdir = File::Temp::tempdir(CLEANUP => 1);
-my $clone = RefImp::Test::Factory->setup_test_clone;
-my $project = RefImp::Test::Factory->setup_test_project;
+my $project = RefImp::Project->get(1);
+TestEnv::setup_test_lims_rest_api(species_name => 'human', chromsome => 7);
 
 subtest 'from analysis directory' => sub{
     plan tests => 2;

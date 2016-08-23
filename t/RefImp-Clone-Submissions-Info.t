@@ -9,16 +9,24 @@ use File::Spec;
 use Test::More tests => 3;
 use YAML;
 
+$SIG{__DIE__} = sub{ Carp::confess(@_); };
+
 my $pkg = 'RefImp::Clone::Submissions::Info';
 use_ok($pkg) or die;
 
-my $clone = RefImp::Test::Factory->setup_test_clone;
-my $project = RefImp::Test::Factory->setup_test_project;
 my $expected_hash = YAML::LoadFile( File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'expected.yml') );
+
+TestEnv::setup_test_lims_rest_api(species_name => 'human', chromosome => 7, species_latin_name => 'Homo sapiens');
+Sub::Install::reinstall_sub({
+        code => sub{ $_[0]->overlaps([]); 1; },
+        into => 'RefImp::Project::Command::Overlaps',
+        as => 'set_overlaps',
+    });
 
 subtest 'generate' => sub{
     plan tests => 1;
 
+    my $clone = RefImp::Clone->get(1);
     my $hash = $pkg->generate($clone);
     is_deeply($hash, $expected_hash, 'hash matches');
 

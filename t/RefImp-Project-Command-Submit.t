@@ -6,26 +6,29 @@ use warnings;
 use TestEnv;
 
 use File::Compare;
+use Sub::Install;
 use Test::Exception;
 use Test::More tests => 3;
 
+use Carp;
+$SIG{__DIE__} = sub{ Carp::confess(@_); };
+
 my %setup;
 subtest 'setup' => sub{
-    plan tests => 1;
+    plan tests => 2;
 
     $setup{pkg} = 'RefImp::Project::Command::Submit';
     use_ok($setup{pkg}) or die;
 
-    $setup{project} = RefImp::Test::Factory->setup_test_project;
-    $setup{test_data_dir} = TestEnv::test_data_directory_for_package($setup{pkg});
+    $setup{project} = RefImp::Project->get(1);
 
     Sub::Install::reinstall_sub({
-            code => sub { File::Spec->join(RefImp::Config::get('test_data'), 'analysis', 'templates', 'raw_human_template.sqn') },
+            code => sub { File::Spec->join(RefImp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
             as => 'raw_sqn_template_for_taxon',
             into => 'RefImp::Clone::Submissions',
         });
 
-    my $clone = RefImp::Test::Factory->setup_test_clone;
+    my $clone = RefImp::Clone->get(1);
     $setup{file_names_to_compare} = [
         RefImp::Clone::Submissions->submit_info_yml_file_name_for_clone($clone),
         RefImp::Clone::Submissions->submit_form_file_name_for_clone($clone),
@@ -41,6 +44,14 @@ subtest 'setup' => sub{
     RefImp::Config::set('ncbi_ftp_host', 'ftp-host');
     RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
     RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
+
+    ok(TestEnv::setup_test_lims_rest_api(species_name => 'human', chromosome => 7), 'setup_test_lims_rest_api');
+    
+    Sub::Install::reinstall_sub({
+            code => sub{ $_[0]->overlaps([]); 1; },
+            into => 'RefImp::Project::Command::Overlaps',
+            as => 'set_overlaps',
+        });
 
 };
 
@@ -70,9 +81,10 @@ subtest 'submit' => sub{
     my $analysis_subdirectory = $cmd->analysis_subdirectory;
     ok($analysis_subdirectory, 'set analysis_subdirectory');
 
+    my $test_data_path = TestEnv::test_data_directory_for_package($setup{pkg});
     for my $file_name ( @{$setup{file_names_to_compare}} ) {
         my $path = File::Spec->join($analysis_subdirectory, $file_name);
-        my $expected_path = File::Spec->join($setup{test_data_dir}, $file_name);
+        my $expected_path = File::Spec->join($test_data_path, $file_name);
         is(File::Compare::compare($path, $expected_path), 0, "$file_name saved");
     }
     ok(-s $cmd->asn_path, 'asn_path saved');

@@ -11,16 +11,15 @@ use Test::More tests => 4;
 
 my %setup;
 subtest 'setup' => sub{
-    plan tests => 1;
+    plan tests => 2;
 
     $setup{pkg} = 'RefImp::Project::Command::Presubmit';
     use_ok($setup{pkg}) or die;
 
-    $setup{project} = RefImp::Test::Factory->setup_test_project;
-    my $clone = RefImp::Test::Factory->setup_test_clone;
+    $setup{project} = RefImp::Project->get(1);
     $setup{test_data_dir} = TestEnv::test_data_directory_for_package($setup{pkg});
 
-    $setup{finisher} = RefImp::Test::Factory->setup_test_user;
+    $setup{finisher} = RefImp::User->get(1);
 
     RefImp::Project::Finisher->create_for_project_and_user(
         project => $setup{project},
@@ -32,6 +31,15 @@ subtest 'setup' => sub{
             into => 'MIME::Lite',
             as => 'send',
         });
+
+    Sub::Install::reinstall_sub({
+            code => sub{ $_[0]->overlaps([]); 1; },
+            into => 'RefImp::Project::Command::Overlaps',
+            as => 'set_overlaps',
+        });
+
+    ok(TestEnv::setup_test_lims_rest_api(species_name => 'human', chromosome => 7), 'setup_test_lims_rest_api');
+
 };
 
 subtest 'cannot presubmit project with incorrect status' => sub{

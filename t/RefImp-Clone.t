@@ -14,7 +14,7 @@ subtest "basics" => sub{
 
     use_ok('RefImp::Clone') or die;
 
-    $clone = RefImp::Test::Factory->setup_test_clone;
+    $clone = RefImp::Clone->get(1);
     ok($clone, 'got clone');
     ok($clone->name, 'clone has a name');
     ok($clone->type, 'clone has a type');
@@ -28,6 +28,12 @@ subtest "basics" => sub{
 
 subtest 'taxonomy' => sub {
     plan tests => 4;
+
+    TestEnv::setup_test_lims_rest_api(
+        species_name => 'human',
+        species_latin_name => 'Homo sapiens',
+        chromosome => 7,
+    );
 
     my $taxon = $clone->taxonomy;
     ok($taxon, 'taxon');
@@ -60,7 +66,7 @@ subtest 'ace0' => sub{
 subtest 'project' => sub{
     plan tests => 3;
 
-    my $project = RefImp::Test::Factory->setup_test_project;
+    my $project = RefImp::Project->get(1);
     ok($project, 'got project');
     is($clone->project, $project, 'got project via clone');
 

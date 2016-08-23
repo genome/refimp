@@ -5,6 +5,7 @@ use warnings;
 
 use TestEnv;
 
+use Sub::Install;
 use Test::Exception;
 use Test::More tests => 3;
 
@@ -34,6 +35,13 @@ my @expected_overlaps = (
         'PROJECT_STATUS' => 'redundant'
     },
 );
+Sub::Install::reinstall_sub({
+        code => sub{ $_[0]->overlaps(\@expected_overlaps); 1; },
+        into => 'RefImp::Project::Command::Overlaps',
+        as => 'set_overlaps',
+    });
+
+
 my $left_neighbor = $expected_overlaps[0];
 my $right_neighbor = $expected_overlaps[1];
 my $overlaps;
@@ -42,7 +50,7 @@ subtest 'execute' => sub{
     plan tests => 2;
 
     $overlaps = $pkg_name->execute(
-        project => RefImp::Project->get(name => 'H_DJ0167F23'),# test db would be nice
+        project => RefImp::Project->get(1),
     );
     ok($overlaps->result, 'execute');
     is_deeply($overlaps->overlaps, \@expected_overlaps, 'overlaps');

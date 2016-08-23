@@ -5,7 +5,7 @@ use warnings;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 use TestEnv;
 
@@ -52,6 +52,14 @@ subtest 'config' => sub{
     for my $config_key ( sort keys %expected_configs ) {
         is(RefImp::Config::get($config_key), $expected_configs{$config_key}, $config_key);
     }
+
+};
+
+subtest 'lims rest api' => sub{
+    plan tests => 1;
+
+    my $lims = TestEnv::setup_test_lims_rest_api();
+    ok($lims, 'setup test lims rest api');
 
 };
 

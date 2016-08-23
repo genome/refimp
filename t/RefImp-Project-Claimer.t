@@ -16,10 +16,10 @@ subtest 'setup' => sub{
 
     use_ok($base_pkg) or die;
 
-    $project = RefImp::Test::Factory->setup_test_project;
-    ok($project, 'create project');
-    $user =  RefImp::Test::Factory->setup_test_user;
-    ok($user, 'create user');
+    $project = RefImp::Project->get(1);
+    ok($project, 'got project');
+    $user = RefImp::User->get(1);
+    ok($user, 'got user');
 
 };
 

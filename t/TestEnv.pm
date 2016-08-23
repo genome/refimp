@@ -5,7 +5,9 @@ use warnings;
 
 use File::Basename 'dirname';
 use File::Spec;
+use Sub::Install;
 use Sys::Hostname;
+use Test::MockObject;
 
 my $current_repo_path;
 INIT { # runs after compilation, right before execution
@@ -51,6 +53,26 @@ sub test_data_directory_for_package {
     my $pkg = shift;
     die 'No package given to get test data directory' if not $pkg;
     File::Spec->join( RefImp::Config::get('test_data_path'), join('-', split('::', $pkg)) );
+}
+
+sub setup_test_lims_rest_api {
+    my %info = @_;
+
+    my $lims_rest_api = Test::MockObject->new;
+    $lims_rest_api->mock(
+        'query',
+        sub{
+            my ($self, $object, $method) = @_;
+            return $info{$method};
+        },
+    );
+
+    eval('use RefImp::Resources::LimsRestApi;');
+    Sub::Install::reinstall_sub({
+            code => sub{ $lims_rest_api },
+            into => 'RefImp::Resources::LimsRestApi',
+            as => 'new'
+        });
 }
 
 1;

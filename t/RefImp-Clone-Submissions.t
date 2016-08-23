@@ -12,7 +12,8 @@ use Test::More tests => 6;
 my $pkg = 'RefImp::Clone::Submissions';
 use_ok($pkg) or die;
 
-my $clone = RefImp::Test::Factory->setup_test_clone;
+my $clone = RefImp::Clone->get(1);
+TestEnv::setup_test_lims_rest_api(species_name => 'human', chromosome => 7);
 
 subtest 'analysis directories' => sub{
     plan tests => 4;

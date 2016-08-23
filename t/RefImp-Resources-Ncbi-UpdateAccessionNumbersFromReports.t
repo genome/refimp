@@ -18,7 +18,7 @@ subtest setup => sub{
         "wugsc20160707.HMPB-AAD13A05.phase3.fa2htgs.asn.ac4htgs",
     );
 
-    $setup{project} = RefImp::Test::Factory->setup_test_project;
+    $setup{project} = RefImp::Project->get(1);
 
     my $ftp = RefImp::Test::Factory->setup_test_ftp;
     $ftp->mock('ls', sub{ ( $setup{file} ) });
