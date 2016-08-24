@@ -7,11 +7,10 @@ before_install:
   - source ~/travis-perl-helpers/init
   - build-perl
   - perl -V
-  - build-dist
-  - cd $BUILD_DIR             # $BUILD_DIR is set by the build-dist command
 install:
   - cpan-install --deps       # installs prereqs, including recommends
   - cpan-install --coverage   # installs converage prereqs, if enabled
+  - cpan-install 'Bio::Seq' 'Bio::SeqIO' 'File::Slurp' 'Findid::Utility' 'GetSeq' 'JSON' 'MIME::Lite' 'Test::MockObject' 'UR' 'WWW::Mechanize' 'YAML' 
 before_script:
   - coverage-setup
 script:
