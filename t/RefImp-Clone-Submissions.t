@@ -3,17 +3,17 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use File::Temp;
-use RefImp::Test::Factory;
 use Test::Exception;
 use Test::More tests => 6;
 
 my $pkg = 'RefImp::Clone::Submissions';
 use_ok($pkg) or die;
 
-my $clone = RefImp::Test::Factory->setup_test_clone;
+my $clone = RefImp::Clone->get(1);
+TestEnv::Clone::setup_test_lims_rest_api;
 
 subtest 'analysis directories' => sub{
     plan tests => 4;

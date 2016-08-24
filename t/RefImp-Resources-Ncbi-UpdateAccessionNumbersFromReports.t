@@ -1,16 +1,11 @@
 #!/usr/bin/env lims-perl
 
-BEGIN {
-    $ENV{UR_DBI_NO_COMMIT} = 1;
-};
-
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use Cwd 'cwd';
-use RefImp::Test::Factory;
 use Test::More tests => 3;
 
 my %setup;
@@ -19,11 +14,11 @@ subtest setup => sub{
 
     use_ok('RefImp::Resources::Ncbi::UpdateAccessionNumbersFromReports') or die;
     $setup{file} = File::Spec->join(
-        RefImp::Test->test_data_directory_for_package("RefImp::Resources::Ncbi::ParseAc4htgsReport"),
+        TestEnv::test_data_directory_for_package("RefImp::Resources::Ncbi::ParseAc4htgsReport"),
         "wugsc20160707.HMPB-AAD13A05.phase3.fa2htgs.asn.ac4htgs",
     );
 
-    $setup{project} = RefImp::Test::Factory->setup_test_project;
+    $setup{project} = RefImp::Project->get(1);
 
     my $ftp = RefImp::Test::Factory->setup_test_ftp;
     $ftp->mock('ls', sub{ ( $setup{file} ) });
@@ -41,6 +36,10 @@ subtest setup => sub{
         rank => 1,
         center => 'wugsc',
     );
+
+    RefImp::Config::set('ncbi_ftp_host', 'ftp-host');
+    RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
+    RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
 
 };
 

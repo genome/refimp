@@ -28,7 +28,7 @@ class RefImp::Clone::GbAccession {
         rank => { is => 'text', },
         version  => { is => 'text', },
     },
-    data_source => 'RefImp::DataSource::Oltp',
+    data_source => RefImp::Config::get('ds_oltp'),
 };
 
 1;

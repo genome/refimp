@@ -1,14 +1,11 @@
 #!/usr/bin/env lims-perl
 
-BEGIN {
-    $ENV{UR_DBI_NO_COMMIT} = 1;
-};
-
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
+use Sub::Install;
 use Test::Exception;
 use Test::More tests => 3;
 
@@ -38,6 +35,8 @@ my @expected_overlaps = (
         'PROJECT_STATUS' => 'redundant'
     },
 );
+TestEnv::Project::setup_test_overlaps(@expected_overlaps);
+
 my $left_neighbor = $expected_overlaps[0];
 my $right_neighbor = $expected_overlaps[1];
 my $overlaps;
@@ -46,7 +45,7 @@ subtest 'execute' => sub{
     plan tests => 2;
 
     $overlaps = $pkg_name->execute(
-        project => RefImp::Project->get(name => 'H_DJ0167F23'),# test db would be nice
+        project => RefImp::Project->get(1),
     );
     ok($overlaps->result, 'execute');
     is_deeply($overlaps->overlaps, \@expected_overlaps, 'overlaps');

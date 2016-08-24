@@ -3,10 +3,9 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use File::Spec;
-use RefImp::Test;
 use Test::Exception;
 use Test::More tests => 3;
 
@@ -17,7 +16,7 @@ my $notes_file;
 subtest 'new' => sub{
     plan tests => 3;
 
-    my $data_dir = RefImp::Test->test_data_directory_for_package($pkg);
+    my $data_dir = TestEnv::test_data_directory_for_package($pkg);
 
     throws_ok(sub{ $notes_file = $pkg->new(); }, qr/but 2 were expected/, 'new fails w/o file');
     throws_ok(

@@ -3,8 +3,6 @@ package RefImp::Test::Factory;
 use strict;
 use warnings;
 
-use RefImp;
-
 use Net::FTP;
 use RefImp::Resources::LimsRestApi;
 use Sub::Install;

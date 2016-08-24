@@ -3,19 +3,18 @@
 use strict;
 use warnings;
 
-use above 'RefImp';
+use TestEnv;
 
 use File::Spec qw();
-use RefImp::Test::Factory;
-use Test::More tests => 6;
-
-use_ok('RefImp::Clone') or die;
+use Test::More tests => 5;
 
 my $clone;
 subtest "basics" => sub{
-    plan tests => 6;
+    plan tests => 7;
 
-    $clone = RefImp::Test::Factory->setup_test_clone;
+    use_ok('RefImp::Clone') or die;
+
+    $clone = RefImp::Clone->get(1);
     ok($clone, 'got clone');
     ok($clone->name, 'clone has a name');
     ok($clone->type, 'clone has a type');
@@ -29,6 +28,8 @@ subtest "basics" => sub{
 
 subtest 'taxonomy' => sub {
     plan tests => 4;
+
+    TestEnv::Clone::setup_test_lims_rest_api;
 
     my $taxon = $clone->taxonomy;
     ok($taxon, 'taxon');
@@ -61,7 +62,7 @@ subtest 'ace0' => sub{
 subtest 'project' => sub{
     plan tests => 3;
 
-    my $project = RefImp::Test::Factory->setup_test_project;
+    my $project = RefImp::Project->get(1);
     ok($project, 'got project');
     is($clone->project, $project, 'got project via clone');
 

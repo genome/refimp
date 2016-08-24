@@ -52,7 +52,7 @@ class RefImp::Clone {
             doc => 'Status of the project: finish_start, submitted, etc.',
         },
     },
-    data_source => 'RefImp::DataSource::Oltp',
+    data_source => RefImp::Config::get('ds_oltp'),
 };
 
 sub taxonomy {
