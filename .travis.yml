@@ -1,6 +1,6 @@
 language: perl
 perl:
-  - "5.12.1"
+  - "5.12"
 sudo: false
 before_install:
   - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
@@ -11,6 +11,7 @@ install:
   - cpan-install --deps       # installs prereqs, including recommends
   - cpan-install --coverage   # installs converage prereqs, if enabled
   - cpan-install 'UR'
+  - cpanm --quiet --installdeps --notest .
 before_script:
   - coverage-setup
 script:
