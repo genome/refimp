@@ -5,7 +5,6 @@ use warnings;
 
 use Try::Tiny qw( try catch );
 use GetSeq;
-use Findid::Utility;
 
 class RefImp::Project::Command::Makecon {
     is => 'RefImp::Project::Command::Base',

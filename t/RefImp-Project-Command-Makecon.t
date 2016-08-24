@@ -8,8 +8,7 @@ use TestEnv;
 use File::Temp;
 use File::Spec;
 use Test::MockObject;
-#use Test::More tests => 2;
-use Test::More skip_all => 'Not ready for Travis CI';
+use Test::More tests => 2;
 
 my $pkg_name = 'RefImp::Project::Command::Makecon';
 use_ok($pkg_name) or die;

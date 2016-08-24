@@ -8,7 +8,6 @@ use IO::String;
 use Bio::Seq;
 use Bio::SeqIO;
 use File::Basename;
-use Findid::Utility;
 use GSC::IO::Assembly::Ace;
 use ProjectWorkBench::Model::Ace::Dir;
 use RefImp::Clone::Submissions;
