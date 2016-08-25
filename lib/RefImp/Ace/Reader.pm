@@ -4,27 +4,25 @@ use strict;
 use warnings;
 
 sub new {
-    croak("$pkg:new:no class given, quitting") if @_ < 1;
-    my ($caller, $input) = @_;
-    my $caller_is_obj = ref($caller);
-    my $class = $caller_is_obj || $caller;
-    my $self = {};
-    bless ($self, $class);
-    
-    %{$self->{'object_builders'}} = ( 
-        AS => \&_build_assembly,
-        AF => \&_build_read_position,
-        CO => \&_build_contig,
-        RD => \&_build_read,
-        WA => \&_build_assembly_tag,
-        CT => \&_build_contig_tag,
-        RT => \&_build_read_tag,
-        BS => \&_build_base_segment,
+    my ($class, $input) = @_;
+
+    die 'No input given to Ace Reader!' if not $input;
+
+    my %self = (
+        input => $input,
+        object_builders => {
+            AS => \&_build_assembly,
+            AF => \&_build_read_position,
+            CO => \&_build_contig,
+            RD => \&_build_read,
+            WA => \&_build_assembly_tag,
+            CT => \&_build_contig_tag,
+            RT => \&_build_read_tag,
+            BS => \&_build_base_segment,
+        },
     );
 
-    $self->{'input'} = $input;
-
-    return $self;
+    bless \%self, $class;
 }
 
 sub input_handle {
