@@ -1,27 +1,28 @@
-package RefImp::Ace::Dir;
+package RefImp::Ace::Directory;
 
 use strict;
 use warnings;
 
 use Carp;
 use File::Basename;
+use File::Spec;
 
-sub new {
+class RefImp::Ace::Directory {
+    id_by => {
+        path => { is => 'Path', },
+    },
+};
+
+sub create {
     my $class = shift;
     
-    my %p = @_;
-    
-    my $self = bless \%p, $class;
+    my $self = $class->SUPER::create(@_);
+    return if not $self;
 
-    confess "Invalid dir\n" unless -d $self->dir;
+    $self->fatal_mwessage("No path given to %s!", $class) if not $self->path;
+    $self->fatal_mwessage("Path does not exist! ", $self->path) if not -d $self->path;
     
     return $self;
-}
-
-sub dir {
-    my $self = shift;
-
-    return $self->{dir};
 }
 
 sub acefile_for_ace {
@@ -119,8 +120,6 @@ sub owner_for_ace {
 
 ProjectWorkBench::Model::Ace::Dir
 
- > Object
-
 =head1 Methods
 
 =head2 new
@@ -199,20 +198,3 @@ ProjectWorkBench::Model::Ace::Dir
 
  > Returns the owner of $ace
 
-=head1 Disclaimer
-
- Copyright (C) 2006-2007 Washington University Genome Sequencing Center
-
- This module is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY or the implied warranty of MERCHANTABILITY
- or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
- License for more details.
-
-=head1 Author(s)
-
- Eddie Belter <ebelter@watson.wustl.edu>
-
-=cut
-
-#$HeadURL: svn+ssh://svn/srv/svn/gscpan/perl_modules/trunk/ProjectWorkBench/Model/Ace/Dir.pm $
-#$Id: Dir.pm 63476 2011-02-01 17:44:25Z kkyung $
