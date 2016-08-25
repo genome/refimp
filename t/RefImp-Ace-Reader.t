@@ -7,17 +7,38 @@ use TestEnv;
 
 use IO::File;
 use File::Spec;
-use Test::More tests => 1;
+use Test::More tests => 2;
+use YAML;
 
+my %setup;
 subtest 'setup' => sub{
-    plan tests => 2;
+    plan tests => 3;
 
-    my $pkg = 'RefImp::Ace::Reader';
-    use_ok($pkg) or die;
+    $setup{pkg} = 'RefImp::Ace::Reader';
+    use_ok($setup{pkg}) or die;
     
-    my $acefile = File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'HMPB-AAD13A05.fasta.ace.0');
-    my $reader = $pkg->new($acefile);
-    ok($reader, 'create reader');
+    my $test_data_dir = TestEnv::test_data_directory_for_package($setup{pkg});
+    my $acefile = File::Spec->join($test_data_dir, 'HMPB-AAD13A05.fasta.ace');
+    $setup{fh} = IO::File->new($acefile, 'r');
+    ok($setup{fh}, 'opened acefile') or die 'Failed to open acefile';
+
+    $setup{reader} = $setup{pkg}->new($setup{fh});
+    ok($setup{reader}, 'create reader');
+
+    my $expected_objects_yaml = File::Spec->join($test_data_dir, 'expected-objects.yaml');
+    $setup{expected_objects} = YAML::LoadFile($expected_objects_yaml);
+
+};
+
+subtest 'next_object' => sub {
+    plan tests => 1;
+
+    my @objects;
+    while ( my $object = $setup{reader}->next_object ) {
+        push @objects, $object;
+    }
+
+    is_deeply(\@objects, $setup{expected_objects}, 'retrieved objects as expected');
 
 };
 

@@ -32,20 +32,18 @@ sub input_handle {
 
 sub next_object {
     my ($self) = @_;
-    my $IN = $self->{'input'};
+    my $IN = $self->{input};
     my $ret_val;
     while (my $line = <$IN>) {
+        chomp $line;
         if ($line =~ /^\s*$/) {
             next;
         }
-        chomp $line;
         my @tokens = split(/[ {]/,$line);
         if (@tokens > 0) {
             my $type = shift @tokens;
             if (exists $self->{'object_builders'}->{$type}) {
-                $ret_val = $self->{'object_builders'}->{$type}->($self,$IN,\@tokens);
-                $self->_fire_object_callback($ret_val);
-                return $ret_val;
+                return $self->{'object_builders'}->{$type}->($self,$IN,\@tokens);
             }
         }
     }
