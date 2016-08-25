@@ -16,7 +16,7 @@ before_script:
   - coverage-setup
 script:
   - cd t/
-  - PERL5OPT=-Mdevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -l -j$(test-jobs) .
+  - PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -l -j$(test-jobs) .
   - cover
 after_success:
   - coverage-report
