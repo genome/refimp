@@ -58,16 +58,6 @@ sub next_object_of_type {
     return;
 }
 
-sub next_contig {
-    my $self = shift;
-    return $self->next_object_of_type('contig');
-}
-
-sub next_read {
-    my $self = shift;
-    return $self->next_object_of_type('read');
-}
-
 sub _build_assembly {
     my ($self, $IN, $token_ary_ref) = @_;
     my %ret_val = (

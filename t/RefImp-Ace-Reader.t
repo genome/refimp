@@ -7,7 +7,7 @@ use TestEnv;
 
 use IO::File;
 use File::Spec;
-use Test::More tests => 2;
+use Test::More tests => 3;
 use YAML;
 
 my %setup;
@@ -39,6 +39,20 @@ subtest 'next_object' => sub {
     }
 
     is_deeply(\@objects, $setup{expected_objects}, 'retrieved objects as expected');
+
+};
+
+subtest 'next_object_of_type' => sub{
+    plan tests => 1;
+
+    $setup{fh}->seek(0, 0);
+
+    my @contigs;
+    while ( my $contig = $setup{reader}->next_object_of_type('contig') ) {
+        push @contigs, $contig;
+    }
+
+    is_deeply(\@contigs, [grep { $_->{type} eq 'contig' } @{$setup{expected_objects}}], 'retrieved contigs as expected');
 
 };
 
