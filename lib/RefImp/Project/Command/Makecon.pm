@@ -6,6 +6,7 @@ use warnings;
 use Bio::Seq;
 use Bio::SeqIO;
 use File::Spec;
+use RefImp::Ace::Directory;
 use RefImp::Clone::Submissions;
 
 class RefImp::Project::Command::Makecon {
@@ -94,8 +95,8 @@ sub _get_sequence_from_most_recent_ace_file {
 
     # FIXME move to project
     my $edit_dir = File::Spec->join($project_directory, 'edit_dir');
-    my $ace_dir = ProjectWorkBench::Model::Ace::Dir->new(dir => $edit_dir);
-    $self->fatal_message("No Ace Dir obj for this dir") unless $ace_dir;
+    my $ace_dir = RefImp::Ace::Directory->new(path => $edit_dir);
+    $self->fatal_message("Failed to get ace directory object!") unless $ace_dir;
 
     my $acefile = $ace_dir->recent_acefile;
     if ( not $acefile or not -s $acefile ) {
