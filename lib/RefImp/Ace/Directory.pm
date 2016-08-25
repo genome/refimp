@@ -54,34 +54,6 @@ sub recent_ace {
 }
 sub recent_acefile { ($_[0]->acefiles)[0] } 
 
-sub date_for_ace {
-    my ($self, $ace) = @_;
-
-    my $acefile = $self->acefile_for_ace($ace);
-
-    my $time = `/bin/ls -lt $acefile | awk \'{print \$6,\$7,\$8}\'`;
-    chomp $time;
-
-    return $time;
-}
-
-sub age_for_ace {
-    my ($self, $ace) = @_;
-
-    return sprintf("%d", -M $self->acefile_for_ace($ace));
-}
-
-sub owner_for_ace {
-    my ($self, $ace) = @_;
-
-    my $acefile = $self->acefile_for_ace($ace);
-
-    my $owner = `/bin/ls -lt $acefile | awk \'{print \$3}\'`;
-    chomp $owner;
-
-    return $owner;
-}
-
 1;
 
 =pod
