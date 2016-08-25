@@ -5,6 +5,7 @@ use warnings;
 
 use Bio::Seq;
 use Bio::SeqIO;
+use File::Basename;
 use File::Spec;
 use IO::File;
 use RefImp::Ace::Directory;
@@ -27,6 +28,9 @@ class RefImp::Project::Command::Makecon {
             doc => 'File name to putput consensus sequence. Defaults to "$PROJECTNAME.con" in current directory.'
         },
     },
+    has_transient_optional => {
+        retrieved_from => { is => 'Text', },
+    },
     doc => 'get project consensus sequence',
 };
 
@@ -40,6 +44,8 @@ sub execute {
     $self->status_message('Status: %s', $self->project->status);
 
     my $seqs = $self->_get_sequences;
+    $self->status_message('Sequence retrieved from %s', $self->retrieved_from);
+
     $self->_write_seqs($seqs);
 
     $self->status_message('Makecon...done');
@@ -53,7 +59,7 @@ sub _get_sequences {
     return $seqs if $seqs;
 
     $seqs = $self->_get_sequence_from_most_recent_ace_file;
-    return $seqs if not $seqs;
+    return $seqs if $seqs;
 
     $self->fatal_message('Failed to get sequences for %s', $self->project->name);
 }
@@ -83,6 +89,7 @@ sub _get_sequence_from_most_recent_submission {
         push @seqs, $seq;
     }
 
+    $self->retrieved_from($whole_contig_file);
     return \@seqs;
 }
 
@@ -97,7 +104,7 @@ sub _get_sequence_from_most_recent_ace_file {
 
     # FIXME move to project
     my $edit_dir = File::Spec->join($project_directory, 'edit_dir');
-    my $ace_dir = RefImp::Ace::Directory->new(path => $edit_dir);
+    my $ace_dir = RefImp::Ace::Directory->create(path => $edit_dir);
     $self->fatal_message("Failed to get ace directory object!") unless $ace_dir;
 
     my $acefile = $ace_dir->recent_acefile;
@@ -108,11 +115,12 @@ sub _get_sequence_from_most_recent_ace_file {
 
     my $fh = IO::File->new($acefile, 'r');
     $self->fatal_message("Failed to open ace file: %s", $acefile) if not $fh;
-    my $reader = RefImp::Ace::Reader->new($acefile);
+    my $reader = RefImp::Ace::Reader->new($fh);
     $self->fatal_message("Failed to create ace reader for ace file: %s", $acefile) if not $reader;
 
     my $prefix = $self->{prefix};
-    my ($name) = basename $acefile =~ /^(\S+?)\./;
+    my $ace = File::Basename::basename($acefile);
+    my ($name) = $ace =~ /^(\S+?)\./;
     $prefix = $prefix ? "$name." : '';
 
     my @seqs;
@@ -124,6 +132,7 @@ sub _get_sequence_from_most_recent_ace_file {
     }
 
     # sort { ($a->id =~ /Contig(\S+)/)[0] <=> ($b->id =~ /Contig(\S+)/)[0] } @seqs
+    $self->retrieved_from($acefile);
     \@seqs;
 }
 
