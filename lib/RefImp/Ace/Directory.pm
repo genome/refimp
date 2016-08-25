@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Carp;
+use IO::File;
 use File::Basename;
 use File::Spec;
 
@@ -14,13 +15,14 @@ class RefImp::Ace::Directory {
 };
 
 sub create {
-    my $class = shift;
+    my ($class, %params) = @_;
     
-    my $self = $class->SUPER::create(@_);
+    $class->fatal_message("No path given to %s!", $class) if not $params{path};
+
+    my $self = $class->SUPER::create(%params);
     return if not $self;
 
-    $self->fatal_mwessage("No path given to %s!", $class) if not $self->path;
-    $self->fatal_mwessage("Path does not exist! ", $self->path) if not -d $self->path;
+    $self->fatal_message("Path does not exist! ", $self->path) if not -d $self->path;
     
     return $self;
 }
@@ -30,25 +32,23 @@ sub acefile_for_ace { File::Spec->join($_[0]->path, $_[1]); }
 sub all_acefiles {
     my $self = shift;
     
-    my $acedir = $self->dir;
+    my $acedir = $self->path;
 
-    my @files = glob( File::Spec->join($self->path, '*ace*') );
+    my @files = glob( File::Spec->join($self->path, '*.ace*') );
     my @valid_acefiles;
     for my $file ( @files ) {
         next if -d $file; #exclude *ace.idx dirs
-        next unless grep {`head -1 $_` =~ /^AS\s/} $file; #exclude none ace *ace* files
+        my $fh = IO::File->new($file);
+        my $line = $fh->getline;
+        $fh->close;
+        next unless $line =~ /^AS\s/;
         push @valid_acefiles, $file;
     }
-    @valid_acefiles = sort { -M $a <=> -M $b } @valid_acefiles; #sort by time
 
     return @valid_acefiles;
 }
 
-sub all_aces {
-    my $self = shift;
-
-    return map { basename($_) } $self->all_acefiles;
-}
+sub all_aces { map { File::Base::basename($_) } $_[0]->all_acefiles; }
 
 sub acefiles {
     my $self = shift;
@@ -75,6 +75,7 @@ sub recent_acefile {
 
     my @acefiles = $self->acefiles;
 
+    #@valid_acefiles = sort { -M $a <=> -M $b } @valid_acefiles; #sort by time
     return shift @acefiles;
 }
 
@@ -124,7 +125,7 @@ ProjectWorkBench::Model::Ace::Dir
 
 =head2 dir
 
- my $dir = $acedir->dir;
+ my $dir = $acedir->path;
 
  > Gets the directory
 
