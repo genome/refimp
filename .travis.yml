@@ -10,11 +10,14 @@ before_install:
 install:
   - cpan-install --deps       # installs prereqs, including recommends
   - cpan-install --coverage   # installs converage prereqs, if enabled
+  - cpan-install --quiet --notest Devel::Cover::Report::Coveralls
   - cpan-install 'Bio::Seq' 'Bio::SeqIO' 'File::Slurp' 'Findid::Utility' 'GetSeq' 'JSON' 'MIME::Lite' 'Test::MockObject' 'UR' 'WWW::Mechanize' 'YAML' 
 before_script:
   - coverage-setup
 script:
   - cd t/
-  - prove -l -j$(test-jobs) .
+  - PERL5OPT=-Mdevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -l -j$(test-jobs) .
+  - cover
 after_success:
   - coverage-report
+  - cover -report coveralls
