@@ -70,33 +70,6 @@ sub next_read {
     return $self->next_object_of_type('read');
 }
 
-sub parse {
-    my $self = shift;
-    while (my $obj = $self->next_object) {}
-}
-
-sub add_object_callback {
-    my $self = shift;
-    my $callback = shift;
-    push @{$self->{callbacks}}, $callback;
-}
-
-sub _fire_object_callback {
-    my $self = shift;
-    my $object = shift;
-    foreach my $callback (@{$self->{callbacks}}) {
-        $callback->($object);
-    }
-}
-
-sub width {
-    my ($self,$width) = @_;
-    if (defined $width) {
-        $self->{'width'} = $width;
-    }
-    return $self->{'width'};
-}
-
 sub _build_assembly {
     my ($self, $IN, $token_ary_ref) = @_;
     my %ret_val = (
@@ -126,9 +99,6 @@ sub _build_contig {
             last;
         }
         chomp $line;
-        if (!$self->width) {
-            $self->width(length $line);
-        }
         $consensus .= $line;
     }
     $ret_val{'consensus'} = $consensus;
