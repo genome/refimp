@@ -25,25 +25,19 @@ sub create {
     return $self;
 }
 
-sub acefile_for_ace {
-    my ($self, $ace) = @_;
-
-    return $self->dir . "/$ace";
-}
+sub acefile_for_ace { File::Spec->join($_[0]->path, $_[1]); }
 
 sub all_acefiles {
     my $self = shift;
     
     my $acedir = $self->dir;
 
-#   return grep{`head -1 $_` =~ /^AS\s/}split/\n/, `ls -t $acedir/*.ace*`;
-
-    my @files = glob( "$acedir/*ace*" );
+    my @files = glob( File::Spec->join($self->path, '*ace*') );
     my @valid_acefiles;
     for my $file ( @files ) {
-	next if -d $file; #exclude *ace.idx dirs
-	next unless grep {`head -1 $_` =~ /^AS\s/} $file; #exclude none ace *ace* files
-	push @valid_acefiles, $file;
+        next if -d $file; #exclude *ace.idx dirs
+        next unless grep {`head -1 $_` =~ /^AS\s/} $file; #exclude none ace *ace* files
+        push @valid_acefiles, $file;
     }
     @valid_acefiles = sort { -M $a <=> -M $b } @valid_acefiles; #sort by time
 
@@ -52,19 +46,19 @@ sub all_acefiles {
 
 sub all_aces {
     my $self = shift;
-    
+
     return map { basename($_) } $self->all_acefiles;
 }
 
 sub acefiles {
     my $self = shift;
-    
+
     return grep { $_ !~ /mini|wrk|view|WAITING|fasta$|log|status|nav|fof|dat|phrap\.out/} $self->all_acefiles;
 }
 
 sub aces {
     my $self = shift;
-    
+
     return map { basename($_) } $self->acefiles;
 }
 
@@ -86,9 +80,9 @@ sub recent_acefile {
 
 sub date_for_ace {
     my ($self, $ace) = @_;
-    
+
     my $acefile = $self->acefile_for_ace($ace);
-    
+
     my $time = `/bin/ls -lt $acefile | awk \'{print \$6,\$7,\$8}\'`;
     chomp $time;
 
@@ -103,12 +97,12 @@ sub age_for_ace {
 
 sub owner_for_ace {
     my ($self, $ace) = @_;
-    
+
     my $acefile = $self->acefile_for_ace($ace);
 
     my $owner = `/bin/ls -lt $acefile | awk \'{print \$3}\'`;
     chomp $owner;
-    
+
     return $owner;
 }
 
@@ -127,27 +121,27 @@ ProjectWorkBench::Model::Ace::Dir
  my $acedir = ProjectWorkBench::Model::Ace::Dir->new(dir => $acedir);
 
  > Constructor, needs to be passed a valid directory
- 
+
 =head2 dir
 
  my $dir = $acedir->dir;
 
  > Gets the directory
- 
+
 =head2 acefile_for_ace
 
  my $acefile = $acedir->acefile_for_ace($ace);
 
  > returns the full path of an ace
- 
+
 =head2 all_acefiles
 
  my @acefiles = $acedir->all_acefiles;
 
  > Returns all files in dir matching *ace*
- 
+
 =head2 all_aces
- 
+
  my @aces = $acedir->all_aces;
 
  > Returns basenames for all files in dir matching *ace*
@@ -172,14 +166,14 @@ ProjectWorkBench::Model::Ace::Dir
 
  > Returns the basename of the most recent acefile, not matching these patterns:
     /mini|wrk|view|WAITING|fasta$|log|status|nav|fof|dat/ 
- 
+
 =head2 recent_acefile
 
  my $acefile = $acedir->recent_acefile
 
  > Returns the most recent acefile (full path), not matching these patterns:
     /mini|wrk|view|WAITING|fasta$|log|status|nav|fof|dat/ 
-    
+
 =head2 date_for_ace
 
  my $date = $acedir->date_for_ace($ace);
@@ -191,7 +185,7 @@ ProjectWorkBench::Model::Ace::Dir
  my $age = $acedir->age_for_ace($ace);
 
  > Returns the $age in days of $ace
- 
+
 =head2 owner_for_ace
 
  my $owner = $acedir->owner_for_ace($ace);
