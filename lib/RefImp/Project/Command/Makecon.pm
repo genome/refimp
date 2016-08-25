@@ -6,7 +6,9 @@ use warnings;
 use Bio::Seq;
 use Bio::SeqIO;
 use File::Spec;
+use IO::File;
 use RefImp::Ace::Directory;
+use RefImp::Ace::Reader;
 use RefImp::Clone::Submissions;
 
 class RefImp::Project::Command::Makecon {
@@ -104,22 +106,24 @@ sub _get_sequence_from_most_recent_ace_file {
         return;
     }
 
-    my $ace = GSC::IO::Assembly::Ace->new(input_file => $acefile);
-    $self->fatal_message("Failed to open ace file: %s", $acefile) if not $ace;
+    my $fh = IO::File->new($acefile, 'r');
+    $self->fatal_message("Failed to open ace file: %s", $acefile) if not $fh;
+    my $reader = RefImp::Ace::Reader->new($acefile);
+    $self->fatal_message("Failed to create ace reader for ace file: %s", $acefile) if not $reader;
 
     my $prefix = $self->{prefix};
     my ($name) = basename $acefile =~ /^(\S+?)\./;
     $prefix = $prefix ? "$name." : '';
 
-    my %ctg_pad_seqs = $ace->contig_names_and_padded_seqs();
     my @seqs;
-    for my $ctg_name ( sort { ($a=~/Contig(\S+)/)[0] <=> ($b=~/Contig(\S+)/)[0] } keys %ctg_pad_seqs) {
-        my $seq = $ctg_pad_seqs{$ctg_name}; 
+    while ( my $contig = $reader->next_object_of_type('contig') ) {
+        my $seq = $contig->{consensus};
         $seq =~ s/\*//g; 
         $seq =~ s/x/n/gi;
-        push @seqs, Bio::Seq->new(-seq => $seq, -id => $prefix.$ctg_name);
+        push @seqs, Bio::Seq->new(-seq => $seq, -id => $prefix.$contig->{name});
     }
 
+    # sort { ($a->id =~ /Contig(\S+)/)[0] <=> ($b->id =~ /Contig(\S+)/)[0] } @seqs
     \@seqs;
 }
 
