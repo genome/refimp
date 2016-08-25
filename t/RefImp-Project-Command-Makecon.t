@@ -20,6 +20,7 @@ TestEnv::Clone::setup_test_lims_rest_api;
 subtest 'from analysis directory' => sub{
     plan tests => 2;
 
+    $project->status('finish_start');
     my $output_file = File::Spec->join($tempdir, 'from_ace.con');
     my $makecon = $pkg_name->execute(
         project => $project,
