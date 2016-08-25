@@ -1,42 +1,8 @@
 package RefImp::Ace::Reader;
 
-=pod
-
-=head1 NAME
-
-AceReader - Ace file iterator
-
-=head1 SYNOPSIS
-
-    my $reader = new GSC::IO::Assembly::Ace::Reader(input => \*STDIN);
-    while (my $obj = $reader->next_object()) {
-        if ($obj->{'type'} eq 'contig') {
-            ...
-        }
-        ...
-    }
-
-=head1 DESCRIPTION
-
-GSC::IO::Assembly::Ace::Reader iterates over an ace file, returning one element at a time.
-
-=head1 METHODS
-
-=cut
-
 use strict;
 use warnings;
-use Carp;
 
-my $pkg = 'GSC::IO::Assembly::Ace::Reader';
-
-=pod
-
-=item new 
-
-    my $reader = new GSC::IO::Assembly::Ace::Reader(\*STDIN);
-
-=cut
 sub new {
     croak("$pkg:new:no class given, quitting") if @_ < 1;
     my ($caller, $input) = @_;
@@ -60,83 +26,6 @@ sub new {
 
     return $self;
 }
-
-=pod
-
-=item next_object 
-
-    my $obj_hashref = $reader->next_object();
-
-    $obj_hashref->{'type'} eq 'contig'
-
-    next_object returns the next object found in the ace file.  The return value is a
-    hashref containing a 'type' key, and various other keys depending on the type:
-
-    type eq 'assembly'
-        contig_count
-        read_count
-
-    type eq 'contig'
-        name
-        base_count
-        read_count
-        base_seg_count
-        u_or_c
-        consensus
-        base_qualities
-
-    type eq 'read_position'
-        read_name
-        u_or_c
-        position
-
-    type eq 'base_segment'
-        start_pos
-        end_pos
-        read_name
-
-    type eq 'read'
-        name
-        padded_base_count
-        info_count
-        tag_count
-        sequence
-        qual_clip_start
-        qual_clip_end
-        align_clip_start
-        align_clip_end
-        description        - A hashref containing details about the trace
-            CHROMAT_FILE
-            PHD_FILE
-            TIME
-
-    type eq 'assembly_tag'
-        tag_type
-        program
-        date
-        data
-
-    type eq 'contig_tag'
-        contig_name
-        tag_type
-        program
-        start_pos
-        end_pos
-        date
-        no_trans
-        data
-
-    type eq 'read_tag'
-        read_name
-        tag_type
-        program
-        start_pos
-        end_pos    
-        date
-        data
-        
-
-=cut
 
 sub input_handle {
     my $self = shift;
@@ -385,5 +274,102 @@ sub _build_read_tag {
 
 1;
 
-#$HeadURL$
-#$Id$
+=pod
+
+=head1 NAME
+
+RefImp::Ace::Reader
+
+=head1 SYNOPSIS
+
+    my $reader = RefImp::Ace::Reader->new($handle);
+    while (my $obj = $reader->next_object()) {
+        if ($obj->{'type'} eq 'contig') {
+            ...
+        }
+        ...
+    }
+
+=head1 DESCRIPTION
+
+Iterates over an ace file, returning one element at a time.
+
+=head1 METHODS
+
+=item new [contructor] 
+
+    my $reader = RefImp::Ace::Reader->new(input => \*STDIN);
+
+=item next_object 
+
+    my $obj_hashref = $reader->next_object();
+
+    $obj_hashref->{'type'} eq 'contig'
+
+    next_object returns the next object found in the ace file.  The return value is a
+    hashref containing a 'type' key, and various other keys depending on the type:
+
+    type eq 'assembly'
+        contig_count
+        read_count
+
+    type eq 'contig'
+        name
+        base_count
+        read_count
+        base_seg_count
+        u_or_c
+        consensus
+        base_qualities
+
+    type eq 'read_position'
+        read_name
+        u_or_c
+        position
+
+    type eq 'base_segment'
+        start_pos
+        end_pos
+        read_name
+
+    type eq 'read'
+        name
+        padded_base_count
+        info_count
+        tag_count
+        sequence
+        qual_clip_start
+        qual_clip_end
+        align_clip_start
+        align_clip_end
+        description        - A hashref containing details about the trace
+            CHROMAT_FILE
+            PHD_FILE
+            TIME
+
+    type eq 'assembly_tag'
+        tag_type
+        program
+        date
+        data
+
+    type eq 'contig_tag'
+        contig_name
+        tag_type
+        program
+        start_pos
+        end_pos
+        date
+        no_trans
+        data
+
+    type eq 'read_tag'
+        read_name
+        tag_type
+        program
+        start_pos
+        end_pos    
+        date
+        data
+
+=cut
