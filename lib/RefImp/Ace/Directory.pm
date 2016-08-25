@@ -60,21 +60,27 @@ sub recent_acefile { ($_[0]->acefiles)[0] }
 
 =head1 Name
 
-ProjectWorkBench::Model::Ace::Dir
+RefImp::Ace::Directory
 
 =head1 Methods
 
-=head2 new
+=head2 create
 
- my $acedir = ProjectWorkBench::Model::Ace::Dir->new(dir => $acedir);
+ my $acedir = RefImp::Ace::Directory->create(path => $edit_dir);
 
- > Constructor, needs to be passed a valid directory
+ > Constructor. Valid path is required.
+
+=head2 create
+
+ my $acedir = RefImp::Ace::Directory->get(path => $edit_dir);
+
+ > Get from cache by path [id].
 
 =head2 dir
 
  my $dir = $acedir->path;
 
- > Gets the directory
+ > Accessor to get the path.
 
 =head2 acefile_for_ace
 
@@ -82,61 +88,28 @@ ProjectWorkBench::Model::Ace::Dir
 
  > returns the full path of an ace
 
-=head2 all_acefiles
-
- my @acefiles = $acedir->all_acefiles;
-
- > Returns all files in dir matching *ace*
-
-=head2 all_aces
-
- my @aces = $acedir->all_aces;
-
- > Returns basenames for all files in dir matching *ace*
-
 =head2 acefiles
 
  my @acefiles = $acedir->acefiles;
 
- > Returns files in dir matching *ace*, but exluding probable non aces matching these patterns:
-    /mini|wrk|view|WAITING|fasta$|log|status|nav|fof|dat/ 
+ > Returns all ace files in path matching *.ace* and the have an ace header [AS \d \d].
 
 =head2 aces
 
  my @aces = $acedir->aces;
 
- > Returns basenames of files in dir matching *ace*, but exluding probable non aces matching these patterns:
-    /mini|wrk|view|WAITING|fasta$|log|status|nav|fof|dat/ 
+ > Returns basenames for all the ace files in path.
 
 =head2 recent_ace
 
  my $ace = $acedir->recent_ace
 
- > Returns the basename of the most recent acefile, not matching these patterns:
-    /mini|wrk|view|WAITING|fasta$|log|status|nav|fof|dat/ 
+ > Returns the basename of the most recent acefile.
 
 =head2 recent_acefile
 
  my $acefile = $acedir->recent_acefile
 
- > Returns the most recent acefile (full path), not matching these patterns:
-    /mini|wrk|view|WAITING|fasta$|log|status|nav|fof|dat/ 
+ > Returns the most recent ace file (full path).
 
-=head2 date_for_ace
-
- my $date = $acedir->date_for_ace($ace);
-
- > Returns the $date stamp of $ace
-
-=head2 age_for_ace
-
- my $age = $acedir->age_for_ace($ace);
-
- > Returns the $age in days of $ace
-
-=head2 owner_for_ace
-
- my $owner = $acedir->owner_for_ace($ace);
-
- > Returns the owner of $ace
-
+=cut
