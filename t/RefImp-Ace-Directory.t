@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use File::Spec;
-use Test::More tests => 2;
+use Test::More tests => 3;
 use Test::Exception;
 
 my %setup;
@@ -31,11 +31,20 @@ subtest 'acefiles and aces' => sub{
     my @acefiles = $setup{ace_dir}->acefiles;
     my @expected_aces = (qw/ project.ace.0  project.ace /);
     my @expected_acefiles = map { File::Spec->join($setup{ace_dir}->path, $_) } @expected_aces;
-    open my $ACE, ">> $expected_aces[0]";
+    open my $ACE, ">> $expected_acefiles[0]";
     close $ACE;
     is_deeply(\@acefiles, \@expected_acefiles, 'acefiles');
     is_deeply([$setup{ace_dir}->aces], \@expected_aces, 'aces');
 
+};
+
+subtest 'recent acefile and ace' => sub{
+    plan tests => 2;
+
+    my $expected_recent_ace = 'project.ace.0';
+    is($setup{ace_dir}->recent_acefile, File::Spec->join($setup{ace_dir}->path, $expected_recent_ace), 'recent acefile');
+    is($setup{ace_dir}->recent_ace, $expected_recent_ace, 'recent ace');
+ 
 };
 
 done_testing();
