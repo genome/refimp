@@ -48,7 +48,10 @@ sub acefiles {
 sub aces { map { File::Basename::basename($_) } $_[0]->acefiles; }
 sub acefile_for_ace { File::Spec->join($_[0]->path, $_[1]); }
 
-sub recent_ace { File::Basename::basename($_[0]->recent_acefile) }
+sub recent_ace {
+    my $acefile = $_[0]->recent_acefile || return;
+    File::Basename::basename($acefile);
+}
 sub recent_acefile { ($_[0]->acefiles)[0] } 
 
 sub date_for_ace {

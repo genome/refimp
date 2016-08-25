@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use File::Spec;
-use Test::More tests => 3;
+use Test::More tests => 4;
 use Test::Exception;
 
 my %setup;
@@ -45,6 +45,17 @@ subtest 'recent acefile and ace' => sub{
     is($setup{ace_dir}->recent_acefile, File::Spec->join($setup{ace_dir}->path, $expected_recent_ace), 'recent acefile');
     is($setup{ace_dir}->recent_ace, $expected_recent_ace, 'recent ace');
  
+};
+
+subtest 'no acefiles' => sub {
+    plan tests => 5;
+
+    my $ad = RefImp::Ace::Directory->create(path => '.');
+    ok($ad, 'create ace directory w/o aces');
+    ok(!$ad->acefiles, 'no acefiles');
+    ok(!$ad->aces, 'no aces');
+    ok(!$ad->recent_acefile, 'no recent acefile');
+    ok(!$ad->recent_ace, 'no recent ace');
 };
 
 done_testing();
