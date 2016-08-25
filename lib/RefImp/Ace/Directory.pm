@@ -27,9 +27,7 @@ sub create {
     return $self;
 }
 
-sub acefile_for_ace { File::Spec->join($_[0]->path, $_[1]); }
-
-sub all_acefiles {
+sub acefiles {
     my $self = shift;
     
     my $acedir = $self->path;
@@ -45,22 +43,10 @@ sub all_acefiles {
         push @valid_acefiles, $file;
     }
 
-    return @valid_acefiles;
+    return sort { -M $a <=> -M $b } @valid_acefiles; #sort by time
 }
-
-sub all_aces { map { File::Base::basename($_) } $_[0]->all_acefiles; }
-
-sub acefiles {
-    my $self = shift;
-
-    return grep { $_ !~ /mini|wrk|view|WAITING|fasta$|log|status|nav|fof|dat|phrap\.out/} $self->all_acefiles;
-}
-
-sub aces {
-    my $self = shift;
-
-    return map { basename($_) } $self->acefiles;
-}
+sub aces { map { File::Basename::basename($_) } $_[0]->acefiles; }
+sub acefile_for_ace { File::Spec->join($_[0]->path, $_[1]); }
 
 sub recent_ace {
     my $self = shift;
@@ -75,7 +61,6 @@ sub recent_acefile {
 
     my @acefiles = $self->acefiles;
 
-    #@valid_acefiles = sort { -M $a <=> -M $b } @valid_acefiles; #sort by time
     return shift @acefiles;
 }
 

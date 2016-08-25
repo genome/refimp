@@ -26,12 +26,15 @@ subtest 'setup' => sub{
 };
 
 subtest 'acefiles and aces' => sub{
-    plan tests => 1;
+    plan tests => 2;
 
-    my @acefiles = $setup{ace_dir}->all_acefiles;
-    my @expected_aces = (qw/ project.ace  project.ace.0 /);
+    my @acefiles = $setup{ace_dir}->acefiles;
+    my @expected_aces = (qw/ project.ace.0  project.ace /);
     my @expected_acefiles = map { File::Spec->join($setup{ace_dir}->path, $_) } @expected_aces;
-    is_deeply(\@acefiles, \@expected_acefiles, 'all_acefiles');
+    open my $ACE, ">> $expected_aces[0]";
+    close $ACE;
+    is_deeply(\@acefiles, \@expected_acefiles, 'acefiles');
+    is_deeply([$setup{ace_dir}->aces], \@expected_aces, 'aces');
 
 };
 
