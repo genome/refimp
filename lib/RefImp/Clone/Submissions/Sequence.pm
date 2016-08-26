@@ -6,7 +6,7 @@ use warnings;
 use RefImp;
 
 use Bio::Seq;
-use GSC::IO::Assembly::Ace; # TODO move/copy this to RefImp and only load what is needed
+use RefImp::Ace::Reader;
 use Params::Validate qw/ :types validate /;
 
 class RefImp::Clone::Submissions::Sequence {
@@ -48,19 +48,27 @@ sub create {
 sub _load_seq_from_ace0 {
     my $self = shift;
 
-    my $ao = GSC::IO::Assembly::Ace->new(input_file => $self->ace);
-    $self->fatal_message('Failed to load ace 0!') if not $ao;
+    my $fh = IO::File->new($self->ace, 'r');
+    $self->fatal_message("%s\nFailed to open %s", $!, $self->ace) if not $fh;
+    my $reader = RefImp::Ace::Reader->new($fh);
+    $self->fatal_message('Failed to create ace reader for %s', $self->ace) if not $reader;
 
     my $contig_data = $self->contig_data->[0];
     my $contig_number = $contig_data->{ContigNumber};
     $self->fatal_message('No ContigNumber in contig data! %s', Data::Dumper::Dumper($contig_data)) if not $contig_number;
     my $contig_name = 'Contig'.$contig_number;
-    my $contig = $ao->get_contig($contig_name);
+    my $contig;
+    while ( my $obj = $reader->next_object_of_type('contig') ) {
+        if ( $obj->{name} eq $contig_name ) {
+            $contig = $obj;
+            last;
+        }
+    }
     $self->fatal_message('Failed to get contig! %s', $contig_name) if not $contig;
-    my $contig_seq = $contig->sequence;
-    $self->fatal_message('Failed to get sequence for contig! %s', $contig_name) if not $contig_seq;
+    my $bases = $contig->{consensus};
+    $self->fatal_message('Failed to get sequence for contig! %s', $contig_name) if not $bases;
 
-    my $bases = $contig_seq->unpadded_base_string;
+    $bases =~ s/\*//g; # remove pads
     for my $ambiguous_base (qw/ n x /) {
         my $found = index($bases, $ambiguous_base);
         if ( $found == -1 ) {
