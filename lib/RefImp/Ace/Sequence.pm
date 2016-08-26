@@ -7,13 +7,13 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = bless \%params, $class;
-    $self->_validate;
+    $self->_validate_;
     $self->_init_;
 
     $self;
 }
 
-sub _validate {
+sub _validate_ {
     my $self = shift;
 
     die "No bases given!" if not $self->{bases};
