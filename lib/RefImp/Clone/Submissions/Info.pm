@@ -40,261 +40,8 @@ sub generate {
         my $contig = $ao->get_contig($contig_name);
         $self->contig_seq($contig_name, $contig->sequence);
 
-        foreach my $tag (sort {$a->start <=> $b->start} @{ $contig->tags })
-        {
-            next unless $tag->type =~ /annotation/i
-                or $tag->type =~ /singlesubclone/i
-                or $tag->type =~ /dofinish/i;
-
-            $tag->text('') unless $tag->text;
-
-            my $temp = {};
-
-            # Start/End
-            if ($tag->text =~ /^comment\{\nstart/i
-                    or $tag->text =~ /^comment\{\nend/i)
-            {
-                $self->set_contig_data($submit, $tag);
-            }
-            # doFinish
-            elsif ($tag->type =~ /dofinish/i)
-            {
-                $self->set_contig_data_for_dofinish($submit, $tag);
-            }
-            # Digest Comments
-            elsif ($tag->text =~ /digest\s+comments/i)
-            {
-                my $type = 'DigestComments';
-
-                my $comment = $tag->text;
-                $comment =~ s/^COMMENT\{\n\s*digest\s+comments\s*\n//;
-                $comment =~ s/\C\}$//;
-
-                $submit->{GENINFO}->{$type . 'Toggle'} = 1;
-                $submit->{GENINFO}->{$type . 'Text'} = $comment;
-            } 
-            # Other Comments
-            elsif ($tag->text =~ /other\s+comments/i)
-            {
-                my $type = 'AnyOtherComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_comment($temp, $tag, $type);
-
-                push @{$submit->{COMMENTS}->{AnyOtherComments}}, $temp;
-            }
-            # PCR Only
-            elsif ($tag->text =~ /pcr\s+only|pcr_only/i)
-            {
-                my $type = 'PCROnlyRegionsComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_from_and_to($temp, $tag, $type);
-                $self->set_contig_num($temp, $tag, $type);
-
-                $temp->{PCROnlyRegionsCommentsDNASource} = ($tag->text =~ /genomic/) ? 'genomic dna': 'project dna';
-
-                push @{$submit->{COMMENTS}->{PCROnlyRegionsComments}}, $temp;
-            }
-            # Stolen Data Only
-            elsif ( $tag->text =~ /stolen\s+data/i ) {
-                my $type = 'OtherClonesComments';
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-                $self->set_contig_num($temp, $tag, $type);
-                my @comments = split ("\n", $tag->text);
-                for my $comment_string ( @comments ) {
-                    if ( $comment_string =~ /stolen\s+from:/i ) {
-                        my $comment = "$'";
-                        $comment =~ s/^\s+//;
-                        $temp->{OtherClonesCommentsStolenFromComment} = $comment if $comment;
-                    }
-                    if ( $comment_string =~ /data\s+type:/i ) {
-                        my $comment = "$'";
-                        $comment =~ s/^\s+//;
-                        $temp->{OtherClonesCommentsDataTypeComment} = $comment if $comment;
-                    }
-                }
-
-                push @{$submit->{COMMENTS}->{OtherClonesComments} }, $temp;
-            }
-            # Single Subclone
-            elsif ($tag->type eq "SingleSubclone" or $tag->text =~ /singlesubclone/i or $tag->text =~ /single\s+subclone/i)
-            {
-                my $type = 'SingleCloneCoverageComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-
-                $temp->{SingleCloneCoverageSubcloneType} = ($tag->text =~ /(m13)/i)
-                ? ucfirst ($1)
-                : 'Plasmid';
-
-                push @{$submit->{COMMENTS}->{SingleCloneCoverageComments}}, $temp;
-            }
-            # Unr Tandem
-            elsif($tag->text =~ /unr\s+tandem/i)
-            {
-                my $type = 'UnresolvedTandemRepeatsComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-                $self->set_sizing_info($temp, $tag, $type);
-                $self->set_fin_standards($temp, $tag, $type);
-
-                push @{$submit->{COMMENTS}->{UnresolvedTandemRepeatsComments}}, $temp;
-            }
-            # Unr SSR
-            elsif($tag->text =~ /unr\s+ssr/i)
-            {
-                my $type = 'UnresolvedDiTriRepeatsComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-                $self->set_sizing_info($temp, $tag, $type);
-                $self->set_fin_standards($temp, $tag, $type);
-
-                push @{$submit->{COMMENTS}->{UnresolvedDiTriRepeatsComments}}, $temp;
-            }
-            # Unr Mono
-            elsif($tag->text =~ /unresolved\s+mono/i or $tag->text =~ /unr\s+mono/i)
-            {
-                my $type = 'HomopolymericRunComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-
-                push @{$submit->{COMMENTS}->{HomopolymericRunComments}}, $temp;
-            }
-            # Unr Duplication
-            elsif($tag->text =~ /unr\s+duplication/i)
-            {
-                my $type = 'UnresolvedLargeDuplicationsComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-                $self->set_sizing_info($temp, $tag, $type);
-                $self->set_discrepancy($temp, $tag, $type);
-                $self->set_fin_standards($temp, $tag, $type);
-
-                push @{$submit->{COMMENTS}->{UnresolvedLargeDuplicationsComments}}, $temp;
-            }
-            # Unr Inverted
-            elsif($tag->text =~ /unr\s+inverted/i)
-            {
-                my $type = 'UnresolvedInvertedRepeatsComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-                $self->set_sizing_info($temp, $tag, $type);
-                $self->set_discrepancy($temp, $tag, $type);
-                $self->set_fin_standards($temp, $tag, $type);
-                $self->set_orientation($temp, $tag, $type);
-
-
-                push @{$submit->{COMMENTS}->{UnresolvedInvertedRepeatsComments}}, $temp;
-
-            }
-            # Mini lib - Shatter and Tbomb
-            elsif($tag->text =~ /shatter/i or $tag->text =~ /tbomb/i or $tag->text =~ /transposon\s+bomb/i)
-            {
-                my $type = 'MiniLibComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_contig_num($temp, $tag, $type);
-                $self->set_from_and_to($temp, $tag, $type);
-                $self->set_plate_info($temp, $tag, $type);
-
-                $temp->{MiniLibCommentsCloneContains} = ($tag->text =~ /shatter/i)
-                ? 'Shattered Library' 
-                : 'Transposon Bombing';
-
-                push @{$submit->{COMMENTS}->{MiniLibComments}}, $temp;
-            }
-            # Ambiguous
-            elsif($tag->text =~ /ambiguous\s+base/i)
-            {
-                my $type = 'UnsureBasecallComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-
-                push @{$submit->{COMMENTS}->{UnsureBasecallComments}}, $temp;
-            }
-            # Coor Approval
-            elsif ($tag->text =~ /coordinator\s+approval/i)
-            {
-                my $type = 'NonGenbankComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-
-                $tag->text =~ /^(.*)/;
-                my $coordinator = $1;
-                $temp->{NonGenbankCommentsCoordinators} = $coordinator;
-
-                push @{$submit->{COMMENTS}->{NonGenbankComments}}, $temp;
-            }
-            # Assembly Piece
-            elsif ($tag->text =~ /assembly\s+piece/i)
-            {
-                my $type = 'AssemblyPiecesComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-
-                push @{$submit->{COMMENTS}->{AssemblyPiecesComments}}, $temp;
-            }
-            # Transposon
-            elsif
-            ($tag->text =~ /transposon\s+in\s+finished\s+region/i
-                    or $tag->text =~ /transposon\s+excised\s+from\s+finished\s+region/i
-                    or $tag->text =~ /transposon\s+in\s+vector/i)
-            {
-                my $type = 'TransposonComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_contig_num($temp, $tag, $type);
-                $self->set_transposon_comment($temp, $tag, $type);
-
-                if ($tag->text =~ /excised/i)
-                {
-                    $self->set_excised_transposon($temp, $tag);
-                    $temp->{TransposonCommentsSequenceRegion} = 'Finished Region';
-                }
-                elsif ($tag->text =~ /vector/i)
-                {
-                    $temp->{TransposonCommentsSequenceRegion} = 'Vector';
-
-                }
-                else
-                {
-                    $self->set_finished_region_transposon($temp, $tag);
-                    $temp->{TransposonCommentsSequenceRegion} = 'Finished Region';
-
-                }
-
-                push @{$submit->{COMMENTS}->{TransposonComments}}, $temp;
-            } 
-            elsif ( $tag->text =~ /non\-repetitive\s+but\s+unresolved\s+region/ )
-            {
-                my $type = 'NonRepetitiveButUnresolvedRegionComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-
-                push @{$submit->{COMMENTS}->{NonRepetitiveButUnresolvedRegionComments}}, $temp;
-            }
-            elsif ( $tag->text =~ /GSS\s+and\/or\s+mRNA\s+only\s+data/ )
-            {
-                my $type = 'GSSAndOrMRNAOnlyDataComments';
-
-                $self->add_toggle($submit, $type);
-                $self->set_start_and_end($temp, $tag, $type);
-
-                push @{$submit->{COMMENTS}->{GSSAndOrMRNAOnlyDataComments}}, $temp;
-            }
-
+        foreach my $tag (sort {$a->start <=> $b->start} @{ $contig->tags }) {
+            $self->_add_tag($submit, $tag);
         }
     }
 
@@ -442,6 +189,247 @@ sub contig_seq
     $self->{_contig_seqs}->{$contig_name} = $seq if defined $seq;
 
     return $self->{_contig_seqs}->{$contig_name};
+}
+
+sub _add_tag {
+    my ($self, $submit, $tag) = @_;
+
+    return unless $tag->type =~ /annotation/i
+        or $tag->type =~ /singlesubclone/i
+        or $tag->type =~ /dofinish/i;
+
+    $tag->text('') unless $tag->text;
+
+    my $temp = {};
+
+    # Start/End
+    if ($tag->text =~ /^comment\{\nstart/i or $tag->text =~ /^comment\{\nend/i) {
+        $self->set_contig_data($submit, $tag);
+    }
+    # doFinish
+    elsif ($tag->type =~ /dofinish/i) {
+        $self->set_contig_data_for_dofinish($submit, $tag);
+    }
+    # Digest Comments
+    elsif ($tag->text =~ /digest\s+comments/i) {
+        my $type = 'DigestComments';
+
+        my $comment = $tag->text;
+        $comment =~ s/^COMMENT\{\n\s*digest\s+comments\s*\n//;
+        $comment =~ s/\C\}$//;
+
+        $submit->{GENINFO}->{$type . 'Toggle'} = 1;
+        $submit->{GENINFO}->{$type . 'Text'} = $comment;
+    }
+    # Other Comments
+    elsif ($tag->text =~ /other\s+comments/i) {
+        my $type = 'AnyOtherComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_comment($temp, $tag, $type);
+
+        push @{$submit->{COMMENTS}->{AnyOtherComments}}, $temp;
+    }
+    # PCR Only
+    elsif ($tag->text =~ /pcr\s+only|pcr_only/i) {
+        my $type = 'PCROnlyRegionsComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_from_and_to($temp, $tag, $type);
+        $self->set_contig_num($temp, $tag, $type);
+
+        $temp->{PCROnlyRegionsCommentsDNASource} = ($tag->text =~ /genomic/) ? 'genomic dna': 'project dna';
+
+        push @{$submit->{COMMENTS}->{PCROnlyRegionsComments}}, $temp;
+    }
+    # Stolen Data Only
+    elsif ( $tag->text =~ /stolen\s+data/i ) {
+        my $type = 'OtherClonesComments';
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+        $self->set_contig_num($temp, $tag, $type);
+        my @comments = split ("\n", $tag->text);
+        for my $comment_string ( @comments ) {
+            if ( $comment_string =~ /stolen\s+from:/i ) {
+                my $comment = "$'";
+                $comment =~ s/^\s+//;
+                $temp->{OtherClonesCommentsStolenFromComment} = $comment if $comment;
+            }
+            if ( $comment_string =~ /data\s+type:/i ) {
+                my $comment = "$'";
+                $comment =~ s/^\s+//;
+                $temp->{OtherClonesCommentsDataTypeComment} = $comment if $comment;
+            }
+        }
+
+        push @{$submit->{COMMENTS}->{OtherClonesComments} }, $temp;
+    }
+    # Single Subclone
+    elsif ($tag->type eq "SingleSubclone" or $tag->text =~ /singlesubclone/i or $tag->text =~ /single\s+subclone/i) {
+        my $type = 'SingleCloneCoverageComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+
+        $temp->{SingleCloneCoverageSubcloneType} = ($tag->text =~ /(m13)/i)
+        ? ucfirst ($1)
+        : 'Plasmid';
+
+        push @{$submit->{COMMENTS}->{SingleCloneCoverageComments}}, $temp;
+    }
+    # Unr Tandem
+    elsif($tag->text =~ /unr\s+tandem/i) {
+        my $type = 'UnresolvedTandemRepeatsComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+        $self->set_sizing_info($temp, $tag, $type);
+        $self->set_fin_standards($temp, $tag, $type);
+
+        push @{$submit->{COMMENTS}->{UnresolvedTandemRepeatsComments}}, $temp;
+    }
+    # Unr SSR
+    elsif($tag->text =~ /unr\s+ssr/i) {
+        my $type = 'UnresolvedDiTriRepeatsComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+        $self->set_sizing_info($temp, $tag, $type);
+        $self->set_fin_standards($temp, $tag, $type);
+
+        push @{$submit->{COMMENTS}->{UnresolvedDiTriRepeatsComments}}, $temp;
+    }
+    # Unr Mono
+    elsif($tag->text =~ /unresolved\s+mono/i or $tag->text =~ /unr\s+mono/i) {
+        my $type = 'HomopolymericRunComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+
+        push @{$submit->{COMMENTS}->{HomopolymericRunComments}}, $temp;
+    }
+    # Unr Duplication
+    elsif($tag->text =~ /unr\s+duplication/i) {
+        my $type = 'UnresolvedLargeDuplicationsComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+        $self->set_sizing_info($temp, $tag, $type);
+        $self->set_discrepancy($temp, $tag, $type);
+        $self->set_fin_standards($temp, $tag, $type);
+
+        push @{$submit->{COMMENTS}->{UnresolvedLargeDuplicationsComments}}, $temp;
+    }
+    # Unr Inverted
+    elsif($tag->text =~ /unr\s+inverted/i) {
+        my $type = 'UnresolvedInvertedRepeatsComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+        $self->set_sizing_info($temp, $tag, $type);
+        $self->set_discrepancy($temp, $tag, $type);
+        $self->set_fin_standards($temp, $tag, $type);
+        $self->set_orientation($temp, $tag, $type);
+
+
+        push @{$submit->{COMMENTS}->{UnresolvedInvertedRepeatsComments}}, $temp;
+
+    }
+    # Mini lib - Shatter and Tbomb
+    elsif($tag->text =~ /shatter/i or $tag->text =~ /tbomb/i or $tag->text =~ /transposon\s+bomb/i) {
+        my $type = 'MiniLibComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_contig_num($temp, $tag, $type);
+        $self->set_from_and_to($temp, $tag, $type);
+        $self->set_plate_info($temp, $tag, $type);
+
+        $temp->{MiniLibCommentsCloneContains} = ($tag->text =~ /shatter/i)
+        ? 'Shattered Library'
+        : 'Transposon Bombing';
+
+        push @{$submit->{COMMENTS}->{MiniLibComments}}, $temp;
+    }
+    # Ambiguous
+    elsif($tag->text =~ /ambiguous\s+base/i) {
+        my $type = 'UnsureBasecallComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+
+        push @{$submit->{COMMENTS}->{UnsureBasecallComments}}, $temp;
+    }
+    # Coor Approval
+    elsif ($tag->text =~ /coordinator\s+approval/i) {
+        my $type = 'NonGenbankComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+
+        $tag->text =~ /^(.*)/;
+        my $coordinator = $1;
+        $temp->{NonGenbankCommentsCoordinators} = $coordinator;
+
+        push @{$submit->{COMMENTS}->{NonGenbankComments}}, $temp;
+    }
+    # Assembly Piece
+    elsif ($tag->text =~ /assembly\s+piece/i) {
+        my $type = 'AssemblyPiecesComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+
+        push @{$submit->{COMMENTS}->{AssemblyPiecesComments}}, $temp;
+    }
+    # Transposon
+    elsif
+    ($tag->text =~ /transposon\s+in\s+finished\s+region/i
+            or $tag->text =~ /transposon\s+excised\s+from\s+finished\s+region/i
+            or $tag->text =~ /transposon\s+in\s+vector/i)
+    {
+        my $type = 'TransposonComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_contig_num($temp, $tag, $type);
+        $self->set_transposon_comment($temp, $tag, $type);
+
+        if ($tag->text =~ /excised/i)
+        {
+            $self->set_excised_transposon($temp, $tag);
+            $temp->{TransposonCommentsSequenceRegion} = 'Finished Region';
+        }
+        elsif ($tag->text =~ /vector/i)
+        {
+            $temp->{TransposonCommentsSequenceRegion} = 'Vector';
+
+        }
+        else
+        {
+            $self->set_finished_region_transposon($temp, $tag);
+            $temp->{TransposonCommentsSequenceRegion} = 'Finished Region';
+
+        }
+
+        push @{$submit->{COMMENTS}->{TransposonComments}}, $temp;
+    }
+    elsif ( $tag->text =~ /non\-repetitive\s+but\s+unresolved\s+region/ )
+    {
+        my $type = 'NonRepetitiveButUnresolvedRegionComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+
+        push @{$submit->{COMMENTS}->{NonRepetitiveButUnresolvedRegionComments}}, $temp;
+    }
+    elsif ( $tag->text =~ /GSS\s+and\/or\s+mRNA\s+only\s+data/ )
+    {
+        my $type = 'GSSAndOrMRNAOnlyDataComments';
+
+        $self->add_toggle($submit, $type);
+        $self->set_start_and_end($temp, $tag, $type);
+
+        push @{$submit->{COMMENTS}->{GSSAndOrMRNAOnlyDataComments}}, $temp;
+    }
 }
 
 sub get_base_for_padded_position
