@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use Test::Exception;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my $pkg = 'RefImp::Ace::Sequence';
 
@@ -44,6 +44,20 @@ subtest 'unpadded for padded position' => sub{
             $seq->unpadded_for_padded_position($i),
             $expected[$i],
             sprintf("unpadded for padded position: %s => %s", $i, $expected[$i]),
+        );
+    }
+
+};
+
+subtest 'base for padded position' => sub{
+    plan tests => 22;
+
+    my @expected = (qw/ - A A * * * T T T * C C C * * * * G G G G * * /);
+    for my $i (1..22)  {
+        is(
+            $seq->base_for_padded_position($i),
+            $expected[$i],
+            sprintf("base for padded position: %s => %s", $i, $expected[$i]),
         );
     }
 

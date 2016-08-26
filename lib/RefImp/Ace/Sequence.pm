@@ -63,5 +63,7 @@ sub unpadded_for_padded_position {
 	return $self->{padded_to_unpadded}->[$padded_position - 1] + 1;
 }
 
+sub base_for_padded_position { substr($_[0]->{bases}, ($_[1] - 1), 1) }
+
 1;
 
