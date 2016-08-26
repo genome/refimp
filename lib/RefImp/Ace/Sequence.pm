@@ -6,9 +6,16 @@ use warnings;
 sub new {
     my ($class, %params) = @_;
 
-    my $self = bless {}, $class;
+    my $self = bless \%params, $class;
+    $self->_validate;
 
-    return $self;
+    $self;
+}
+
+sub _validate {
+    my $self = shift;
+
+    die "No bases given!" if not $self->{bases};
 }
 
 1;
