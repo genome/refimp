@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use Test::Exception;
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 my $pkg = 'RefImp::Ace::Sequence';
 
@@ -32,6 +32,20 @@ subtest 'new' => sub{
     is_deeply($seq->{unpadded_to_padded}, \@expected_unpadded_to_padded, 'unpadded_to_padded');
     my @expected_padded_to_unpadded = (qw/ 0 1 * * * 2 3 4 * 5 6 7 * * * * 8 9 10 11 * * /);
     is_deeply($seq->{padded_to_unpadded}, \@expected_padded_to_unpadded, 'padded_to_unpadded');
+
+};
+
+subtest 'unpadded for padded position' => sub{
+    plan tests => 22;
+
+    my @expected = (qw/ - 1 2 2 2 2 3 4 5 5 6 7 8 8 8 8 8 9 10 11 12 12 12 /);
+    for my $i (1..22)  {
+        is(
+            $seq->unpadded_for_padded_position($i),
+            $expected[$i],
+            sprintf("unpadded for padded position: %s => %s", $i, $expected[$i]),
+        );
+    }
 
 };
 
