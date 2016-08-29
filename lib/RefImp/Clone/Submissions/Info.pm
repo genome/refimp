@@ -3,8 +3,10 @@ package RefImp::Clone::Submissions::Info;
 use strict;
 use warnings;
 
-use GSC::IO::Assembly::Ace;
+use IO::File;
 use Params::Validate ':types';
+use RefImp::Ace::Reader;
+use RefImp::Ace::Sequence;
 use RefImp::Project::Command::Overlaps;
 use YAML;
 
@@ -29,21 +31,27 @@ sub generate {
 
     $self->set_geninfo($submit, $clone);
 
-    # TODO move/copy this to RefImp and only load what is needed
     my $ace0_path = $clone->ace0_path;
     die "No ace.0 for ".$clone->name if not $ace0_path;
-    my $ao = GSC::IO::Assembly::Ace->new(input_file => $ace0_path);
-    die 'Failed to load ace 0!' if not $ao;
 
-    foreach my $contig_name (@{  $ao->get_contig_names })
-    {
-        my $contig = $ao->get_contig($contig_name);
-        $self->contig_seq($contig_name, $contig->sequence);
+    my $fh = IO::File->new($ace0_path, 'r');
+    die "$!\nFailed to open ace file: $ace0_path" if not $fh;
 
-        foreach my $tag (sort {$a->start <=> $b->start} @{ $contig->tags }) {
-            $self->_add_tag($submit, $tag);
+    my $reader = RefImp::Ace::Reader->new($fh);
+    die "Failed to create ace reader: $ace0_path" if not $reader;
+
+    my @contig_tags;
+    while ( my $obj = $reader->next_object ) {
+        if ( $obj->{type} eq 'contig' ) {
+            $self->_add_contig_tags($submit, \@contig_tags); # from previous contig
+            @contig_tags = ();
+            $self->_add_contig($obj);
+        }
+        elsif ( $obj->{type} eq 'contig_tag' ) {
+            push @contig_tags, $obj;
         }
     }
+    $self->_add_contig_tags($submit, \@contig_tags); # from last contig
 
     $self->resolve_contig_data($submit);
 
@@ -87,11 +95,10 @@ sub set_geninfo {
     return 1;
 }
 
-sub set_contig_data
-{
+sub set_contig_data {
     my ($self, $submit, $tag) = @_;
 
-    my $contig_num = $tag->parent;
+    my $contig_num = $tag->{contig_name};
     $contig_num =~ s/Contig//;
 
     my $ctg_info;
@@ -106,32 +113,32 @@ sub set_contig_data
         $ctg_info->{ContigFinishedFrom} = 1;
         $ctg_info->{StartCloneSite} = 1;
         $ctg_info->{EntireContigGoesFrom} = 1;
-        $ctg_info->{ContigFinishedTo} = $self->get_unpadded_pos( $tag->parent, $self->contig_seq( $tag->parent )->length );
-        $ctg_info->{EndCloneSite} = $self->get_unpadded_pos( $tag->parent, $self->contig_seq( $tag->parent )->length );
-        $ctg_info->{EntireContigGoesTo} = $self->get_unpadded_pos( $tag->parent, $self->contig_seq( $tag->parent )->length );
+        $ctg_info->{ContigFinishedTo} = $self->contig_seq( $tag->{contig_name} )->bases_uppadded_length;
+        $ctg_info->{EndCloneSite} = $self->contig_seq( $tag->{contig_name} )->bases_uppadded_length;
+        $ctg_info->{EntireContigGoesTo} = $self->contig_seq( $tag->{contig_name} )->bases_uppadded_length;
         push @{ $submit->{COMMENTS}->{ContigData} }, $ctg_info;
     }
 
-    if ($tag->text =~ /start/i)
+    if ($tag->{data} =~ /start/i)
     {
-        if ($tag->text =~ /clone\s+site/)
+        if ($tag->{data} =~ /clone\s+site/)
         {
-            $ctg_info->{StartCloneSite} = $self->get_unpadded_pos($tag->parent, $tag->start);
+            $ctg_info->{StartCloneSite} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{start_pos});
         }
-        elsif ($tag->text =~ /finished\s+region/)
+        elsif ($tag->{data} =~ /finished\s+region/)
         {
-            $ctg_info->{ContigFinishedFrom} = $self->get_unpadded_pos($tag->parent, $tag->start);
+            $ctg_info->{ContigFinishedFrom} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{start_pos});
         }
     }
     else
     {
-        if ($tag->text =~ /clone\s+site/)
+        if ($tag->{data} =~ /clone\s+site/)
         {
-            $ctg_info->{EndCloneSite} = $self->get_unpadded_pos($tag->parent, $tag->stop);
+            $ctg_info->{EndCloneSite} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{end_pos});
         }
-        elsif ($tag->text =~ /finished\s+region/)
+        elsif ($tag->{data} =~ /finished\s+region/)
         {
-            $ctg_info->{ContigFinishedTo} = $self->get_unpadded_pos($tag->parent, $tag->stop);
+            $ctg_info->{ContigFinishedTo} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{end_pos});
         }
     }
 
@@ -160,13 +167,13 @@ sub set_contig_data_for_dofinish
 {
     my ($self, $submit, $tag) = @_;
 
-    my $contig_num = $tag->parent;
+    my $contig_num = $tag->{contig_name};
     $contig_num =~ s/Contig//;
 
     my $info;
     $info->{doFinishCommentsContigNumber} = $contig_num;
-    $info->{doFinishCommentsStartBP} = $self->get_unpadded_pos($tag->parent, $tag->start);
-    $info->{doFinishCommentsEndBP} = $self->get_unpadded_pos($tag->parent, $tag->stop);
+    $info->{doFinishCommentsStartBP} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{start_pos});
+    $info->{doFinishCommentsEndBP} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{end_pos});
 
     push @{ $submit->{COMMENTS}->{doFinishComments} }, $info;
 
@@ -182,39 +189,48 @@ sub add_toggle
     return;
 }
 
-sub contig_seq
-{
-    my ($self, $contig_name, $seq) = @_;
+sub contig_seq {
+    my ($self, $contig_name) = @_;
+    $self->{_contig_seqs}->{$contig_name};
+}
 
-    $self->{_contig_seqs}->{$contig_name} = $seq if defined $seq;
+sub _add_contig {
+    my ($self, $contig) = @_;
+    my $sequence = RefImp::Ace::Sequence->new(bases => $contig->{consensus});
+    $self->{_contig_seqs}->{ $contig->{name} } = $sequence;
+}
 
-    return $self->{_contig_seqs}->{$contig_name};
+sub _add_contig_tags {
+    my ($self, $submit, $contig_tags) = @_;
+
+    for my $tag ( sort { $a->{start_pos} <=> $b->{start_pos} } @$contig_tags ) {
+        $self->_add_tag($submit, $tag);
+    }
+
+    return 1;
 }
 
 sub _add_tag {
     my ($self, $submit, $tag) = @_;
 
-    return unless $tag->type =~ /annotation/i
-        or $tag->type =~ /singlesubclone/i
-        or $tag->type =~ /dofinish/i;
-
-    $tag->text('') unless $tag->text;
+    return unless $tag->{tag_type} =~ /annotation/i
+        or $tag->{tag_type} =~ /singlesubclone/i
+        or $tag->{tag_type} =~ /dofinish/i;
 
     my $temp = {};
-
     # Start/End
-    if ($tag->text =~ /^comment\{\nstart/i or $tag->text =~ /^comment\{\nend/i) {
+    if ($tag->{data} =~ /^comment\{\nstart/i or $tag->{data} =~ /^comment\{\nend/i) {
         $self->set_contig_data($submit, $tag);
     }
     # doFinish
-    elsif ($tag->type =~ /dofinish/i) {
+    elsif ($tag->{tag_type} =~ /dofinish/i) {
         $self->set_contig_data_for_dofinish($submit, $tag);
     }
     # Digest Comments
-    elsif ($tag->text =~ /digest\s+comments/i) {
+    elsif ($tag->{data} =~ /digest\s+comments/i) {
         my $type = 'DigestComments';
 
-        my $comment = $tag->text;
+        my $comment = $tag->{data};
         $comment =~ s/^COMMENT\{\n\s*digest\s+comments\s*\n//;
         $comment =~ s/\C\}$//;
 
@@ -222,7 +238,7 @@ sub _add_tag {
         $submit->{GENINFO}->{$type . 'Text'} = $comment;
     }
     # Other Comments
-    elsif ($tag->text =~ /other\s+comments/i) {
+    elsif ($tag->{data} =~ /other\s+comments/i) {
         my $type = 'AnyOtherComments';
 
         $self->add_toggle($submit, $type);
@@ -231,24 +247,24 @@ sub _add_tag {
         push @{$submit->{COMMENTS}->{AnyOtherComments}}, $temp;
     }
     # PCR Only
-    elsif ($tag->text =~ /pcr\s+only|pcr_only/i) {
+    elsif ($tag->{data} =~ /pcr\s+only|pcr_only/i) {
         my $type = 'PCROnlyRegionsComments';
 
         $self->add_toggle($submit, $type);
         $self->set_from_and_to($temp, $tag, $type);
         $self->set_contig_num($temp, $tag, $type);
 
-        $temp->{PCROnlyRegionsCommentsDNASource} = ($tag->text =~ /genomic/) ? 'genomic dna': 'project dna';
+        $temp->{PCROnlyRegionsCommentsDNASource} = ($tag->{data} =~ /genomic/) ? 'genomic dna': 'project dna';
 
         push @{$submit->{COMMENTS}->{PCROnlyRegionsComments}}, $temp;
     }
     # Stolen Data Only
-    elsif ( $tag->text =~ /stolen\s+data/i ) {
+    elsif ( $tag->{data} =~ /stolen\s+data/i ) {
         my $type = 'OtherClonesComments';
         $self->add_toggle($submit, $type);
         $self->set_start_and_end($temp, $tag, $type);
         $self->set_contig_num($temp, $tag, $type);
-        my @comments = split ("\n", $tag->text);
+        my @comments = split ("\n", $tag->{data});
         for my $comment_string ( @comments ) {
             if ( $comment_string =~ /stolen\s+from:/i ) {
                 my $comment = "$'";
@@ -265,20 +281,20 @@ sub _add_tag {
         push @{$submit->{COMMENTS}->{OtherClonesComments} }, $temp;
     }
     # Single Subclone
-    elsif ($tag->type eq "SingleSubclone" or $tag->text =~ /singlesubclone/i or $tag->text =~ /single\s+subclone/i) {
+    elsif ($tag->{tag_type} eq "SingleSubclone" or $tag->{data} =~ /singlesubclone/i or $tag->{data} =~ /single\s+subclone/i) {
         my $type = 'SingleCloneCoverageComments';
 
         $self->add_toggle($submit, $type);
         $self->set_start_and_end($temp, $tag, $type);
 
-        $temp->{SingleCloneCoverageSubcloneType} = ($tag->text =~ /(m13)/i)
+        $temp->{SingleCloneCoverageSubcloneType} = ($tag->{data} =~ /(m13)/i)
         ? ucfirst ($1)
         : 'Plasmid';
 
         push @{$submit->{COMMENTS}->{SingleCloneCoverageComments}}, $temp;
     }
     # Unr Tandem
-    elsif($tag->text =~ /unr\s+tandem/i) {
+    elsif($tag->{data} =~ /unr\s+tandem/i) {
         my $type = 'UnresolvedTandemRepeatsComments';
 
         $self->add_toggle($submit, $type);
@@ -289,7 +305,7 @@ sub _add_tag {
         push @{$submit->{COMMENTS}->{UnresolvedTandemRepeatsComments}}, $temp;
     }
     # Unr SSR
-    elsif($tag->text =~ /unr\s+ssr/i) {
+    elsif($tag->{data} =~ /unr\s+ssr/i) {
         my $type = 'UnresolvedDiTriRepeatsComments';
 
         $self->add_toggle($submit, $type);
@@ -300,7 +316,7 @@ sub _add_tag {
         push @{$submit->{COMMENTS}->{UnresolvedDiTriRepeatsComments}}, $temp;
     }
     # Unr Mono
-    elsif($tag->text =~ /unresolved\s+mono/i or $tag->text =~ /unr\s+mono/i) {
+    elsif($tag->{data} =~ /unresolved\s+mono/i or $tag->{data} =~ /unr\s+mono/i) {
         my $type = 'HomopolymericRunComments';
 
         $self->add_toggle($submit, $type);
@@ -309,7 +325,7 @@ sub _add_tag {
         push @{$submit->{COMMENTS}->{HomopolymericRunComments}}, $temp;
     }
     # Unr Duplication
-    elsif($tag->text =~ /unr\s+duplication/i) {
+    elsif($tag->{data} =~ /unr\s+duplication/i) {
         my $type = 'UnresolvedLargeDuplicationsComments';
 
         $self->add_toggle($submit, $type);
@@ -321,7 +337,7 @@ sub _add_tag {
         push @{$submit->{COMMENTS}->{UnresolvedLargeDuplicationsComments}}, $temp;
     }
     # Unr Inverted
-    elsif($tag->text =~ /unr\s+inverted/i) {
+    elsif($tag->{data} =~ /unr\s+inverted/i) {
         my $type = 'UnresolvedInvertedRepeatsComments';
 
         $self->add_toggle($submit, $type);
@@ -336,7 +352,7 @@ sub _add_tag {
 
     }
     # Mini lib - Shatter and Tbomb
-    elsif($tag->text =~ /shatter/i or $tag->text =~ /tbomb/i or $tag->text =~ /transposon\s+bomb/i) {
+    elsif($tag->{data} =~ /shatter/i or $tag->{data} =~ /tbomb/i or $tag->{data} =~ /transposon\s+bomb/i) {
         my $type = 'MiniLibComments';
 
         $self->add_toggle($submit, $type);
@@ -344,14 +360,14 @@ sub _add_tag {
         $self->set_from_and_to($temp, $tag, $type);
         $self->set_plate_info($temp, $tag, $type);
 
-        $temp->{MiniLibCommentsCloneContains} = ($tag->text =~ /shatter/i)
+        $temp->{MiniLibCommentsCloneContains} = ($tag->{data} =~ /shatter/i)
         ? 'Shattered Library'
         : 'Transposon Bombing';
 
         push @{$submit->{COMMENTS}->{MiniLibComments}}, $temp;
     }
     # Ambiguous
-    elsif($tag->text =~ /ambiguous\s+base/i) {
+    elsif($tag->{data} =~ /ambiguous\s+base/i) {
         my $type = 'UnsureBasecallComments';
 
         $self->add_toggle($submit, $type);
@@ -360,20 +376,20 @@ sub _add_tag {
         push @{$submit->{COMMENTS}->{UnsureBasecallComments}}, $temp;
     }
     # Coor Approval
-    elsif ($tag->text =~ /coordinator\s+approval/i) {
+    elsif ($tag->{data} =~ /coordinator\s+approval/i) {
         my $type = 'NonGenbankComments';
 
         $self->add_toggle($submit, $type);
         $self->set_start_and_end($temp, $tag, $type);
 
-        $tag->text =~ /^(.*)/;
+        $tag->{data} =~ /^(.*)/;
         my $coordinator = $1;
         $temp->{NonGenbankCommentsCoordinators} = $coordinator;
 
         push @{$submit->{COMMENTS}->{NonGenbankComments}}, $temp;
     }
     # Assembly Piece
-    elsif ($tag->text =~ /assembly\s+piece/i) {
+    elsif ($tag->{data} =~ /assembly\s+piece/i) {
         my $type = 'AssemblyPiecesComments';
 
         $self->add_toggle($submit, $type);
@@ -383,9 +399,9 @@ sub _add_tag {
     }
     # Transposon
     elsif
-    ($tag->text =~ /transposon\s+in\s+finished\s+region/i
-            or $tag->text =~ /transposon\s+excised\s+from\s+finished\s+region/i
-            or $tag->text =~ /transposon\s+in\s+vector/i)
+    ($tag->{data} =~ /transposon\s+in\s+finished\s+region/i
+            or $tag->{data} =~ /transposon\s+excised\s+from\s+finished\s+region/i
+            or $tag->{data} =~ /transposon\s+in\s+vector/i)
     {
         my $type = 'TransposonComments';
 
@@ -393,12 +409,12 @@ sub _add_tag {
         $self->set_contig_num($temp, $tag, $type);
         $self->set_transposon_comment($temp, $tag, $type);
 
-        if ($tag->text =~ /excised/i)
+        if ($tag->{data} =~ /excised/i)
         {
             $self->set_excised_transposon($temp, $tag);
             $temp->{TransposonCommentsSequenceRegion} = 'Finished Region';
         }
-        elsif ($tag->text =~ /vector/i)
+        elsif ($tag->{data} =~ /vector/i)
         {
             $temp->{TransposonCommentsSequenceRegion} = 'Vector';
 
@@ -412,7 +428,7 @@ sub _add_tag {
 
         push @{$submit->{COMMENTS}->{TransposonComments}}, $temp;
     }
-    elsif ( $tag->text =~ /non\-repetitive\s+but\s+unresolved\s+region/ )
+    elsif ( $tag->{data} =~ /non\-repetitive\s+but\s+unresolved\s+region/ )
     {
         my $type = 'NonRepetitiveButUnresolvedRegionComments';
 
@@ -421,7 +437,7 @@ sub _add_tag {
 
         push @{$submit->{COMMENTS}->{NonRepetitiveButUnresolvedRegionComments}}, $temp;
     }
-    elsif ( $tag->text =~ /GSS\s+and\/or\s+mRNA\s+only\s+data/ )
+    elsif ( $tag->{data} =~ /GSS\s+and\/or\s+mRNA\s+only\s+data/ )
     {
         my $type = 'GSSAndOrMRNAOnlyDataComments';
 
@@ -443,15 +459,15 @@ sub get_unpadded_pos
 {
     my ($self, $contig_name, $padded_pos) = @_;
 
-    return $self->contig_seq($contig_name)->get_transform->get_unpad_position($padded_pos);
+    return $self->contig_seq($contig_name)->unpadded_for_padded_position($padded_pos);
 }
 
 sub set_start_and_end
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    $temp->{ $type.'StartBP' } = $self->get_unpadded_pos($tag->parent, $tag->start);
-    $temp->{ $type.'EndBP' } = $self->get_unpadded_pos($tag->parent, $tag->stop);
+    $temp->{ $type.'StartBP' } = $self->get_unpadded_pos($tag->{contig_name}, $tag->{start_pos});
+    $temp->{ $type.'EndBP' } = $self->get_unpadded_pos($tag->{contig_name}, $tag->{end_pos});
 
     return;
 }
@@ -460,8 +476,8 @@ sub set_from_and_to
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    $temp->{ $type . 'RegionFrom' } = $self->get_unpadded_pos($tag->parent, $tag->start);
-    $temp->{ $type . 'RegionTo' } = $self->get_unpadded_pos($tag->parent, $tag->stop);
+    $temp->{ $type . 'RegionFrom' } = $self->get_unpadded_pos($tag->{contig_name}, $tag->{start_pos});
+    $temp->{ $type . 'RegionTo' } = $self->get_unpadded_pos($tag->{contig_name}, $tag->{end_pos});
 
     return;
 }
@@ -469,7 +485,7 @@ sub set_contig_num
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    my $contig_name = $tag->parent;
+    my $contig_name = $tag->{contig_name};
     $contig_name =~ s/Contig//;
 
     $temp->{ $type . 'ContigNumber' } = $contig_name;
@@ -481,7 +497,7 @@ sub set_comment
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    my $comment = $tag->text;
+    my $comment = $tag->{data};
     $comment =~ s/^COMMENT\{\n//;
     $comment =~ s/\C\}$//;
 
@@ -494,7 +510,7 @@ sub set_transposon_comment
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    my $comment = $tag->text;
+    my $comment = $tag->{data};
     $comment =~ s/^COMMENT\{\n//;
     $comment =~ s/\C\}$//;
 
@@ -508,7 +524,7 @@ sub set_orientation
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    $tag->text =~ /meets finishing standards:\s*(.*)\n/;
+    $tag->{data} =~ /meets finishing standards:\s*(.*)\n/;
     my $orientation = $1;
 
     $temp->{$type.'OrientationCheckbox'} = ( defined $orientation && $orientation =~ /n/i) ? 1 : 0;
@@ -520,7 +536,7 @@ sub set_fin_standards
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    $tag->text =~ /meets finishing standards:\s*(.*)\n/;
+    $tag->{data} =~ /meets finishing standards:\s*(.*)\n/;
     my $fin_standards = $1 || '';
 
     $temp->{$type.'DoesNotMeetFinishingStandardsCheckbox'} = ($fin_standards =~ /n/i) ? 1 : 0;
@@ -533,7 +549,7 @@ sub set_discrepancy
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    $tag->text =~ /discrepancies:\s*(.*)\n/;
+    $tag->{data} =~ /discrepancies:\s*(.*)\n/;
     my $discrepancy = $1;
 
     $temp->{$type.'DiscrepanciesCheckbox'} = ( defined $discrepancy && $discrepancy =~ /y/i) ? 1 : 0;
@@ -545,11 +561,11 @@ sub set_sizing_info
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    my ($sizing) = $tag->text =~ /sizing:\s*(digest|subclone|pcr|too large to size)\s*\n/i;
-    my ($subclone) = $tag->text =~ /subclone:\s*(.*)\n/;
-    my ($real) = $tag->text =~ /real\/product_size:\s*(.*)\n/;
-    my ($insilico) = $tag->text =~ /insilico:\s*(.*)\n/;
-    my ($lib_size) = $tag->text =~ /library_size:\s*(.*)\n/;
+    my ($sizing) = $tag->{data} =~ /sizing:\s*(digest|subclone|pcr|too large to size)\s*\n/i;
+    my ($subclone) = $tag->{data} =~ /subclone:\s*(.*)\n/;
+    my ($real) = $tag->{data} =~ /real\/product_size:\s*(.*)\n/;
+    my ($insilico) = $tag->{data} =~ /insilico:\s*(.*)\n/;
+    my ($lib_size) = $tag->{data} =~ /library_size:\s*(.*)\n/;
 
 
     $temp->{$type.'SizingInfo'} = $sizing;
@@ -558,7 +574,7 @@ sub set_sizing_info
 
     if (defined $sizing and $sizing =~ /digest/i)
     {
-        my ($enzyme) = $tag->text =~ /enzyme:\s*(\w*)\s*\n/;
+        my ($enzyme) = $tag->{data} =~ /enzyme:\s*(\w*)\s*\n/;
 
         $temp->{$type.'Enzyme'} = $enzyme;
         $temp->{$type.'InSilico'} = $insilico;
@@ -583,11 +599,11 @@ sub set_plate_info
 {
     my ($self, $temp, $tag, $type) = @_;
 
-    $tag->text =~ /DNA source:\s*(.*)\n/;
+    $tag->{data} =~ /DNA source:\s*(.*)\n/;
     $temp->{$type.'DNASource'} = $1;
-    $tag->text =~ /Plate name:\s*(.*)\n/;
+    $tag->{data} =~ /Plate name:\s*(.*)\n/;
     $temp->{$type.'PlateName'} = $1;
-    $tag->text =~ /Plasmid\/pcr name:\s*(.*)\n/;
+    $tag->{data} =~ /Plasmid\/pcr name:\s*(.*)\n/;
     $temp->{$type.'TextComment'} = $1;
     $temp->{$type.'TextCommentToggle'} = 1;
 
@@ -601,14 +617,14 @@ sub set_finished_region_transposon
     $temp->{TransposonCommentsSequenceRegion} = 'Finished Region';
 
     # Ugly
-    $temp->{TransposonCommentsLastBaseBefore} = $self->get_base_for_padded_position($tag->parent, $tag->start - 1);
-    $temp->{TransposonCommentsLastBaseBeforePosition} = $self->get_unpadded_pos($tag->parent, $tag->start - 1);
-    $temp->{TransposonCommentsFirstBaseOf} = $self->get_base_for_padded_position($tag->parent, $tag->start);
-    $temp->{TransposonCommentsFirstBaseOfPosition} = $self->get_unpadded_pos($tag->parent, $tag->start);
-    $temp->{TransposonCommentsLastBaseOf} = $self->get_base_for_padded_position($tag->parent, $tag->stop);
-    $temp->{TransposonCommentsLastBaseOfPosition} = $self->get_unpadded_pos($tag->parent, $tag->stop);
-    $temp->{TransposonCommentsFirstBaseAfter} = $self->get_base_for_padded_position($tag->parent, $tag->stop + 1);
-    $temp->{TransposonCommentsFirstBaseAfterPosition} = $self->get_unpadded_pos($tag->parent, $tag->stop + 1);
+    $temp->{TransposonCommentsLastBaseBefore} = $self->get_base_for_padded_position($tag->{contig_name}, $tag->{start_pos} - 1);
+    $temp->{TransposonCommentsLastBaseBeforePosition} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{start_pos} - 1);
+    $temp->{TransposonCommentsFirstBaseOf} = $self->get_base_for_padded_position($tag->{contig_name}, $tag->{start_pos});
+    $temp->{TransposonCommentsFirstBaseOfPosition} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{start_pos});
+    $temp->{TransposonCommentsLastBaseOf} = $self->get_base_for_padded_position($tag->{contig_name}, $tag->{end_pos});
+    $temp->{TransposonCommentsLastBaseOfPosition} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{end_pos});
+    $temp->{TransposonCommentsFirstBaseAfter} = $self->get_base_for_padded_position($tag->{contig_name}, $tag->{end_pos} + 1);
+    $temp->{TransposonCommentsFirstBaseAfterPosition} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{end_pos} + 1);
 
     return;
 }
@@ -618,14 +634,14 @@ sub set_excised_transposon
     my ($self, $temp, $tag) = @_;
 
     # More Ugly
-    $temp->{TransposonCommentsLastBaseBefore} = $self->get_base_for_padded_position($tag->parent, $tag->start);
-    $temp->{TransposonCommentsLastBaseBeforePosition} = $self->get_unpadded_pos($tag->parent, $tag->start);
+    $temp->{TransposonCommentsLastBaseBefore} = $self->get_base_for_padded_position($tag->{contig_name}, $tag->{start_pos});
+    $temp->{TransposonCommentsLastBaseBeforePosition} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{start_pos});
     $temp->{TransposonCommentsFirstBaseOf} = 'N';
     $temp->{TransposonCommentsFirstBaseOfPosition} = 'NA';
     $temp->{TransposonCommentsLastBaseOf} = 'N';
     $temp->{TransposonCommentsLastBaseOfPosition} = 'NA';
-    $temp->{TransposonCommentsFirstBaseAfter} = $self->get_base_for_padded_position($tag->parent, $tag->stop);
-    $temp->{TransposonCommentsFirstBaseAfterPosition} = $self->get_unpadded_pos($tag->parent, $tag->stop);
+    $temp->{TransposonCommentsFirstBaseAfter} = $self->get_base_for_padded_position($tag->{contig_name}, $tag->{end_pos});
+    $temp->{TransposonCommentsFirstBaseAfterPosition} = $self->get_unpadded_pos($tag->{contig_name}, $tag->{end_pos});
 
     return;
 }
