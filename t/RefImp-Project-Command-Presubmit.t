@@ -7,8 +7,7 @@ use TestEnv;
 
 use Sub::Install;
 use Test::Exception;
-#use Test::More tests => 4;
-use Test::More skip_all => 'Not ready for Travis CI';
+use Test::More tests => 4;
 
 my %setup;
 subtest 'setup' => sub{
