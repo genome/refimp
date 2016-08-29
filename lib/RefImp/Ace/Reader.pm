@@ -25,11 +25,6 @@ sub new {
     bless \%self, $class;
 }
 
-sub input_handle {
-    my $self = shift;
-    return $self->{input};
-}
-
 sub next_object {
     my ($self) = @_;
     my $IN = $self->{input};
