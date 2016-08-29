@@ -193,7 +193,7 @@ sub _build_contig_tag {
     chomp $line;
 	$line =~ s/^\s*// if $line =~ /\w/;     
     @ret_val{'contig_name', 'tag_type', 'program', 'start_pos', 'end_pos', 'date', 'no_trans'} = split(/ /, $line);
-    my $data;
+    my $data = '';
     while ($line = <$IN>) {
 		$line =~ s/^\s*// if $line =~ /\w/;
         if ($line =~ /^}/) {
