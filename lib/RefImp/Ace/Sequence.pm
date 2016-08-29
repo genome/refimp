@@ -49,6 +49,9 @@ sub _init_ {
     $self->{unpadded_to_padded} = \@unpadded_to_padded;
 }
 
+sub bases_length { length $_[0]->{bases} }
+sub bases_uppadded_length { length $_[0]->{bases_upadded} }
+
 sub unpadded_for_padded_position {
 	my ($self, $padded_position) = @_;
 

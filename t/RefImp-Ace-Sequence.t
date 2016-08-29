@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my $pkg = 'RefImp::Ace::Sequence';
 
@@ -34,6 +34,14 @@ subtest 'new' => sub{
     is_deeply($seq->{padded_to_unpadded}, \@expected_padded_to_unpadded, 'padded_to_unpadded');
 
     is_deeply($seq->{bases_upadded}, 'AATTTCCCGGGG', 'unpadded bases')
+
+};
+
+subtest 'lengths' => sub{
+    plan tests => 2;
+
+    is($seq->bases_length, 22, 'bases length');
+    is($seq->bases_uppadded_length, 12, 'bases unpadded length');
 
 };
 
