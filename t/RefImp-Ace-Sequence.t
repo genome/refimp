@@ -19,7 +19,7 @@ subtest 'setup' => sub{
 
 my $seq;
 subtest 'new' => sub{
-    plan tests => 4;
+    plan tests => 5;
 
     throws_ok(sub{ $pkg->new; }, qr/No bases given/, 'new fails w/o bases');
 
@@ -32,6 +32,8 @@ subtest 'new' => sub{
     is_deeply($seq->{unpadded_to_padded}, \@expected_unpadded_to_padded, 'unpadded_to_padded');
     my @expected_padded_to_unpadded = (qw/ 0 1 * * * 2 3 4 * 5 6 7 * * * * 8 9 10 11 * * /);
     is_deeply($seq->{padded_to_unpadded}, \@expected_padded_to_unpadded, 'padded_to_unpadded');
+
+    is_deeply($seq->{bases_upadded}, 'AATTTCCCGGGG', 'unpadded bases')
 
 };
 

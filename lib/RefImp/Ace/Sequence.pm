@@ -23,16 +23,16 @@ sub _validate_ {
 sub _init_ {
     my $self = shift;
 
-    my $bases = $self->{bases};
-	my $bases_length = length($bases);
+	my $bases_length = length($self->{bases});
+    my $pad_char = $self->{pad_char};
+    $self->{bases_upadded} = $self->{bases};
+    $self->{bases_upadded} =~ s/\Q$pad_char\E//g;
 
 	my (@padded_to_unpadded, @unpadded_to_padded);
 	my $unpadded_index = 0;
-    my $pad_char = $self->{pad_char};
-
 	for ( my $padded_index = 0; $padded_index < $bases_length; $padded_index++ ) {
 		$unpadded_to_padded[$unpadded_index] = $padded_index;
-        if( substr($bases, $padded_index, 1) ne $pad_char ) {
+        if( substr($self->{bases}, $padded_index, 1) ne $pad_char ) {
 			$padded_to_unpadded[$padded_index] = $unpadded_index;
 			$unpadded_index++;
 		}
