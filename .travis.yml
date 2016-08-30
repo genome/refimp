@@ -11,7 +11,7 @@ install:
   - cpan-install --deps       # installs prereqs, including recommends
   - cpan-install --coverage   # installs converage prereqs, if enabled
   - cpan-install --quiet --notest Devel::Cover::Report::Coveralls
-  - cpan-install 'Bio::Seq' 'Bio::SeqIO' 'File::Slurp' 'Findid::Utility' 'JSON' 'MIME::Lite' 'Test::MockObject' 'UR~0.44' 'WWW::Mechanize' 'YAML' 
+  - cpan-install 'Bio::Seq' 'Bio::SeqIO' 'File::Slurp' 'JSON' 'MIME::Lite' 'Test::MockObject' 'UR~0.44' 'WWW::Mechanize' 'YAML' 
 before_script:
   - coverage-setup
 script:
