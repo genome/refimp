@@ -7,7 +7,6 @@ use Carp;
 use IO::File;
 use File::Basename;
 use File::Spec;
-use UR;
 
 class RefImp::Ace::Directory {
     id_by => {
@@ -18,7 +17,7 @@ class RefImp::Ace::Directory {
 sub create {
     my ($class, %params) = @_;
     
-    $class->fatal_message("No path given to %s!", $class) if not $params{path};
+    die $class->error_message("No path given to %s!", $class) if not $params{path};
 
     my $self = $class->SUPER::create(%params);
     return if not $self;
