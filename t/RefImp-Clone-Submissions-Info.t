@@ -6,8 +6,7 @@ use warnings;
 use TestEnv;
 
 use File::Spec;
-#use Test::More tests => 3;
-use Test::More skip_all => 'Not ready for Travis CI';
+use Test::More tests => 3;
 use YAML;
 
 my $pkg = 'RefImp::Clone::Submissions::Info';
