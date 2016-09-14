@@ -3,6 +3,12 @@
 use strict;
 use warnings;
 
+use Carp::Heavy; # so FindBin doesn't break
+use FindBin;
+
+use lib "$FindBin::Bin/../../perl5/lib/perl5";
+use lib "$FindBin::Bin/../../refimp/lib";
+
 BEGIN {
     # FIXME Temporary
     if ( ! exists $ENV{REFIMP_CONFIG_FILE} ) {
