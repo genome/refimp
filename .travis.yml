@@ -8,7 +8,8 @@ before_install:
   - build-perl
   - perl -V
 install:
-  - cpanm -n --installdeps
+  - pwd -P
+  - cpanm -n --installdeps .
   - cpan-install 'https://github.com/genome/UR.git' # install UR from github
 before_script:
   - coverage-setup
