@@ -14,5 +14,4 @@ requires 'Test::Exception';
 requires 'Test::MockObject';
 requires 'WWW::Mechanize';
 requires 'YAML';
-requires 'UR', '0.44', git => 'https://github.com/genome/UR.git';
 

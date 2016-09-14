@@ -7,6 +7,11 @@ before_install:
   - source ~/travis-perl-helpers/init
   - build-perl
   - perl -V
+install:
+  - cpan-install --deps       # installs prereqs, including recommends
+  - cpan-install --coverage   # installs converage prereqs, if enabled
+  - cpan-install --quiet --notest Devel::Cover::Report::Coveralls
+  - cpan-install 'https://github.com/genome/UR.git' # install UR from github
 before_script:
   - coverage-setup
 script:
