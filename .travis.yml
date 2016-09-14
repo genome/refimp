@@ -1,17 +1,7 @@
 language: perl
 perl:
-  - "5.12"
+  - "5.10"
 sudo: false
-before_install:
-  - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
-  - source ~/travis-perl-helpers/init
-  - build-perl
-  - perl -V
-install:
-  - cpan-install --deps       # installs prereqs, including recommends
-  - cpan-install --coverage   # installs converage prereqs, if enabled
-  - cpan-install --quiet --notest Devel::Cover::Report::Coveralls
-  - cpan-install 'Bio::Seq' 'Bio::SeqIO' 'File::Slurp' 'JSON' 'MIME::Lite' 'Test::MockObject' 'https://github.com/genome/UR.git' 'WWW::Mechanize' 'YAML'
 before_script:
   - coverage-setup
 script:
