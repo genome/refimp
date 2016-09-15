@@ -9,7 +9,7 @@ use Net::LDAP;
 use Sub::Install;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 my %bobama_attrs = (
     'unix_login' => 'bobama',
@@ -22,14 +22,9 @@ subtest 'setup' => sub{
 
     use_ok('RefImp::Resources::LDAP');
 
-    Sub::Install::reinstall_sub({
-            code => sub{ @entries },
-            into => 'Net::LDAP',
-            as => 'entries',
-        });
-
     my $mesg = Test::MockObject->new;
     $mesg->set_false('code');
+    $mesg->mock('entries', sub{ @entries });
 
     for my $method (qw/ bind unbind /) {
         Sub::Install::reinstall_sub({
@@ -58,6 +53,29 @@ subtest 'setup' => sub{
     $bobama = Test::MockObject->new;
     $bobama->mock('get_value', sub{ $bobama_attrs{$_[1]} });
     is($bobama->get_value('mail'), $bobama_attrs{mail}, 'bobama setup');
+
+};
+
+subtest 'ldap_user_for_unix_login' => sub{
+    plan tests => 8; # 4 + param handling above
+
+    throws_ok(
+        sub{ RefImp::Resources::LDAP->ldap_user_for_unix_login; },
+        qr/but 2 were expected/,
+        'fails w/o unix_login',
+    );
+    my $ldap_user;
+    lives_ok(
+        sub{ $ldap_user = RefImp::Resources::LDAP->ldap_user_for_unix_login($bobama_attrs{unix_login}); },
+        'lives when no entries are found',
+    );
+
+    @entries = $bobama;
+    lives_ok(
+        sub{ $ldap_user = RefImp::Resources::LDAP->ldap_user_for_unix_login($bobama_attrs{unix_login}); },
+        'lives when no entries are found',
+    );
+    is($ldap_user, $bobama, 'got correct ldap user');
 
 };
 
