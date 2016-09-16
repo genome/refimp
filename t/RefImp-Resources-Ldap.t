@@ -9,7 +9,7 @@ use Net::LDAP;
 use Sub::Install;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 my %bobama_attrs = (
     'unix_login' => 'bobama',
@@ -73,9 +73,27 @@ subtest 'ldap_user_for_unix_login' => sub{
     @entries = $bobama;
     lives_ok(
         sub{ $ldap_user = RefImp::Resources::LDAP->ldap_user_for_unix_login($bobama_attrs{unix_login}); },
-        'lives when no entries are found',
+        "lives when user for $bobama_attrs{unix_login} is found",
     );
     is($ldap_user, $bobama, 'got correct ldap user');
+
+};
+
+subtest 'mail_for_unix_login' => sub{
+    plan tests => 5; # 4 + param handling above
+
+    throws_ok(
+        sub{ RefImp::Resources::LDAP->mail_for_unix_login; },
+        qr/but 2 were expected/,
+        'fails w/o unix_login',
+    );
+
+    my $mail;
+    lives_ok(
+        sub{ $mail = RefImp::Resources::LDAP->mail_for_unix_login($bobama_attrs{unix_login}); },
+        "lives when mail for $bobama_attrs{unix_login} is found",
+    );
+    is($mail, $bobama_attrs{mail}, 'got correct mail');
 
 };
 

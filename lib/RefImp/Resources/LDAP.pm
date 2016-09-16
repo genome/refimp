@@ -36,5 +36,12 @@ sub ldap_user_for_unix_login {
     $ldap_users[0];
 }
 
+sub mail_for_unix_login {
+    my ($class, $unix_login) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+    my $ldap_user = $class->ldap_user_for_unix_login($unix_login);
+    return if not $ldap_user;
+    $ldap_user->get_value('mail');
+}
+
 1;
 
