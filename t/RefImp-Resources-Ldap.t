@@ -22,16 +22,24 @@ subtest 'setup' => sub{
 
     use_ok('RefImp::Resources::LDAP');
 
+    my $ldap = Test::MockObject->new;
+    Sub::Install::reinstall_sub({
+            code => sub{
+                my ($class, $url, %p) = @_;
+                is($url, RefImp::Config::get('net_ldap_url'), 'Net::LDAP URL');
+                is_deeply(\%p, {version => 3 }, 'Net::LDAP params');
+                $ldap;
+            },
+            into => 'Net::LDAP',
+            as => 'new',
+        });
+
     my $mesg = Test::MockObject->new;
     $mesg->set_false('code');
     $mesg->mock('entries', sub{ @entries });
 
     for my $method (qw/ bind unbind /) {
-        Sub::Install::reinstall_sub({
-                code => sub{ $mesg },
-                into => 'Net::LDAP',
-                as => $method,
-            });
+        $ldap->mock($method, sub{ $mesg });
     }
 
     my %methods_and_expected_params = (
@@ -39,15 +47,14 @@ subtest 'setup' => sub{
         search => { base => "dc=gsc,dc=wustl,dc=edu", filter => "(&(objectClass=Person)(uid=$bobama_attrs{unix_login}))", },
     );
     for my $method ( keys %methods_and_expected_params ) {
-        Sub::Install::reinstall_sub({
-                code => sub{ 
-                    my ($net_ldap, %p) = @_;
-                    is_deeply(\%p, $methods_and_expected_params{$method}, "$method params match");
-                    $mesg;
-                },
-                into => 'Net::LDAP',
-                as => $method,
-            });
+        $ldap->mock(
+            $method,
+            sub{
+                my ($ldap, %p) = @_;
+                is_deeply(\%p, $methods_and_expected_params{$method}, "$method params match");
+                $mesg;
+            },
+        );
     }
 
     $bobama = Test::MockObject->new;
@@ -57,7 +64,7 @@ subtest 'setup' => sub{
 };
 
 subtest 'ldap_user_for_unix_login' => sub{
-    plan tests => 8; # 4 + param handling above
+    plan tests => 12; # 4 + param handling above
 
     throws_ok(
         sub{ RefImp::Resources::LDAP->ldap_user_for_unix_login; },
@@ -80,7 +87,7 @@ subtest 'ldap_user_for_unix_login' => sub{
 };
 
 subtest 'mail_for_unix_login' => sub{
-    plan tests => 5; # 4 + param handling above
+    plan tests => 7; # 4 + param handling above
 
     throws_ok(
         sub{ RefImp::Resources::LDAP->mail_for_unix_login; },

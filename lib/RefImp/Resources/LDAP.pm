@@ -11,7 +11,7 @@ class RefImp::Resources::LDAP {};
 sub ldap_user_for_unix_login {
     my ($class, $unix_login) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
 
-    my $ldap = Net::LDAP->new('ipa1.gsc.wustl.edu', version => 3);
+    my $ldap = Net::LDAP->new(RefImp::Config::get('net_ldap_url'), version => 3);
     my $mesg = $ldap->start_tls(verify => 'none');
     $mesg->code && die $mesg->error;
 
