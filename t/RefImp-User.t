@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use TestEnv;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my $pkg = 'RefImp::User';
 use_ok($pkg) or die;
@@ -33,6 +33,14 @@ subtest 'user functions' => sub{
     my $function = RefImp::User::Function->create(gu_id => $user->id);
     ok($function, 'create function');
     is_deeply([$user->functions], [$function], 'user has functions');
+
+};
+
+subtest 'email' => sub{
+    plan tests => 2;
+
+    is($user->email_domain, 'wustl.edu', 'email domain');
+    is($user->email, 'bobama@'.$user->email_domain, 'email');
 
 };
 
