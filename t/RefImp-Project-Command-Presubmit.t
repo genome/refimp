@@ -35,6 +35,13 @@ subtest 'setup' => sub{
     TestEnv::Clone::setup_test_lims_rest_api;
     TestEnv::Project::setup_test_overlaps;
 
+    # Do not check LDAP for mail
+    Sub::Install::reinstall_sub({
+            code => sub{ undef },
+            as => 'mail_for_unix_login',
+            into => 'RefImp::Resources::LDAP',
+        });
+
 };
 
 subtest 'cannot presubmit project with incorrect status' => sub{

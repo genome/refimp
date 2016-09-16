@@ -8,6 +8,7 @@ requires 'File::Slurp';
 requires 'FindBin';
 requires 'JSON';
 requires 'MIME::Lite';
+requires 'Net::LDAP';
 requires 'Params::Validate';
 requires 'Test::More';
 requires 'Test::Exception';
