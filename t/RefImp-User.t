@@ -37,10 +37,24 @@ subtest 'user functions' => sub{
 };
 
 subtest 'email' => sub{
-    plan tests => 2;
+    plan tests => 3;
 
     is($user->email_domain, 'wustl.edu', 'email domain');
+
+    Sub::Install::reinstall_sub({
+            code => sub{ undef },
+            as => 'mail_for_unix_login',
+            into => 'RefImp::Resources::LDAP',
+        });
     is($user->email, 'bobama@'.$user->email_domain, 'email');
+
+    my $ldap_mail = 'barack.obama@usa.gov';
+    Sub::Install::reinstall_sub({
+            code => sub{ $ldap_mail },
+            as => 'mail_for_unix_login',
+            into => 'RefImp::Resources::LDAP',
+        });
+    is($user->email, $ldap_mail, 'email from LDAP');
 
 };
 

@@ -7,7 +7,7 @@ use RefImp;
 
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
-use RefImp::Resources::LimsRestApi;
+use RefImp::Resources::LDAP;
 
 =doc 2016-05-27
 
@@ -53,7 +53,14 @@ class RefImp::User {
 };
 
 sub email_domain { 'wustl.edu' }
-sub email { join('@', $_[0]->unix_login, $_[0]->email_domain) }
+sub email {
+    my $self = shift;
+    # Try LDAP first...
+    my $mail = RefImp::Resources::LDAP->mail_for_unix_login( $self->unix_login );
+    return $mail if $mail;
+    # Return the unix_login and domain
+    join('@', $self->unix_login, $self->email_domain);
+}
 
 sub first_initial { uc substr($_[0]->first_name, 0, 1); }
 sub last_name_uc { sprintf('%s', join(' ', map { ucfirst } split(' ', $_[0]->last_name))); }
