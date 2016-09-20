@@ -10,13 +10,14 @@ use Test::More tests => 5;
 
 my $clone;
 subtest "basics" => sub{
-    plan tests => 7;
+    plan tests => 8;
 
     use_ok('RefImp::Clone') or die;
 
     $clone = RefImp::Clone->get(1);
     ok($clone, 'got clone');
     ok($clone->name, 'clone has a name');
+    ok($clone->__display_name__, '__display_name__');
     ok($clone->type, 'clone has a type');
     ok($clone->status, 'clone has a status');
 

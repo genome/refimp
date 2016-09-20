@@ -55,6 +55,8 @@ class RefImp::Clone {
     data_source => RefImp::Config::get('ds_oltp'),
 };
 
+sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }
+
 sub taxonomy {
     my ($self, $attribute) = @_;
     return $self->{_taxonmy} if $self->{taxonomy};
