@@ -1,4 +1,4 @@
-#!/usr/bin/env perl5.12.1
+#!/usr/bin/env perl5.10.1
 
 use strict;
 use warnings 'FATAL';
