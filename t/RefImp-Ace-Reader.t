@@ -1,4 +1,4 @@
-#!/usr/bin/env lims-perl
+#!/usr/bin/env perl5.12.1
 
 use strict;
 use warnings;
