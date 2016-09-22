@@ -96,9 +96,9 @@ sub _get_sequence_from_most_recent_submission {
 sub _get_sequence_from_most_recent_ace_file {
     my $self = shift;
 
-    my $project_directory = RefImp::Clone->project_directory_for_name( $self->project->name );
+    my $project_directory = $self->project->directory;
     if ( not $project_directory or not -d $project_directory ) {
-        $self->warning_message('No project directory for %s', $self->proejct->name);
+        $self->warning_message('No project directory for %s', $self->project->name);
         return;
     }
 

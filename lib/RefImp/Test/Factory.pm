@@ -24,7 +24,6 @@ sub setup_test_clone {
         status => 'active',
         type => 'plasmid',
     ) or die "Failed to create clone for $name";
-    -d $clone->project_directory or die "Clone dir does not exists for $name";
 
     my $lims_rest_api = Test::MockObject->new;
     my %taxonomy = (
@@ -60,6 +59,7 @@ sub setup_test_project {
     $project = RefImp::Project->create(
         name => $name,
     ) or die "Failed to create project for $name";
+    -d $project->directory or die "Project directory does not exists for $name";
 
     return $project;
 };

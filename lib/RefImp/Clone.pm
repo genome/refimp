@@ -70,26 +70,13 @@ sub species_name { $_[0]->taxonomy->species_name }
 sub species_latin_name { $_[0]->taxonomy->species_latin_name }
 sub chromosome { $_[0]->taxonomy->chromosome }
 
-sub project_directory {
-    my ($self) = validate_pos(@_, {type => OBJECT, isa => __PACKAGE__});
-    return $self->project_directory_for_name($self->name);
-}
-
-sub project_directory_for_name {
-    my ($self, $name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
-
-    my $seqmgr_link = File::Spec->join( RefImp::Config::get('seqmgr'), $name );
-    return $seqmgr_link if -d $seqmgr_link;
-    return;
-}
-
-sub notes_file_path { File::Spec->join($_[0]->project_directory, $_[0]->name.'.notes'); }
+sub notes_file_path { File::Spec->join($_[0]->project->directory, $_[0]->name.'.notes'); }
 sub notes_file { RefImp::Project::NotesFile->new($_[0]->notes_file_path); }
 
 sub ace0_path {
     my $self = shift;
 
-    my $project_directory = $self->project_directory;
+    my $project_directory = $self->project->directory;
     return if not -d $project_directory;
 
     my @exts = (qw/ fasta screen /);
