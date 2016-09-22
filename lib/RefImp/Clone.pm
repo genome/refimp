@@ -5,7 +5,7 @@ use warnings;
 
 use RefImp;
 
-use RefImp::Clone::NotesFile;
+use RefImp::Project::NotesFile;
 use RefImp::Clone::Taxon;
 
 use File::Spec;
@@ -84,7 +84,7 @@ sub project_directory_for_name {
 }
 
 sub notes_file_path { File::Spec->join($_[0]->project_directory, $_[0]->name.'.notes'); }
-sub notes_file { RefImp::Clone::NotesFile->new($_[0]->notes_file_path); }
+sub notes_file { RefImp::Project::NotesFile->new($_[0]->notes_file_path); }
 
 sub ace0_path {
     my $self = shift;

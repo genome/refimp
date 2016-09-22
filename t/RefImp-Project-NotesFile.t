@@ -9,7 +9,7 @@ use File::Spec;
 use Test::Exception;
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Clone::NotesFile';
+my $pkg = 'RefImp::Project::NotesFile';
 use_ok($pkg) or die;
 
 my $notes_file;
