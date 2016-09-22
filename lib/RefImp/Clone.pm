@@ -70,9 +70,6 @@ sub species_name { $_[0]->taxonomy->species_name }
 sub species_latin_name { $_[0]->taxonomy->species_latin_name }
 sub chromosome { $_[0]->taxonomy->chromosome }
 
-sub notes_file_path { File::Spec->join($_[0]->project->directory, $_[0]->name.'.notes'); }
-sub notes_file { RefImp::Project::NotesFile->new($_[0]->notes_file_path); }
-
 sub ace0_path {
     my $self = shift;
 

@@ -7,6 +7,7 @@ use RefImp;
 
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
+use RefImp::Project::NotesFile;
 use RefImp::Resources::LimsRestApi;
 
 =doc 2016-05-03
@@ -130,6 +131,9 @@ sub directory_for_name {
     return $seqmgr_link if -d $seqmgr_link;
     return;
 }
+
+sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); }
+sub notes_file { RefImp::Project::NotesFile->new($_[0]->notes_file_path); }
 
 1;
 

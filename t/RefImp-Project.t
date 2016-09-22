@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use File::Spec qw();
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my $project;
 subtest "basics" => sub{
@@ -48,6 +48,16 @@ subtest "claimers" => sub{
         my $claimed_as_method = 'claimed_as_'.$type;
         is($project->$claimed_as_method, $claimer, "added $type to project");
     }
+
+};
+
+subtest 'notes file' => sub{
+    plan tests => 3;
+
+    my $notes_file_path = $project->notes_file_path;
+    ok($notes_file_path, 'notes_file_path');
+    ok(-s $notes_file_path, 'notes_file_path exists');
+    ok($project->notes_file, 'notes_file');
 
 };
 
