@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use IO::File;
 
 class RefImp::Project::Command::Notes::Create {
-    is => 'RefImp::Project::Command::Base',
+    is => 'RefImp::Project::Command::BaseWithMany',
     has_input => {
         prefinisher => {
             is => 'Text',
@@ -15,10 +15,11 @@ class RefImp::Project::Command::Notes::Create {
     },
 };
 
-sub execute {
-    my $self = shift;
-    my $project = $self->project;
-    $self->status_message('Create notes file for %s', $project->name);
+sub _before_execute { $_[0]->status_message('Create projects notes files...') }
+
+sub _execute_with_project {
+    my ($self, $project) = @_;
+    $self->status_message('Project: %s', $project->name);
 
     my $notes_file_path = $project->notes_file_path;
     my @old_notes_lines;
@@ -51,12 +52,12 @@ sub execute {
         $notes_fh->print($line);
     }
     $notes_fh->print("\n");
-
     $notes_fh->close;
 
-    $self->status_message('Notes file: %s', $notes_file_path);
     return 1;
 }
+
+sub _after_execute { $_[0]->status_message('Create projects notes files...OK') }
 
 1;
 

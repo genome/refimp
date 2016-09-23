@@ -29,7 +29,7 @@ subtest 'execute' => sub {
     $fh->close;
 
     my $cmd = RefImp::Project::Command::Notes::Create->execute(
-        project => $project,
+        projects => [ $project ],
         prefinisher => 'bobama',
     );
     ok($cmd->result, 'execute notes create');
