@@ -13,6 +13,7 @@ requires 'Params::Validate';
 requires 'Test::More';
 requires 'Test::Exception';
 requires 'Test::MockObject';
+requires 'UR', '0.45';
 requires 'WWW::Mechanize';
 requires 'YAML';
 
