@@ -45,7 +45,7 @@ class RefImp::Project {
         name => { is => 'Text', doc => 'Name of the project.', },
     },
     has_optional => {
-        consensus_directory => { is => 'Text', doc => 'File system location.', },
+        directory => { is => 'Text', column_name => 'consensus_directory', doc => 'File system location.', },
         status => { is => 'Text', column_name => 'prosta_project_status', },
     },
     has_many => {

@@ -17,7 +17,7 @@ subtest "basics" => sub{
     $project = RefImp::Project->get(1);
     ok($project, 'got project');
     ok($project->name, 'project has a name');
-    can_ok($project, 'consensus_directory');
+    can_ok($project, 'directory');
 
     my $expected_directory = File::Spec->join( RefImp::Config::get('seqmgr'), $project->name);
     is($project->directory, $expected_directory, 'directory');
