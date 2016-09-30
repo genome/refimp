@@ -3,8 +3,6 @@ package RefImp::Project;
 use strict;
 use warnings;
 
-use RefImp;
-
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
 use RefImp::Project::NotesFile;
@@ -112,24 +110,21 @@ class RefImp::Project {
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }
 
+sub directory {
+    my ($self, $value) = @_;
+    if ( not defined $value ) {
+        return $self->__directory if $self->__directory;
+        return File::Spec->join( RefImp::Config::get('seqmgr'), $self->name );
+    }
+    $self->fatal_message('Directory to set does not exist! %s', $value) if not -d $value;
+    return $self->__directory($value);
+}
+
 sub status {
     my ($self, $value) = @_;
     return $self->__status if not defined $value;
     RefImp::Project::StatusHistory->create(project => $self, project_status => $value);
     return $self->__status;
-}
-
-sub directory {
-    my ($self) = validate_pos(@_, {type => OBJECT, isa => __PACKAGE__});
-    return $self->directory_for_name($self->name);
-}
-
-sub directory_for_name {
-    my ($self, $name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
-
-    my $seqmgr_link = File::Spec->join( RefImp::Config::get('seqmgr'), $name );
-    return $seqmgr_link if -d $seqmgr_link;
-    return;
 }
 
 sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); }
