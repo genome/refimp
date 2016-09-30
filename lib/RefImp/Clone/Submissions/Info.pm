@@ -61,7 +61,7 @@ sub generate {
 sub set_geninfo {
     my ($self, $submit, $clone) = @_;
 
-    my $notes_file = $clone->notes_file;
+    my $notes_file = $clone->project->notes_file;
 
     $submit->{GENINFO}->{CloneName} = $clone->name;
     $submit->{GENINFO}->{Organism} = $clone->species_name;

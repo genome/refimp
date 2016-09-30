@@ -7,6 +7,7 @@ use RefImp;
 
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
+use RefImp::Project::NotesFile;
 use RefImp::Resources::LimsRestApi;
 
 =doc 2016-05-03
@@ -117,6 +118,22 @@ sub status {
     RefImp::Project::StatusHistory->create(project => $self, project_status => $value);
     return $self->__status;
 }
+
+sub directory {
+    my ($self) = validate_pos(@_, {type => OBJECT, isa => __PACKAGE__});
+    return $self->directory_for_name($self->name);
+}
+
+sub directory_for_name {
+    my ($self, $name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+
+    my $seqmgr_link = File::Spec->join( RefImp::Config::get('seqmgr'), $name );
+    return $seqmgr_link if -d $seqmgr_link;
+    return;
+}
+
+sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); }
+sub notes_file { RefImp::Project::NotesFile->new($_[0]->notes_file_path); }
 
 1;
 

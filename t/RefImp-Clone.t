@@ -6,11 +6,11 @@ use warnings;
 use TestEnv;
 
 use File::Spec qw();
-use Test::More tests => 5;
+use Test::More tests => 4;
 
 my $clone;
 subtest "basics" => sub{
-    plan tests => 8;
+    plan tests => 6;
 
     use_ok('RefImp::Clone') or die;
 
@@ -20,10 +20,6 @@ subtest "basics" => sub{
     ok($clone->__display_name__, '__display_name__');
     ok($clone->type, 'clone has a type');
     ok($clone->status, 'clone has a status');
-
-    my $expected_directory = File::Spec->join( RefImp::Config::get('seqmgr'), $clone->name);
-    is($clone->project_directory, $expected_directory, 'project_directory');
-    is($clone->project_directory_for_name($clone->name), $expected_directory, 'project_directory_for_name');
 
 };
 
@@ -37,16 +33,6 @@ subtest 'taxonomy' => sub {
     is($clone->species_name, $taxon->species_name, 'species_name');
     is($clone->species_latin_name,  $taxon->species_latin_name, 'species_latin_name');
     is($clone->chromosome, $taxon->chromosome, 'chromosome');
-
-};
-
-subtest 'notes file' => sub{
-    plan tests => 3;
-
-    my $notes_file_path = $clone->notes_file_path;
-    ok($notes_file_path, 'notes_file_path');
-    ok(-s $notes_file_path, 'notes_file_path exists');
-    ok($clone->notes_file, 'notes_file');
 
 };
 

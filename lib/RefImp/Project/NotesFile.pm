@@ -1,4 +1,4 @@
-package RefImp::Clone::NotesFile;
+package RefImp::Project::NotesFile;
 
 use strict;
 use warnings;

@@ -6,18 +6,22 @@ use warnings;
 use TestEnv;
 
 use File::Spec qw();
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my $project;
 subtest "basics" => sub{
-    plan tests => 4;
+    plan tests => 6;
 
     use_ok('RefImp::Project') or die;
 
-    $project = RefImp::Project->create(name => '__PROJECT__');
+    $project = RefImp::Project->get(1);
     ok($project, 'got project');
     ok($project->name, 'project has a name');
     can_ok($project, 'consensus_directory');
+
+    my $expected_directory = File::Spec->join( RefImp::Config::get('seqmgr'), $project->name);
+    is($project->directory, $expected_directory, 'directory');
+    is($project->directory_for_name($project->name), $expected_directory, 'directory_for_name');
 
 };
 
@@ -44,6 +48,16 @@ subtest "claimers" => sub{
         my $claimed_as_method = 'claimed_as_'.$type;
         is($project->$claimed_as_method, $claimer, "added $type to project");
     }
+
+};
+
+subtest 'notes file' => sub{
+    plan tests => 3;
+
+    my $notes_file_path = $project->notes_file_path;
+    ok($notes_file_path, 'notes_file_path');
+    ok(-s $notes_file_path, 'notes_file_path exists');
+    ok($project->notes_file, 'notes_file');
 
 };
 
