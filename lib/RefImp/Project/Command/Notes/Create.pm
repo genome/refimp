@@ -13,6 +13,7 @@ class RefImp::Project::Command::Notes::Create {
             doc => 'prefinisher to add to claim project and add to notes',
         },
     },
+    doc => 'add basic notes file for a project',
 };
 
 sub _before_execute { $_[0]->status_message('Create projects notes files...') }
