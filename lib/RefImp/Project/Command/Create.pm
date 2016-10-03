@@ -14,6 +14,10 @@ class RefImp::Project::Command::Create {
         },
     },
     has_optional_input => {
+        directory => {
+            is => 'Text',
+            doc => 'Base directory to create project structure in.',
+        },
         status => {
             is => 'Text',
             doc => 'Starting status of the project.',
@@ -53,6 +57,13 @@ sub execute {
     }
     else {
         $self->warning_message('No matching RefImp::Clone found with name: %s', $project->name);
+    }
+
+    if ( $self->directory ) {
+        RefImp::Project::Command::Update::Directory->execute(
+            projects => [$project],
+            value => $self->directory,
+        );
     }
 
     if ( $self->status ) {

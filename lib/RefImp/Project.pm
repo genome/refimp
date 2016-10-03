@@ -3,8 +3,7 @@ package RefImp::Project;
 use strict;
 use warnings;
 
-use RefImp;
-
+use File::Path;
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
 use RefImp::Project::NotesFile;
@@ -45,7 +44,7 @@ class RefImp::Project {
         name => { is => 'Text', doc => 'Name of the project.', },
     },
     has_optional => {
-        consensus_directory => { is => 'Text', doc => 'File system location.', },
+        directory => { is => 'Text', column_name => 'consensus_directory', doc => 'File system location.', },
         status => { is => 'Text', column_name => 'prosta_project_status', },
     },
     has_many => {
@@ -112,24 +111,41 @@ class RefImp::Project {
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }
 
+sub sub_directory_names { (qw/ chromat_dir digest edit_dir phd_dir /) }
+
+sub directory {
+    my ($self, $value) = @_;
+    if ( not defined $value ) {
+        return $self->__directory if $self->__directory;
+        return File::Spec->join( RefImp::Config::get('seqmgr'), $self->name );
+    }
+    $self->fatal_message('Directory to set does not exist! %s', $value) if not -d $value;
+    $self->__directory($value);
+    $self->create_project_directory_structure;
+}
+
+sub create_project_directory_structure {
+    my $self = shift;
+
+    my $directory = $self->directory;
+    $self->fatal_message('No directory for proejct: %s', $self->__display_name__) if not $directory;
+    $self->fatal_message('Project directory does not exist: %s', $directory) if not -d $directory;
+
+    for my $sub_dir_name ( $self->sub_directory_names ) {
+        my $sub_dir = File::Spec->join($directory, $sub_dir_name);
+        next if -d $sub_dir;
+        File::Path::mkpath($sub_dir);
+        $self->fatal_message('Failed to make sub directory: %s', $sub_dir) if not -d $sub_dir;
+    }
+
+    return $directory;
+}
+
 sub status {
     my ($self, $value) = @_;
     return $self->__status if not defined $value;
     RefImp::Project::StatusHistory->create(project => $self, project_status => $value);
     return $self->__status;
-}
-
-sub directory {
-    my ($self) = validate_pos(@_, {type => OBJECT, isa => __PACKAGE__});
-    return $self->directory_for_name($self->name);
-}
-
-sub directory_for_name {
-    my ($self, $name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
-
-    my $seqmgr_link = File::Spec->join( RefImp::Config::get('seqmgr'), $name );
-    return $seqmgr_link if -d $seqmgr_link;
-    return;
 }
 
 sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); }

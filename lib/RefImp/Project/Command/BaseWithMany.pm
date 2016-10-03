@@ -16,6 +16,7 @@ class RefImp::Project::Command::BaseWithMany {
             doc => 'Projects to use. Use ids, names, or filter on other properties.',
         },
     },
+    doc => 'base class for commands that work with many projects',
 };
 
 sub execute {

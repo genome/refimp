@@ -7,6 +7,7 @@ use RefImp;
 
 class RefImp::Project::Command::Update {
     is => 'Command::Tree',
+    doc => 'modify project property values',
 };
 
 1;

@@ -21,6 +21,7 @@ class RefImp::Project::Command::Base {
             calculate => q| RefImp::Clone->get(name => $project->name); |,
         },
     },
+    doc => 'base class for commands that work with a project',
 };
 
 1;
