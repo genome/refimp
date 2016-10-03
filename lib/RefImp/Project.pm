@@ -135,6 +135,7 @@ sub create_project_directory_structure {
         my $sub_dir = File::Spec->join($directory, $sub_dir_name);
         next if -d $sub_dir;
         File::Path::mkpath($sub_dir);
+        $self->fatal_message('Failed to make sub directory: %s', $sub_dir) if not -d $sub_dir;
     }
 
     return $directory;

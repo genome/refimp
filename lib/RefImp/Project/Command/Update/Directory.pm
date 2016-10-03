@@ -34,7 +34,10 @@ sub _execute_with_project {
     $self->status_message('Project: %s', $project->__display_name__);
     $self->status_message('Old directory: %s', ($project->directory // 'UNDEF'));
     my $directory = File::Spec->join($self->value, $project->name);
-    File::Path::mkpath($directory) if not -d $directory;
+    if ( not -d $directory ) {
+        File::Path::mkpath($directory);
+        $self->fatal_message('Failed to make project directory: %s', $directory) if not -d $directory;
+    }
     $self->status_message('New Directory: %s', $directory);
 
     $project->directory($directory);

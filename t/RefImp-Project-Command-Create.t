@@ -4,10 +4,13 @@ use strict;
 use warnings;
 
 use TestEnv;
+
+use File::Temp;
 use Test::Exception;
 use Test::More tests => 4;
 
 use_ok('RefImp::Project::Command::Create') or die;
+my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
 
 subtest 'create project w/o clone' => sub{
     plan tests => 8;
@@ -39,7 +42,7 @@ subtest 'create project w/o clone' => sub{
 };
 
 subtest 'create project w/ clone' => sub{
-    plan tests => 8;
+    plan tests => 9;
 
     my $name = "TEST_PROJECT2";
     my $project = RefImp::Project->get(name => $name);
@@ -54,7 +57,10 @@ subtest 'create project w/ clone' => sub{
 
     my $cmd;
     lives_ok(
-        sub{ $cmd = RefImp::Project::Command::Create->execute( name => $name,); },
+        sub{ $cmd = RefImp::Project::Command::Create->execute(
+                name => $name,
+                directory => $tmpdir,
+            ); },
         'execute project create',
     );
     ok($cmd->result, 'execute successful');
@@ -63,6 +69,7 @@ subtest 'create project w/ clone' => sub{
     $project = RefImp::Project->get(name => $name);
     ok($project, 'project created');
     is($project, $cmd->project, 'project set on command object');
+    ok(-d $project->directory, 'created and set directory');
 
     ok(UR::Context->commit, 'commit');
 
