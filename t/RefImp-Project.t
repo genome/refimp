@@ -8,11 +8,11 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my $project;
 subtest "basics" => sub{
-    plan tests => 7;
+    plan tests => 4;
 
     use_ok('RefImp::Project') or die;
 
@@ -21,13 +21,6 @@ subtest "basics" => sub{
     ok($project->name, 'project has a name');
     can_ok($project, 'directory');
 
-    my $expected_directory = File::Spec->join( RefImp::Config::get('seqmgr'), $project->name);
-    is($project->directory, $expected_directory, 'When no directory set, default to seqmgr directory');
-    $expected_directory = File::Temp::tempdir(CLEANUP => 1);
-    $project->directory($expected_directory);
-    is($project->directory, $expected_directory, 'set/get directory');
-    throws_ok(sub{ $project->directory('/doesnotexist'); }, qr/Directory to set does not exist/, 'cannot set non existing directory');
-    $project->__directory(undef);
 
 };
 
@@ -39,6 +32,19 @@ subtest "status" => sub{
     is($project->status('finish_start'), 'finish_start', 'set status');
     @psh = $project->status_histories;
     is(@psh, 1, 'added psh');
+
+};
+
+subtest "directory" => sub{
+    plan tests => 3;
+
+    my $expected_directory = File::Spec->join( RefImp::Config::get('seqmgr'), $project->name);
+    is($project->directory, $expected_directory, 'When no directory set, default to seqmgr directory');
+    $expected_directory = File::Temp::tempdir(CLEANUP => 1);
+    $project->directory($expected_directory);
+    is($project->directory, $expected_directory, 'set/get directory');
+    throws_ok(sub{ $project->directory('/doesnotexist'); }, qr/Directory to set does not exist/, 'cannot set non existing directory');
+    $project->__directory(undef);
 
 };
 
