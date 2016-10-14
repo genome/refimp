@@ -14,8 +14,8 @@ subtest "basics" => sub{
 
     use_ok($pkg) or die;
 
-    $func = $pkg->create(function_id => 1, gu_id => 1, status => 'active');
-    ok($func, 'create user function');
+    $func = $pkg->get(33);
+    ok($func, 'got user function');
     ok($func->gu_id, 'gu_id');
     ok($func->function_id, 'function_id');
     ok($func->status, 'status');
@@ -26,10 +26,7 @@ subtest "work function" => sub{
     plan tests => 4;
 
     use_ok('RefImp::User::WorkFunction') or die;
-    my $wf = RefImp::User::WorkFunction->create(
-        id => $func->id,
-        name => 'finishing',
-    );
+    my $wf = RefImp::User::WorkFunction->get(333);
     ok($wf, 'created work function');
 
     is($func->work_function, $wf, 'has work function');

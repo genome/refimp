@@ -29,7 +29,7 @@ class RefImp::User::Function {
         status => { is => 'String', },
         work_function => {
             is => 'RefImp::User::WorkFunction',
-            id_by => 'id',
+            id_by => 'function_id',
         },
         name => {
             is => 'String',
