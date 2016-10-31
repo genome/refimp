@@ -7,77 +7,35 @@ use Cwd;
 use File::Basename;
 
 class RefImp::Project::Command::Digest::ToConsed {
-    is => '',
-    has => {},
-    doc => '',
+    is => 'RefImp::Project::Command::Base',
+    doc => 'extract digest info from sizes file',
 };
 
 sub help_detail {
     <<HELP;
-usage sizesToConsed 
-sizesToConsed.perl sizes_file
-sizesToConsed.perl project_name
-
-*where (sizes file) is the .sizes file that contains the 
-actual restriction fragment sizes.
-
- Purpose:  converts .sizes files to Consed friendly filetype
-           Creates file edit_dir/fragSizes.txt of the actual restriction
-           fragment sizes.
-
+Converts .sizes files in project digest directoryt into Consed friendly fragSizes files. Links the most recent fragSizes file to fragSizes.txt in the edit_dir.
 HELP
 }
 
 sub execute {
     my $self = shift;
+    $self->status_message('Digest sizes to consed...');
+
+    my $project = $self->project;
+    $self->status_message('Project: %s', $project->__dsiplay_name__);
+
+    my $edit_dir = $project->edit_directory;
+    $self->fatal_message('No project edit_dir directory!') if not -d $edit_dir;
+    my $digest_directory = $project->digest_directory;
+    $self->fatal_message('No project diest directory!') if not -d $digest_directory;
 
     my @sizes;
-    my $clone;
-    my $path;
+    @sizes = chomp(@sizes=`ls *sizes| sort`);
 
-# takes sizesToConsed clone   
-    if(-d "$ENV{SEQMGR}/$ARGV[0]/digest/"){ 
-        $clone=$ARGV[0];
-        chdir "$ENV{SEQMGR}/$ARGV[0]/digest/" or die "can't cd to $ARGV[0]/digest\n";
-        chomp(@sizes=`ls *sizes| sort`);
-        $path=$ENV{SEQMGR};
-    }else{ # sizesToConsed sizes_file in digest dir
-        # users should be in digest_dir
-        my $top_dir;
-        @sizes=@ARGV;
+    my $project_basename = RefImp::Project::Command::Digest->project_basename($project->name);
+    $self->status_message('Project basename: %s', $project_basename);
 
-        my $cwd= cwd();
-        ($top_dir,$path)=&fileparse($cwd,());
-
-        if (-d "$ENV{SEQMGR}/$top_dir/digest"){
-            $clone=$top_dir; 
-        }else{
-            chop $path;
-            ($clone,$path)=&fileparse($path,());
-            chop $path;
-        }
-    }
-
-    die "$path/$clone/digest does not exist!\n\n" unless -d "$path/$clone/digest";
-    die "$path/$clone/edit_dir dose not exist\n\n" unless -d "$path/$clone/edit_dir";
-
-    my $edit_dir="$path/$clone/edit_dir";
-    my $clone_basename = $clone;
-
-    print "project name is $clone\n";
-
-    if ( $clone =~ /^C_AD-/) {
-        $clone_basename = substr( $clone_basename, 5 ); 
-    }elsif( $clone =~ /^(CB|JB|JE|JH)/ &&  ( length( $clone_basename ) > 4 )){
-        $clone_basename = substr( $clone_basename, 2 );
-    }else {
-        $clone_basename = substr( $clone_basename, 4 ); 
-    }
-
-    print "clone base name: $clone_basename\n";
-#exit;
-
-    foreach my $size_file (@sizes){
+    foreach my $size_file (@sizes) {
         my %enzyme_hash;
         my %output_hash;
         my ($sizes_date) = $size_file =~ /(\S+).sizes/;
@@ -91,7 +49,7 @@ sub execute {
             next if /^$/ ;
             my ($clone_enzyme, $bands, $date)= split;
 
-            if ( $clone_enzyme=~ /$clone_basename/ ) {
+            if ( $clone_enzyme=~ /$project_basename/ ) {
                 print "found $_";
                 my $szEnzymeName= &get_enzyme($clone_enzyme);
                 $enzyme_hash{$szEnzymeName}++;
