@@ -7,7 +7,8 @@ use TestEnv;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 2;
+use Test::More tests => 3;
+use YAML;
 
 my $pkg = 'RefImp::Project::Command::Digest::SizesReader';
 use_ok($pkg) or die;
@@ -21,8 +22,24 @@ subtest 'new' => sub{
 
     my $data_directory = TestEnv::test_data_directory_for_package($pkg);
     my $sizes_file = File::Spec->join($data_directory, '150421a.sizes');
-    my $reader = $pkg->new(file => $sizes_file);
+    $reader = $pkg->new(file => $sizes_file);
     ok($reader, 'create reader');
+
+};
+
+subtest 'next' => sub{
+    plan tests => 3;
+
+    my $data_directory = TestEnv::test_data_directory_for_package($pkg);
+    my @expected_digests = YAML::LoadFile( File::Spec->join($data_directory, '150421a.sizes.yml') );
+
+    my $digest = $reader->next;
+    is_deeply($digest, $expected_digests[0], 'digest 1 matches');
+
+    $digest = $reader->next;
+    is_deeply($digest, $expected_digests[1], 'digest 2 matches');
+
+    ok(!$reader->next, 'done reading');
 
 };
 

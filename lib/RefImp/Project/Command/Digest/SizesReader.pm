@@ -29,11 +29,10 @@ sub next {
     for ( my $i = 0; $i <= $digest->{band_cnt}; $i++ ) {
         my $line = $self->{fh}->getline;
         chomp $line;
-        push @{$digest->bands}, $line;
+        push @bands, $line;
     }
 
-    die "ERROR" if not $bands[ $#bands ] ne '-1';
-
+    die "ERROR Read incorrect number of bands!" if $bands[ $#bands ] ne '-1';
     $digest->{bands} = \@bands;
 
     return $digest;
@@ -46,7 +45,7 @@ sub _next_digest_header {
     while ( my $line = $self->{fh}->getline ) {
         chomp $line;
         $line =~ s/^\s+//g;
-        next if /^$/;
+        next if $line =~ /^$/;
         next if $line =~ /^\d+$/;
         next if $line eq '-1';
         $header_line = $line;
