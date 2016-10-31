@@ -3,18 +3,17 @@ package RefImp::Project::Command::Digest;
 use strict;
 use warnings;
 
+use Params::Validate qw/ :types validate_pos /;
+
 class RefImp::Project::Command::Digest {
     is => 'Command::Tree',
     doc => 'work with projects digests',
 };
 
-sub get_enzyme{
-    my ($clone_enzyme)=@_;
+sub enzyme_for_code {
+    my ($self, $clone_enzyme) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+
     my $szEnzymeName;
-
-# NOTE TO PROGRAMMER: when adding enzyme codes, always place single letter code enzyme to the bottom of the list.  
-#                     errors are likely if you do not
-
     if( $clone_enzyme =~ /af$/ ) {
         $szEnzymeName = "AfeI";
     }elsif( $clone_enzyme =~ /ao$/ ) {
