@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 my $project;
 subtest "basics" => sub{
@@ -51,6 +51,20 @@ subtest "directory" => sub{
     }
 
     $project->__directory(undef);
+
+};
+
+subtest 'subdir_for' => sub{
+    plan tests => 5;
+
+    throws_ok(sub{ $project->subdir_for; }, qr/but 2 were expected/, 'subdir_for failsd w/o subdir');
+    my $expected_edit_dir = File::Spec->join($project->directory, 'edit_dir');
+
+    for my $sub_dir_name ( $project->sub_directory_names ) {
+        my $function_name = join('_', $sub_dir_name, 'directory');
+        $function_name  =~ s/_dir_/_/;
+        is($project->$function_name, File::Spec->join($project->directory, $sub_dir_name), "directory for $sub_dir_name");
+    }
 
 };
 

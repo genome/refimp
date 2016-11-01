@@ -112,6 +112,14 @@ class RefImp::Project {
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }
 
 sub sub_directory_names { (qw/ chromat_dir digest edit_dir phd_dir /) }
+sub chromat_directory { $_[0]->subdir_for('chromat_dir'); }
+sub digest_directory { $_[0]->subdir_for('digest'); }
+sub edit_directory { $_[0]->subdir_for('edit_dir'); }
+sub phd_directory { $_[0]->subdir_for('phd_dir'); }
+sub subdir_for {
+    my ($self, $subdir) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+    return File::Spec->join($self->directory, $subdir);
+}
 
 sub directory {
     my ($self, $value) = @_;
