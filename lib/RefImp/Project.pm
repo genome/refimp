@@ -13,25 +13,25 @@ use RefImp::Resources::LimsRestApi;
 
 PROJECTS	GSC::Project	oltp	production
 
-    APROX_COVERAGE           aprox_coverage           NUMBER(126)   NULLABLE         
-    ARCHIVAL_DATE            archival_date            DATE(19)      NULLABLE         
-  x CONSENSUS_DIRECTORY      consensus_directory      VARCHAR2(150) NULLABLE         
-    DATE_LAST_ASSEMBLED      date_last_assembled      DATE(19)      NULLABLE         
-    ESTIMATED_SIZE           estimated_size           NUMBER(126)   NULLABLE         
-    ESTIMATED_SIZE_FROM_CTGS estimated_size_from_ctgs NUMBER(8)     NULLABLE         
-    GRO_GROUP_NAME           group_name               VARCHAR2(64)  NULLABLE         
+    APROX_COVERAGE           aprox_coverage           NUMBER(126)   NULLABLE
+    ARCHIVAL_DATE            archival_date            DATE(19)      NULLABLE
+  x CONSENSUS_DIRECTORY      consensus_directory      VARCHAR2(150) NULLABLE
+    DATE_LAST_ASSEMBLED      date_last_assembled      DATE(19)      NULLABLE
+    ESTIMATED_SIZE           estimated_size           NUMBER(126)   NULLABLE
+    ESTIMATED_SIZE_FROM_CTGS estimated_size_from_ctgs NUMBER(8)     NULLABLE
+    GRO_GROUP_NAME           group_name               VARCHAR2(64)  NULLABLE
   x NAME                     name                     VARCHAR2(64)           (unique)
-    NO_ASSEMBLE_TRACES       no_assemble_traces       NUMBER(126)   NULLABLE         
-    NO_CONTIGS               no_contigs               NUMBER(126)   NULLABLE         
-    NO_CT_GT_1KB             no_ct_gt_1kb             NUMBER(126)   NULLABLE         
-    NO_Q20_BASES             no_q20_bases             NUMBER(126)   NULLABLE         
-    PRIORITY                 priority                 NUMBER(1)                      
-  x PROJECT_ID               project_id               NUMBER(10)             (pk)    
-  x PROSTA_PROJECT_STATUS    project_status           VARCHAR2(22)           (fk)    
-    PP_PURPOSE               purpose                  VARCHAR2(32)           (fk)    
-    SPANNED_GAP              spanned_gap              NUMBER(10)    NULLABLE         
-    SPANNED_GSC_GAP          spanned_gsc_gap          NUMBER(10)    NULLABLE         
-    TARGET                   target                   NUMBER(5)                      
+    NO_ASSEMBLE_TRACES       no_assemble_traces       NUMBER(126)   NULLABLE
+    NO_CONTIGS               no_contigs               NUMBER(126)   NULLABLE
+    NO_CT_GT_1KB             no_ct_gt_1kb             NUMBER(126)   NULLABLE
+    NO_Q20_BASES             no_q20_bases             NUMBER(126)   NULLABLE
+  x PRIORITY                 priority                 NUMBER(1)
+  x PROJECT_ID               project_id               NUMBER(10)             (pk)
+  x PROSTA_PROJECT_STATUS    project_status           VARCHAR2(22)           (fk)
+  x PP_PURPOSE               purpose                  VARCHAR2(32)           (fk)
+    SPANNED_GAP              spanned_gap              NUMBER(10)    NULLABLE
+    SPANNED_GSC_GAP          spanned_gsc_gap          NUMBER(10)    NULLABLE
+  x  TARGET                   target                   NUMBER(5)
 
 =cut
 
@@ -45,7 +45,10 @@ class RefImp::Project {
     },
     has_optional => {
         directory => { is => 'Text', column_name => 'consensus_directory', doc => 'File system location.', },
+        priority => { is => 'Number', len => 1, doc => 'Legacy project priority.', },
+        purpose => { is => 'Text', column_name => 'pp_purpose', doc => 'Legacy project purpose.', },
         status => { is => 'Text', column_name => 'prosta_project_status', },
+        target => { is => 'Number', len => 5, doc => 'Legacy project target.', },
     },
     has_many => {
         status_histories => {
