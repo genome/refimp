@@ -28,7 +28,7 @@ subtest 'new' => sub{
 };
 
 subtest 'next' => sub{
-    plan tests => 3;
+    plan tests => 4;
 
     my $data_directory = TestEnv::test_data_directory_for_package($pkg);
     my @expected_digests = YAML::LoadFile( File::Spec->join($data_directory, '150421a.sizes.yml') );
@@ -38,6 +38,9 @@ subtest 'next' => sub{
 
     $digest = $reader->next;
     is_deeply($digest, $expected_digests[1], 'digest 2 matches');
+
+    $digest = $reader->next;
+    is_deeply($digest, $expected_digests[2], 'digest 3 matches');
 
     ok(!$reader->next, 'done reading');
 
