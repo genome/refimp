@@ -20,10 +20,11 @@ class RefImp::Project::Command::Create {
         },
         status => {
             is => 'Text',
+            default_value => 'prefinish_start',
             doc => 'Starting status of the project.',
         },
     },
-    has_output => {
+    has_optional_transient => {
         project => {
             is => 'RefImp::Project',
             doc => 'The newly created project.',
@@ -40,8 +41,11 @@ sub execute {
 
     my %params = (
         name => $self->name,
+        priority => 0,
+        purpose => 'finishing',
+        target => 0,
     );
-    $self->status_message('Project params: %s', YAML::Dump(\%params));
+    $self->status_message("Project params:\n%s---\n", YAML::Dump(\%params));
     my $project = RefImp::Project->get(%params);
     $self->fatal_message('Project already exists: %s', $project->__display_name__) if $project;
 
