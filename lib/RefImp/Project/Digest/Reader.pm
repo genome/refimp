@@ -1,4 +1,4 @@
-package RefImp::Project::Command::Digest::SizesReader;
+package RefImp::Project::Digest::Reader;
 
 use strict;
 use warnings 'FATAL';

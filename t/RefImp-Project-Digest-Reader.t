@@ -10,7 +10,7 @@ use Test::Exception;
 use Test::More tests => 3;
 use YAML;
 
-my $pkg = 'RefImp::Project::Command::Digest::SizesReader';
+my $pkg = 'RefImp::Project::Digest::Reader';
 use_ok($pkg) or die;
 
 my $reader;

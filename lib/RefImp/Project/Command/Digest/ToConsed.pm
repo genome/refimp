@@ -4,7 +4,9 @@ use strict;
 use warnings 'FATAL';
 
 use File::Spec;
-use RefImp::Project::Command::Digest::SizesReader
+use RefImp::Project::Digest;
+use RefImp::Project::Digest::Enzymes;
+use RefImp::Project::Digest::Reader;
 
 class RefImp::Project::Command::Digest::ToConsed {
     is => 'RefImp::Project::Command::Base',
@@ -29,7 +31,7 @@ sub execute {
     my $digest_directory = $project->digest_directory;
     $self->fatal_message('No project diest directory!') if not -d $digest_directory;
 
-    my $project_basename = RefImp::Project::Command::Digest->project_basename($project->name);
+    my $project_basename = RefImp::Project::Digest->project_basename($project->name);
     $self->status_message('Project basename: %s', $project_basename);
 
     my $dh = IO::Dir->new($digest_directory);
@@ -40,7 +42,7 @@ sub execute {
         my $sizes_file = File::Spec->join($digest_directory, $file_name);
         $self->status_message('Reading: %s', $sizes_file);
 
-        my $reader = RefImp::Project::Command::Digest::SizesReader->new(file => $sizes_file);
+        my $reader = RefImp::Project::Digest::Reader->new(file => $sizes_file);
         DIGEST: while ( my $digest = $reader->next ) {
             next DIGEST if $digest->{project_header} !~ /$project_basename/;
             push @digests, $digest;
@@ -55,7 +57,7 @@ sub execute {
     foreach my $digest ( @digests ) {
         my $enzyme_code = $digest->{project_header};
         $enzyme_code =~ s/$project_basename//;
-        my $enzyme = RefImp::Project::Command::Digest->enzyme_for_code($enzyme_code);
+        my $enzyme = RefImp::Project::Digest::Enzymes->enzyme_for_code($enzyme_code);
         $self->fatal_message('Failed to get enzyme for %s', $digest->{project_header}) if not $enzyme;
         my $frag_sizes_file = sprintf($frag_sizes_file_template, $digest->{date});
         push @frag_sizes_files, $frag_sizes_file;
