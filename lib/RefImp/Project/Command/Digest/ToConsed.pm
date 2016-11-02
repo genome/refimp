@@ -36,7 +36,7 @@ sub execute {
 
     my $dh = IO::Dir->new($digest_directory);
     for (1..2) { $dh->read }
-    my @digests;
+    my %digests;
     SIZES: while ( my $file_name = $dh->read ) {
         next SIZES if $file_name !~ /\.sizes$/;
         my $sizes_file = File::Spec->join($digest_directory, $file_name);
@@ -45,27 +45,29 @@ sub execute {
         my $reader = RefImp::Project::Digest::Reader->new(file => $sizes_file);
         DIGEST: while ( my $digest = $reader->next ) {
             next DIGEST if $digest->{project_header} !~ /$project_basename/;
-            push @digests, $digest;
+            push @{$digests{ $digest->{date} }}, $digest;
         }
     }
     $dh->close;
 
-    $self->status_message('Digests found: %s', scalar(@digests));
-
     my $frag_sizes_file_template = File::Spec->join($project->edit_directory, 'fragSizes%s.txt');
     my @frag_sizes_files;
-    foreach my $digest ( @digests ) {
-        my $enzyme_code = $digest->{project_header};
-        $enzyme_code =~ s/$project_basename//;
-        my $enzyme = RefImp::Project::Digest::Enzymes->enzyme_for_code($enzyme_code);
-        $self->fatal_message('Failed to get enzyme for %s', $digest->{project_header}) if not $enzyme;
-        my $frag_sizes_file = sprintf($frag_sizes_file_template, $digest->{date});
+    foreach my $date ( keys %digests ) {
+        my $frag_sizes_file = sprintf($frag_sizes_file_template, $date);
         push @frag_sizes_files, $frag_sizes_file;
-        $self->status_message('Writing %s digest to %s', $enzyme, $frag_sizes_file);
-        my $fh = IO::File->new($frag_sizes_file, 'a');
-        $fh->print(">$enzyme\n");
-        $fh->print( join("\n", @{$digest->{bands}}, '') );
-        $fh->close;
+        $self->status_message('fragSizes file: %s', $frag_sizes_file);
+        unlink $frag_sizes_file if -e $frag_sizes_file;
+        foreach my $digest ( @{$digests{$date}} ) {
+            my $enzyme_code = $digest->{project_header};
+            $enzyme_code =~ s/$project_basename//;
+            my $enzyme = RefImp::Project::Digest::Enzymes->enzyme_for_code($enzyme_code);
+            $self->status_message('Adding digest: %s', $enzyme);
+            $self->fatal_message('Failed to get enzyme for %s', $digest->{project_header}) if not $enzyme;
+            my $fh = IO::File->new($frag_sizes_file, 'a');
+            $fh->print(">$enzyme\n");
+            $fh->print( join("\n", @{$digest->{bands}}, '') );
+            $fh->close;
+        }
     }
 
     my $main_frag_sizes_file = sprintf($frag_sizes_file_template, '');
