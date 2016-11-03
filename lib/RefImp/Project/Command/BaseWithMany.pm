@@ -19,6 +19,8 @@ class RefImp::Project::Command::BaseWithMany {
     doc => 'base class for commands that work with many projects',
 };
 
+sub help_detail { $_[0]->__meta__->doc }
+
 sub execute {
     my $self = shift;
 

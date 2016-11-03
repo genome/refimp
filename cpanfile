@@ -2,6 +2,7 @@ requires 'perl', 'v5.10.1';
 
 requires 'Bio::Seq';
 requires 'Bio::SeqIO';
+requires 'Class::Accessor';
 requires 'Devel::Cover';
 requires 'Devel::Cover::Report::Coveralls';
 requires 'File::Slurp';

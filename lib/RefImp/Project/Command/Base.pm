@@ -24,5 +24,7 @@ class RefImp::Project::Command::Base {
     doc => 'base class for commands that work with a project',
 };
 
+sub help_detail { $_[0]->__meta__->doc }
+
 1;
 
