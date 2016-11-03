@@ -23,45 +23,19 @@ sub new {
     return $self;
 }
 
-sub next {
+sub next_for_project {
     my ($self, $project_name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
 
-    my $digest = RefImp::Project::Digest->new_from_project_name($project_name);
-
-    my $project_basename = RefImp::Project::Digest->project_basename($project_name);
-    my %digest;
-    while ( %digest = $self->_next) {
-        last if $digest{project_header} =~ /$project_basename/;
+    my $digest = RefImp::Project::Digest->new($project_name);
+    while ( my %info = $self->_next) {
+        last if $digest->add_digest_info(%info);
     }
 
-    return if not %digest;
-    RefImp::Project::Digest->new(%digest);
-}
-
-sub next {
-    my %digest = $_[0]->_next or return;
-    RefImp::Project::Digest->new(%digest);
+    return if not $digest->bands;
+    $digest;
 }
 
 sub _next {
-    my $self = shift;
-
-    my %digest = $self->_next_digest_header;
-    return if not %digest;
-
-    my @bands;
-    for ( my $i = 0; $i <= $digest{band_cnt}; $i++ ) {
-        my $line = $self->{fh}->getline;
-        chomp $line;
-        push @bands, $line;
-    }
-
-    die "ERROR Read incorrect number of bands!" if $bands[ $#bands ] ne '-1';
-    $digest{bands} = \@bands;
-    %digest;
-}
-
-sub _next_digest_header {
     my $self = shift;
 
     my $header_line;
@@ -74,11 +48,19 @@ sub _next_digest_header {
         $header_line = $line;
         last;
     }
-
     return if not $header_line;
 
     my %digest;
     @digest{qw/ project_header band_cnt date /} = split(/\s+/, $header_line);
+    my @bands;
+    for ( my $i = 0; $i <= $digest{band_cnt}; $i++ ) {
+        my $line = $self->{fh}->getline;
+        chomp $line;
+        push @bands, $line;
+    }
+    die "ERROR Read incorrect number of bands!" if $bands[ $#bands ] ne '-1';
+    $digest{bands} = \@bands;
+
     %digest;
 }
 

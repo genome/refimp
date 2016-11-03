@@ -31,9 +31,6 @@ sub execute {
     my $digest_directory = $project->digest_directory;
     $self->fatal_message('No project diest directory!') if not -d $digest_directory;
 
-    my $project_basename = RefImp::Project::Digest->project_basename($project->name);
-    $self->status_message('Project basename: %s', $project_basename);
-
     my $dh = IO::Dir->new($digest_directory);
     for (1..2) { $dh->read }
     my %digests;
@@ -44,7 +41,7 @@ sub execute {
 
         my $reader = RefImp::Project::Digest::Reader->new(file => $sizes_file);
         while ( my $digest = $reader->next_for_project($project->name) ) {
-            push @{$digests{ $digest->{date} }}, $digest;
+            push @{$digests{ $digest->date }}, $digest;
         }
     }
     $dh->close;
@@ -57,9 +54,7 @@ sub execute {
         $self->status_message('fragSizes file: %s', $frag_sizes_file);
         unlink $frag_sizes_file if -e $frag_sizes_file;
         foreach my $digest ( @{$digests{$date}} ) {
-            my $enzyme_code = $digest->{project_header};
-            $enzyme_code =~ s/$project_basename//;
-            my $enzyme = RefImp::Project::Digest::Enzymes->enzyme_for_code($enzyme_code);
+            my $enzyme = $digest->enzyme;
             $self->status_message('Adding digest: %s', $enzyme);
             $self->fatal_message('Failed to get enzyme for %s', $digest->{project_header}) if not $enzyme;
             my $fh = IO::File->new($frag_sizes_file, 'a');

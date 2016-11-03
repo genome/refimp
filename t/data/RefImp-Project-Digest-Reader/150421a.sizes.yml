@@ -1,6 +1,8 @@
 ---
+project_name: VMRC59-479B4
 project_header: C59-479B4h
-band_cnt: 34
+project_basename: C59-479B4
+enzyme: HindIII
 date: 150421a
 bands:
   - 883
@@ -39,8 +41,10 @@ bands:
   - 15673
   - -1
 ---
+project_name: VMRC59-479B11
 project_header: C59-479B11h
-band_cnt: 37
+project_basename: C59-479B11
+enzyme: HindIII
 date: 150421a
 bands:
   - 1020
@@ -82,8 +86,10 @@ bands:
   - 11730
   - -1
 ---
+project_name: VMRC59-479B4
 project_header: C59-479B4e
-band_cnt: 30
+project_basename: C59-479B4
+enzyme: EcoRV
 date: 150421a
 bands:
   - 883
@@ -117,4 +123,3 @@ bands:
   - 13443
   - 15673
   - -1
-

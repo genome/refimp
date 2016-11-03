@@ -7,7 +7,7 @@ use TestEnv;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 3;
 use YAML;
 
 my $pkg = 'RefImp::Project::Digest::Reader';
@@ -27,27 +27,8 @@ subtest 'new' => sub{
 
 };
 
-subtest 'next' => sub{
-    plan tests => 4;
-
-    my $data_directory = TestEnv::test_data_directory_for_package($pkg);
-    my @expected_digests = YAML::LoadFile( File::Spec->join($data_directory, '150421a.sizes.yml') );
-
-    my $digest = $reader->next;
-    is_deeply($digest, $expected_digests[0], 'digest 1 matches');
-
-    $digest = $reader->next;
-    is_deeply($digest, $expected_digests[1], 'digest 2 matches');
-
-    $digest = $reader->next;
-    is_deeply($digest, $expected_digests[2], 'digest 3 matches');
-
-    ok(!$reader->next, 'done reading');
-
-};
-
 subtest 'next_for_project' => sub{
-    plan tests => 3;
+    plan tests => 5;
 
     throws_ok(sub{ my $digest = $reader->next_for_project; }, qr/but 2 were expected/, 'next_for_project fails w/o project');
 
@@ -60,6 +41,13 @@ subtest 'next_for_project' => sub{
     is_deeply($digest, $expected_digests[1], "digest for $project_name matches");
 
     ok(!$reader->next_for_project($project_name), "no more digests for $project_name");
+
+    $reader->{fh}->seek(0, 0);
+    $project_name = 'VMRC59-479B4';
+    $digest = $reader->next_for_project($project_name);
+    is_deeply($digest, $expected_digests[0], "digest for $project_name matches");
+    $digest = $reader->next_for_project($project_name);
+    is_deeply($digest, $expected_digests[2], "digest for $project_name matches");
 
 };
 

@@ -5,7 +5,7 @@ use warnings;
 
 use TestEnv;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 3;
 
 my $pkg = 'RefImp::Project::Digest';
 use_ok($pkg) or die;
@@ -28,30 +28,11 @@ subtest 'resolve_project_basename' => sub {
 };
 
 subtest 'new' => sub{
-    plan tests => 5,
-
-    my %digest = (
-        bands => [1],
-        band_cnt => 1,
-        project_header => '0001A01aa',
-        date => '160101',
-    );
-    for my $attr ( keys %digest ) {
-        my $v = delete $digest{$attr};
-        throws_ok(sub{ RefImp::Project::Digest->new(%digest); }, qr/ERROR No $attr/, "new fails w/o $attr");
-        $digest{$attr} = $v
-    }
-
-    my $digest = RefImp::Project::Digest->new(%digest);
-    ok($digest, 'create digest');
-};
-
-subtest 'new_from_project_name' => sub{
     plan tests => 10,
 
-    throws_ok(sub{ $pkg->new_from_project_name; }, qr/ERROR No project name/, "new_from_project_name fails w/o project");
+    throws_ok(sub{ $pkg->new; }, qr/ERROR No project name/, "new fails w/o project");
 
-    my $digest = $pkg->new_from_project_name('VMRC59-256H11');
+    my $digest = $pkg->new('VMRC59-256H11');
     ok($digest, 'create digest');
     is($digest->project_name, 'VMRC59-256H11', 'set project_name');
     is($digest->project_basename, 'C59-256H11', 'set project_basename');

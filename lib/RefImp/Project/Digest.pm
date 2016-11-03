@@ -10,17 +10,6 @@ use Params::Validate qw/ :types validate_pos /;
 use RefImp::Project::Digest::Enzymes;
 
 sub new {
-    my ($class, %params) = @_;
-
-    my $self = bless(\%params, $class);
-    for my $attr (qw/ bands band_cnt date project_header /) {
-        die "ERROR No $attr name given to create digest!" if not exists $self->{$attr};
-    }
-
-    return $self;
-}
-
-sub new_from_project_name {
     my ($class, $project_name) = @_;
 
     my $self = bless({project_name => $project_name}, $class);
@@ -54,7 +43,7 @@ sub add_digest_info {
     die 'ERROR No project header in info!' if not exists $info{project_header};
 
     my $project_basename = $self->project_basename;
-    return if not $info{project_header} =~ s/^$project_basename//;
+    return if not $info{project_header} =~ /^$project_basename/;
 
     for my $attr (qw/ bands date project_header /) {
         die "ERROR No $attr name given to create digest!" if not exists $info{$attr};
@@ -62,7 +51,7 @@ sub add_digest_info {
     }
 
     my $enzyme_code = $self->project_header;
-    $enzyme_code =~ s/$project_basename//;
+    $enzyme_code =~ s/^$project_basename//;
     $self->enzyme( RefImp::Project::Digest::Enzymes->enzyme_for_code($enzyme_code) );
 
     return 1;
