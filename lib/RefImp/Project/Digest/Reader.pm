@@ -3,10 +3,13 @@ package RefImp::Project::Digest::Reader;
 use strict;
 use warnings 'FATAL';
 
+use RefImp::Project::Digest;
+
 sub new {
     my ($class, %params) = @_;
 
     my $self = bless \%params, $class;
+
     if ( not $self->{file} and not -s $self->{file} ) {
         die "ERROR No sizes file given to reader!";
     }
@@ -35,7 +38,7 @@ sub next {
     die "ERROR Read incorrect number of bands!" if $bands[ $#bands ] ne '-1';
     $digest->{bands} = \@bands;
 
-    return $digest;
+    return RefImp::Project::Digest->new(%$digest);
 }
 
 sub _next_digest_header {

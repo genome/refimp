@@ -9,6 +9,9 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = bless(\%params, $class);
+    for my $attr (qw/ bands band_cnt date project_header /) {
+        die "ERROR No $attr name given to create digest!" if not exists $self->{$attr};
+    }
 
     return $self;
 }
