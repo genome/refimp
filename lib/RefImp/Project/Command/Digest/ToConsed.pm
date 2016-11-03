@@ -37,14 +37,13 @@ sub execute {
     my $dh = IO::Dir->new($digest_directory);
     for (1..2) { $dh->read }
     my %digests;
-    SIZES: while ( my $file_name = $dh->read ) {
-        next SIZES if $file_name !~ /\.sizes$/;
+    while ( my $file_name = $dh->read ) {
+        next if $file_name !~ /\.sizes$/;
         my $sizes_file = File::Spec->join($digest_directory, $file_name);
         $self->status_message('Reading: %s', $sizes_file);
 
         my $reader = RefImp::Project::Digest::Reader->new(file => $sizes_file);
-        DIGEST: while ( my $digest = $reader->next ) {
-            next DIGEST if $digest->{project_header} !~ /$project_basename/;
+        while ( my $digest = $reader->next_for_project($project->name) ) {
             push @{$digests{ $digest->{date} }}, $digest;
         }
     }
