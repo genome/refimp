@@ -23,8 +23,10 @@ sub new {
     return $self;
 }
 
-sub next_for_project {
+sub next {
     my ($self, $project_name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+
+    my $digest = RefImp::Project::Digest->new_from_project_name($project_name);
 
     my $project_basename = RefImp::Project::Digest->project_basename($project_name);
     my %digest;
