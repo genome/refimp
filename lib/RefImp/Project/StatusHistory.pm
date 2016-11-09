@@ -29,6 +29,7 @@ class RefImp::Project::StatusHistory {
             doc => 'The project.',
         },
     },
+    data_source => RefImp::Config::get('ds_oltp'),
 };
 
 sub create {
