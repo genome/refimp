@@ -3,8 +3,6 @@ package RefImp::Project::Command::Claim;
 use strict;
 use warnings;
 
-use RefImp;
-
 class RefImp::Project::Command::Claim {
     is => 'RefImp::Project::Command::Base',
     has_input => {

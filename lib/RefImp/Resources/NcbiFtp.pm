@@ -3,8 +3,6 @@ package RefImp::Resources::NcbiFtp;
 use strict;
 use warnings;
 
-use RefImp;
-
 use Net::FTP;
 
 class RefImp::Resources::NcbiFtp {

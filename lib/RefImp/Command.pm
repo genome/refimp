@@ -3,8 +3,6 @@ package RefImp::Command;
 use strict;
 use warnings;
 
-use RefImp;
-
 class RefImp::Command {
     is => 'Command::Tree',
 };

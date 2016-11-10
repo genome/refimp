@@ -3,8 +3,6 @@ package RefImp::Project::Command::QaBase;
 use strict;
 use warnings;
 
-use RefImp;
-
 use List::MoreUtils 'any';
 
 class RefImp::Project::Command::QaBase {

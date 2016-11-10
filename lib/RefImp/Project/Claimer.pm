@@ -3,8 +3,6 @@ package RefImp::Project::Claimer;
 use strict;
 use warnings;
 
-use RefImp;
-
 use List::MoreUtils 'any';
 use List::Util 'first';
 use Params::Validate qw/ :types validate validate_pos /;

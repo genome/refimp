@@ -3,8 +3,6 @@ package RefImp::Clone::Taxon;
 use strict;
 use warnings;
 
-use RefImp;
-
 class RefImp::Clone::Taxon { 
     is => 'UR::Object',
     has => {

@@ -3,8 +3,6 @@ package RefImp::Project::Command::Submit;
 use strict;
 use warnings;
 
-use RefImp;
-
 use Bio::SeqIO;
 use File::Basename;
 use File::Copy::Recursive;

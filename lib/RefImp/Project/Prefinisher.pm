@@ -3,8 +3,6 @@ package RefImp::Project::Prefinisher;
 use strict;
 use warnings;
 
-use RefImp;
-
 =pod
 
 PROJECT_PREFINISHERS	GSC::ProjectPrefinisher	oltp	production

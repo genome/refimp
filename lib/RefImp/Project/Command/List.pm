@@ -3,8 +3,6 @@ package RefImp::Project::Command::List;
 use strict;
 use warnings;
 
-use RefImp;
-
 class RefImp::Project::Command::List {
     is => 'UR::Object::Command::List',
     has => {

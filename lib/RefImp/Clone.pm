@@ -3,8 +3,6 @@ package RefImp::Clone;
 use strict;
 use warnings;
 
-use RefImp;
-
 use RefImp::Project::NotesFile;
 use RefImp::Clone::Taxon;
 

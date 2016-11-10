@@ -3,8 +3,6 @@ package RefImp::Project::Command::Presubmit;
 use strict;
 use warnings;
 
-use RefImp;
-
 use MIME::Lite;
 use RefImp::Clone::Submissions::Info;
 use RefImp::Clone::Submissions::Form;

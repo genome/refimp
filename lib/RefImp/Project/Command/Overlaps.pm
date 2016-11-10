@@ -3,8 +3,6 @@ package RefImp::Project::Command::Overlaps;
 use strict;
 use warnings 'FATAL';
 
-use RefImp;
-
 use List::Util;
 use Params::Validate ':types';
 

@@ -3,8 +3,6 @@ package RefImp::Project::StatusHistory;
 use strict;
 use warnings;
 
-use RefImp;
-
 =pod
 
 PROJECT_STATUS_HISTORIES	GSC::ProjectStatusHistory	oltp	production

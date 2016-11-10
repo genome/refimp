@@ -3,8 +3,6 @@ package RefImp::Clone::Submissions::Sequence;
 use strict;
 use warnings;
 
-use RefImp;
-
 use Bio::Seq;
 use RefImp::Ace::Reader;
 use Params::Validate qw/ :types validate /;

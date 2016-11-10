@@ -3,8 +3,6 @@ package RefImp::Project::Command::Update::Status;
 use strict;
 use warnings;
 
-use RefImp;
-
 class RefImp::Project::Command::Update::Status { 
     is => 'RefImp::Project::Command::BaseWithMany',
     has_input => {

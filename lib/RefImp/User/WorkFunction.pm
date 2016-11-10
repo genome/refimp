@@ -3,8 +3,6 @@ package RefImp::User::WorkFunction;
 use strict;
 use warnings;
 
-use RefImp;
-
 =doc 2016-06
 
 WORK_FUNCTION	GSC::WorkFunction	oltp	production

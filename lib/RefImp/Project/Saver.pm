@@ -3,8 +3,6 @@ package RefImp::Project::Saver;
 use strict;
 use warnings;
 
-use RefImp;
-
 =pod
 
 PROJECT_SAVERS	GSC::ProjectSaver	oltp	production
