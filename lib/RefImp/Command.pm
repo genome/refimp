@@ -6,12 +6,11 @@ use warnings;
 use RefImp;
 
 class RefImp::Command {
-    #is => 'RefImp::Command::Base',
     is => 'Command::Tree',
 };
 
-# This map allows the top-level genome commands to be whatever
-# we wish, instead of having to match the directory structure.
+# This map allows the top-level commands to be set
+# instead of using the directory structure
 my %command_map = (
     'clone' => 'RefImp::Clone::Command',
     'project' => 'RefImp::Project::Command',
