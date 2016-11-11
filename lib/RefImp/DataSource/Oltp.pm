@@ -2,7 +2,6 @@ package RefImp::DataSource::Oltp;
 
 use strict;
 use warnings;
-use RefImp;
 
 class RefImp::DataSource::Oltp {
     is => [qw/ UR::DataSource::RDBMSRetriableOperations UR::DataSource::Oracle /],

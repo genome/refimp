@@ -3,8 +3,6 @@ package RefImp::Project::Command::BaseWithMany;
 use strict;
 use warnings;
 
-use RefImp;
-
 class RefImp::Project::Command::BaseWithMany { 
     is => 'Command::V2',
     is_abstract => 1,

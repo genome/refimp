@@ -3,8 +3,6 @@ package RefImp::Clone::Command::List;
 use strict;
 use warnings;
 
-use RefImp;
-
 class RefImp::Clone::Command::List {
     is => 'UR::Object::Command::List',
     has => {

@@ -3,8 +3,6 @@ package RefImp::Clone::Submissions::Asn;
 use strict;
 use warnings 'FATAL';
 
-use RefImp;
-
 use Bio::SeqIO;
 use File::Spec;
 use RefImp::Clone::Submissions;

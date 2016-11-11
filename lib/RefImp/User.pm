@@ -3,8 +3,6 @@ package RefImp::User;
 use strict;
 use warnings;
 
-use RefImp;
-
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
 use RefImp::Resources::LDAP;

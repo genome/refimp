@@ -3,8 +3,6 @@ package RefImp::User::Function;
 use strict;
 use warnings;
 
-use RefImp;
-
 =doc 2016-06
 
 USER_FUNCTION	GSC::UserFunction	oltp	production

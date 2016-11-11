@@ -3,8 +3,6 @@ package RefImp::Project::Finisher;
 use strict;
 use warnings;
 
-use RefImp;
-
 =pod
 
 PROJECT_FINISHERS	GSC::ProjectFinisher	oltp	production

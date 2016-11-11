@@ -3,8 +3,6 @@ package RefImp::Clone::GbAccession;
 use strict;
 use warnings;
 
-use RefImp;
-
 =pod
 
 GB_ACCESSIONS	GSC::GBAccession	oltp	production

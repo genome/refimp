@@ -3,8 +3,6 @@ package RefImp::Project::Command::Base;
 use strict;
 use warnings;
 
-use RefImp;
-
 class RefImp::Project::Command::Base { 
     is => 'Command::V2',
     is_abstract => 1,
