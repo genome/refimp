@@ -1,0 +1,10 @@
+#!/usr/bin/env perl5.10.1
+
+use strict;
+use warnings;
+
+use lib "$ENV{REFIMP_LIB}";
+use lib "$ENV{REFIMP_PERL5LIB}";
+
+use RefImp::Config::CLI;
+exit RefImp::Config::CLI->run(@ARGV);
