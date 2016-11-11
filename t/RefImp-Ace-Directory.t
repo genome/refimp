@@ -8,7 +8,7 @@ use TestEnv;
 use File::Temp;
 use File::Spec;
 use IO::File;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use Test::Exception;
 
 my %setup;
@@ -59,6 +59,16 @@ subtest 'recent acefile and ace' => sub{
     my $expected_recent_ace = $setup{expected_aces}[0];
     is($setup{ace_dir}->recent_acefile, File::Spec->join($setup{ace_dir}->path, $expected_recent_ace), 'recent acefile');
     is($setup{ace_dir}->recent_ace, $expected_recent_ace, 'recent ace');
+
+};
+
+subtest 'ace0 and ace0_path' => sub{
+    plan tests => 3;
+
+    throws_ok(sub{ $setup{ace_dir}->ace0_file; }, qr/but 2 were expected/, 'ace0_file fails w/o project name');
+
+    is($setup{ace_dir}->ace0_file('project'), File::Spec->join($setup{ace_dir}->path, $setup{expected_aces}->[0]), 'ace0_file');
+    is($setup{ace_dir}->ace0('project'), $setup{expected_aces}->[0], 'ace0');
 
 };
 

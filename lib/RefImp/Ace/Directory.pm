@@ -3,28 +3,24 @@ package RefImp::Ace::Directory;
 use strict;
 use warnings;
 
+use base 'Class::Accessor';
+__PACKAGE__->mk_accessors(qw/ path /);
+
 use Carp;
 use IO::File;
 use File::Basename;
 use File::Spec;
-
-class RefImp::Ace::Directory {
-    id_by => {
-        path => { is => 'Path', },
-    },
-};
+use List::MoreUtils 'any';
+use Params::Validate qw/ :types validate_pos /;
 
 sub create {
     my ($class, %params) = @_;
     
-    die $class->error_message("No path given to %s!", $class) if not $params{path};
-
-    my $self = $class->SUPER::create(%params);
-    return if not $self;
-
-    $self->fatal_message("Path does not exist! ", $self->path) if not -d $self->path;
+    my $self = bless \%params, $class;
+    die "FATAL No path given to $class" if not $self->path;
+    die "FATAL Path does not exist! ".$self->path if not -d $self->path;
     
-    return $self;
+    $self;
 }
 
 sub acefiles {
@@ -53,6 +49,26 @@ sub recent_ace {
     File::Basename::basename($acefile);
 }
 sub recent_acefile { ($_[0]->acefiles)[0] } 
+
+sub ace0 {
+    my $ace0_file = ace0_file(@_) || return;
+    File::Basename::basename($ace0_file);
+}
+sub ace0_file {
+    my ($self, $project_name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+
+    my @aces = $self->aces;
+    my @expected_ace0s = (
+        join('.', $project_name, 'fasta', 'screen', 'ace', 0),
+        join('.', $project_name, 'fasta', 'ace', 0),
+        join('.', $project_name, 'ace', 0),
+    );
+    for my $ace ( @aces ) {
+        return File::Spec->join($self->path, $ace) if any { $ace eq $_ } @expected_ace0s;
+    }
+
+    return;
+}
 
 1;
 

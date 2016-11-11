@@ -5,6 +5,7 @@ use warnings;
 
 use IO::File;
 use Params::Validate ':types';
+use RefImp::Ace::Directory;
 use RefImp::Ace::Reader;
 use RefImp::Ace::Sequence;
 use RefImp::Project::Command::Overlaps;
@@ -31,14 +32,15 @@ sub generate {
 
     $self->set_geninfo($submit, $clone);
 
-    my $ace0_path = $clone->ace0_path;
-    die "No ace.0 for ".$clone->name if not $ace0_path;
+    my $acedir = RefImp::Ace::Directory->create(path => $clone->project->edit_directory);
+    my $ace0_file = $acedir->ace0_file($clone->name);
+    die "No ace.0 for ".$clone->name if not $ace0_file;
 
-    my $fh = IO::File->new($ace0_path, 'r');
-    die "$!\nFailed to open ace file: $ace0_path" if not $fh;
+    my $fh = IO::File->new($ace0_file, 'r');
+    die "$!\nFailed to open ace file: $ace0_file" if not $fh;
 
     my $reader = RefImp::Ace::Reader->new($fh);
-    die "Failed to create ace reader: $ace0_path" if not $reader;
+    die "Failed to create ace reader: $ace0_file" if not $reader;
 
     my @contig_tags;
     while ( my $obj = $reader->next_object ) {

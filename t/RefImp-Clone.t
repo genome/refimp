@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use File::Spec qw();
-use Test::More tests => 4;
+use Test::More tests => 3;
 
 my $clone;
 subtest "basics" => sub{
@@ -33,16 +33,6 @@ subtest 'taxonomy' => sub {
     is($clone->species_name, $taxon->species_name, 'species_name');
     is($clone->species_latin_name,  $taxon->species_latin_name, 'species_latin_name');
     is($clone->chromosome, $taxon->chromosome, 'chromosome');
-
-};
-
-subtest 'ace0' => sub{
-    plan tests => 3;
-
-    my $ace0_path = $clone->ace0_path;
-    ok($ace0_path, 'ace0_path');
-    like($ace0_path, qr/\.ace\.0$/, 'ace0_path named correctly');
-    ok(-s $ace0_path, 'ace0_path exixsts');
 
 };
 

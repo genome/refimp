@@ -63,21 +63,5 @@ sub species_name { $_[0]->taxonomy->species_name }
 sub species_latin_name { $_[0]->taxonomy->species_latin_name }
 sub chromosome { $_[0]->taxonomy->chromosome }
 
-sub ace0_path {
-    my $self = shift;
-
-    my $project_directory = $self->project->directory;
-    return if not -d $project_directory;
-
-    my @exts = (qw/ fasta screen /);
-    while ( @exts ) {
-        my $ace0 = File::Spec->join($project_directory, 'edit_dir', join('.', $self->name, @exts, 'ace', '0'));
-        return $ace0 if -s $ace0;
-        pop @exts;
-    }
-
-    return;
-}
-
 1;
 

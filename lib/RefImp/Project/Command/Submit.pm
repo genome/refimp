@@ -10,6 +10,7 @@ use File::Spec;
 use File::Temp;
 use IO::File;
 use Net::FTP;
+use RefImp::Ace::Directory;
 use RefImp::Clone::Submissions;
 use RefImp::Clone::Submissions::Info;
 use RefImp::Clone::Submissions::Form;
@@ -95,9 +96,13 @@ sub _save_submit_form {
 sub _save_sequence {
     my $self = shift;
 
+    my $acedir = RefImp::Ace::Directory->create(path => $self->clone->project->edit_directory);
+    my $ace0_file = $acedir->ace0_file($self->clone->name);
+    die "No ace.0 for ".$self->clone->name if not $ace0_file;
+
     my %seq_params = (
         clone_name => $self->clone->name,
-        ace => $self->clone->ace0_path,
+        ace => $ace0_file,
         contig_data => $self->submit_info->{COMMENTS}->{ContigData},
     );
     if ( $self->submit_info->{COMMENTS}->{TransposonComments} ) {
