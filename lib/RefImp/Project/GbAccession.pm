@@ -1,4 +1,4 @@
-package RefImp::Clone::GbAccession;
+package RefImp::Project::GbAccession;
 
 use strict;
 use warnings;
@@ -15,7 +15,7 @@ GB_ACCESSIONS	GSC::GBAccession	oltp	production
 
 =cut
 
-class RefImp::Clone::GbAccession { 
+class RefImp::Project::GbAccession {
     table_name => 'gb_accessions',
     id_by => {
         acc_number => { is => 'Text', }

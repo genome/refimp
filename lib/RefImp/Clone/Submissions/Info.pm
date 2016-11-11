@@ -76,7 +76,7 @@ sub set_geninfo {
     my $project =  RefImp::Project->get(name => $clone->name);
     my $gbaccession;
     if ( $project ) {
-        $gbaccession = RefImp::Clone::GbAccession->get(
+        $gbaccession = RefImp::Project::GbAccession->get(
             'project_id' => $project->id,
             'rank' => 1
         );

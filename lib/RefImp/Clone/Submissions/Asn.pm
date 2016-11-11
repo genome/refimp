@@ -49,11 +49,11 @@ sub _create_header {
     $self->status_message('Create header...');
 
     my $project = RefImp::Project->get(name => $self->clone->name);
-    my $gba = RefImp::Clone::GbAccession->get(project_id => $project->id, rank => 1);
+    my $gba = RefImp::Project::GbAccession->get(project_id => $project->id, rank => 1);
     my $primary_accession = ( $gba ? $gba->acc_number : undef );
-    $gba = RefImp::Clone::GbAccession->get('project_id' => $project->id, 'rank' => 2);
+    $gba = RefImp::Project::GbAccession->get('project_id' => $project->id, 'rank' => 2);
     if ( not $gba ) {
-        $gba = RefImp::Clone::GbAccession->get('project_id' => $project->id, 'rank' => 3);
+        $gba = RefImp::Project::GbAccession->get('project_id' => $project->id, 'rank' => 3);
     }
     my $secondary_accession = ( $gba ? $gba->acc_number : undef );
 

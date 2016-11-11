@@ -29,7 +29,7 @@ subtest setup => sub{
         }
     );
 
-    $setup{AC444444} = RefImp::Clone::GbAccession->create(
+    $setup{AC444444} = RefImp::Project::GbAccession->create(
         id => 'AC444444',
         version => 1,
         project_id => $setup{project}->id,
@@ -46,17 +46,17 @@ subtest setup => sub{
 subtest 'execute' => sub{
     plan tests => 10;
 
-    $setup{AC999999} = RefImp::Clone::GbAccession->get('AC999999');
+    $setup{AC999999} = RefImp::Project::GbAccession->get('AC999999');
     ok(!$setup{AC999999}, 'no gb_accession for AC999999');
-    my @gb_accessions = RefImp::Clone::GbAccession->get(project_id => $setup{project}->id);
+    my @gb_accessions = RefImp::Project::GbAccession->get(project_id => $setup{project}->id);
     is(@gb_accessions, 1, 'one gb_accession');
 
     my $cmd = RefImp::Resources::Ncbi::UpdateAccessionNumbersFromReports->execute;
     ok($cmd->result, 'execute');
 
-    @gb_accessions = RefImp::Clone::GbAccession->get(project_id => $setup{project}->id);
+    @gb_accessions = RefImp::Project::GbAccession->get(project_id => $setup{project}->id);
     is(@gb_accessions, 2, 'added gb_accession');
-    $setup{AC999999} = RefImp::Clone::GbAccession->get('AC999999');
+    $setup{AC999999} = RefImp::Project::GbAccession->get('AC999999');
     ok($setup{AC999999}, 'created AC999999');
     is($setup{AC999999}->center, 'wugsc', 'AC999999 wugsc');
     is($setup{AC999999}->project_id, $setup{project}->id, 'AC999999 project_id');
@@ -75,7 +75,7 @@ subtest 'execute with same accession existing' => sub{
     my $cmd= RefImp::Resources::Ncbi::UpdateAccessionNumbersFromReports->execute;
     ok($cmd->result, 'execute');
 
-    my @gb_accessions = RefImp::Clone::GbAccession->get(
+    my @gb_accessions = RefImp::Project::GbAccession->get(
         project_id => $setup{project}->id,
     );
     is(@gb_accessions, 2, 'still 2 gb_accessions');
