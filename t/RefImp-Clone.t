@@ -47,14 +47,11 @@ subtest 'ace0' => sub{
 };
 
 subtest 'project' => sub{
-    plan tests => 3;
+    plan tests => 2;
 
     my $project = RefImp::Project->get(1);
     ok($project, 'got project');
     is($clone->project, $project, 'got project via clone');
-
-    $project->status('new');
-    is($clone->project_status, 'new', 'project_status');
 
 };
 

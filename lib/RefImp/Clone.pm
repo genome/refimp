@@ -44,11 +44,6 @@ class RefImp::Clone {
             calculate_from => [qw/ name /],
             calculate => q{ RefImp::Project->get(name => $name) },
         },
-        project_status => {
-            calculate_from => [qw/ project /],
-            calculate => q{ $project->status },
-            doc => 'Status of the project: finish_start, submitted, etc.',
-        },
     },
     data_source => RefImp::Config::get('ds_oltp'),
 };
