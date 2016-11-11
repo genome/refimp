@@ -30,11 +30,7 @@ subtest 'setup' => sub {
 subtest 'execute' => sub {
     plan tests => 2;
 
-    my $notes_file_path = $project->notes_file_path;
-    my $fh = IO::File->new($notes_file_path, 'w');
-    $fh->print("\nCLONE= H_PROJECT\n~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~\n\nPREVIOUS CONTENT!\n");
-    $fh->close;
-
+    _write_notes_file();
     my $cmd = RefImp::Project::Command::Notes::Append->execute(
         projects => [ $project ],
         content => "NEW CONTENT!\n",
@@ -46,3 +42,13 @@ subtest 'execute' => sub {
 };
 
 done_testing();
+
+###
+
+sub _write_notes_file {
+    my $notes_file_path = $project->notes_file_path;
+    unlink $notes_file_path if -e $notes_file_path;
+    my $fh = IO::File->new($notes_file_path, 'w');
+    $fh->print("\nCLONE= H_PROJECT\n~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~\n\nPREVIOUS CONTENT!\n");
+    $fh->close;
+}
