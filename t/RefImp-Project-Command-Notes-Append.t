@@ -8,7 +8,8 @@ use TestEnv;
 use File::Compare;
 use File::Spec;
 use File::Temp;
-use Test::More tests => 2;
+use Test::Exception;
+use Test::More tests => 4;
 
 my $pkg = 'RefImp::Project::Command::Notes::Append';
 my ($project);
@@ -27,6 +28,14 @@ subtest 'setup' => sub {
 
 };
 
+subtest 'failures' => sub {
+    plan tests => 2;
+
+    throws_ok(sub{ $pkg->execute(projects => [$project]); }, qr/Please provide content or from_file/, 'fails w/o content or from_file');
+    throws_ok(sub{ $pkg->execute(projects => [$project], from_file => '/blah'); }, qr/Failed to open file:/, 'fails w/ invalid file');
+
+};
+
 subtest 'execute' => sub {
     plan tests => 2;
 
@@ -36,6 +45,20 @@ subtest 'execute' => sub {
         content => "NEW CONTENT!\n",
     );
     ok($cmd->result, 'execute notes create');
+    my $expected_notes_file_path = File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'expected.notes');
+    is(File::Compare::compare($project->notes_file_path, $expected_notes_file_path), 0, 'notes file matches');
+
+};
+
+subtest 'execute w/ file' => sub {
+    plan tests => 2;
+
+    _write_notes_file();
+    my $cmd = RefImp::Project::Command::Notes::Append->execute(
+        projects => [ $project ],
+        from_file => File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'content.txt'),
+    );
+    ok($cmd->result, 'execute notes append w/ file');
     my $expected_notes_file_path = File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'expected.notes');
     is(File::Compare::compare($project->notes_file_path, $expected_notes_file_path), 0, 'notes file matches');
 
