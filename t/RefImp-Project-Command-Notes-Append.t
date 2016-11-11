@@ -11,17 +11,24 @@ use File::Temp;
 use Test::More tests => 2;
 
 my $pkg = 'RefImp::Project::Command::Notes::Append';
-use_ok($pkg) or die;
-
-subtest 'execute' => sub {
+my ($project);
+subtest 'setup' => sub {
     plan tests => 3;
 
-    my $project = RefImp::Project->create(name => 'H_PROJECT');
+    use_ok($pkg) or die;
+
+    $project = RefImp::Project->create(name => 'H_PROJECT');
     ok($project, 'create project');
 
     my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
-    RefImp::Config::set('seqmgr', $tmpdir);
-    mkdir File::Spec->join($tmpdir, $project->name);
+    my $directory = File::Spec->join($tmpdir, $project->name);
+    mkdir $directory;
+    is($project->directory($directory), $directory, 'set project directory');
+
+};
+
+subtest 'execute' => sub {
+    plan tests => 2;
 
     my $notes_file_path = $project->notes_file_path;
     my $fh = IO::File->new($notes_file_path, 'w');
