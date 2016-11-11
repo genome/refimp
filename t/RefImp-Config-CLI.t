@@ -9,7 +9,7 @@ use TestEnv;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my $pkg = 'RefImp::Config::CLI';
 use_ok($pkg) or die;
@@ -33,6 +33,13 @@ subtest 'get' => sub{
 
     throws_ok(sub{ $pkg->run('blah'); }, qr/\[ERROR\] Unknown function: blah/, 'fails w/ invalid function ARGV');
     run_ok([qw/ get environment /], qr/^test$/); 
+
+};
+
+subtest 'ds' => sub{
+    plan tests => 2;
+
+    run_ok([qw/ ds testdb /], qr/test.db$/); 
 
 };
 
