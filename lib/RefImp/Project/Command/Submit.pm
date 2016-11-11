@@ -96,8 +96,8 @@ sub _save_submit_form {
 sub _save_sequence {
     my $self = shift;
 
-    my $acedir = RefImp::Ace::Directory->create(path => $self->clone->project->edit_directory);
-    my $ace0_file = $acedir->ace0_file($self->clone->name);
+    my $acedir = RefImp::Ace::Directory->create(project => $self->clone->project);
+    my $ace0_file = $acedir->ace0_file;
     die "No ace.0 for ".$self->clone->name if not $ace0_file;
 
     my %seq_params = (

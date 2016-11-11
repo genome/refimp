@@ -4,19 +4,21 @@ use strict;
 use warnings;
 
 use base 'Class::Accessor';
-__PACKAGE__->mk_accessors(qw/ path /);
+__PACKAGE__->mk_accessors(qw/ path project /);
 
 use Carp;
 use IO::File;
 use File::Basename;
 use File::Spec;
 use List::MoreUtils 'any';
-use Params::Validate qw/ :types validate_pos /;
 
 sub create {
     my ($class, %params) = @_;
     
     my $self = bless \%params, $class;
+    if ( $self->project ) {
+        $self->path( $self->project->edit_directory );
+    }
     die "FATAL No path given to $class" if not $self->path;
     die "FATAL Path does not exist! ".$self->path if not -d $self->path;
     
@@ -55,7 +57,18 @@ sub ace0 {
     File::Basename::basename($ace0_file);
 }
 sub ace0_file {
-    my ($self, $project_name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+    my $self = shift;
+
+    my $project_name;
+    if ( @_ ) {
+        $project_name = shift;
+    }
+    elsif ( $self->project ) {
+        $project_name = $self->project->name
+    }
+    else {
+        die "No project name given or set to get ace0!" if not $project_name;
+    }
 
     my @aces = $self->aces;
     my @expected_ace0s = (

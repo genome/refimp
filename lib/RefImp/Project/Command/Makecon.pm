@@ -102,9 +102,7 @@ sub _get_sequence_from_most_recent_ace_file {
         return;
     }
 
-    # FIXME move to project
-    my $edit_dir = File::Spec->join($project_directory, 'edit_dir');
-    my $ace_dir = RefImp::Ace::Directory->create(path => $edit_dir);
+    my $ace_dir = RefImp::Ace::Directory->create(project => $project);
     $self->fatal_message("Failed to get ace directory object!") unless $ace_dir;
 
     my $acefile = $ace_dir->recent_acefile;

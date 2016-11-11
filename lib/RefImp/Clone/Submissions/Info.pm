@@ -32,8 +32,8 @@ sub generate {
 
     $self->set_geninfo($submit, $clone);
 
-    my $acedir = RefImp::Ace::Directory->create(path => $clone->project->edit_directory);
-    my $ace0_file = $acedir->ace0_file($clone->name);
+    my $acedir = RefImp::Ace::Directory->create(project => $clone->project);
+    my $ace0_file = $acedir->ace0_file;
     die "No ace.0 for ".$clone->name if not $ace0_file;
 
     my $fh = IO::File->new($ace0_file, 'r');
