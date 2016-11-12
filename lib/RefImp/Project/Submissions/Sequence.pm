@@ -1,4 +1,4 @@
-package RefImp::Clone::Submissions::Sequence;
+package RefImp::Project::Submissions::Sequence;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use Bio::Seq;
 use RefImp::Ace::Reader;
 use Params::Validate qw/ :types validate /;
 
-class RefImp::Clone::Submissions::Sequence {
+class RefImp::Project::Submissions::Sequence {
     has => {
         clone_name => { is => 'Text', },
         ace => { is => 'Text', },
