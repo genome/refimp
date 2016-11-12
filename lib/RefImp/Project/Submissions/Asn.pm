@@ -1,4 +1,4 @@
-package RefImp::Clone::Submissions::Asn;
+package RefImp::Project::Submissions::Asn;
 
 use strict;
 use warnings 'FATAL';
@@ -7,24 +7,28 @@ use Bio::SeqIO;
 use File::Spec;
 use RefImp::Clone::Submissions;
 
-class RefImp::Clone::Submissions::Asn {
+class RefImp::Project::Submissions::Asn {
     has => {
-        clone => { is => 'RefImp::Clone', },
+        project => { is => 'RefImp::Project', },
         submit_info => { is => 'HASH', },
         working_directory => { is => 'Text', },
     },
     has_calculated => {
+        clone => {
+            calculate_from => [qw/ project /],
+            calculate => q/ RefImp::Clone->get(name => $project->name) /,
+        },
         ncbi_clone_name => {
-            calculate_from => [qw/ clone /],
-            calculate => q/ RefImp::Clone::Submissions->ncbi_name_for_clone_name($clone->name) /,
+            calculate_from => [qw/ project /],
+            calculate => q/ RefImp::Clone::Submissions->ncbi_name_for_clone_name($project->name) /,
         },
         template_path => {
-            calculate_from => [qw/ clone working_directory /],
-            calculate => q/ File::Spec->join($working_directory, join('.', $clone->name, 'template')) /,
+            calculate_from => [qw/ project working_directory /],
+            calculate => q/ File::Spec->join($working_directory, join('.', $project->name, 'template')) /,
         },
         asn_path => {
-            calculate_from => [qw/ working_directory clone /],
-            calculate => q/ File::Spec->join($working_directory, join('.', $clone->name, 'sqn')) /,
+            calculate_from => [qw/ working_directory project /],
+            calculate => q/ File::Spec->join($working_directory, join('.', $project->name, 'sqn')) /,
         },
     },
     has_transient_optional => {
@@ -48,7 +52,7 @@ sub _create_header {
     my $self = shift;
     $self->status_message('Create header...');
 
-    my $project = RefImp::Project->get(name => $self->clone->name);
+    my $project = $self->project;
     my $gba = RefImp::Project::GbAccession->get(project_id => $project->id, rank => 1);
     my $primary_accession = ( $gba ? $gba->acc_number : undef );
     $gba = RefImp::Project::GbAccession->get('project_id' => $project->id, 'rank' => 2);
@@ -57,10 +61,11 @@ sub _create_header {
     }
     my $secondary_accession = ( $gba ? $gba->acc_number : undef );
 
-    my $chromosome = $self->clone->taxonomy->chromosome;
-    my $clone_type = uc $self->clone->type;
+    my $clone = $self->clone;
+    my $chromosome = $clone->taxonomy->chromosome;
+    my $clone_type = uc $clone->type;
     my $gb_clone_name = $self->ncbi_clone_name;
-    my $latin_name = $self->clone->species_latin_name;
+    my $latin_name = $clone->species_latin_name;
 
     my $header;
     if (! defined ($primary_accession)){
@@ -86,7 +91,7 @@ sub _create_tbl_file {
     my $self = shift;
     $self->status_message('Create TBL file...');
 
-    my $tbl_path = File::Spec->join($self->working_directory, join('.', $self->clone->name, 'tbl'));
+    my $tbl_path = File::Spec->join($self->working_directory, join('.', $self->project->name, 'tbl'));
     $self->status_message('TBL path: %s', $tbl_path);
     my $fh = IO::File->new($tbl_path, 'w');
     $self->fatal_message('Failed to open TBL file! %s', $!) if not $fh;
@@ -269,7 +274,7 @@ sub _create_template_file {
         if($Line =~ /SUMMARYSTATISTICS/) {
             $Line =~ s/SUMMARYSTATISTICS//;
             print $fh $Line;
-            print $fh $self->clone->name."~";
+            print $fh $self->project->name."~";
         }
 
         if($Line =~ /ANYTHINGELSE/) {
