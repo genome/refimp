@@ -102,12 +102,12 @@ sub _get_sequence_from_most_recent_ace_file {
         return;
     }
 
-    my $ace_dir = RefImp::Ace::Directory->create(project => $project);
+    my $ace_dir = RefImp::Ace::Directory->create(project => $self->project);
     $self->fatal_message("Failed to get ace directory object!") unless $ace_dir;
 
     my $acefile = $ace_dir->recent_acefile;
     if ( not $acefile or not -s $acefile ) {
-        $self->warning_message("No recent ace in %s", $edit_dir);
+        $self->warning_message("No recent ace in %s", $ace_dir->path);
         return;
     }
 

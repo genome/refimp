@@ -12,9 +12,9 @@ use IO::File;
 use Net::FTP;
 use RefImp::Ace::Directory;
 use RefImp::Clone::Submissions;
-use RefImp::Clone::Submissions::Info;
-use RefImp::Clone::Submissions::Form;
-use RefImp::Clone::Submissions::Sequence;
+use RefImp::Project::Submissions::Info;
+use RefImp::Project::Submissions::Form;
+use RefImp::Project::Submissions::Sequence;
 use RefImp::Resources::NcbiFtp;
 use YAML;
 
@@ -63,7 +63,7 @@ sub _generate_submit_info {
     $self->status_message('Staging directory: %s', $self->staging_directory);
 
     $self->status_message('Load submit info...');
-    $self->submit_info( RefImp::Clone::Submissions::Info->generate($self->clone) );
+    $self->submit_info( RefImp::Project::Submissions::Info->generate($self->project) );
 
     my $file = File::Spec->join(
         $self->staging_directory, RefImp::Clone::Submissions->submit_info_yml_file_name_for_clone($self->clone),
@@ -78,7 +78,7 @@ sub _save_submit_form {
     my $self = shift;
     $self->status_message('Save submit form...');
 
-    my $form = RefImp::Clone::Submissions::Form->create($self->submit_info)
+    my $form = RefImp::Project::Submissions::Form->create($self->submit_info)
         or die 'Failed to generate submissions form!';
     my $file = File::Spec->join(
         $self->staging_directory,
@@ -108,7 +108,7 @@ sub _save_sequence {
     if ( $self->submit_info->{COMMENTS}->{TransposonComments} ) {
         $seq_params{transposons} = $self->submit_info->{COMMENTS}->{TransposonComments};
     }
-    my $sequence = RefImp::Clone::Submissions::Sequence->create(%seq_params);
+    my $sequence = RefImp::Project::Submissions::Sequence->create(%seq_params);
 
     my $io = Bio::SeqIO->new(
         -file => '>'.File::Spec->join($self->staging_directory, join('.', $self->clone->name, 'whole', 'contig')),
@@ -130,8 +130,8 @@ sub _generate_asn {
     my $self = shift;
     $self->status_message('Generate ASN...');
 
-    my $asn = RefImp::Clone::Submissions::Asn->create(
-        clone => $self->clone,
+    my $asn = RefImp::Project::Submissions::Asn->create(
+        project => $self->project,
         submit_info => $self->submit_info,
         working_directory => $self->staging_directory,
     );
