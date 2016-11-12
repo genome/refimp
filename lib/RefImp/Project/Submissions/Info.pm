@@ -1,4 +1,4 @@
-package RefImp::Clone::Submissions::Info;
+package RefImp::Project::Submissions::Info;
 
 use strict;
 use warnings;
@@ -20,9 +20,9 @@ sub load {
 }
 
 sub generate {
-    my ($class, $clone) = Params::Validate::validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone'});
+    my ($class, $project) = Params::Validate::validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Project'});
 
-    my $self = bless {clone => $clone}, $class;
+    my $self = bless {project => $project}, $class;
 
     my $submit = {
         TOGGLES =>[],
@@ -30,11 +30,11 @@ sub generate {
         GENINFO =>{},
     };
 
-    $self->set_geninfo($submit, $clone);
+    $self->set_geninfo($submit, $project);
 
-    my $acedir = RefImp::Ace::Directory->create(project => $clone->project);
+    my $acedir = RefImp::Ace::Directory->create(project => $project);
     my $ace0_file = $acedir->ace0_file;
-    die "No ace.0 for ".$clone->name if not $ace0_file;
+    die "No ace.0 for ".$project->name if not $ace0_file;
 
     my $fh = IO::File->new($ace0_file, 'r');
     die "$!\nFailed to open ace file: $ace0_file" if not $fh;
@@ -61,11 +61,12 @@ sub generate {
 }
 
 sub set_geninfo {
-    my ($self, $submit, $clone) = @_;
+    my ($self, $submit, $project) = @_;
 
-    my $notes_file = $clone->project->notes_file;
+    my $notes_file = $project->notes_file;
+    my $clone = RefImp::Clone->get(name => $project->name);
 
-    $submit->{GENINFO}->{CloneName} = $clone->name;
+    $submit->{GENINFO}->{CloneName} = $project->name;
     $submit->{GENINFO}->{Organism} = $clone->species_name;
     $submit->{GENINFO}->{Chromosome} = $clone->chromosome;
     $submit->{GENINFO}->{PrefinisherUserList} = [ $notes_file->prefinishers ];
@@ -74,8 +75,7 @@ sub set_geninfo {
     $submit->{GENINFO}->{ProductionGroup} = 'WUGSC';
     $submit->{GENINFO}->{DigestAssemblyConfirmedByCombo} = 'consed';
 
-    # Accession and overlaps info is probably not updated for a lot of clones
-    my $project =  RefImp::Project->get(name => $clone->name);
+    # Accession and overlaps info is probably not updated for a lot of project
     my $gbaccession;
     if ( $project ) {
         $gbaccession = RefImp::Project::GbAccession->get(
