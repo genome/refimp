@@ -6,6 +6,7 @@ use warnings 'FATAL';
 use Bio::SeqIO;
 use File::Spec;
 use RefImp::Project::Submissions;
+use RefImp::Resources::Ncbi::ProjectName;
 
 class RefImp::Project::Submissions::Asn {
     has => {
@@ -20,7 +21,7 @@ class RefImp::Project::Submissions::Asn {
         },
         ncbi_clone_name => {
             calculate_from => [qw/ project /],
-            calculate => q/ RefImp::Project::Submissions->ncbi_name_for_clone_name($project->name) /,
+            calculate => q/ RefImp::Resources::Ncbi::ProjectName->get($project->name) /,
         },
         template_path => {
             calculate_from => [qw/ project working_directory /],
