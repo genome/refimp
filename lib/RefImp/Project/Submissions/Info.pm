@@ -8,7 +8,6 @@ use Params::Validate ':types';
 use RefImp::Ace::Directory;
 use RefImp::Ace::Reader;
 use RefImp::Ace::Sequence;
-use RefImp::Project::Command::Overlaps;
 use YAML;
 
 sub load {
@@ -84,15 +83,6 @@ sub set_geninfo {
         );
     }
     $submit->{GENINFO}->{CloneAccession} = ( $gbaccession ) ? $gbaccession->acc_number : undef;
-
-    my $overlaps = RefImp::Project::Command::Overlaps->create(project => $project);
-    $overlaps->set_overlaps;
-    for my $side (qw/ right left /) {
-        my $neighbor = $overlaps->neighbor_on($side);
-        next if not $neighbor;
-        $submit->{GENINFO}->{ucfirst($side).'OverlappingCloneName'} = $neighbor->{clone};
-        $submit->{GENINFO}->{ucfirst($side).'OverlappingAccession'} = $neighbor->{acc};
-    }
 
     return 1;
 }

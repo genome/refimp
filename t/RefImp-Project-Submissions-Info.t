@@ -14,7 +14,6 @@ use_ok($pkg) or die;
 
 my $expected_hash = YAML::LoadFile( File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'expected.yml') );
 TestEnv::Clone::setup_test_lims_rest_api;
-TestEnv::Project::setup_test_overlaps;
 
 subtest 'generate' => sub{
     plan tests => 1;
