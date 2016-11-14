@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 my $project;
 subtest "basics" => sub{
@@ -90,6 +90,15 @@ subtest 'notes file' => sub{
     ok($notes_file_path, 'notes_file_path');
     ok(-s $notes_file_path, 'notes_file_path exists');
     ok($project->notes_file, 'notes_file');
+
+};
+
+subtest 'clone' => sub{
+    plan tests => 2;
+
+    my $clone = RefImp::Clone->get(name => $project->name);
+    ok($clone, 'got clone');
+    is($project->clone, $clone, 'got project via clone');
 
 };
 
