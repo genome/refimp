@@ -33,7 +33,6 @@ subtest 'setup' => sub{
         });
 
     TestEnv::Clone::setup_test_lims_rest_api;
-    TestEnv::Project::setup_test_overlaps;
 
     # Do not check LDAP for mail
     Sub::Install::reinstall_sub({

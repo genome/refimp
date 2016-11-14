@@ -43,7 +43,6 @@ subtest 'setup' => sub{
     RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
 
     TestEnv::Clone::setup_test_lims_rest_api;
-    TestEnv::Project::setup_test_overlaps;
 
 };
 
