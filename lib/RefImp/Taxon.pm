@@ -1,9 +1,9 @@
-package RefImp::Clone::Taxon;
+package RefImp::Taxon;
 
 use strict;
 use warnings;
 
-class RefImp::Clone::Taxon { 
+class RefImp::Taxon { 
     is => 'UR::Object',
     has => {
         species_name => { is => 'Text', default_value => 'unknown', },

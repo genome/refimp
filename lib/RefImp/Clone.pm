@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use RefImp::Project::NotesFile;
-use RefImp::Clone::Taxon;
+use RefImp::Taxon;
 
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
@@ -57,7 +57,7 @@ sub taxonomy {
     for my $attribute (qw/ species_name species_latin_name chromosome /) {
         $taxonomy{$attribute} = RefImp::Resources::LimsRestApi->new->query($self, $attribute);
     }
-    return $self->{_taxonmy} = RefImp::Clone::Taxon->create(%taxonomy);
+    return $self->{_taxonmy} = RefImp::Taxon->create(%taxonomy);
 }
 sub species_name { $_[0]->taxonomy->species_name }
 sub species_latin_name { $_[0]->taxonomy->species_latin_name }
