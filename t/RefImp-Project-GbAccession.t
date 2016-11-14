@@ -7,7 +7,7 @@ use TestEnv;
 
 use Test::More tests => 1;
 
-my $pkg = 'RefImp::Clone::GbAccession';
+my $pkg = 'RefImp::Project::GbAccession';
 
 subtest 'basics' => sub {
     plan tests => 6;

@@ -1,4 +1,4 @@
-package RefImp::Clone::Submissions;
+package RefImp::Project::Submissions;
 
 use strict;
 use warnings 'FATAL';
@@ -9,7 +9,7 @@ use Params::Validate qw/ :types validate_pos /;
 use RefImp::Config;
 
 sub analysis_directory_for_taxon {
-    my ($class, $taxon) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone::Taxon'});
+    my ($class, $taxon) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Taxon'});
     return File::Spec->join( RefImp::Config::get('analysis_directory'), $taxon->species_short_name );
 }
 
@@ -45,7 +45,7 @@ sub submit_info_yml_file_name_for_clone {
 }
 
 sub raw_sqn_template_for_taxon {
-    my ($class, $taxon) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone::Taxon'});
+    my ($class, $taxon) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Taxon'});
     my $raw_template_path = File::Spec->join(
         RefImp::Config::get('analysis_directory'),
         'templates',

@@ -7,14 +7,14 @@ use TestEnv;
 
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Clone::Taxon';
+my $pkg = 'RefImp::Taxon';
 use_ok($pkg) or die;
 
 subtest 'unknown taxon' => sub {
     plan tests => 5;
 
     my $unknown_taxon = $pkg->create;
-    ok($unknown_taxon, 'creatre unknown taxon');
+    ok($unknown_taxon, 'create unknown taxon');
     is($unknown_taxon->species_name, 'unknown', 'species_name');
     is($unknown_taxon->species_latin_name, 'unknown', 'species_latin_name');
     is($unknown_taxon->species_short_name, 'unknown', 'species_short_name');

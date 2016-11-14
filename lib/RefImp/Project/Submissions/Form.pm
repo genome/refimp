@@ -1,4 +1,4 @@
-package RefImp::Clone::Submissions::Form;
+package RefImp::Project::Submissions::Form;
 
 use strict;
 use warnings;

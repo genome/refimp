@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use RefImp::Project::NotesFile;
-use RefImp::Clone::Taxon;
+use RefImp::Taxon;
 
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
@@ -44,11 +44,6 @@ class RefImp::Clone {
             calculate_from => [qw/ name /],
             calculate => q{ RefImp::Project->get(name => $name) },
         },
-        project_status => {
-            calculate_from => [qw/ project /],
-            calculate => q{ $project->status },
-            doc => 'Status of the project: finish_start, submitted, etc.',
-        },
     },
     data_source => RefImp::Config::get('ds_oltp'),
 };
@@ -62,27 +57,11 @@ sub taxonomy {
     for my $attribute (qw/ species_name species_latin_name chromosome /) {
         $taxonomy{$attribute} = RefImp::Resources::LimsRestApi->new->query($self, $attribute);
     }
-    return $self->{_taxonmy} = RefImp::Clone::Taxon->create(%taxonomy);
+    return $self->{_taxonmy} = RefImp::Taxon->create(%taxonomy);
 }
 sub species_name { $_[0]->taxonomy->species_name }
 sub species_latin_name { $_[0]->taxonomy->species_latin_name }
 sub chromosome { $_[0]->taxonomy->chromosome }
-
-sub ace0_path {
-    my $self = shift;
-
-    my $project_directory = $self->project->directory;
-    return if not -d $project_directory;
-
-    my @exts = (qw/ fasta screen /);
-    while ( @exts ) {
-        my $ace0 = File::Spec->join($project_directory, 'edit_dir', join('.', $self->name, @exts, 'ace', '0'));
-        return $ace0 if -s $ace0;
-        pop @exts;
-    }
-
-    return;
-}
 
 1;
 

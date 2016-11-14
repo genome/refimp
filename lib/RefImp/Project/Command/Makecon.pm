@@ -10,7 +10,7 @@ use File::Spec;
 use IO::File;
 use RefImp::Ace::Directory;
 use RefImp::Ace::Reader;
-use RefImp::Clone::Submissions;
+use RefImp::Project::Submissions;
 
 class RefImp::Project::Command::Makecon {
     is => 'RefImp::Project::Command::Base',
@@ -68,7 +68,7 @@ sub _get_sequence_from_most_recent_submission {
     my $self = shift;
 
     my $clone = RefImp::Clone->get(name => $self->project->name);
-    my $analysis_dir = RefImp::Clone::Submissions->analysis_directory_for_clone($clone);
+    my $analysis_dir = RefImp::Project::Submissions->analysis_directory_for_clone($clone);
     return if not $analysis_dir;
 
     my @submit_dirs = sort { $b cmp $a } glob( File::Spec->join($analysis_dir, '20*') );
@@ -102,14 +102,12 @@ sub _get_sequence_from_most_recent_ace_file {
         return;
     }
 
-    # FIXME move to project
-    my $edit_dir = File::Spec->join($project_directory, 'edit_dir');
-    my $ace_dir = RefImp::Ace::Directory->create(path => $edit_dir);
+    my $ace_dir = RefImp::Ace::Directory->create(project => $self->project);
     $self->fatal_message("Failed to get ace directory object!") unless $ace_dir;
 
     my $acefile = $ace_dir->recent_acefile;
     if ( not $acefile or not -s $acefile ) {
-        $self->warning_message("No recent ace in %s", $edit_dir);
+        $self->warning_message("No recent ace in %s", $ace_dir->path);
         return;
     }
 

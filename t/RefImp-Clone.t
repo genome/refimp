@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use File::Spec qw();
-use Test::More tests => 4;
+use Test::More tests => 3;
 
 my $clone;
 subtest "basics" => sub{
@@ -36,25 +36,12 @@ subtest 'taxonomy' => sub {
 
 };
 
-subtest 'ace0' => sub{
-    plan tests => 3;
-
-    my $ace0_path = $clone->ace0_path;
-    ok($ace0_path, 'ace0_path');
-    like($ace0_path, qr/\.ace\.0$/, 'ace0_path named correctly');
-    ok(-s $ace0_path, 'ace0_path exixsts');
-
-};
-
 subtest 'project' => sub{
-    plan tests => 3;
+    plan tests => 2;
 
     my $project = RefImp::Project->get(1);
     ok($project, 'got project');
     is($clone->project, $project, 'got project via clone');
-
-    $project->status('new');
-    is($clone->project_status, 'new', 'project_status');
 
 };
 

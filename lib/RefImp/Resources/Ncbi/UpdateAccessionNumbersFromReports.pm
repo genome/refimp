@@ -34,7 +34,7 @@ sub execute {
         $report->{project} = RefImp::Project->get(name => $report->{localseqname});
         $self->fatal_message('No project for %s', $report->{localseqname}) if not $report->{project};
 
-        my @gb_accessions = RefImp::Clone::GbAccession->get(
+        my @gb_accessions = RefImp::Project::GbAccession->get(
             project_id => $report->{project}->id,
         );
         my $gb_accession = firstval { $_->id eq $report->{accession} } @gb_accessions; # already added
@@ -69,9 +69,9 @@ sub _increment_rank_for_gb_accessions {
 sub _add_gb_accession {
     my ($self, $report) = @_;
 
-    my $gb_accession = RefImp::Clone::GbAccession->get($report->{accession});
+    my $gb_accession = RefImp::Project::GbAccession->get($report->{accession});
     next if $gb_accession;
-    $gb_accession = RefImp::Clone::GbAccession->create(
+    $gb_accession = RefImp::Project::GbAccession->create(
         id => $report->{accession},
         version => $report->{version},
         project_id => $report->{project}->id,

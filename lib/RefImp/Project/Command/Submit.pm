@@ -10,10 +10,11 @@ use File::Spec;
 use File::Temp;
 use IO::File;
 use Net::FTP;
-use RefImp::Clone::Submissions;
-use RefImp::Clone::Submissions::Info;
-use RefImp::Clone::Submissions::Form;
-use RefImp::Clone::Submissions::Sequence;
+use RefImp::Ace::Directory;
+use RefImp::Project::Submissions;
+use RefImp::Project::Submissions::Info;
+use RefImp::Project::Submissions::Form;
+use RefImp::Project::Submissions::Sequence;
 use RefImp::Resources::NcbiFtp;
 use YAML;
 
@@ -62,10 +63,10 @@ sub _generate_submit_info {
     $self->status_message('Staging directory: %s', $self->staging_directory);
 
     $self->status_message('Load submit info...');
-    $self->submit_info( RefImp::Clone::Submissions::Info->generate($self->clone) );
+    $self->submit_info( RefImp::Project::Submissions::Info->generate($self->project) );
 
     my $file = File::Spec->join(
-        $self->staging_directory, RefImp::Clone::Submissions->submit_info_yml_file_name_for_clone($self->clone),
+        $self->staging_directory, RefImp::Project::Submissions->submit_info_yml_file_name_for_clone($self->clone),
     );
     $self->status_message('Save submit YAML: %s', $file);
     YAML::DumpFile($file, $self->submit_info);
@@ -77,11 +78,11 @@ sub _save_submit_form {
     my $self = shift;
     $self->status_message('Save submit form...');
 
-    my $form = RefImp::Clone::Submissions::Form->create($self->submit_info)
+    my $form = RefImp::Project::Submissions::Form->create($self->submit_info)
         or die 'Failed to generate submissions form!';
     my $file = File::Spec->join(
         $self->staging_directory,
-        RefImp::Clone::Submissions->submit_form_file_name_for_clone($self->clone),
+        RefImp::Project::Submissions->submit_form_file_name_for_clone($self->clone),
     );
     $self->status_message('Submit form path: %s', $file);
     my $fh = IO::File->new($file, 'w')
@@ -95,15 +96,19 @@ sub _save_submit_form {
 sub _save_sequence {
     my $self = shift;
 
+    my $acedir = RefImp::Ace::Directory->create(project => $self->clone->project);
+    my $ace0_file = $acedir->ace0_file;
+    die "No ace.0 for ".$self->clone->name if not $ace0_file;
+
     my %seq_params = (
         clone_name => $self->clone->name,
-        ace => $self->clone->ace0_path,
+        ace => $ace0_file,
         contig_data => $self->submit_info->{COMMENTS}->{ContigData},
     );
     if ( $self->submit_info->{COMMENTS}->{TransposonComments} ) {
         $seq_params{transposons} = $self->submit_info->{COMMENTS}->{TransposonComments};
     }
-    my $sequence = RefImp::Clone::Submissions::Sequence->create(%seq_params);
+    my $sequence = RefImp::Project::Submissions::Sequence->create(%seq_params);
 
     my $io = Bio::SeqIO->new(
         -file => '>'.File::Spec->join($self->staging_directory, join('.', $self->clone->name, 'whole', 'contig')),
@@ -125,8 +130,8 @@ sub _generate_asn {
     my $self = shift;
     $self->status_message('Generate ASN...');
 
-    my $asn = RefImp::Clone::Submissions::Asn->create(
-        clone => $self->clone,
+    my $asn = RefImp::Project::Submissions::Asn->create(
+        project => $self->project,
         submit_info => $self->submit_info,
         working_directory => $self->staging_directory,
     );
@@ -185,7 +190,7 @@ sub _move_staging_content_to_analysis_subdirectory {
 
     $self->status_message('Staging directory: %s', $self->staging_directory);
     my $analysis_subdirectory = $self->analysis_subdirectory(
-        RefImp::Clone::Submissions->new_analysis_subdirectory_for_clone($self->clone)
+        RefImp::Project::Submissions->new_analysis_subdirectory_for_clone($self->clone)
     );
     $self->status_message('Analysis subdirectory: %s', $analysis_subdirectory);
     my $rv = File::Copy::Recursive::dircopy($self->staging_directory, $analysis_subdirectory)
