@@ -5,7 +5,7 @@ use warnings 'FATAL';
 
 use Bio::SeqIO;
 use File::Spec;
-use RefImp::Clone::Submissions;
+use RefImp::Project::Submissions;
 
 class RefImp::Project::Submissions::Asn {
     has => {
@@ -20,7 +20,7 @@ class RefImp::Project::Submissions::Asn {
         },
         ncbi_clone_name => {
             calculate_from => [qw/ project /],
-            calculate => q/ RefImp::Clone::Submissions->ncbi_name_for_clone_name($project->name) /,
+            calculate => q/ RefImp::Project::Submissions->ncbi_name_for_clone_name($project->name) /,
         },
         template_path => {
             calculate_from => [qw/ project working_directory /],
@@ -247,7 +247,7 @@ sub _create_template_file {
         }
     }
 
-    my $raw_template_path = RefImp::Clone::Submissions->raw_sqn_template_for_taxon($self->clone->taxonomy);
+    my $raw_template_path = RefImp::Project::Submissions->raw_sqn_template_for_taxon($self->clone->taxonomy);
     $self->status_message('Raw template path: %s', $raw_template_path);
     my $rawfh = IO::File->new($raw_template_path, 'r');
     $self->fatal_message('Failed to open raw template path! %s', $!) if not $rawfh;

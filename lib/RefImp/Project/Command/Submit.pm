@@ -11,7 +11,7 @@ use File::Temp;
 use IO::File;
 use Net::FTP;
 use RefImp::Ace::Directory;
-use RefImp::Clone::Submissions;
+use RefImp::Project::Submissions;
 use RefImp::Project::Submissions::Info;
 use RefImp::Project::Submissions::Form;
 use RefImp::Project::Submissions::Sequence;
@@ -66,7 +66,7 @@ sub _generate_submit_info {
     $self->submit_info( RefImp::Project::Submissions::Info->generate($self->project) );
 
     my $file = File::Spec->join(
-        $self->staging_directory, RefImp::Clone::Submissions->submit_info_yml_file_name_for_clone($self->clone),
+        $self->staging_directory, RefImp::Project::Submissions->submit_info_yml_file_name_for_clone($self->clone),
     );
     $self->status_message('Save submit YAML: %s', $file);
     YAML::DumpFile($file, $self->submit_info);
@@ -82,7 +82,7 @@ sub _save_submit_form {
         or die 'Failed to generate submissions form!';
     my $file = File::Spec->join(
         $self->staging_directory,
-        RefImp::Clone::Submissions->submit_form_file_name_for_clone($self->clone),
+        RefImp::Project::Submissions->submit_form_file_name_for_clone($self->clone),
     );
     $self->status_message('Submit form path: %s', $file);
     my $fh = IO::File->new($file, 'w')
@@ -190,7 +190,7 @@ sub _move_staging_content_to_analysis_subdirectory {
 
     $self->status_message('Staging directory: %s', $self->staging_directory);
     my $analysis_subdirectory = $self->analysis_subdirectory(
-        RefImp::Clone::Submissions->new_analysis_subdirectory_for_clone($self->clone)
+        RefImp::Project::Submissions->new_analysis_subdirectory_for_clone($self->clone)
     );
     $self->status_message('Analysis subdirectory: %s', $analysis_subdirectory);
     my $rv = File::Copy::Recursive::dircopy($self->staging_directory, $analysis_subdirectory)

@@ -22,13 +22,13 @@ subtest 'setup' => sub{
     Sub::Install::reinstall_sub({
             code => sub { File::Spec->join(RefImp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
             as => 'raw_sqn_template_for_taxon',
-            into => 'RefImp::Clone::Submissions',
+            into => 'RefImp::Project::Submissions',
         });
 
     my $clone = RefImp::Clone->get(1);
     $setup{file_names_to_compare} = [
-        RefImp::Clone::Submissions->submit_info_yml_file_name_for_clone($clone),
-        RefImp::Clone::Submissions->submit_form_file_name_for_clone($clone),
+        RefImp::Project::Submissions->submit_info_yml_file_name_for_clone($clone),
+        RefImp::Project::Submissions->submit_form_file_name_for_clone($clone),
         join('.', $clone->name, 'whole', 'contig'),
         join('.', $clone->name, 'seq'),
     ];

@@ -9,7 +9,7 @@ use File::Temp;
 use Test::Exception;
 use Test::More tests => 6;
 
-my $pkg = 'RefImp::Clone::Submissions';
+my $pkg = 'RefImp::Project::Submissions';
 use_ok($pkg) or die;
 
 my $clone = RefImp::Clone->get(1);

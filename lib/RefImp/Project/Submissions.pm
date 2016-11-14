@@ -1,4 +1,4 @@
-package RefImp::Clone::Submissions;
+package RefImp::Project::Submissions;
 
 use strict;
 use warnings 'FATAL';
