@@ -7,7 +7,7 @@ use TestEnv;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 use_ok('RefImp::Config') or die;
 
@@ -49,6 +49,15 @@ subtest 'set' => sub{
 
     lives_ok(sub{ RefImp::Config::set('nada', 'new+key!'); }, 'set with new key');
     is(RefImp::Config::get('nada'), 'new+key!', 'get the new key value');
+
+};
+
+subtest 'to_string' => sub{
+    plan tests => 1;
+
+    my $config = RefImp::Config::to_string();
+    my $expected_config = join("\n", "---", "key: new+value", "nada: new+key!", "");
+    is($config, $expected_config, 'got config');
 
 };
 
