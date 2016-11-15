@@ -9,6 +9,7 @@ use RefImp::Config;
 my %functions_and_usages = (
     get   => "[USAGE] refimp-config get \$KEY",
     ds    => "[USAGE] refimp-config ds \$DATASOURCE",
+    list  => "[USAGE] refimp-config list",
 );
 $functions_and_usages{help} = join("\n", values %functions_and_usages);
 
@@ -46,6 +47,11 @@ sub ds {
     else {
         printf("%s/%s@%s\n", $login, $auth, $server);
     }
+}
+
+sub list {
+    my $self = shift;
+    print RefImp::Config::to_string()."\n";
 }
 
 1;

@@ -9,7 +9,7 @@ use TestEnv;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 my $pkg = 'RefImp::Config::CLI';
 use_ok($pkg) or die;
@@ -40,6 +40,13 @@ subtest 'ds' => sub{
     plan tests => 2;
 
     run_ok([qw/ ds testdb /], qr/test.db$/); 
+
+};
+
+subtest 'list' => sub{
+    plan tests => 2;
+
+    run_ok([qw/ list /], qr/^\-\-\-\n/); 
 
 };
 
