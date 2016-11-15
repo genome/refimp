@@ -42,7 +42,7 @@ subtest 'setup' => sub{
     RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
     RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
 
-    TestEnv::Clone::setup_test_lims_rest_api;
+    TestEnv::LimsRestApi::setup;
 
 };
 

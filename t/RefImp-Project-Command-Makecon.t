@@ -17,7 +17,7 @@ use_ok($pkg_name) or die;
 my $tempdir = File::Temp::tempdir(CLEANUP => 1);
 my $project = RefImp::Project->get(1);
 $project->status('finish_start');
-TestEnv::Clone::setup_test_lims_rest_api;
+TestEnv::LimsRestApi::setup;
 
 subtest 'from analysis directory' => sub{
     plan tests => 3;

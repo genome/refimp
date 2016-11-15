@@ -55,14 +55,14 @@ sub test_data_directory_for_package {
     File::Spec->join( RefImp::Config::get('test_data_path'), join('-', split('::', $pkg)) );
 }
 
-package TestEnv::Clone;
+package TestEnv::LimsRestApi;
 
 use strict;
 use warnings 'FATAL';
 
 use Sub::Install;
 
-sub setup_test_lims_rest_api {
+sub setup {
     my %info = ( @_ ) # pass in if ya wanna
     ? @_
     : (

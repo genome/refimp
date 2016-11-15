@@ -13,7 +13,8 @@ my $pkg = 'RefImp::Project::Submissions';
 use_ok($pkg) or die;
 
 my $clone = RefImp::Clone->get(1);
-TestEnv::Clone::setup_test_lims_rest_api;
+TestEnv::LimsRestApi::setup;
+my $taxon = RefImp::Taxon->get_for_clone($clone);
 
 subtest 'analysis directories' => sub{
     plan tests => 4;
@@ -23,14 +24,14 @@ subtest 'analysis directories' => sub{
     ok(-d $analysis_directory, 'analysis_directory exists');
 
     is(
-        $pkg->analysis_directory_for_taxon( $clone->taxonomy ),
-        File::Spec->join($analysis_directory, $clone->taxonomy->species_short_name),
+        $pkg->analysis_directory_for_taxon($taxon),
+        File::Spec->join($analysis_directory, $taxon->species_short_name),
         'analysis_directory_for_taxon',
     );
 
     is(
         $pkg->analysis_directory_for_clone($clone),
-        File::Spec->join($analysis_directory, $clone->taxonomy->species_short_name, lc($clone->name)),
+        File::Spec->join($analysis_directory, $taxon->species_short_name, lc($clone->name)),
         'analysis_directory_for_clone',
     );
 
@@ -47,7 +48,7 @@ subtest 'analysis clone subdirectories' => sub{
 
     my $new_directory = $pkg->new_analysis_subdirectory_for_clone($clone);
     ok($new_directory, 'got subdirectory');
-    my $expected_directory = File::Spec->join($tempdir, $clone->taxonomy->species_short_name, lc($clone->name), '\d{8}');
+    my $expected_directory = File::Spec->join($tempdir, $taxon->species_short_name, lc($clone->name), '\d{8}');
     like($new_directory, qr/$expected_directory/, 'subdirectory named correctly');
 
     RefImp::Config::set('analysis_directory', $analysis_directory);
@@ -72,8 +73,8 @@ subtest 'templates' => sub{
 
     my $analysis_directory = RefImp::Config::get('analysis_directory');
     is(
-        $pkg->raw_sqn_template_for_taxon( $clone->taxonomy ),
-        File::Spec->join($analysis_directory, 'templates', 'raw_'.$clone->taxonomy->species_short_name.'_template.sqn'),
+        $pkg->raw_sqn_template_for_taxon($taxon),
+        File::Spec->join($analysis_directory, 'templates', 'raw_'.$taxon->species_short_name.'_template.sqn'),
         'raw_sqn_template_for_taxon',
     );
 

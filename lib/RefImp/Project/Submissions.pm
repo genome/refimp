@@ -15,7 +15,9 @@ sub analysis_directory_for_taxon {
 
 sub analysis_directory_for_clone {
     my ($class, $clone) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone'});
-    return File::Spec->join( $class->analysis_directory_for_taxon($clone->taxonomy), lc($clone->name) );
+    my $taxon = RefImp::Taxon->get_for_clone($clone);
+    die "No taxon for clone! ".$clone->__display_name__ if not $taxon;
+    return File::Spec->join( $class->analysis_directory_for_taxon($taxon), lc($clone->name) );
 }
 
 sub new_analysis_subdirectory_for_clone {
