@@ -115,6 +115,12 @@ class RefImp::Project {
             calculate_from => [qw/ name /],
             calculate => q/ RefImp::Clone->get(name => $name); /,
         },
+        taxon => {
+            is => 'RefImp::Taxon',
+            is_constant => 1,
+            calculate_from => [qw/ clone /],
+            calculate => q/ RefImp::Taxon->get_for_clone($clone); /,
+        },
     },
     data_source => RefImp::Config::get('ds_oltp'),
 };

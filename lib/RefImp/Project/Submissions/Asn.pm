@@ -34,14 +34,12 @@ class RefImp::Project::Submissions::Asn {
     },
     has_transient_optional => {
         header => { is => 'Text', },
-        project_taxon => { is => 'RefImp::Taxon', },
     },
 };
 
 sub generate {
     my $self = shift;
 
-    $self->project_taxon( RefImp::Taxon->get_for_clone($self->clone) );
     $self->_create_header;
     $self->_create_tbl_file;
     $self->_create_template_file;
@@ -65,10 +63,10 @@ sub _create_header {
     my $secondary_accession = ( $gba ? $gba->acc_number : undef );
 
     my $clone = $self->clone;
-    my $chromosome = $self->project_taxon->chromosome;
+    my $chromosome = $self->project->taxon->chromosome;
     my $clone_type = uc $clone->type;
     my $gb_clone_name = $self->ncbi_clone_name;
-    my $latin_name = $self->project_taxon->species_latin_name;
+    my $latin_name = $self->project->taxon->species_latin_name;
 
     my $header;
     if (! defined ($primary_accession)){
@@ -250,7 +248,7 @@ sub _create_template_file {
         }
     }
 
-    my $raw_template_path = RefImp::Project::Submissions->raw_sqn_template_for_taxon($self->project_taxon);
+    my $raw_template_path = RefImp::Project::Submissions->raw_sqn_template_for_taxon($self->project->taxon);
     $self->status_message('Raw template path: %s', $raw_template_path);
     my $rawfh = IO::File->new($raw_template_path, 'r');
     $self->fatal_message('Failed to open raw template path! %s', $!) if not $rawfh;
@@ -314,7 +312,7 @@ sub _create_template_file {
 
             printf(
                 $fh  "   title \"The sequence of %s %s clone %s\" } } } \n",
-                $self->project_taxon->species_latin_name, uc($self->clone->type), $self->ncbi_clone_name,
+                $self->project->taxon->species_latin_name, uc($self->clone->type), $self->ncbi_clone_name,
             );
         } 
 
@@ -349,7 +347,7 @@ sub _create_asn_file {
     my $self = shift;
     $self->status_message('Create ASN file...');
 
-    my $latin_name = $self->project_taxon->species_latin_name;
+    my $latin_name = $self->project->taxon->species_latin_name;
     my $asn_path = $self->asn_path;
     $self->status_message('ASN file: %s', $asn_path);
     my $template_path = $self->template_path;

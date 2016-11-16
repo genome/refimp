@@ -63,7 +63,7 @@ sub set_geninfo {
     my ($self, $submit, $project) = @_;
 
     my $notes_file = $project->notes_file;
-    my $taxon = RefImp::Taxon->get_for_clone( RefImp::Clone->get(name => $project->name) );
+    my $taxon = $project->taxon;
     $submit->{GENINFO}->{CloneName} = $project->name;
     $submit->{GENINFO}->{Organism} = $taxon->species_name;
     $submit->{GENINFO}->{Chromosome} = $taxon->chromosome;

@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 my $project;
 subtest "basics" => sub{
@@ -99,6 +99,14 @@ subtest 'clone' => sub{
     my $clone = RefImp::Clone->get(name => $project->name);
     ok($clone, 'got clone');
     is($project->clone, $clone, 'got project via clone');
+
+};
+
+subtest 'taxon' => sub{
+    plan tests => 1;
+
+    TestEnv::LimsRestApi::setup;
+    ok($project->taxon, 'project has taxon');
 
 };
 
