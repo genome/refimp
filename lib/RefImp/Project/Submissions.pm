@@ -13,37 +13,35 @@ sub analysis_directory_for_taxon {
     return File::Spec->join( RefImp::Config::get('analysis_directory'), $taxon->species_short_name );
 }
 
-sub analysis_directory_for_clone {
-    my ($class, $clone) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone'});
-    my $taxon = RefImp::Taxon->get_for_clone($clone);
-    die "No taxon for clone! ".$clone->__display_name__ if not $taxon;
-    return File::Spec->join( $class->analysis_directory_for_taxon($taxon), lc($clone->name) );
+sub analysis_directory_for_project {
+    my ($class, $project) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Project'});
+    return File::Spec->join( $class->analysis_directory_for_taxon($project->taxon), lc($project->name) );
 }
 
-sub new_analysis_subdirectory_for_clone {
-    my ($class, $clone) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone'});
+sub new_analysis_subdirectory_for_project {
+    my ($class, $project) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Project'});
 
     my @time = localtime;
     my $analysis_subdirectory = File::Spec->join(
-        $class->analysis_directory_for_clone($clone),
+        $class->analysis_directory_for_project($project),
         sprintf('%02s%02s%02s', $time[5] + 1900, $time[4] + 1, $time[3]),
     );
     if ( not -d $analysis_subdirectory ) {
         make_path($analysis_subdirectory)
-            or die 'Failed to make new analysis subdirectory for clone: '.$clone->name;
+            or die 'Failed to make new analysis subdirectory for clone: '.$project->name;
     }
 
     return $analysis_subdirectory
 }
 
-sub submit_form_file_name_for_clone {
-    my ($class, $clone) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone'});
-    join('.', $clone->name, 'submit', 'form');
+sub submit_form_file_name_for_project {
+    my ($class, $project) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Project'});
+    join('.', $project->name, 'submit', 'form');
 }
 
-sub submit_info_yml_file_name_for_clone {
-    my ($class, $clone) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone'});
-    join('.', $clone->name, 'submit', 'yml');
+sub submit_info_yml_file_name_for_project {
+    my ($class, $project) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Project'});
+    join('.', $project->name, 'submit', 'yml');
 }
 
 sub raw_sqn_template_for_taxon {

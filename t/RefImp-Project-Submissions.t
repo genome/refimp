@@ -12,9 +12,9 @@ use Test::More tests => 5;
 my $pkg = 'RefImp::Project::Submissions';
 use_ok($pkg) or die;
 
-my $clone = RefImp::Clone->get(1);
+my $project = RefImp::Project->get(1);
 TestEnv::LimsRestApi::setup;
-my $taxon = RefImp::Taxon->get_for_clone($clone);
+my $taxon = $project->taxon;
 
 subtest 'analysis directories' => sub{
     plan tests => 4;
@@ -30,9 +30,9 @@ subtest 'analysis directories' => sub{
     );
 
     is(
-        $pkg->analysis_directory_for_clone($clone),
-        File::Spec->join($analysis_directory, $taxon->species_short_name, lc($clone->name)),
-        'analysis_directory_for_clone',
+        $pkg->analysis_directory_for_project($project),
+        File::Spec->join($analysis_directory, $taxon->species_short_name, lc($project->name)),
+        'analysis_directory_for_project',
     );
 
 };
@@ -40,15 +40,15 @@ subtest 'analysis directories' => sub{
 subtest 'analysis clone subdirectories' => sub{
     plan tests => 3;
 
-    throws_ok(sub{ $pkg->new_analysis_subdirectory_for_clone; }, qr/but 2 were expected/, 'fails w/o clone');
+    throws_ok(sub{ $pkg->new_analysis_subdirectory_for_project; }, qr/but 2 were expected/, 'fails w/o project');
 
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     my $analysis_directory = RefImp::Config::set('analysis_directory', $tempdir);
     RefImp::Config::set('analysis_directory', $tempdir);
 
-    my $new_directory = $pkg->new_analysis_subdirectory_for_clone($clone);
+    my $new_directory = $pkg->new_analysis_subdirectory_for_project($project);
     ok($new_directory, 'got subdirectory');
-    my $expected_directory = File::Spec->join($tempdir, $taxon->species_short_name, lc($clone->name), '\d{8}');
+    my $expected_directory = File::Spec->join($tempdir, $taxon->species_short_name, lc($project->name), '\d{8}');
     like($new_directory, qr/$expected_directory/, 'subdirectory named correctly');
 
     RefImp::Config::set('analysis_directory', $analysis_directory);
@@ -58,13 +58,13 @@ subtest 'analysis clone subdirectories' => sub{
 subtest 'file names' => sub{
     plan tests => 3;
 
-    is($pkg->submit_form_file_name_for_clone($clone), join('.', $clone->name, 'submit', 'form'), 'submit_form_file_name');
+    is($pkg->submit_form_file_name_for_project($project), join('.', $project->name, 'submit', 'form'), 'submit_form_file_name');
     throws_ok(
-        sub{ $pkg->submit_info_yml_file_name_for_clone; },
+        sub{ $pkg->submit_info_yml_file_name_for_project; },
         qr/but 2 were expected/,
         'submit yml file name fails w/o clone'
     );
-    is($pkg->submit_info_yml_file_name_for_clone($clone), join('.', $clone->name, 'submit', 'yml'), 'submit_form_file_name');
+    is($pkg->submit_info_yml_file_name_for_project($project), join('.', $project->name, 'submit', 'yml'), 'submit_form_file_name');
 
 };
 

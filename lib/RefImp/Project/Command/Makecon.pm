@@ -67,8 +67,7 @@ sub _get_sequences {
 sub _get_sequence_from_most_recent_submission {
     my $self = shift;
 
-    my $clone = RefImp::Clone->get(name => $self->project->name);
-    my $analysis_dir = RefImp::Project::Submissions->analysis_directory_for_clone($clone);
+    my $analysis_dir = RefImp::Project::Submissions->analysis_directory_for_project($self->project);
     return if not $analysis_dir;
 
     my @submit_dirs = sort { $b cmp $a } glob( File::Spec->join($analysis_dir, '20*') );
