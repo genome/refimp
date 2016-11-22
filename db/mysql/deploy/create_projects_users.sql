@@ -1,4 +1,6 @@
 -- Deploy refimp:create_projects_users to mysql
+-- requires projects
+-- requires users
 
 BEGIN;
 

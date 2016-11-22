@@ -1,4 +1,6 @@
 -- Deploy refimp:create_project_taxons to mysql
+-- requires projects
+-- requires taxons
 
 BEGIN;
 
