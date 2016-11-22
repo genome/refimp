@@ -1,4 +1,5 @@
 -- Deploy refimp:create_projects_submissions to sqlite
+--requries projects
 
 BEGIN;
 

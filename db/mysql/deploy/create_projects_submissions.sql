@@ -1,4 +1,5 @@
 -- Deploy refimp:create_projects_submissions to mysql
+-- requires projects
 
 BEGIN;
 

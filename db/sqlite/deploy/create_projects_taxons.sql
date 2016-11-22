@@ -1,4 +1,6 @@
 -- Deploy refimp:create_project_taxons to sqlite
+-- requires projects
+--requries taxons
 
 BEGIN;
 
