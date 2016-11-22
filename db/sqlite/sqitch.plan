@@ -7,3 +7,4 @@ create_projects_submissions 2016-11-19T01:09:44Z Eddie Belter <ebelter@mullis.lo
 create_users 2016-11-21T21:17:25Z Eddie Belter <ebelter@mullis.local> # Create users table
 create_projects_users 2016-11-21T22:36:11Z Eddie Belter <ebelter@mullis.local> # Create projects users!
 create_taxons 2016-11-21T23:05:32Z Eddie Belter <ebelter@mullis.local> # Create taxons!
+create_projects_taxons 2016-11-22T22:00:33Z Eddie Belter <ebelter@mullis.local> # Create project taxons!
