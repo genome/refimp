@@ -5,52 +5,19 @@ use warnings;
 
 use TestEnv;
 
-use Test::More tests => 4;
+use Test::More tests => 1;
 
-my $pkg = 'RefImp::Taxon';
-use_ok($pkg) or die;
-my $clone = RefImp::Clone->get(1);
+subtest 'basics' => sub {
+    plan tests => 6;
 
-subtest 'unknown taxon w/o clone' => sub {
-    plan tests => 5;
+    use_ok('RefImp::Taxon') or die;
 
-    TestEnv::LimsRestApi::setup(species_name => 'unknown');
-    my $unknown_taxon = $pkg->get_for_clone_name('BLAH');
-    ok($unknown_taxon, 'got unknown taxon');
-    is($unknown_taxon->species_name, 'unknown', 'species_name');
-    is($unknown_taxon->species_latin_name, 'unknown', 'species_latin_name');
-    is($unknown_taxon->species_short_name, 'unknown', 'species_short_name');
-    is($unknown_taxon->chromosome, 'unknown', 'chromosome');
-
-};
-
-subtest 'unknown taxon w/ clone' => sub {
-    plan tests => 5;
-
-    TestEnv::LimsRestApi::setup(species_name => 'unknown');
-    my $unknown_taxon = $pkg->get_for_clone_name($clone->name);
-    ok($unknown_taxon, 'got unknown taxon');
-    is($unknown_taxon->species_name, 'unknown', 'species_name');
-    is($unknown_taxon->species_latin_name, 'unknown', 'species_latin_name');
-    is($unknown_taxon->species_short_name, 'unknown', 'species_short_name');
-    is($unknown_taxon->chromosome, 'unknown', 'chromosome');
-
-};
-
-subtest 'taxon' => sub {
-    plan tests => 5;
-
-    my %attributes = (
-        species_name => 'Trichinella spiralis',
-        species_latin_name => 'Trichinella spiralis',
-        chromosome => '1a',
-    );
-    TestEnv::LimsRestApi::setup(%attributes);
-
-    my $taxon = $pkg->get_for_clone_name($clone->name);
-    ok($taxon, 'trichnella taxon');
-    for my $attr ( keys %attributes ) { is($taxon->$attr, $attributes{$attr}, "trichnella $attr"); }
-    is($taxon->species_short_name, 'trichinella', 'trichnella species_short_name');
+    my $taxon = RefImp::Taxon->get(name => 'human');
+    ok($taxon, 'got taxon');
+    is($taxon->name, 'human', 'name');
+    is($taxon->species_name, 'homo sapiens', 'species_name');
+    is($taxon->species_short_name, 'human', 'species_short_name');
+    ok($taxon->strain_name('NA'), 'strain_name')
 
 };
 

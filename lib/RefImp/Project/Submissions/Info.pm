@@ -65,7 +65,7 @@ sub set_geninfo {
     my $notes_file = $project->notes_file;
     my $taxon = $project->taxon;
     $submit->{GENINFO}->{CloneName} = $project->name;
-    $submit->{GENINFO}->{Organism} = $taxon->species_name;
+    $submit->{GENINFO}->{Organism} = $taxon->name;
     $submit->{GENINFO}->{Chromosome} = $taxon->chromosome;
     $submit->{GENINFO}->{PrefinisherUserList} = [ $notes_file->prefinishers ];
     $submit->{GENINFO}->{FinisherUserList} = [ $notes_file->finishers ];

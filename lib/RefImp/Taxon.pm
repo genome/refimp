@@ -3,16 +3,20 @@ package RefImp::Taxon;
 use strict;
 use warnings 'FATAL';
 
-use Params::Validate qw/ :types validate_pos /;
-
 class RefImp::Taxon { 
-    is => 'UR::Object',
-    has => {
-        species_name => { is => 'Text', default_value => 'unknown', },
-        species_latin_name => { is => 'Text', default_value => 'unknown', },
-        species_short_name => { is => 'Text', default_value => 'unknown', },
-        chromosome => { is => 'Text', default_value => 'unknown', },
+    table_name => 'taxons',
+    id_by => {
+        id => { is => 'Text', },
     },
+    has => {
+        name => { is => 'Text', },
+        species_name => { is => 'Text', },
+        strain_name => { is => 'Text', },
+    },
+    has_transient => {
+        species_short_name => { is => 'Text', },
+    },
+    data_source => RefImp::Config::get('ds_oltp'),
 };
 
 my %species_short_names = (
@@ -44,27 +48,32 @@ my %species_short_names = (
     "Zebra finch"                  => "zebrafinch",
 );
 
-sub get_for_clone_name {
-    my ($class, $clone_name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+sub get {
+    my $class = shift;
 
-    my $clone = RefImp::Clone->get(name => $clone_name);
-    return $class->create if not $clone;
+    my $self = $class->SUPER::get(@_);
+    return if not $self;
 
-    my $species_name = RefImp::Resources::LimsRestApi->new->query($clone, 'species_name');
-    my $self = $class->get(species_name => $species_name);
-    return $self if $self;
+    $self->_add_species_short_name;
 
-    my %taxonomy;
-    $taxonomy{species_name} = $species_name;
-    for my $attribute (qw/ species_latin_name chromosome /) {
-        $taxonomy{$attribute} = RefImp::Resources::LimsRestApi->new->query($clone, $attribute) // 'unknown';
-    }
+    $self;
+}
 
-    $taxonomy{species_short_name} = ( exists $species_short_names{$species_name} )
-    ? $species_short_names{ $taxonomy{species_name} }
-    : $taxonomy{species_name};
+sub create {
+    my $class = shift;
 
-    $class->create(%taxonomy);
+    my $self = $class->SUPER::create(@_);
+    return if not $self;
+
+    $self->_add_species_short_name;
+
+    $self;
+}
+
+sub _add_species_short_name {
+    my $self = shift;
+    my $species_name = $self->species_name;
+    $self->species_short_name( $species_short_names{$species_name} || $self->name );
 }
 
 1;
