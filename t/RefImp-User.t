@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use TestEnv;
-use Test::More tests => 5;
+use Test::More tests => 4;
 
 my $pkg = 'RefImp::User';
 use_ok($pkg) or die;
@@ -25,15 +25,6 @@ subtest 'name variants' => sub{
 
     is($user->first_initial, 'B', 'first_initial');
     is($user->last_name_uc, 'Obama', 'last_name_uc');
-};
-
-subtest 'user functions' => sub{
-    plan skip_all => 'going to remove';
-
-    my $function = RefImp::User::Function->create(gu_id => $user->id);
-    ok($function, 'create function');
-    is_deeply([$user->functions], [$function], 'user has functions');
-
 };
 
 subtest 'email' => sub{
