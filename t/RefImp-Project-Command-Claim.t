@@ -22,7 +22,7 @@ subtest "setup" => sub{
 };
 
 subtest 'claim' => sub{
-    plan tests => 4;
+    plan tests => 3;
 
     my $claim = $pkg->execute(
         project => $project,
@@ -35,11 +35,6 @@ subtest 'claim' => sub{
     ok($pf, 'added finisher to project');
 
     is($project->status, 'finish_start', 'set project status');
-    my $psh = RefImp::Project::StatusHistory->get(
-        project => $project,
-        project_status => 'finish_start',
-    );
-    ok($psh, 'created project status history');
 
 };
 

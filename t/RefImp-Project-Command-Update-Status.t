@@ -20,7 +20,7 @@ subtest "setup" => sub{
 };
 
 subtest 'update' => sub{
-    plan tests => 3;
+    plan tests => 2;
 
     my $update = $pkg->execute(
         projects => [ $setup{project}, ],
@@ -29,11 +29,6 @@ subtest 'update' => sub{
     ok($update->result, 'execute');
 
     is($setup{project}->status, 'submitted', 'set project status');
-    my $psh = RefImp::Project::StatusHistory->get(
-        project => $setup{project},
-        project_status => 'submitted',
-    );
-    ok($psh, 'created project status history');
 
 };
 

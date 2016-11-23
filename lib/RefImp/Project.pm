@@ -29,12 +29,6 @@ class RefImp::Project {
         },
     },
     has_many => {
-        status_histories => {
-            is => 'RefImp::Project::StatusHistory',
-            reverse_as => 'project',
-            where => [ -order_by => '-status_date' ],
-            doc => 'Time stamped statuses of this project.',
-        },
         # Prefinishers
         claimed_as_prefinishers => {
             is => 'RefImp::Project::Prefinisher',
@@ -141,13 +135,6 @@ sub create_project_directory_structure {
     }
 
     return $directory;
-}
-
-sub status {
-    my ($self, $value) = @_;
-    return $self->__status if not defined $value;
-    RefImp::Project::StatusHistory->create(project => $self, project_status => $value);
-    return $self->__status;
 }
 
 sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); }
