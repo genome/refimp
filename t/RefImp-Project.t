@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 9;
+use Test::More tests => 8;
 
 my $project;
 subtest "basics" => sub{
@@ -21,17 +21,6 @@ subtest "basics" => sub{
     ok($project->name, 'project has a name');
     is($project->status('new'), 'new', 'status');
     is($project->clone_type, 'bac', 'clone_type');
-
-};
-
-subtest "status" => sub{
-    plan tests => 3;
-
-    my @psh = $project->status_histories;
-    ok(!@psh, 'no project status histories');
-    is($project->status('finish_start'), 'finish_start', 'set status');
-    @psh = $project->status_histories;
-    is(@psh, 1, 'added psh');
 
 };
 
