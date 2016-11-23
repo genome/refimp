@@ -18,13 +18,6 @@ class RefImp::User {
         first_name => { is => 'Text', doc => 'First name of the user.', },
         last_name => { is => 'Text', doc => 'Last name of the user.', },
     },
-    has_many => {
-        functions => {
-            is => 'RefImp::User::Function',
-            reverse_as => 'user',
-            doc => 'User functions.',
-        },
-    },
     data_source => RefImp::Config::get('ds_oltp'),
 };
 
