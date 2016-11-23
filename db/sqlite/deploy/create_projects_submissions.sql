@@ -1,5 +1,5 @@
 -- Deploy refimp:create_projects_submissions to sqlite
---requries projects
+-- requires projects
 
 BEGIN;
 
@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS projects_submissions (
 	project_size INTEGER,
 
 	CONSTRAINT prosub_project_fk FOREIGN KEY(project_id) REFERENCES projects(id),
-	UNIQUE(project_id, submitted_on)
+	INDEX(project_id),
+	INDEX(submitted_on)
 );
 
 COMMIT;

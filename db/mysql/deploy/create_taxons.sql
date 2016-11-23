@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS taxons (
 	species_name VARCHAR(64),
 	strain_name VARCHAR(64),
 
-	CONSTRAINT taxons_id_pk PRIMARY KEY(id),
+	CONSTRAINT taxons_pk PRIMARY KEY(id),
 	UNIQUE(species_name, strain_name)
 );
 

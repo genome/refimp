@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS projects (
 	status VARCHAR(32),
 	clone_type VARCHAR(32),
 
-	CONSTRAINT projects_id_pk PRIMARY KEY(id),
+	CONSTRAINT projects_pk PRIMARY KEY(id),
 	UNIQUE(name)
 );
 
