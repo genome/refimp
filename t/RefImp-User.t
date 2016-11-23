@@ -13,7 +13,7 @@ my $user;
 subtest "basics" => sub{
     plan tests => 3;
 
-    $user = $pkg->create(unix_login => 'bobama', first_name => 'barry', last_name => 'obama');
+    $user = $pkg->get(name => 'bobama');
     ok($user, 'create user');
     ok($user->first_name, 'user has a first name');
     ok($user->last_name, 'user has a last name');
@@ -28,7 +28,7 @@ subtest 'name variants' => sub{
 };
 
 subtest 'user functions' => sub{
-    plan tests => 2;
+    plan skip_all => 'going to remove';
 
     my $function = RefImp::User::Function->create(gu_id => $user->id);
     ok($function, 'create function');
