@@ -9,12 +9,14 @@ use Test::More tests => 3;
 
 my $pkg = 'RefImp::Taxon';
 use_ok($pkg) or die;
+my $clone = RefImp::Clone->get(1);
 
 subtest 'unknown taxon' => sub {
     plan tests => 5;
 
-    my $unknown_taxon = $pkg->create;
-    ok($unknown_taxon, 'create unknown taxon');
+    TestEnv::LimsRestApi::setup(species_name => 'unknown');
+    my $unknown_taxon = $pkg->get_for_clone($clone);
+    ok($unknown_taxon, 'got unknown taxon');
     is($unknown_taxon->species_name, 'unknown', 'species_name');
     is($unknown_taxon->species_latin_name, 'unknown', 'species_latin_name');
     is($unknown_taxon->species_short_name, 'unknown', 'species_short_name');
@@ -30,7 +32,9 @@ subtest 'taxon' => sub {
         species_latin_name => 'Trichinella spiralis',
         chromosome => '1a',
     );
-    my $taxon = $pkg->create(%attributes);
+    TestEnv::LimsRestApi::setup(%attributes);
+
+    my $taxon = $pkg->get_for_clone($clone);
     ok($taxon, 'trichnella taxon');
     for my $attr ( keys %attributes ) { is($taxon->$attr, $attributes{$attr}, "trichnella $attr"); }
     is($taxon->species_short_name, 'trichinella', 'trichnella species_short_name');

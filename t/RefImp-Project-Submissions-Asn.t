@@ -17,7 +17,7 @@ subtest 'create' => sub{
     plan tests => 3;
 
     my $data_dir = TestEnv::test_data_directory_for_package($pkg);
-    TestEnv::Clone::setup_test_lims_rest_api;
+    TestEnv::LimsRestApi::setup;
 
     my $project = RefImp::Project->get(1);
     my $project_name = $project->name;

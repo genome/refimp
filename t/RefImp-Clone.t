@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use File::Spec qw();
-use Test::More tests => 3;
+use Test::More tests => 2;
 
 my $clone;
 subtest "basics" => sub{
@@ -20,19 +20,6 @@ subtest "basics" => sub{
     ok($clone->__display_name__, '__display_name__');
     ok($clone->type, 'clone has a type');
     ok($clone->status, 'clone has a status');
-
-};
-
-subtest 'taxonomy' => sub {
-    plan tests => 4;
-
-    TestEnv::Clone::setup_test_lims_rest_api;
-
-    my $taxon = $clone->taxonomy;
-    ok($taxon, 'taxon');
-    is($clone->species_name, $taxon->species_name, 'species_name');
-    is($clone->species_latin_name,  $taxon->species_latin_name, 'species_latin_name');
-    is($clone->chromosome, $taxon->chromosome, 'chromosome');
 
 };
 

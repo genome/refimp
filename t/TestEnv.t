@@ -58,7 +58,7 @@ subtest 'config' => sub{
 subtest 'lims rest api' => sub{
     plan tests => 1;
 
-    my $lims = TestEnv::Clone::setup_test_lims_rest_api();
+    my $lims = TestEnv::LimsRestApi::setup();
     ok($lims, 'setup test lims rest api');
 
 };

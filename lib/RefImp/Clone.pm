@@ -50,18 +50,5 @@ class RefImp::Clone {
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }
 
-sub taxonomy {
-    my ($self, $attribute) = @_;
-    return $self->{_taxonmy} if $self->{taxonomy};
-    my %taxonomy;
-    for my $attribute (qw/ species_name species_latin_name chromosome /) {
-        $taxonomy{$attribute} = RefImp::Resources::LimsRestApi->new->query($self, $attribute);
-    }
-    return $self->{_taxonmy} = RefImp::Taxon->create(%taxonomy);
-}
-sub species_name { $_[0]->taxonomy->species_name }
-sub species_latin_name { $_[0]->taxonomy->species_latin_name }
-sub chromosome { $_[0]->taxonomy->chromosome }
-
 1;
 

@@ -6,6 +6,7 @@ use warnings 'FATAL';
 use Bio::SeqIO;
 use File::Spec;
 use RefImp::Project::Submissions;
+use RefImp::Resources::Ncbi::ProjectName;
 
 class RefImp::Project::Submissions::Asn {
     has => {
@@ -20,7 +21,7 @@ class RefImp::Project::Submissions::Asn {
         },
         ncbi_clone_name => {
             calculate_from => [qw/ project /],
-            calculate => q/ RefImp::Project::Submissions->ncbi_name_for_clone_name($project->name) /,
+            calculate => q/ RefImp::Resources::Ncbi::ProjectName->get($project->name) /,
         },
         template_path => {
             calculate_from => [qw/ project working_directory /],
@@ -62,10 +63,10 @@ sub _create_header {
     my $secondary_accession = ( $gba ? $gba->acc_number : undef );
 
     my $clone = $self->clone;
-    my $chromosome = $clone->taxonomy->chromosome;
+    my $chromosome = $self->project->taxon->chromosome;
     my $clone_type = uc $clone->type;
     my $gb_clone_name = $self->ncbi_clone_name;
-    my $latin_name = $clone->species_latin_name;
+    my $latin_name = $self->project->taxon->species_latin_name;
 
     my $header;
     if (! defined ($primary_accession)){
@@ -247,7 +248,7 @@ sub _create_template_file {
         }
     }
 
-    my $raw_template_path = RefImp::Project::Submissions->raw_sqn_template_for_taxon($self->clone->taxonomy);
+    my $raw_template_path = RefImp::Project::Submissions->raw_sqn_template_for_taxon($self->project->taxon);
     $self->status_message('Raw template path: %s', $raw_template_path);
     my $rawfh = IO::File->new($raw_template_path, 'r');
     $self->fatal_message('Failed to open raw template path! %s', $!) if not $rawfh;
@@ -311,7 +312,7 @@ sub _create_template_file {
 
             printf(
                 $fh  "   title \"The sequence of %s %s clone %s\" } } } \n",
-                $self->clone->taxonomy->species_latin_name, uc($self->clone->type), $self->ncbi_clone_name,
+                $self->project->taxon->species_latin_name, uc($self->clone->type), $self->ncbi_clone_name,
             );
         } 
 
@@ -346,7 +347,7 @@ sub _create_asn_file {
     my $self = shift;
     $self->status_message('Create ASN file...');
 
-    my $latin_name = $self->clone->taxonomy->species_latin_name;
+    my $latin_name = $self->project->taxon->species_latin_name;
     my $asn_path = $self->asn_path;
     $self->status_message('ASN file: %s', $asn_path);
     my $template_path = $self->template_path;

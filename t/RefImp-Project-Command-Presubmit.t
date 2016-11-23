@@ -32,7 +32,7 @@ subtest 'setup' => sub{
             as => 'send',
         });
 
-    TestEnv::Clone::setup_test_lims_rest_api;
+    TestEnv::LimsRestApi::setup;
 
     # Do not check LDAP for mail
     Sub::Install::reinstall_sub({

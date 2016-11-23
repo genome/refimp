@@ -1,7 +1,9 @@
 package RefImp::Taxon;
 
 use strict;
-use warnings;
+use warnings 'FATAL';
+
+use Params::Validate 'validate_pos';
 
 class RefImp::Taxon { 
     is => 'UR::Object',
@@ -42,18 +44,24 @@ my %species_short_names = (
     "Zebra finch"                  => "zebrafinch",
 );
 
-sub create {
-    my $class = shift;
+sub get_for_clone {
+    my ($class, $clone) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone'});
 
-    my $self = $class->SUPER::create(@_);
+    my $species_name = RefImp::Resources::LimsRestApi->new->query($clone, 'species_name');
+    my $self = $class->get(species_name => $species_name);
+    return $self if $self;
 
-    $self->species_short_name(
-        exists $species_short_names{$self->species_name}
-        ? $species_short_names{$self->species_name}
-        : $self->species_name
-    );
+    my %taxonomy;
+    $taxonomy{species_name} = $species_name;
+    for my $attribute (qw/ species_latin_name chromosome /) {
+        $taxonomy{$attribute} = RefImp::Resources::LimsRestApi->new->query($self, $attribute) // 'unknown';
+    }
 
-    return $self;
+    $taxonomy{species_short_name} = ( exists $species_short_names{$species_name} )
+    ? $species_short_names{ $taxonomy{species_name} }
+    : $taxonomy{species_name};
+
+    $class->create(%taxonomy);
 }
 
 1;

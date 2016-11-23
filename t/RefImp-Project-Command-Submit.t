@@ -25,12 +25,11 @@ subtest 'setup' => sub{
             into => 'RefImp::Project::Submissions',
         });
 
-    my $clone = RefImp::Clone->get(1);
     $setup{file_names_to_compare} = [
-        RefImp::Project::Submissions->submit_info_yml_file_name_for_clone($clone),
-        RefImp::Project::Submissions->submit_form_file_name_for_clone($clone),
-        join('.', $clone->name, 'whole', 'contig'),
-        join('.', $clone->name, 'seq'),
+        RefImp::Project::Submissions->submit_info_yml_file_name_for_project($setup{project}),
+        RefImp::Project::Submissions->submit_form_file_name_for_project($setup{project}),
+        join('.', $setup{project}->name, 'whole', 'contig'),
+        join('.', $setup{project}->name, 'seq'),
     ];
 
    $setup{ftp} = RefImp::Test::Factory->setup_test_ftp;
@@ -42,7 +41,7 @@ subtest 'setup' => sub{
     RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
     RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
 
-    TestEnv::Clone::setup_test_lims_rest_api;
+    TestEnv::LimsRestApi::setup;
 
 };
 
