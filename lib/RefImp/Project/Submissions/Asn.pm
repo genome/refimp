@@ -66,7 +66,7 @@ sub _create_header {
     my $chromosome = $self->project->taxon->chromosome;
     my $clone_type = uc $clone->type;
     my $gb_clone_name = $self->ncbi_clone_name;
-    my $latin_name = $self->project->taxon->species_latin_name;
+    my $species_name = $self->project->taxon->species_name;
 
     my $header;
     if (! defined ($primary_accession)){
@@ -81,7 +81,7 @@ sub _create_header {
     };
 
     $header = "$header [chromosome=$chromosome] [Clone-lib=]";
-    $header = qq{$header [clone=$gb_clone_name] [tech=htgs 3] $latin_name $clone_type};
+    $header = qq{$header [clone=$gb_clone_name] [tech=htgs 3] $species_name $clone_type};
     $header = qq{$header clone $gb_clone_name from chromosome $chromosome, complete sequence.};
 
     $self->header($header);
@@ -312,7 +312,7 @@ sub _create_template_file {
 
             printf(
                 $fh  "   title \"The sequence of %s %s clone %s\" } } } \n",
-                $self->project->taxon->species_latin_name, uc($self->clone->type), $self->ncbi_clone_name,
+                $self->project->taxon->species_name, uc($self->clone->type), $self->ncbi_clone_name,
             );
         } 
 
@@ -347,7 +347,7 @@ sub _create_asn_file {
     my $self = shift;
     $self->status_message('Create ASN file...');
 
-    my $latin_name = $self->project->taxon->species_latin_name;
+    my $species_name = $self->project->taxon->species_name;
     my $asn_path = $self->asn_path;
     $self->status_message('ASN file: %s', $asn_path);
     my $template_path = $self->template_path;
@@ -360,7 +360,7 @@ sub _create_asn_file {
     $bin =~ s#lib#bin#;
     my $tbl2asn = File::Spec->join($bin, "tbl2asn.linux64");
 
-    my $cmd = "$tbl2asn -t $template_path  -p $working_directory -j '[organism=$latin_name]'";
+    my $cmd = "$tbl2asn -t $template_path  -p $working_directory -j '[organism=$species_name]'";
     $self->status_message('Running: %s', $cmd);
     my $rv = system $cmd;
     if ( $rv or not -s $asn_path ) {
