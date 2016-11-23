@@ -39,5 +39,10 @@ sub set {
     $config->{$key} = $value;
 }
 
+sub to_string {
+    return '' if not $config;
+    YAML::Dump $config;
+}
+
 1;
 
