@@ -12,14 +12,15 @@ use Test::More tests => 8;
 
 my $project;
 subtest "basics" => sub{
-    plan tests => 4;
+    plan tests => 5;
 
     use_ok('RefImp::Project') or die;
 
     $project = RefImp::Project->get(1);
     ok($project, 'got project');
     ok($project->name, 'project has a name');
-    can_ok($project, 'directory');
+    is($project->status('new'), 'new', 'status');
+    is($project->clone_type, 'bac', 'clone_type');
 
 };
 
