@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS users (
 	last_name VARCHAR(32),
 	email VARCHAR(64),
 
-	CONSTRAINT users_id_pk PRIMARY KEY(id),
-	UNIQUE(name),
+	CONSTRAINT users_pk PRIMARY KEY(id),
+	INDEX(name),
 	UNIQUE(email)
 );
 
