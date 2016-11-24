@@ -10,7 +10,7 @@ class RefImp::Project::Command::Create {
     has_input => {
         name => {
             is => 'Text',
-            doc => 'Name of the project. Should match the clone name.',
+            doc => 'Name of the project.',
         },
     },
     has_optional_input => {
@@ -41,9 +41,7 @@ sub execute {
 
     my %params = (
         name => $self->name,
-        priority => 0,
-        purpose => 'finishing',
-        target => 0,
+        clone_type => 'bac',
     );
     $self->status_message("Project params:\n%s---\n", YAML::Dump(\%params));
     my $project = RefImp::Project->get(%params);
@@ -53,15 +51,6 @@ sub execute {
     $self->fatal_message('Failed to create project!') if !$project;
     $self->project($project);
     $self->status_message('New project: %s', $project->__display_name__);
-
-    $self->status_message('Checking for matching clone...');
-    my $clone = RefImp::Clone->get(name => $project->name);
-    if ( $clone ) {
-        $self->status_message('Found matching RefImp::Clone: ', $clone->__display_name__);
-    }
-    else {
-        $self->warning_message('No matching RefImp::Clone found with name: %s', $project->name);
-    }
 
     if ( $self->directory ) {
         RefImp::Project::Command::Update::Directory->execute(

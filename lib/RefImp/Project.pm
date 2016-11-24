@@ -75,11 +75,6 @@ class RefImp::Project {
         },
     },
     has_calculated => {
-        clone => {
-            is_constant => 1,
-            calculate_from => [qw/ name /],
-            calculate => q/ RefImp::Clone->get(name => $name); /,
-        },
         taxon => {
             is => 'RefImp::Taxon',
             is_constant => 1,

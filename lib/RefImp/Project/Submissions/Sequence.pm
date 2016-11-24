@@ -9,7 +9,7 @@ use Params::Validate qw/ :types validate /;
 
 class RefImp::Project::Submissions::Sequence {
     has => {
-        clone_name => { is => 'Text', },
+        project_name => { is => 'Text', },
         ace => { is => 'Text', },
         contig_data => { is => 'ARRAY', },
     },
@@ -25,7 +25,7 @@ class RefImp::Project::Submissions::Sequence {
 sub create {
     my $class = shift;
     my %params = validate(@_, {
-            clone_name => { type => SCALAR, },
+            project_name => { type => SCALAR, },
             ace => { type => SCALAR, },
             contig_data => { type => ARRAYREF, },
             transposons => { type => ARRAYREF, optional => 1, },
@@ -77,7 +77,7 @@ sub _load_seq_from_ace0 {
     }
 
     my $seq = Bio::Seq->new(
-        -display_id => $self->clone_name,
+        -display_id => $self->project_name,
         -desc => sprintf('%s to %s', $contig_data->{ContigFinishedFrom}, $contig_data->{ContigFinishedTo}),
         -seq => $bases,
     );
@@ -123,7 +123,7 @@ sub _create_transposon_excised_seq {
 
     my $bases = join('', map { $_->seq } @seqs);
     my $transposon_excised_seq = Bio::Seq->new(
-        -display_id => $self->clone_name,
+        -display_id => $self->project_name,
         -desc => join(' ', map { $_->desc } @seqs),
         -seq => $bases,
     );
