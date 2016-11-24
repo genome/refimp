@@ -30,14 +30,15 @@ class RefImp::Project {
     },
     has_many => {
         # Prefinishers
-        claimed_as_prefinishers => {
-            is => 'RefImp::Project::Prefinisher',
+        project_users => {
+            is => 'RefImp::Project::User',
             reverse_as => 'project',
-            doc => 'Project prefinisher links.',
+            doc => 'Project user links.',
         },
         prefinishers => {
             is => 'RefImp::User',
-            via => 'claimed_as_prefinishers',
+            via => 'project_users',
+            where => [qw/ purpose prefinisher /],
             to => 'user',
             doc => 'Project prefinishers user object.',
         },
@@ -47,14 +48,10 @@ class RefImp::Project {
             doc => 'Project prefinisher unix logins.',
         },
         # Finishers
-        claimed_as_finishers => {
-            is => 'RefImp::Project::Finisher',
-            reverse_as => 'project',
-            doc => 'Project finisher links.',
-        },
         finishers => {
             is => 'RefImp::User',
-            via => 'claimed_as_finishers',
+            via => 'project_users',
+            where => [qw/ purpose finisher /],
             to => 'user',
             doc => 'Project finisher user objects.',
         },
@@ -64,14 +61,10 @@ class RefImp::Project {
             doc => 'Project finisher unix logins.',
         },
         # Saver
-        claimed_as_savers => {
-            is => 'RefImp::Project::Saver',
-            reverse_as => 'project',
-            doc => 'Project saver links.',
-        },
         savers => {
             is => 'RefImp::User',
-            via => 'claimed_as_savers',
+            via => 'project_users',
+            where => [qw/ purpose saver /],
             to => 'user',
             doc => 'Project saver objects.',
         },

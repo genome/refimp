@@ -59,16 +59,20 @@ subtest 'subdir_for' => sub{
 };
 
 subtest "claimers" => sub{
-    plan tests => 7;
+    plan tests => 18;
 
-    use_ok('RefImp::Project::Claimer') or die;
+    my $user = RefImp::User->get(1);
+    for my $purpose ( RefImp::Project::User->valid_purposes ) {
+        my $claimer = $project->add_project_user(user => $user, purpose => $purpose);
+        ok($claimer, "created project $purpose");
+        is($claimer->project, $project, "project user $purpose project");
+        is($claimer->user, $user, "project user $[urpose user");
+        is($claimer->purpose, $purpose, "project user $purpose purpose");
+        ok($claimer->claimed_on, "project user $purpose claimed_on");
 
-    for my $type ( RefImp::Project::Claimer::valid_claim_types() ) {
-        my $add_method = 'add_claimed_as_'.$type;
-        my $claimer = $project->$add_method(ei_id => -11);
-        ok($claimer, "created project $type");
-        my $claimed_as_method = 'claimed_as_'.$type;
-        is($project->$claimed_as_method, $claimer, "added $type to project");
+        my $method = $purpose.'s';
+        my @users = $project->$method;
+        is_deeply(\@users, [$user], "got $method");
     }
 
 };
