@@ -27,6 +27,16 @@ class RefImp::Project {
             ],
             doc => 'Clone type: bac, cosmid, etc.',
         },
+        # Taxonomy
+        taxonomy => {
+            is => 'RefImp::Project::Taxonomy',
+            reverse_as => 'project',
+        },
+        taxon => {
+            is => 'RefImp::Taxon',
+            via => 'taxonomy',
+            to => 'taxon',
+        },
     },
     has_many => {
         # Prefinishers
@@ -72,14 +82,6 @@ class RefImp::Project {
             via => 'saver',
             to => 'unix_login',
             doc => 'Project saver unix logins.',
-        },
-    },
-    has_calculated => {
-        taxon => {
-            is => 'RefImp::Taxon',
-            is_constant => 1,
-            calculate_from => [qw/ name /],
-            calculate => q/ RefImp::Taxon->get_for_clone_name($name); /,
         },
     },
     data_source => RefImp::Config::get('ds_oltp'),
