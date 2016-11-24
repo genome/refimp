@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 6;
 
 my $project;
 subtest "basics" => sub{
@@ -87,11 +87,12 @@ subtest 'notes file' => sub{
 
 };
 
-subtest 'taxon' => sub{
-    plan tests => 1;
+subtest 'taxonomy' => sub{
+    plan tests => 2;
 
-    TestEnv::LimsRestApi::setup;
-    ok($project->taxon, 'project has taxon');
+    my $taxonomy = $project->taxonomy;
+    ok($taxonomy, 'project has taxonomy');
+    is($project->taxon, $taxonomy->taxon, 'project taxon');
 
 };
 
