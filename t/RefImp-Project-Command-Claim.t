@@ -22,17 +22,21 @@ subtest "setup" => sub{
 };
 
 subtest 'claim' => sub{
-    plan tests => 3;
+    plan tests => 6;
 
     my $claim = $pkg->execute(
         project => $project,
         as => 'finisher',
-        unix_login => $user->unix_login,
+        unix_login => $user->name,
+        project_status => 'finish_start',
     );
     ok($claim->result, 'execute');
 
-    my $pf = RefImp::Project::Finisher->get(project => $project);
-    ok($pf, 'added finisher to project');
+    my $claimer = RefImp::Project::User->get(project => $project);
+    ok($claimer, 'added user to project');
+    is($claimer->user, $user, 'project user => user');
+    is($claimer->purpose, 'finisher', 'project user => purpose');
+    ok($claimer->claimed_on, 'project user => claimed_on');
 
     is($project->status, 'finish_start', 'set project status');
 
