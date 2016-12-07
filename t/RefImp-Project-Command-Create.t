@@ -79,19 +79,25 @@ subtest 'create project w/ clone' => sub{
 
 };
 
-subtest 'recreate project fails' => sub{
-    plan tests => 2;
+subtest 'recreate updates existing' => sub{
+    plan tests => 5;
 
-    my $name = "TEST_PROJECT2";
+    my $name = "TEST_PROJECT1";
     my $project = RefImp::Project->get(name => $name);
     ok($project, 'project exists');
 
     my $cmd;
-    throws_ok(
-        sub{ $cmd = RefImp::Project::Command::Create->execute( name => $name); },
-        qr/Project already exists/,
-        'execute project create fails when project exists',
+    lives_ok(
+        sub{ $cmd = RefImp::Project::Command::Create->execute(
+                name => $name,
+                status => 'unknown',
+            ); },
+        'execute when project exists',
     );
+    ok($cmd->result, 'execute successful');
+
+    is($project->status, 'unknown', 'status set');
+    ok(UR::Context->commit, 'commit');
 
 };
 

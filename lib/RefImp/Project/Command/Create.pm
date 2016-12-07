@@ -39,20 +39,12 @@ sub execute {
     my $self = shift; 
     $self->status_message('Create project...');
 
-    my %params = (
-        name => $self->name,
-        priority => 0,
-        purpose => 'finishing',
-        target => 0,
-    );
-    $self->status_message("Project params:\n%s---\n", YAML::Dump(\%params));
-    my $project = RefImp::Project->get(%params);
-    $self->fatal_message('Project already exists: %s', $project->__display_name__) if $project;
-
-    $project = RefImp::Project->create(%params);
-    $self->fatal_message('Failed to create project!') if !$project;
+    my $project = RefImp::Project->get(name => $self->name);
+    if ( ! $project ) {
+        $project = $self->_create_project;
+    }
     $self->project($project);
-    $self->status_message('New project: %s', $project->__display_name__);
+    $self->status_message('Project: %s', $project->__display_name__);
 
     $self->status_message('Checking for matching clone...');
     my $clone = RefImp::Clone->get(name => $project->name);
@@ -76,6 +68,25 @@ sub execute {
     }
 
     return 1;
+
+}
+
+sub _create_project {
+    my $self = shift;
+
+    my %params = (
+        name => $self->name,
+        priority => 0,
+        purpose => 'finishing',
+        target => 0,
+    );
+    $self->status_message("Project params:\n%s---\n", YAML::Dump(\%params));
+    my $project = RefImp::Project->get(%params);
+    $self->fatal_message('Project already exists: %s', $project->__display_name__) if $project;
+
+    $project = RefImp::Project->create(%params);
+    $self->fatal_message('Failed to create project!') if !$project;
+    $project;
 }
 
 1;
