@@ -54,7 +54,7 @@ sub get_for_clone {
     my %taxonomy;
     $taxonomy{species_name} = $species_name;
     for my $attribute (qw/ species_latin_name chromosome /) {
-        $taxonomy{$attribute} = RefImp::Resources::LimsRestApi->new->query($self, $attribute) // 'unknown';
+        $taxonomy{$attribute} = RefImp::Resources::LimsRestApi->new->query($clone, $attribute) // 'unknown';
     }
 
     $taxonomy{species_short_name} = ( exists $species_short_names{$species_name} )
