@@ -13,7 +13,7 @@ use_ok('RefImp::Project::Command::Create') or die;
 my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
 
 subtest 'create project w/o clone' => sub{
-    plan tests => 10;
+    plan tests => 8;
 
     my $name = "TEST_PROJECT1";
     my $project = RefImp::Project->get(name => $name);
@@ -36,10 +36,6 @@ subtest 'create project w/o clone' => sub{
     ok($project, 'project created');
     is($project, $cmd->project, 'project set on command object');
     is($project->status, 'finish_start', 'status set');
-
-    my @sh = $project->status_histories;
-    is(@sh, 1, 'added project status history');
-    is($sh[0]->project_status, $project->status, 'project status matches');
 
     ok(UR::Context->commit, 'commit');
 

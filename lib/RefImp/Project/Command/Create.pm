@@ -58,12 +58,7 @@ sub execute {
         );
     }
 
-    if ( $self->status ) {
-        $self->status_message('Set project status: %s', $self->status);
-        UR::Context->commit;
-        RefImp::Project::StatusHistory->create(project => $project, project_status => $self->status);
-        #$project->__status( $self->status );
-    }
+    $self->status_message('Set project status: %s', $project->__status($self->status));
 
     return 1;
 
