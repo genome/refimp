@@ -4,13 +4,15 @@ use strict;
 use warnings;
 
 use RefImp::Project;
+use RefImp::Role::PropertyValuesFromFile;
 
 class RefImp::Project::Command::Create { 
     is => 'Command::V2',
     has_input => {
-        name => {
+        names => {
             is => 'Text',
-            doc => 'Name of the project. Should match the clone name.',
+            is_many => 1,
+            doc => 'Names of the projects.',
         },
     },
     has_optional_input => {
@@ -24,57 +26,53 @@ class RefImp::Project::Command::Create {
             doc => 'Starting status of the project.',
         },
     },
-    has_optional_transient => {
-        project => {
-            is => 'RefImp::Project',
-            doc => 'The newly created project.',
-        },
-    },
     doc => 'create a project',
 };
+RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file(__PACKAGE__, 'names');
 
 sub help_detail { __PACKAGE__->__meta__->doc }
 
 sub execute {
     my $self = shift; 
-    $self->status_message('Create project...');
+    $self->status_message('Create projects...');
 
-    my $project = $self->_get_or_create_project;
-    $self->project($project);
+    for my $name ( $self->names ) {
+        my $project = $self->_get_or_create_project($name);
 
-    $self->status_message('Checking for matching clone...');
-    my $clone = RefImp::Clone->get(name => $project->name);
-    if ( $clone ) {
-        $self->status_message('Found matching RefImp::Clone: %s', $clone->__display_name__);
+        $self->status_message('Checking for matching clone...');
+        my $clone = RefImp::Clone->get(name => $project->name);
+        if ( $clone ) {
+            $self->status_message('Found matching RefImp::Clone: %s', $clone->__display_name__);
+        }
+        else {
+            $self->warning_message('No matching RefImp::Clone found with name: %s', $project->name);
+        }
+
+        if ( $self->directory ) {
+            RefImp::Project::Command::Update::Directory->execute(
+                projects => [$project],
+                value => $self->directory,
+            );
+        }
+
+        $self->status_message('Status: %s', $project->__status($self->status));
     }
-    else {
-        $self->warning_message('No matching RefImp::Clone found with name: %s', $project->name);
-    }
-
-    if ( $self->directory ) {
-        RefImp::Project::Command::Update::Directory->execute(
-            projects => [$project],
-            value => $self->directory,
-        );
-    }
-
-    $self->status_message('Set project status: %s', $project->__status($self->status));
 
     return 1;
 
 }
 
 sub _get_or_create_project {
-    my $self = shift;
+    my ($self, $name) = @_;
 
-    my $project = RefImp::Project->get(name => $self->name);
+    my $project = RefImp::Project->get(name => $name);
     if ( $project ) {
         $self->status_message('Found existing project: %s', $project->__display_name__);
         return $project;
     }
 
     my %params = (
-        name => $self->name,
+        name => $name,
         priority => 0,
         purpose => 'finishing',
         target => 0,
