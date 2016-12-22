@@ -13,7 +13,7 @@ use_ok('RefImp::Project::Command::Create') or die;
 my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
 
 subtest 'create project w/o clone' => sub{
-    plan tests => 8;
+    plan tests => 7;
 
     my $name = "TEST_PROJECT1";
     my $project = RefImp::Project->get(name => $name);
@@ -23,7 +23,7 @@ subtest 'create project w/o clone' => sub{
     lives_ok(
         sub{
             $cmd = RefImp::Project::Command::Create->execute(
-                name => $name,
+                names => [$name],
                 status => 'finish_start',
             );
         },
@@ -34,7 +34,6 @@ subtest 'create project w/o clone' => sub{
 
     $project = RefImp::Project->get(name => $name);
     ok($project, 'project created');
-    is($project, $cmd->project, 'project set on command object');
     is($project->status, 'finish_start', 'status set');
 
     ok(UR::Context->commit, 'commit');
@@ -42,7 +41,7 @@ subtest 'create project w/o clone' => sub{
 };
 
 subtest 'create project w/ clone' => sub{
-    plan tests => 9;
+    plan tests => 8;
 
     my $name = "TEST_PROJECT2";
     my $project = RefImp::Project->get(name => $name);
@@ -58,7 +57,7 @@ subtest 'create project w/ clone' => sub{
     my $cmd;
     lives_ok(
         sub{ $cmd = RefImp::Project::Command::Create->execute(
-                name => $name,
+                names => [$name],
                 directory => $tmpdir,
             ); },
         'execute project create',
@@ -68,31 +67,36 @@ subtest 'create project w/ clone' => sub{
 
     $project = RefImp::Project->get(name => $name);
     ok($project, 'project created');
-    is($project, $cmd->project, 'project set on command object');
     ok(-d $project->directory, 'created and set directory');
 
     ok(UR::Context->commit, 'commit');
 
 };
 
-subtest 'recreate updates existing' => sub{
-    plan tests => 5;
+subtest 'from file existing updates' => sub{
+    plan tests => 6;
 
     my $name = "TEST_PROJECT1";
     my $project = RefImp::Project->get(name => $name);
     ok($project, 'project exists');
+    is($project->status, 'finish_start', 'status');
+
+    my $file = File::Spec->join($tmpdir, 'project_names');
+    my $fh = IO::File->new($file, 'w');
+    $fh->print("$name\n");
+    $fh->close;
 
     my $cmd;
     lives_ok(
         sub{ $cmd = RefImp::Project::Command::Create->execute(
-                name => $name,
+                names => [$file],
                 status => 'unknown',
             ); },
         'execute when project exists',
     );
     ok($cmd->result, 'execute successful');
 
-    is($project->status, 'unknown', 'status set');
+    is($project->status, 'unknown', 'status updated');
     ok(UR::Context->commit, 'commit');
 
 };
