@@ -8,7 +8,7 @@ use TestEnv;
 use File::Slurp;
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my $pkg_name = 'RefImp::Role::PropertyValuesFromFile';
 use_ok($pkg_name) or die;
@@ -19,6 +19,16 @@ class FromFileTest {
     },
 };
 RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'names');
+
+subtest 'errors' => sub{
+    plan tests => 1;
+
+    throws_ok(
+        sub{ RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'blah'); },
+        qr/No property for blah/,
+        'class_properties_can_load_from_file fails with unknown property',
+    );
+};
 
 subtest 'create with strings' => sub{
     plan tests => 4;

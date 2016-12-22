@@ -16,6 +16,7 @@ sub class_properties_can_load_from_file {
 
     for my $property_name ( @_ ) {
         my $property = $class->__meta__->property_meta_for_name($property_name);
+        $class->fatal_message('No property for %s to allow loading values from a file!', $property_name) if not $property;
         $property->{can_load_from_file} = 1;
     }
 }
