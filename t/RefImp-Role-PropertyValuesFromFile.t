@@ -8,17 +8,17 @@ use TestEnv;
 use File::Slurp;
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my $pkg_name = 'RefImp::Role::PropertyValuesFromFile';
 use_ok($pkg_name) or die;
 
 class FromFileTest {
     has_many_optional => {
-        names => { is => 'Text', },
+        names => { is => 'Text', doc => '',},
+        other => { is => 'Text', doc => '', },
     },
 };
-RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'names');
 
 subtest 'errors' => sub{
     plan tests => 1;
@@ -28,6 +28,19 @@ subtest 'errors' => sub{
         qr/No property for blah/,
         'class_properties_can_load_from_file fails with unknown property',
     );
+};
+
+subtest 'class_properties_can_load_from_file' => sub{
+    plan tests => 3;
+
+    RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'names');
+    my $property = FromFileTest->__meta__->property_meta_for_name('names');
+    ok($property->{can_load_from_file}, 'set can_load_from_file for names');
+    like($property->{doc}, qr/pass a file to load values/, 'appended doc for names');
+
+    $property = FromFileTest->__meta__->property_meta_for_name('other');
+    ok(!$property->{can_load_from_file}, 'did not set can_load_from_file for other');
+
 };
 
 subtest 'create with strings' => sub{
