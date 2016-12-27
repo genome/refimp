@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 my $project;
 subtest "basics" => sub{
@@ -107,6 +107,16 @@ subtest 'taxon' => sub{
 
     TestEnv::LimsRestApi::setup;
     ok($project->taxon, 'project has taxon');
+
+};
+
+subtest 'unknown taxon w/o clone' => sub{
+    plan tests => 3;
+
+    my $project = RefImp::Project->create(name => 'Testy McTesterson');
+    ok($project, 'create project');
+    ok(!$project->clone, 'project does not have a clone');
+    is($project->taxon->species_name, 'unknown', 'got unkown taxon for project w/o clone');
 
 };
 

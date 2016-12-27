@@ -3,14 +3,14 @@ package RefImp::Taxon;
 use strict;
 use warnings 'FATAL';
 
-use Params::Validate 'validate_pos';
+use Params::Validate qw/ :types validate_pos /;
 
 class RefImp::Taxon { 
     is => 'UR::Object',
     has => {
         species_name => { is => 'Text', default_value => 'unknown', },
         species_latin_name => { is => 'Text', default_value => 'unknown', },
-        species_short_name => { is => 'Text', },
+        species_short_name => { is => 'Text', default_value => 'unknown', },
         chromosome => { is => 'Text', default_value => 'unknown', },
     },
 };
@@ -44,8 +44,11 @@ my %species_short_names = (
     "Zebra finch"                  => "zebrafinch",
 );
 
-sub get_for_clone {
-    my ($class, $clone) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Clone'});
+sub get_for_clone_name {
+    my ($class, $clone_name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+
+    my $clone = RefImp::Clone->get(name => $clone_name);
+    return $class->create if not $clone;
 
     my $species_name = RefImp::Resources::LimsRestApi->new->query($clone, 'species_name');
     my $self = $class->get(species_name => $species_name);

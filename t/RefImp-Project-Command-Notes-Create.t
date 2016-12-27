@@ -14,7 +14,7 @@ my $pkg = 'RefImp::Project::Command::Notes::Create';
 use_ok($pkg) or die;
 
 subtest 'execute' => sub {
-    plan tests => 4;
+    plan tests => 3;
 
     my $project = RefImp::Project->create(name => 'H_PROJECT');
     ok($project, 'create project');
@@ -34,7 +34,6 @@ subtest 'execute' => sub {
     );
     ok($cmd->result, 'execute notes create');
     my $expected_notes_file_path = File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'expected.notes');
-    like($cmd->warning_message, qr/Failed to find clone/, 'warning about not finding clone');
     ok(-s $project->notes_file_path, 'notes file created');
 
 };
