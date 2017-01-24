@@ -27,7 +27,10 @@ sub parse {
     my @file_name_tokens = split(/\./, $file_name);
     $report{localseqname} = $file_name_tokens[1];
 
-    @report{qw/ accession version /} = split(/\./, delete $report{accession});
+    my ($accession, $version) = split(/\./, delete $report{accession});
+    $version //= 1;
+    $report{accession} = $accession;
+    $report{version} = $version;
 
     return \%report;
 }
