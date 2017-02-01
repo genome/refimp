@@ -22,6 +22,7 @@ sub _user_name_for_key {
     return 'NA' if not $value;
     chomp $value;
     $value =~ s/^\s*$key\=\s*//;
+    $value =~ s/\s*$//;
     return List::MoreUtils::uniq( split(/,\s+|\//, $value) );
 }
 
