@@ -30,7 +30,7 @@ subtest 'new' => sub{
 
 };
 
-subtest '(pre)finishers' => sub{
+subtest 'finishers' => sub{
     plan tests => 2;
 
     my @prefinishers = $notes_file->prefinishers;
