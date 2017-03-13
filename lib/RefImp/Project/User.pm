@@ -15,7 +15,7 @@ class RefImp::Project::User {
         user => { is => 'RefImp::User', id_by => 'user_id', },
         claimed_on => { is => 'Date', doc => '' },
     },
-    data_source => RefImp::Config::get('ds_oltp'),
+    data_source => RefImp::Config::get('ds_mysql'),
 };
 
 sub valid_purposes { @{$_[0]->__meta__->property_meta_for_name('purpose')->valid_values} }

@@ -18,7 +18,7 @@ class RefImp::User {
         first_name => { is => 'Text', doc => 'First name of the user.', },
         last_name => { is => 'Text', doc => 'Last name of the user.', },
     },
-    data_source => RefImp::Config::get('ds_oltp'),
+    data_source => RefImp::Config::get('ds_mysql'),
 };
 
 sub email_domain { 'wustl.edu' }

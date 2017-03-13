@@ -84,7 +84,7 @@ class RefImp::Project {
             doc => 'Project saver unix logins.',
         },
     },
-    data_source => RefImp::Config::get('ds_oltp'),
+    data_source => RefImp::Config::get('ds_mysql'),
 };
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }
