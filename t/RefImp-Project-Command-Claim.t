@@ -22,7 +22,7 @@ subtest "setup" => sub{
 };
 
 subtest 'claim' => sub{
-    plan tests => 6;
+    plan tests => 5;
 
     my $claim = $pkg->execute(
         project => $project,
@@ -36,7 +36,6 @@ subtest 'claim' => sub{
     ok($claimer, 'added user to project');
     is($claimer->user, $user, 'project user => user');
     is($claimer->purpose, 'finisher', 'project user => purpose');
-    ok($claimer->claimed_on, 'project user => claimed_on');
 
     is($project->status, 'finish_start', 'set project status');
 

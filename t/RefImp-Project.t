@@ -59,7 +59,7 @@ subtest 'subdir_for' => sub{
 };
 
 subtest "claimers" => sub{
-    plan tests => 18;
+    plan tests => 15;
 
     my $user = RefImp::User->get(1);
     for my $purpose ( RefImp::Project::User->valid_purposes ) {
@@ -68,7 +68,6 @@ subtest "claimers" => sub{
         is($claimer->project, $project, "project user $purpose project");
         is($claimer->user, $user, "project user $[urpose user");
         is($claimer->purpose, $purpose, "project user $purpose purpose");
-        ok($claimer->claimed_on, "project user $purpose claimed_on");
 
         my $method = $purpose.'s';
         my @users = $project->$method;

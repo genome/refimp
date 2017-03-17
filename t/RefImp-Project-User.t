@@ -24,7 +24,7 @@ subtest 'setup' => sub{
 };
 
 subtest 'create' => sub{
-    plan tests => 6;
+    plan tests => 5;
 
     my @valid_purposes = $pkg->valid_purposes;
     is(@valid_purposes, 3, 'valid_purposes');
@@ -38,7 +38,6 @@ subtest 'create' => sub{
     is($claimer->project, $project, 'project');
     is($claimer->user, $user, 'user');
     is($claimer->purpose, $valid_purposes[0], 'correct purpose');
-    ok($claimer->claimed_on, 'set claimed_on');
 
 };
 
