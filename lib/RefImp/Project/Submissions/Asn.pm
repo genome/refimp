@@ -228,11 +228,11 @@ sub _create_template_file {
 
     my $ref = $self->submit_info;
 
-    my @author_unix_logins;
+    my @author_names;
     foreach my $author_key (qw/ FinisherUserList PrefinisherUserList SaverUserList /) {
-        push @author_unix_logins, @{$ref->{GENINFO}->{$author_key}} if $ref->{GENINFO}->{$author_key};
+        push @author_names, @{$ref->{GENINFO}->{$author_key}} if $ref->{GENINFO}->{$author_key};
     }
-    my @authors = map { RefImp::User->get(unix_login => $_) } @author_unix_logins;
+    my @authors = map { RefImp::User->get(name => $_) } @author_names;
 
     my @othercomments;
     if (defined ($ref->{COMMENTS}->{TransposonComments})){
