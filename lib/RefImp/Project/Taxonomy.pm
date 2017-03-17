@@ -4,7 +4,7 @@ use strict;
 use warnings 'FATAL';
 
 class RefImp::Project::Taxonomy {
-    table_name => 'projects_taxons',
+    table_name => 'projects_taxa',
     id_by => {
         project_id => { is => 'Text', },
         taxon_id => { is => 'Text', },
