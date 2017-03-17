@@ -58,7 +58,7 @@ sub _create_header {
     }
     my $secondary_accession = ( $gba ? $gba->acc_number : undef );
 
-    my $chromosome = $self->project->taxon->chromosome;
+    my $chromosome = $self->project->taxonomy->chromosome;
     my $clone_type = uc $project->clone_type;
     my $gb_clone_name = $self->ncbi_clone_name;
     my $species_name = $self->project->taxon->species_name;
