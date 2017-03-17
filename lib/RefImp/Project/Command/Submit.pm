@@ -95,7 +95,7 @@ sub _save_sequence {
     die "No ace.0 for ".$self->project->name if not $ace0_file;
 
     my %seq_params = (
-        clone_name => $self->project->name,
+        project_name => $self->project->name,
         ace => $ace0_file,
         contig_data => $self->submit_info->{COMMENTS}->{ContigData},
     );
