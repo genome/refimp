@@ -26,8 +26,8 @@ subtest 'create' => sub{
     my $working_directory = File::Temp::tempdir(CLEANUP => 1);
     symlink File::Spec->join($data_dir, "$project_name.seq"), File::Spec->join($working_directory, "$project_name.seq");
 
-    RefImp::User->create(unix_login => 'bobama', first_name => 'barack', last_name => 'obama');
-    RefImp::User->create(unix_login => 'jbiden', first_name => 'joe', last_name => 'biden');
+    RefImp::User->create(name => 'bobama', first_name => 'barack', last_name => 'obama');
+    RefImp::User->create(name => 'jbiden', first_name => 'joe', last_name => 'biden');
 
     my $asn = $pkg->create(
         project => $project,
