@@ -1,10 +1,10 @@
--- Verify refimp:create_taxons on mysql
+-- Verify refimp:create_taxa on mysql
 
 BEGIN;
 
 SELECT
 	id, name, species_name, strain_name
-FROM taxons
+FROM taxa
 WHERE 0;
 
 ROLLBACK;

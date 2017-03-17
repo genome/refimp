@@ -4,7 +4,7 @@ use strict;
 use warnings 'FATAL';
 
 class RefImp::Taxon { 
-    table_name => 'taxons',
+    table_name => 'taxa',
     id_by => {
         id => { is => 'Text', },
     },
