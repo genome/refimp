@@ -38,12 +38,13 @@ subtest 'ENVs' => sub{
 };
 
 subtest 'config' => sub{
-    plan tests => 6;
+    plan tests => 7;
 
     my $repo_path = TestEnv::current_repo_path();
     my %expected_configs = (
         analysis_directory => File::Spec->join($repo_path, 't', 'data', 'analysis'),
         ds_mysql => 'RefImp::DataSource::TestDb',
+        ds_oltp => 'RefImp::DataSource::TestDb',
         ds_testdb_server => File::Spec->join($repo_path, 't', 'data', 'test.db'),
         environment => 'test',
         seqmgr => File::Spec->join($repo_path, 't', 'data', 'seqmgr'),
