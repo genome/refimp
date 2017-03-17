@@ -21,9 +21,10 @@ subtest 'setup' => sub{
 
     $setup{finisher} = RefImp::User->get(1);
 
-    RefImp::Project::Finisher->create_for_project_and_user(
+    RefImp::Project::User->create(
         project => $setup{project},
         user => $setup{finisher},
+        purpose => 'finisher',
     );
 
     Sub::Install::reinstall_sub({
@@ -51,7 +52,7 @@ subtest 'cannot presubmit project with incorrect status' => sub{
         sub{
             $setup{pkg}->execute(
                 project => $setup{project},
-                checker_unix_logins => [ $setup{finisher}->unix_login ],
+                checker_unix_logins => [ $setup{finisher}->name ],
             );
         },
         qr/Project /,
@@ -73,7 +74,7 @@ subtest 'presubmit does not proceed unless responding yes' => sub{
         sub{
             $setup{pkg}->execute(
                 project => $setup{project},
-                checker_unix_logins => [ $setup{finisher}->unix_login ],
+                checker_unix_logins => [ $setup{finisher}->name ],
             ); 
         },
         qr/Request to not presubmit/,
@@ -92,7 +93,7 @@ subtest 'presubmit' => sub{
 
     my $cmd = $setup{pkg}->execute(
         project => $setup{project},
-        checker_unix_logins => [ $setup{finisher}->unix_login ],
+        checker_unix_logins => [ $setup{finisher}->name ],
     );
     ok($cmd->result, 'execute');
     is($setup{project}->status, 'presubmitted', 'set project status');
