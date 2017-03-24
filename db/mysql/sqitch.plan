@@ -1,0 +1,10 @@
+%syntax-version=1.0.0
+%project=refimp
+%uri=https://github.com/genome/refimp
+
+create_projects 2016-11-18T23:54:26Z Eddie Belter <ebelter@mullis.local> # Create projects!
+create_projects_submissions 2016-11-19T01:10:10Z Eddie Belter <ebelter@mullis.local> # Create projects submissions!
+create_users 2016-11-21T21:17:35Z Eddie Belter <ebelter@mullis.local> # Create users table
+create_projects_users 2016-11-21T22:36:01Z Eddie Belter <ebelter@mullis.local> # Create projects users!
+create_taxa 2016-11-21T22:54:09Z Eddie Belter <ebelter@mullis.local> # Create taxa!
+create_projects_taxa 2016-11-22T21:52:12Z Eddie Belter <ebelter@mullis.local> # Create project taxa!

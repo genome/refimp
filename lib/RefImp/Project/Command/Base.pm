@@ -13,12 +13,6 @@ class RefImp::Project::Command::Base {
             doc => 'Project to use. Use id or name.',
         },
     },
-    has_optional_calculated => {
-        clone => {
-            calculate_from => [qw/ project /],
-            calculate => q| RefImp::Clone->get(name => $project->name); |,
-        },
-    },
     doc => 'base class for commands that work with a project',
 };
 

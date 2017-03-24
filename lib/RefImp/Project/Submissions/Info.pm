@@ -63,10 +63,10 @@ sub set_geninfo {
     my ($self, $submit, $project) = @_;
 
     my $notes_file = $project->notes_file;
-    my $taxon = $project->taxon;
+    my $taxonomy = $project->taxonomy;
     $submit->{GENINFO}->{CloneName} = $project->name;
-    $submit->{GENINFO}->{Organism} = $taxon->species_name;
-    $submit->{GENINFO}->{Chromosome} = $taxon->chromosome;
+    $submit->{GENINFO}->{Organism} = $taxonomy->common_name;
+    $submit->{GENINFO}->{Chromosome} = $taxonomy->chromosome;
     $submit->{GENINFO}->{PrefinisherUserList} = [ $notes_file->prefinishers ];
     $submit->{GENINFO}->{FinisherUserList} = [ $notes_file->finishers ];
     $submit->{GENINFO}->{FinishingGroup} = 'avery',

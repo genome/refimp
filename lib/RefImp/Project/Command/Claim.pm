@@ -1,26 +1,27 @@
 package RefImp::Project::Command::Claim;
 
 use strict;
-use warnings;
+use warnings 'FATAL';
+
+use RefImp::Project::User;
 
 class RefImp::Project::Command::Claim {
     is => 'RefImp::Project::Command::Base',
     has_input => {
         as => {
-            is => 'String',
-            valid_values => [qw/ finisher prefinisher saver /],
+            is => 'Text',
+            valid_values => [ RefImp::Project::User->valid_purposes ],
             shell_args_position => 2,
             doc => 'Claim the project as this function.',
         },
         unix_login => {
-            is => 'String',
+            is => 'Text',
             shell_args_position => 3,
             doc => 'Claim the project for this user.',
         },
-        update_project_status => {
-            is => 'Boolean',
-            default_value => 1,
-            doc => 'Update the status on the project. ',
+        project_status => {
+            is => 'Text',
+            doc => 'Additionally, update the status on the project.',
         },
     },
     doc => 'claim a project as finisher/prefinisher/saver',
@@ -36,31 +37,23 @@ sub execute {
     $self->status_message('Project: %s', $project->__display_name__);
     $self->status_message('Current status: %s', $project->status);
 
-    my $user = RefImp::User->get(unix_login => $self->unix_login);
+    my $user = RefImp::User->get(name => $self->unix_login);
     $self->fatal_message('No user for unix_login: %s', $self->unix_login) if not $user;
     $self->status_message('Function: %s', $self->as);
-    $self->status_message('User: %s', $user->unix_login);
+    $self->status_message('User: %s', $user->name);
 
-    my $claimer_class = RefImp::Project::Claimer->class_for_claimer_type( $self->as );
-    my $claimer = $claimer_class->create_for_project_and_user(
+    my $claimer = RefImp::Project::User->create(
         project => $project,
         user => $user,
+        purpose => $self->as,
     );
 
-    if ( $self->update_project_status ) {
-        $self->_update_project_status;
-        $self->status_message('Updated project status: %s', $project->status);
+    if ( $self->project_status ) {
+        $self->status_message('Updated project status: %s', $project->status( $self->project_status) );
     }
 
     $self->status_message('Claim...OK');
     return 1;
-}
-
-sub _update_project_status {
-    my $self = shift;
-    my $function_for_claim_type = RefImp::Project::Claimer->function_for_claim_type( $self->as );
-    my $status = $function_for_claim_type.'_start';
-    $self->project->status($status);
 }
 
 1;

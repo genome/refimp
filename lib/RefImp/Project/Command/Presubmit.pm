@@ -61,7 +61,7 @@ sub _send_email {
     $self->fatal_message('No finisher assgined to project: %s', $self->project->__display_name__) if not $finisher;
 
     my @checker_unix_logins = $self->checker_unix_logins;
-    my @checkers = RefImp::User->get(unix_login => \@checker_unix_logins);
+    my @checkers = RefImp::User->get(name => \@checker_unix_logins);
     if ( @checkers != @checker_unix_logins ) {
         $self->fatal_message('Failed to get all checkers for unix logins: %s', join(' ', $self->checker_unix_logins));
     }

@@ -9,63 +9,46 @@ use Params::Validate qw( :types validate_pos );
 use RefImp::Project::NotesFile;
 use RefImp::Resources::LimsRestApi;
 
-=doc 2016-05-03
-
-PROJECTS	GSC::Project	oltp	production
-
-    APROX_COVERAGE           aprox_coverage           NUMBER(126)   NULLABLE
-    ARCHIVAL_DATE            archival_date            DATE(19)      NULLABLE
-  x CONSENSUS_DIRECTORY      consensus_directory      VARCHAR2(150) NULLABLE
-    DATE_LAST_ASSEMBLED      date_last_assembled      DATE(19)      NULLABLE
-    ESTIMATED_SIZE           estimated_size           NUMBER(126)   NULLABLE
-    ESTIMATED_SIZE_FROM_CTGS estimated_size_from_ctgs NUMBER(8)     NULLABLE
-    GRO_GROUP_NAME           group_name               VARCHAR2(64)  NULLABLE
-  x NAME                     name                     VARCHAR2(64)           (unique)
-    NO_ASSEMBLE_TRACES       no_assemble_traces       NUMBER(126)   NULLABLE
-    NO_CONTIGS               no_contigs               NUMBER(126)   NULLABLE
-    NO_CT_GT_1KB             no_ct_gt_1kb             NUMBER(126)   NULLABLE
-    NO_Q20_BASES             no_q20_bases             NUMBER(126)   NULLABLE
-  x PRIORITY                 priority                 NUMBER(1)
-  x PROJECT_ID               project_id               NUMBER(10)             (pk)
-  x PROSTA_PROJECT_STATUS    project_status           VARCHAR2(22)           (fk)
-  x PP_PURPOSE               purpose                  VARCHAR2(32)           (fk)
-    SPANNED_GAP              spanned_gap              NUMBER(10)    NULLABLE
-    SPANNED_GSC_GAP          spanned_gsc_gap          NUMBER(10)    NULLABLE
-  x  TARGET                   target                   NUMBER(5)
-
-=cut
-
 class RefImp::Project {
     table_name => 'projects',
     id_by => {
-        id => { is => 'Integer', column_name => 'project_id', },
+        id => { is => 'Text', },
     },
     has => {
         name => { is => 'Text', doc => 'Name of the project.', },
     },
     has_optional => {
-        directory => { is => 'Text', column_name => 'consensus_directory', doc => 'File system location.', },
-        priority => { is => 'Number', len => 1, doc => 'Legacy project priority.', },
-        purpose => { is => 'Text', column_name => 'pp_purpose', doc => 'Legacy project purpose.', },
-        status => { is => 'Text', column_name => 'prosta_project_status', },
-        target => { is => 'Number', len => 5, doc => 'Legacy project target.', },
+        directory => { is => 'Text', doc => 'File system location.', },
+        status => { is => 'Text', doc => 'Current status of the project.', },
+        clone_type => {
+            is => 'Text',
+            valid_values => [
+                "bac", "chromosome", "cosmid", "fosmid", "fosmid library", "genome", "pac", "unknown", "yac",
+            ],
+            doc => 'Clone type: bac, cosmid, etc.',
+        },
+        # Taxonomy
+        taxonomy => {
+            is => 'RefImp::Project::Taxonomy',
+            reverse_as => 'project',
+        },
+        taxon => {
+            is => 'RefImp::Taxon',
+            via => 'taxonomy',
+            to => 'taxon',
+        },
     },
     has_many => {
-        status_histories => {
-            is => 'RefImp::Project::StatusHistory',
-            reverse_as => 'project',
-            where => [ -order_by => '-status_date' ],
-            doc => 'Time stamped statuses of this project.',
-        },
         # Prefinishers
-        claimed_as_prefinishers => {
-            is => 'RefImp::Project::Prefinisher',
+        project_users => {
+            is => 'RefImp::Project::User',
             reverse_as => 'project',
-            doc => 'Project prefinisher links.',
+            doc => 'Project user links.',
         },
         prefinishers => {
             is => 'RefImp::User',
-            via => 'claimed_as_prefinishers',
+            via => 'project_users',
+            where => [qw/ purpose prefinisher /],
             to => 'user',
             doc => 'Project prefinishers user object.',
         },
@@ -75,14 +58,10 @@ class RefImp::Project {
             doc => 'Project prefinisher unix logins.',
         },
         # Finishers
-        claimed_as_finishers => {
-            is => 'RefImp::Project::Finisher',
-            reverse_as => 'project',
-            doc => 'Project finisher links.',
-        },
         finishers => {
             is => 'RefImp::User',
-            via => 'claimed_as_finishers',
+            via => 'project_users',
+            where => [qw/ purpose finisher /],
             to => 'user',
             doc => 'Project finisher user objects.',
         },
@@ -92,14 +71,10 @@ class RefImp::Project {
             doc => 'Project finisher unix logins.',
         },
         # Saver
-        claimed_as_savers => {
-            is => 'RefImp::Project::Saver',
-            reverse_as => 'project',
-            doc => 'Project saver links.',
-        },
         savers => {
             is => 'RefImp::User',
-            via => 'claimed_as_savers',
+            via => 'project_users',
+            where => [qw/ purpose saver /],
             to => 'user',
             doc => 'Project saver objects.',
         },
@@ -109,20 +84,7 @@ class RefImp::Project {
             doc => 'Project saver unix logins.',
         },
     },
-    has_calculated => {
-        clone => {
-            is_constant => 1,
-            calculate_from => [qw/ name /],
-            calculate => q/ RefImp::Clone->get(name => $name); /,
-        },
-        taxon => {
-            is => 'RefImp::Taxon',
-            is_constant => 1,
-            calculate_from => [qw/ name /],
-            calculate => q/ RefImp::Taxon->get_for_clone_name($name); /,
-        },
-    },
-    data_source => RefImp::Config::get('ds_oltp'),
+    data_source => RefImp::Config::get('ds_mysql'),
 };
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }
@@ -163,13 +125,6 @@ sub create_project_directory_structure {
     }
 
     return $directory;
-}
-
-sub status {
-    my ($self, $value) = @_;
-    return $self->__status if not defined $value;
-    RefImp::Project::StatusHistory->create(project => $self, project_status => $value);
-    return $self->__status;
 }
 
 sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); }

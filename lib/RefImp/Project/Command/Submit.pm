@@ -43,7 +43,7 @@ sub execute {
     $self->_generate_asn;
     $self->_ftp_asn_to_ncbi;
     $self->_move_staging_content_to_analysis_subdirectory;
-    $self->_update_project_status;
+    $self->status_message('Project status: %s', $self->project->status('submitted'));
 
     return 1;
 }
@@ -95,7 +95,7 @@ sub _save_sequence {
     die "No ace.0 for ".$self->project->name if not $ace0_file;
 
     my %seq_params = (
-        clone_name => $self->project->name,
+        project_name => $self->project->name,
         ace => $ace0_file,
         contig_data => $self->submit_info->{COMMENTS}->{ContigData},
     );
@@ -164,18 +164,6 @@ sub _ftp_asn_to_ncbi {
     }
 
     $self->status_message('FTP ASN to NCBI...OK');
-}
-
-sub _update_project_status {
-    my $self = shift;
-    $self->status_message('Set project status...');
-
-    my $psh = RefImp::Project::StatusHistory->create(
-        project => $self->project,
-        project_status => 'submitted',
-    );
-
-    $self->status_message('Project status: %s', $self->project->status);
 }
 
 sub _move_staging_content_to_analysis_subdirectory {

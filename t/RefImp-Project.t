@@ -8,29 +8,19 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 9;
+use Test::More tests => 6;
 
 my $project;
 subtest "basics" => sub{
-    plan tests => 4;
+    plan tests => 5;
 
     use_ok('RefImp::Project') or die;
 
     $project = RefImp::Project->get(1);
     ok($project, 'got project');
     ok($project->name, 'project has a name');
-    can_ok($project, 'directory');
-
-};
-
-subtest "status" => sub{
-    plan tests => 3;
-
-    my @psh = $project->status_histories;
-    ok(!@psh, 'no project status histories');
-    is($project->status('finish_start'), 'finish_start', 'set status');
-    @psh = $project->status_histories;
-    is(@psh, 1, 'added psh');
+    is($project->status('new'), 'new', 'status');
+    is($project->clone_type, 'bac', 'clone_type');
 
 };
 
@@ -69,16 +59,19 @@ subtest 'subdir_for' => sub{
 };
 
 subtest "claimers" => sub{
-    plan tests => 7;
+    plan tests => 15;
 
-    use_ok('RefImp::Project::Claimer') or die;
+    my $user = RefImp::User->get(1);
+    for my $purpose ( RefImp::Project::User->valid_purposes ) {
+        my $claimer = $project->add_project_user(user => $user, purpose => $purpose);
+        ok($claimer, "created project $purpose");
+        is($claimer->project, $project, "project user $purpose project");
+        is($claimer->user, $user, "project user $[urpose user");
+        is($claimer->purpose, $purpose, "project user $purpose purpose");
 
-    for my $type ( RefImp::Project::Claimer::valid_claim_types() ) {
-        my $add_method = 'add_claimed_as_'.$type;
-        my $claimer = $project->$add_method(ei_id => -11);
-        ok($claimer, "created project $type");
-        my $claimed_as_method = 'claimed_as_'.$type;
-        is($project->$claimed_as_method, $claimer, "added $type to project");
+        my $method = $purpose.'s';
+        my @users = $project->$method;
+        is_deeply(\@users, [$user], "got $method");
     }
 
 };
@@ -93,30 +86,12 @@ subtest 'notes file' => sub{
 
 };
 
-subtest 'clone' => sub{
+subtest 'taxonomy' => sub{
     plan tests => 2;
 
-    my $clone = RefImp::Clone->get(name => $project->name);
-    ok($clone, 'got clone');
-    is($project->clone, $clone, 'got project via clone');
-
-};
-
-subtest 'taxon' => sub{
-    plan tests => 1;
-
-    TestEnv::LimsRestApi::setup;
-    ok($project->taxon, 'project has taxon');
-
-};
-
-subtest 'unknown taxon w/o clone' => sub{
-    plan tests => 3;
-
-    my $project = RefImp::Project->create(name => 'Testy McTesterson');
-    ok($project, 'create project');
-    ok(!$project->clone, 'project does not have a clone');
-    is($project->taxon->species_name, 'unknown', 'got unkown taxon for project w/o clone');
+    my $taxonomy = $project->taxonomy;
+    ok($taxonomy, 'project has taxonomy');
+    is($project->taxon, $taxonomy->taxon, 'project taxon');
 
 };
 

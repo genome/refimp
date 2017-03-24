@@ -15,10 +15,6 @@ class RefImp::Project::Submissions::Asn {
         working_directory => { is => 'Text', },
     },
     has_calculated => {
-        clone => {
-            calculate_from => [qw/ project /],
-            calculate => q/ RefImp::Clone->get(name => $project->name) /,
-        },
         ncbi_clone_name => {
             calculate_from => [qw/ project /],
             calculate => q/ RefImp::Resources::Ncbi::ProjectName->get($project->name) /,
@@ -62,11 +58,10 @@ sub _create_header {
     }
     my $secondary_accession = ( $gba ? $gba->acc_number : undef );
 
-    my $clone = $self->clone;
-    my $chromosome = $self->project->taxon->chromosome;
-    my $clone_type = uc $clone->type;
+    my $chromosome = $self->project->taxonomy->chromosome;
+    my $clone_type = uc $project->clone_type;
     my $gb_clone_name = $self->ncbi_clone_name;
-    my $latin_name = $self->project->taxon->species_latin_name;
+    my $species_name = $self->project->taxon->species_name;
 
     my $header;
     if (! defined ($primary_accession)){
@@ -81,7 +76,7 @@ sub _create_header {
     };
 
     $header = "$header [chromosome=$chromosome] [Clone-lib=]";
-    $header = qq{$header [clone=$gb_clone_name] [tech=htgs 3] $latin_name $clone_type};
+    $header = qq{$header [clone=$gb_clone_name] [tech=htgs 3] $species_name $clone_type};
     $header = qq{$header clone $gb_clone_name from chromosome $chromosome, complete sequence.};
 
     $self->header($header);
@@ -233,11 +228,11 @@ sub _create_template_file {
 
     my $ref = $self->submit_info;
 
-    my @author_unix_logins;
+    my @author_names;
     foreach my $author_key (qw/ FinisherUserList PrefinisherUserList SaverUserList /) {
-        push @author_unix_logins, @{$ref->{GENINFO}->{$author_key}} if $ref->{GENINFO}->{$author_key};
+        push @author_names, @{$ref->{GENINFO}->{$author_key}} if $ref->{GENINFO}->{$author_key};
     }
-    my @authors = map { RefImp::User->get(unix_login => $_) } @author_unix_logins;
+    my @authors = map { RefImp::User->get(name => $_) } @author_names;
 
     my @othercomments;
     if (defined ($ref->{COMMENTS}->{TransposonComments})){
@@ -312,7 +307,7 @@ sub _create_template_file {
 
             printf(
                 $fh  "   title \"The sequence of %s %s clone %s\" } } } \n",
-                $self->project->taxon->species_latin_name, uc($self->clone->type), $self->ncbi_clone_name,
+                $self->project->taxon->species_name, uc($self->project->clone_type), $self->ncbi_clone_name,
             );
         } 
 
@@ -328,13 +323,12 @@ sub _create_fsa_file { # header on first line, entire sequence on second line
     my $self = shift;
     $self->status_message('Create FSA file...');
 
-    my $clone_name = $self->clone->name;
-    my $seqfile = File::Spec->join($self->working_directory, join('.', $self->clone->name, 'seq'));
+    my $seqfile = File::Spec->join($self->working_directory, join('.', $self->project->name, 'seq'));
     $self->status_message('Getting sequence from SEQ file: %s', $seqfile);
     my $seqstream = Bio::SeqIO->new('-file' => $seqfile, '-format' => 'Fasta');
     my $seq = $seqstream->next_seq()->seq;
 
-    my $fsa_path = File::Spec->join($self->working_directory, join('.', $self->clone->name, 'fsa'));
+    my $fsa_path = File::Spec->join($self->working_directory, join('.', $self->project->name, 'fsa'));
     $self->status_message('FSA path: %s', $fsa_path);
     my $fh = new IO::File ">$fsa_path";
     $fh->print( ">".$self->header."\n".$seq);
@@ -347,7 +341,7 @@ sub _create_asn_file {
     my $self = shift;
     $self->status_message('Create ASN file...');
 
-    my $latin_name = $self->project->taxon->species_latin_name;
+    my $species_name = $self->project->taxon->species_name;
     my $asn_path = $self->asn_path;
     $self->status_message('ASN file: %s', $asn_path);
     my $template_path = $self->template_path;
@@ -360,7 +354,7 @@ sub _create_asn_file {
     $bin =~ s#lib#bin#;
     my $tbl2asn = File::Spec->join($bin, "tbl2asn.linux64");
 
-    my $cmd = "$tbl2asn -t $template_path  -p $working_directory -j '[organism=$latin_name]'";
+    my $cmd = "$tbl2asn -t $template_path  -p $working_directory -j '[organism=$species_name]'";
     $self->status_message('Running: %s', $cmd);
     my $rv = system $cmd;
     if ( $rv or not -s $asn_path ) {
