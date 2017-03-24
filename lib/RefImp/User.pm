@@ -9,6 +9,7 @@ use RefImp::Resources::LDAP;
 
 class RefImp::User {
     table_name => 'users',
+    id_generator => '-uuid',
     id_by => {
         id => { is => 'Integer', },
     },

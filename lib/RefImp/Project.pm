@@ -11,6 +11,7 @@ use RefImp::Resources::LimsRestApi;
 
 class RefImp::Project {
     table_name => 'projects',
+    id_generator => '-uuid',
     id_by => {
         id => { is => 'Text', },
     },

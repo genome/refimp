@@ -5,6 +5,7 @@ use warnings 'FATAL';
 
 class RefImp::Taxon { 
     table_name => 'taxa',
+    id_generator => '-uuid',
     id_by => {
         id => { is => 'Text', },
     },
