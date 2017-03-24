@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 7;
+use Test::More tests => 6;
 
 my $project;
 subtest "basics" => sub{
@@ -92,16 +92,6 @@ subtest 'taxonomy' => sub{
     my $taxonomy = $project->taxonomy;
     ok($taxonomy, 'project has taxonomy');
     is($project->taxon, $taxonomy->taxon, 'project taxon');
-
-};
-
-subtest 'unknown taxon w/o clone' => sub{
-    plan tests => 3;
-
-    my $project = RefImp::Project->create(name => 'Testy McTesterson');
-    ok($project, 'create project');
-    ok(!$project->clone, 'project does not have a clone');
-    is($project->taxon->species_name, 'unknown', 'got unkown taxon for project w/o clone');
 
 };
 
