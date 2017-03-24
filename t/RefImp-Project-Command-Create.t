@@ -12,10 +12,10 @@ use Test::More tests => 3;
 use_ok('RefImp::Project::Command::Create') or die;
 my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
 
-subtest 'create project w/ clone' => sub{
-    plan tests => 8;
+subtest 'create' => sub{
+    plan tests => 7;
 
-    my $name = "TEST_PROJECT2";
+    my $name = "TEST_PROJECT";
     my $project = RefImp::Project->get(name => $name);
     ok(!$project, 'project does not exist');
 
@@ -31,7 +31,6 @@ subtest 'create project w/ clone' => sub{
 
     $project = RefImp::Project->get(name => $name);
     ok($project, 'project created');
-    is($project, $cmd->project, 'project set on command object');
     is($project->status, 'prefinish_start', 'status set');
     ok(-d $project->directory, 'created and set directory');
 
@@ -42,10 +41,10 @@ subtest 'create project w/ clone' => sub{
 subtest 'from file existing updates' => sub{
     plan tests => 6;
 
-    my $name = "TEST_PROJECT1";
+    my $name = "TEST_PROJECT";
     my $project = RefImp::Project->get(name => $name);
     ok($project, 'project exists');
-    is($project->status, 'finish_start', 'status');
+    is($project->status, 'prefinish_start', 'status');
 
     my $file = File::Spec->join($tmpdir, 'project_names');
     my $fh = IO::File->new($file, 'w');
