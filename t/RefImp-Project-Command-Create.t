@@ -60,7 +60,6 @@ subtest 'from file existing updates' => sub{
         'execute when project exists',
     );
     ok($cmd->result, 'execute successful');
-
     is($project->status, 'unknown', 'status updated');
     ok(UR::Context->commit, 'commit');
 
