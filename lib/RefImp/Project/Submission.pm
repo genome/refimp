@@ -25,15 +25,15 @@ class RefImp::Project::Submission {
     data_source => RefImp::Config::get('ds_mysql'),
 };
 
+sub __display_name__ {
+    return sprintf('%s on %s (%s)', $_[0]->project->name, $_[0]->date, $_[0]->directory || 'NA');
+}
+
 sub create {
-    my $class = shift;
+    my ($class, %params) = @_;
 
-    my $self = $class->SUPER::create(@_);
-    return if not $self;
-
-    $self->submitted_on( UR::Context->now );
-
-    return $self;
+    $params{submitted_on} = UR::Context->now;
+    $class->SUPER::create(%params);
 }
 
 1;

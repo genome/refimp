@@ -84,6 +84,11 @@ class RefImp::Project {
             to => 'unix_login',
             doc => 'Project saver unix logins.',
         },
+        # Submissions
+        submissions => {
+            is => 'RefImp::Project::Submission',
+            reverse_as => 'project',
+        }
     },
     data_source => RefImp::Config::get('ds_mysql'),
 };
