@@ -5,7 +5,7 @@ use warnings;
 
 use TestEnv;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 my $pkg = 'RefImp::Project::Submission';
 
@@ -18,7 +18,7 @@ subtest 'create' => sub {
     my $project = RefImp::Project->get(1);
     $submission = $pkg->create(
         accession_id => 'AC1111',
-        directory => '/dev',
+        directory => TestEnv::test_data_directory_for_package($pkg),
         phase => '3',
         project => $project,
     );
@@ -40,6 +40,17 @@ subtest 'project' => sub{
 
     is($submission->project, $project, 'project');
     is($submission->project_id, $project->id, 'project_id');
+
+};
+
+subtest 'form' => sub{
+    plan tests => 3;
+
+    my $project = $submission->project;
+    my $expected_submit_form_file_name = join('.', $project->name, 'submit', 'form');
+    is($submission->submit_form_file_name, $expected_submit_form_file_name, 'submit_form_file_name');
+    is($submission->submit_form_file, File::Spec->join($submission->directory, $expected_submit_form_file_name), 'submit_form_file');
+    is($submission->legacy_submit_form_file, File::Spec->join($submission->directory,'README'), 'legacy_submit_form_file');
 
 };
 
