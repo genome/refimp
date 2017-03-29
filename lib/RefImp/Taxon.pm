@@ -13,6 +13,8 @@ class RefImp::Taxon {
     has => {
         name => { is => 'Text', },
         species_name => { is => 'Text', },
+    },
+    has_optional => {
         strain_name => { is => 'Text', },
     },
     has_transient => {
