@@ -24,7 +24,7 @@ subtest 'setup' => sub{
 };
 
 subtest 'create' => sub{
-    plan tests => 6;
+    plan tests => 7;
 
     my $taxonomy = $pkg->create(
         project => $project,
@@ -38,6 +38,7 @@ subtest 'create' => sub{
     is($taxonomy->common_name, $taxon->name, 'common_name');
     is($taxonomy->species_name, $taxon->species_name, 'species_name');
 
+    is($taxonomy->__display_name__, sprintf('%s chromosome %s', $taxonomy->taxon->__display_name__, $taxonomy->chromosome), '__display_name__');
 };
 
 done_testing();
