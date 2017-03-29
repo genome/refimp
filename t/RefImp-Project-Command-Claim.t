@@ -27,8 +27,7 @@ subtest 'claim' => sub{
     my $claim = $pkg->execute(
         project => $project,
         as => 'finisher',
-        unix_login => $user->name,
-        project_status => 'finish_start',
+        user => $user,
     );
     ok($claim->result, 'execute');
 
@@ -36,7 +35,6 @@ subtest 'claim' => sub{
     ok($claimer, 'added user to project');
     is($claimer->user, $user, 'project user => user');
     is($claimer->purpose, 'finisher', 'project user => purpose');
-
     is($project->status, 'finish_start', 'set project status');
 
 };
