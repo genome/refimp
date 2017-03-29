@@ -10,7 +10,8 @@ class RefImp::Command {
 # This map allows the top-level commands to be set
 # instead of using the directory structure
 my %command_map = (
-    'project' => 'RefImp::Project::Command',
+    project => 'RefImp::Project::Command',
+    taxon => 'RefImp::Taxon::Command',
 );
 
 $RefImp::Command::SUB_COMMAND_MAPPING = \%command_map;
