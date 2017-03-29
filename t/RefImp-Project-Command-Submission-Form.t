@@ -36,6 +36,7 @@ subtest 'execute fails' => sub{
 
     $setup{submission} = RefImp::Project::Submission->create(
         project => $setup{project},
+        directory => '/blah',
     );
     throws_ok(
         sub{ $cmd = $setup{pkg}->execute(
