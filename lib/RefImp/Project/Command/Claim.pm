@@ -14,14 +14,10 @@ class RefImp::Project::Command::Claim {
             shell_args_position => 2,
             doc => 'Claim the project as this function.',
         },
-        unix_login => {
-            is => 'Text',
+        user => {
+            is => 'RefImp::User',
             shell_args_position => 3,
             doc => 'Claim the project for this user.',
-        },
-        project_status => {
-            is => 'Text',
-            doc => 'Additionally, update the status on the project.',
         },
     },
     doc => 'claim a project as finisher/prefinisher/saver',
@@ -36,21 +32,19 @@ sub execute {
     my $project = $self->project;
     $self->status_message('Project: %s', $project->__display_name__);
     $self->status_message('Current status: %s', $project->status);
-
-    my $user = RefImp::User->get(name => $self->unix_login);
-    $self->fatal_message('No user for unix_login: %s', $self->unix_login) if not $user;
     $self->status_message('Function: %s', $self->as);
-    $self->status_message('User: %s', $user->name);
+    $self->status_message('User: %s', $self->user->__display_name__);
 
     my $claimer = RefImp::Project::User->create(
         project => $project,
-        user => $user,
+        user => $self->user,
         purpose => $self->as,
     );
 
-    if ( $self->project_status ) {
-        $self->status_message('Updated project status: %s', $project->status( $self->project_status) );
-    }
+    my $project_status = ( $self->as eq 'prefinisher' )
+    ? 'prefinish_start'
+    : 'finish_start';
+    $self->status_message('Updated project status: %s', $project->status($project_status));
 
     $self->status_message('Claim...OK');
     return 1;
