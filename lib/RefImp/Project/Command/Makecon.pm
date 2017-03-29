@@ -67,18 +67,17 @@ sub _get_sequences {
 sub _get_sequence_from_most_recent_submission {
     my $self = shift;
 
-    my $analysis_dir = RefImp::Project::Submissions->analysis_directory_for_project($self->project);
-    return if not $analysis_dir;
+    my @submissions = sort { $b->submitted_on cmp $a->submitted_on } $self->project->submissions;
+    return if not @submissions;
 
-    my @submit_dirs = sort { $b cmp $a } glob( File::Spec->join($analysis_dir, '20*') );
-    if ( not @submit_dirs ) {
-        $self->warning_message("Can't figure out dated submission path in %s", $analysis_dir);
-        return;
-    }
-    
-    my ($whole_contig_file) = glob( File::Spec->join($submit_dirs[0], "*.whole.contig") );
+    my $submission = $submissions[0];
+    my $directory = $submission->directory;
+    $self->warning_message('No directory for %s', $submission->__display_name__) and return if not $directory;
+    $self->warning_message('Submission directory does not exists for %s', $submission->__display_name__) and return if not -d $directory;
+
+    my ($whole_contig_file) = glob( File::Spec->join($directory, "*.whole.contig") );
     if ( not $whole_contig_file ) {
-        $self->fatal_message("No 'whole.contig' file in %s", $submit_dirs[0]);
+        $self->fatal_message("No 'whole.contig' file for %s", $submission->__display_name__);
         return;
     }
 
