@@ -5,6 +5,7 @@ use warnings;
 
 use IO::File;
 use Params::Validate ':types';
+use List::Util;
 use RefImp::Ace::Directory;
 use RefImp::Ace::Reader;
 use RefImp::Ace::Sequence;
@@ -74,14 +75,9 @@ sub set_geninfo {
     $submit->{GENINFO}->{DigestAssemblyConfirmedByCombo} = 'consed';
 
     # Accession and overlaps info is probably not updated for a lot of project
-    my $gbaccession;
-    if ( $project ) {
-        $gbaccession = RefImp::Project::GbAccession->get(
-            'project_id' => $project->id,
-            'rank' => 1
-        );
-    }
-    $submit->{GENINFO}->{CloneAccession} = ( $gbaccession ) ? $gbaccession->acc_number : undef;
+    my @submissions =  $project->submissions;
+    my $submission = List::Util::first { $_->phase eq '3' } @submissions;
+    $submit->{GENINFO}->{CloneAccession} = ( $submission ) ? $submission->accession_id : undef;
 
     return 1;
 }

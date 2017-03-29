@@ -3,6 +3,8 @@ package RefImp::Project::Submission;
 use strict;
 use warnings;
 
+use File::Path 'make_path';
+
 class RefImp::Project::Submission {
     table_name => 'projects_submissions',
     #id_generator => '-uuid',
@@ -33,7 +35,33 @@ sub create {
     my ($class, %params) = @_;
 
     $params{submitted_on} = UR::Context->now;
-    $class->SUPER::create(%params);
+
+    my $self = $class->SUPER::create(%params);
+    return if not $self;
+
+    $self->directory( $self->new_submission_directory ) if not $self->directory;
+
+    $self;
+}
+
+sub new_submission_directory {
+    my $self = shift;
+
+    my ($date_stamp) = split(/\s+/, $self->submitted_on, 2);
+    $date_stamp =~ s/\-//g;
+    my $directory = File::Spec->join(
+        RefImp::Config::get('analysis_directory'),
+        $self->project->taxon->species_short_name,
+        lc( $self->project->name ),
+        $date_stamp,
+    );
+
+    $self->fatal_message('Project submission directory (%s) already exists!', $directory) if -d $directory;
+
+    make_path($directory)
+        or $self->fatal_message('Failed to make new analysis subdirectory for %s', $self->project->__display_name__);
+
+    $directory
 }
 
 # Submit Form
