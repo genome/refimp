@@ -1,5 +1,6 @@
 package RefImp::Taxon;
 
+
 use strict;
 use warnings 'FATAL';
 
@@ -12,6 +13,8 @@ class RefImp::Taxon {
     has => {
         name => { is => 'Text', },
         species_name => { is => 'Text', },
+    },
+    has_optional => {
         strain_name => { is => 'Text', },
     },
     has_transient => {
@@ -48,6 +51,10 @@ my %species_short_names = (
     "White-Cheeked Gibbon"         => "gibbon",
     "Zebra finch"                  => "zebrafinch",
 );
+
+sub __display_name__ {
+    sprintf('%s (%s%s)', $_[0]->name, ucfirst($_[0]->species_name), ( $_[0]->strain_name ? ' '.$_[0]->strain_name : '' ));
+}
 
 sub get {
     my $class = shift;

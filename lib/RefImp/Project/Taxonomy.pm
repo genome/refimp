@@ -19,5 +19,8 @@ class RefImp::Project::Taxonomy {
     data_source => RefImp::Config::get('ds_mysql'),
 };
 
-1;
+sub __display_name__ {
+    sprintf('%s chromosome %s', $_[0]->taxon->__display_name__, $_[0]->chromosome);
+}
 
+1;
