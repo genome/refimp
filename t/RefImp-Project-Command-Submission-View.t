@@ -13,7 +13,7 @@ my %setup;
 subtest 'setup'=> sub{
     plan tests => 2;
 
-    $setup{pkg} = 'RefImp::Project::Command::Submission::Form';
+    $setup{pkg} = 'RefImp::Project::Command::Submission::View';
     use_ok($setup{pkg}) or die;
 
     $setup{project} = RefImp::Project->get(1);

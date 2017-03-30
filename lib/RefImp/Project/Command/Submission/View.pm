@@ -1,9 +1,9 @@
-package RefImp::Project::Command::Submission::Form;
+package RefImp::Project::Command::Submission::View;
 
 use strict;
 use warnings;
 
-class RefImp::Project::Command::Submission::Form { 
+class RefImp::Project::Command::Submission::View { 
     is => 'Command::V2',
     has_input => {
         project => {
@@ -12,7 +12,7 @@ class RefImp::Project::Command::Submission::Form {
             doc => 'PRoject to get the submit form.',
         },
     },
-    doc => 'show the submision form for a project',
+    doc => 'view a submission record',
 };
 
 sub help_detail { __PACKAGE__->__meta__->doc }
