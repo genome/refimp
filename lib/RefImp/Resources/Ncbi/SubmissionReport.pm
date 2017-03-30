@@ -1,12 +1,18 @@
-package RefImp::Resources::Ncbi::ParseAc4htgsReport;
+package RefImp::Resources::Ncbi::SubmissionReport;
 
 use strict;
 use warnings;
 
 use File::Basename 'basename';
+use IO::File;
 use Params::Validate qw/ :types validate_pos /;
 
-sub parse {
+sub create {
+    my ($class, %params) = @_;
+    bless \%params, $class;
+}
+
+sub from_file {
     my ($class, $file) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
 
     my $fh = IO::File->new($file, 'r');
@@ -32,8 +38,7 @@ sub parse {
     $report{accession} = $accession;
     $report{version} = $version;
 
-    return \%report;
+    $class->create(%report);
 }
 
 1;
-
