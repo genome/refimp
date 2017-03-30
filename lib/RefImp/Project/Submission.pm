@@ -28,7 +28,7 @@ class RefImp::Project::Submission {
 };
 
 sub __display_name__ {
-    return sprintf('%s on %s (%s)', $_[0]->project->name, $_[0]->submitted_on, $_[0]->directory || 'NA');
+    return sprintf('%s (%s) on %s (%s)', $_[0]->project->name, ($_->accession_id || 'NA'), $_[0]->submitted_on, ($_[0]->directory || 'NA'));
 }
 
 sub create {
