@@ -11,23 +11,27 @@ class RefImp::Resources::Ncbi::SubmissionReport {
     is => 'UR::Object',
     has => {
         project => { is => 'RefImp::Project', },
-        report => { is => 'HASH', },
+        project_name => { is => 'Text', },
+        data => { is => 'HASH', },
         submission => { is => 'RefImp::Project::Submission', },
     },
 };
 
 sub create {
-    my ($class, %report) = @_;
+    my ($class, %data) = @_;
 
-    my $self = $class->SUPER::create(report => \%report);
+    my $self = $class->SUPER::create(data => \%data);
     return if not $self;
 
-    my $project = RefImp::Project->get(name => $self->report->{localseqname});
+    my $project_name = $self->data->{localseqname};
+    $self->project_name($project_name);
+
+    my $project = RefImp::Project->get(name => $project_name);
     if ( $project ) {
         $self->project($project);
         my @submissions = RefImp::Project::Submission->get(
             project => $project,
-            phase => $self->report->{phase},
+            phase => $self->data->{phase},
             -order => 'submitted_on',
         );
         # Use the lastest submission
@@ -39,9 +43,9 @@ sub create {
 
 sub update_submission {
     my $self = shift;
-    $self->fatal_message('No project for %s', $self->report->{localseqname}) if not $self->project;
-    $self->fatal_message('No submission for %s', $self->project->__display_name__) if not $self->submission;
-    $self->submission->accession_id($self->report->{accession});
+    $self->error_message('No project for %s', $self->data->{localseqname}) and return if not $self->project;
+    $self->error_message('No submission for %s', $self->project->__display_name__) and return if not $self->submission;
+    $self->submission->accession_id($self->data->{accession});
 }
 
 sub from_file {
@@ -50,27 +54,27 @@ sub from_file {
     my $fh = IO::File->new($file, 'r');
     die "Failed to open $file" if not $fh;
 
-    my %report = ( file => $file );
+    my %data = ( file => $file );
     while ( my $line = $fh->getline ) {
         chomp $line;
         $line =~ s/^\s+//;
         $line =~ s/\s+$//;
         my ($key, $value) = split(': ', $line, 2);
         next if not defined $value;
-        $report{$key} = $value;
+        $data{$key} = $value;
     }
     $fh->close;
 
     my $file_name = basename($file);
     my @file_name_tokens = split(/\./, $file_name);
-    $report{localseqname} = $file_name_tokens[1];
+    $data{localseqname} = $file_name_tokens[1];
 
-    my ($accession, $version) = split(/\./, delete $report{accession});
+    my ($accession, $version) = split(/\./, delete $data{accession});
     $version //= 1;
-    $report{accession} = $accession;
-    $report{version} = $version;
+    $data{accession} = $accession;
+    $data{version} = $version;
 
-    $class->create(%report);
+    $class->create(%data);
 }
 
 1;

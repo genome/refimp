@@ -28,7 +28,7 @@ subtest "setup" => sub{
     );
     ok($setup{submission}, 'create submission');
 
-    $setup{expected_report} = {
+    $setup{expected_data} = {
         file => $setup{file},
         source => 'wugsc',
         seqname => 'HMPB-AAD13A05',
@@ -48,31 +48,35 @@ subtest "from_file" => sub{
     plan tests => 1;
 
     $setup{report} = RefImp::Resources::Ncbi::SubmissionReport->from_file($setup{file});
-    is_deeply($setup{report}->report, $setup{expected_report}, 'load report friom file');
+    is_deeply($setup{report}->data, $setup{expected_data}, 'load report from file');
 
 };
 
 subtest "project and submission" => sub{
-    plan tests => 2;
+    plan tests => 3;
 
-    is($setup{report}->project, $setup{project}, 'report project');
-    is($setup{report}->submission, $setup{submission}, 'report submission');
+    my $report = $setup{report};
+    is($report->project_name, $report->data->{localseqname}, 'report project_name');
+    is($report->project, $setup{project}, 'report project');
+    is($report->submission, $setup{submission}, 'report submission');
 
 };
 
 subtest "update submission" => sub{
-    plan tests => 4;
+    plan tests => 6;
 
     my $report = $setup{report};
     ok($report->update_submission, 'update submission');
-    is($report->submission->accession_id, $setup{expected_report}->{accession}, 'set submission accession_id');
+    is($report->submission->accession_id, $setup{expected_data}->{accession}, 'set submission accession_id');
 
     $report->project(undef);
-    throws_ok(sub{ $report->update_submission; }, qr/No project for/, 'update submission fails w/o project');
+    ok(!$report->update_submission, 'update submission fails w/o project');
+    like($report->error_message, qr/No project for/, 'correct error');
     $report->project($setup{project});
 
     $report->submission(undef);
-    throws_ok(sub{ $report->update_submission; }, qr/No submission for/, 'update submission fails w/o submission');
+    ok(!$report->update_submission, 'update submission fails w/o submission');
+    like($report->error_message, qr/No submission for/, 'correct error');
     $report->submission($setup{submission});
 
 
