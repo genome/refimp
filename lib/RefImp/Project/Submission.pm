@@ -16,19 +16,19 @@ class RefImp::Project::Submission {
         submitted_on => { is => 'DateTime', },
     },
     has => {
-        accession_id => { is => 'Text', },
+        phase => { is => 'Text', },
         project => { is => 'RefImp::Project', id_by => 'project_id', },
     },
     has_optional => {
+        accession_id => { is => 'Text', },
         directory => { is => 'Text', },
-        phase => { is => 'Text', },
         project_size => { is => 'Number', },
     },
     data_source => RefImp::Config::get('ds_mysql'),
 };
 
 sub __display_name__ {
-    return sprintf('%s (%s) on %s (%s)', $_[0]->project->name, ($_->accession_id || 'NA'), $_[0]->submitted_on, ($_[0]->directory || 'NA'));
+    return sprintf('%s (%s) on %s (%s)', $_[0]->project->name, ($_[0]->accession_id || 'NA'), $_[0]->submitted_on, ($_[0]->directory || 'NA'));
 }
 
 sub create {
