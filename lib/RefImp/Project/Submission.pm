@@ -3,6 +3,7 @@ package RefImp::Project::Submission;
 use strict;
 use warnings;
 
+use Date::Format;
 use File::Path 'make_path';
 
 class RefImp::Project::Submission {
@@ -34,7 +35,7 @@ sub __display_name__ {
 sub create {
     my ($class, %params) = @_;
 
-    $params{submitted_on} = UR::Context->now;
+    $params{submitted_on} = Date::Format::time2str(q|%Y-%m-%d|, time()) if not $params{submitted_on};
 
     my $self = $class->SUPER::create(%params);
     return if not $self;
