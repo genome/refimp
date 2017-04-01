@@ -4,7 +4,9 @@ use strict;
 use warnings;
 
 use Date::Format;
+use File::Basename 'basename';
 use File::Path 'make_path';
+use Storable 'retrieve';
 
 class RefImp::Project::Submission {
     table_name => 'projects_submissions',
@@ -43,6 +45,53 @@ sub create {
     $self->directory( $self->new_submission_directory ) if not $self->directory;
 
     $self;
+}
+
+sub create_from_directory {
+    my ($class, $directory) = @_;
+
+    $class->fatal_message('No directory specified to create submission record from!') if not $directory;
+    $class->fatal_message('Directory to create submission record from does not exist!') if not -d $directory;
+
+    my %params = (
+        directory => $directory,
+        phase => 3,
+    );
+    my $date = basename($directory);
+    if ( $date =~ /^\d{8}$/ ) {
+        substr $date, 4, 0, '-';
+        substr $date, 7, 0, '-';
+        $params{submitted_on} = $date;
+    }
+
+    my $submit_info;
+    my ($yml_file) = glob( File::Spec->join($directory, '*.submit.yml') );
+    if ( $yml_file ) {
+        #VMRC59-197N17.submit.yml
+        $submit_info = YAML::LoadFile($yml_file);
+    }
+    else {
+        #H_NH0094P19.serialized.dat
+        my ($serialized_dot_dat) = glob( File::Spec->join($directory, '*.serialized.dat') );
+        $submit_info = retrieve($serialized_dot_dat) if $serialized_dot_dat;
+    }
+
+    $class->fatal_message('Cannot create submission record from directory because there is no submit info in %s', $directory) if not $submit_info;
+
+    my $project_name = $submit_info->{GENINFO}->{CloneName};
+    my $project = RefImp::Project->get(name => $project_name);
+    $class->fatal_message('Failed to get project for %s', $project_name) if not $project;
+    $params{project} = $project;
+
+    if ( exists $submit_info->{GENINFO}->{CloneAccession} ) {
+        $params{accession_id} = $submit_info->{GENINFO}->{CloneAccession};
+    }
+
+    if ( exists $submit_info->{COMMENTS}->{ContigData} ) {
+        for ( @{$submit_info->{COMMENTS}->{ContigData}} ) { $params{project_size} += $_->{ContigFinishedTo} - $_->{ContigFinishedFrom} + 1; }
+    }
+
+    $class->create(%params);
 }
 
 sub new_submission_directory {
