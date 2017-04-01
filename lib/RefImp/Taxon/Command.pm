@@ -1,9 +1,9 @@
-package RefImp::Project::Command;
+package RefImp::Taxon::Command;
 
 use strict;
 use warnings;
 
-class RefImp::Project::Command {
+class RefImp::Taxon::Command {
     is => 'Command::Tree',
 };
 
