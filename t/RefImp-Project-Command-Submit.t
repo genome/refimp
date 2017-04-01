@@ -54,10 +54,14 @@ subtest 'cannot submit project with incorrect status' => sub{
 };
 
 subtest 'submit' => sub{
-    plan tests => 12;
+    plan tests => 15;
 
     my $project = $setup{project};
     $project->status('presubmitted');
+
+    my @submissions = $project->submissions;
+    is(@submissions, 0, 'project has not submissions');
+
     my $cmd = $setup{pkg}->create(project => $setup{project});
     $setup{ftp}->mock('size', sub{ -s $cmd->asn_path });
     ok($cmd, 'create');
@@ -68,12 +72,15 @@ subtest 'submit' => sub{
 
     ok($cmd->staging_directory, 'set staging_directory');
     ok($cmd->submit_info, 'set submit_info');
-    my $analysis_subdirectory = $cmd->analysis_subdirectory;
-    ok($analysis_subdirectory, 'set analysis_subdirectory');
+
+    @submissions = $project->submissions;
+    is(@submissions, 1, 'created submission');
+    is($submissions[0]->project, $project, 'submission project');
+    is($submissions[0]->project_size, 1413, 'submission project_size');
 
     my $test_data_path = TestEnv::test_data_directory_for_package($setup{pkg});
     for my $file_name ( @{$setup{file_names_to_compare}} ) {
-        my $path = File::Spec->join($analysis_subdirectory, $file_name);
+        my $path = File::Spec->join($submissions[0]->directory, $file_name);
         my $expected_path = File::Spec->join($test_data_path, $file_name);
         is(File::Compare::compare($path, $expected_path), 0, "$file_name saved");
     }

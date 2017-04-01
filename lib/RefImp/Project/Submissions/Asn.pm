@@ -5,6 +5,7 @@ use warnings 'FATAL';
 
 use Bio::SeqIO;
 use File::Spec;
+use List::Util;
 use RefImp::Project::Submissions;
 use RefImp::Resources::Ncbi::ProjectName;
 
@@ -50,13 +51,10 @@ sub _create_header {
     $self->status_message('Create header...');
 
     my $project = $self->project;
-    my $gba = RefImp::Project::GbAccession->get(project_id => $project->id, rank => 1);
-    my $primary_accession = ( $gba ? $gba->acc_number : undef );
-    $gba = RefImp::Project::GbAccession->get('project_id' => $project->id, 'rank' => 2);
-    if ( not $gba ) {
-        $gba = RefImp::Project::GbAccession->get('project_id' => $project->id, 'rank' => 3);
-    }
-    my $secondary_accession = ( $gba ? $gba->acc_number : undef );
+    my @submissions = $project->submissions;
+    my $submission = List::Util::first {  $_->phase eq '3' } @submissions;
+    my $primary_accession = ( $submission ? $submission->accession_id : undef );
+    my $secondary_accession = undef;
 
     my $chromosome = $self->project->taxonomy->chromosome;
     my $clone_type = uc $project->clone_type;

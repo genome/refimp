@@ -1,0 +1,39 @@
+---
+COMMENTS:
+  ContigData:
+    - ContigFinishedFrom: 1
+      ContigFinishedTo: 162249
+      ContigNumber: 4
+      EndCloneSite: 162249
+      EntireContigGoesFrom: 1
+      EntireContigGoesTo: 162249
+      StartCloneSite: 1
+  PCROnlyRegionsComments:
+    - PCROnlyRegionsCommentsContigNumber: 4
+      PCROnlyRegionsCommentsDNASource: project dna
+      PCROnlyRegionsCommentsRegionFrom: 136775
+      PCROnlyRegionsCommentsRegionTo: 136919
+GENINFO:
+  Chromosome: x
+  CloneAccession: AC231845
+  CloneName: H_NH0094P19
+  ContigFinishedFrom: 1
+  ContigFinishedTo: 162249
+  ContigNumber: 4
+  DigestAssemblyConfirmedByCombo: consed
+  EndCloneSite: 162249
+  EntireContigGoesFrom: 1
+  EntireContigGoesTo: 162249
+  FinisherUserList:
+    - jveizer
+  FinishingGroup: avery
+  Organism: human
+  PrefinisherUserList:
+    - khaglund
+    - slewis
+  ProductionGroup: WUGSC
+  StartCloneSite: 1
+NEIGHBOR_CHANGE: ~
+STATUS: SUBMIT
+TOGGLES:
+  - PCROnlyRegionsCommentsToggle
