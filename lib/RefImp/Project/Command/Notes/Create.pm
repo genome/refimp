@@ -36,13 +36,13 @@ sub _execute_with_project {
         $notes_fh->close;
     }
 
-    my $taxon = $project->taxon;
+    my $taxonomy = $project->taxonomy;
     my @time = localtime;
 
     unlink $notes_file_path;
     my $notes_fh = IO::File->new($notes_file_path, 'w');
     $notes_fh->printf("\nCLONE= %s\n", $project->name);
-    $notes_fh->printf("CHROMOSOME= %s\n", ($taxon ? $taxon->chromosome : 'unknown'));
+    $notes_fh->printf("CHROMOSOME= %s\n", ($taxonomy ? $taxonomy->chromosome : 'unknown'));
     $notes_fh->printf("SORTER= %s\n", $self->prefinisher);
     $notes_fh->print("FINISHER= \n");
     $notes_fh->printf("PREFINISH INITIATED ON %s\n", sprintf('%02s/%02s/%02s', $time[4], $time[3], $time[5] - 100));
