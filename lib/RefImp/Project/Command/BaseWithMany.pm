@@ -3,6 +3,8 @@ package RefImp::Project::Command::BaseWithMany;
 use strict;
 use warnings;
 
+use RefImp::Role::PropertyValuesFromFile;
+
 class RefImp::Project::Command::BaseWithMany { 
     is => 'Command::V2',
     is_abstract => 1,
@@ -16,6 +18,7 @@ class RefImp::Project::Command::BaseWithMany {
     },
     doc => 'base class for commands that work with many projects',
 };
+RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file(__PACKAGE__, 'projects');
 
 sub help_detail { $_[0]->__meta__->doc }
 
@@ -23,12 +26,12 @@ sub execute {
     my $self = shift;
 
     $self->_before_execute;
+
     for my $project ( $self->projects ) {
         $self->_execute_with_project($project);
     }
-    $self->_after_execute;
 
-    return 1;
+    $self->_after_execute;
 }
 
 sub _before_execute { 1 }
