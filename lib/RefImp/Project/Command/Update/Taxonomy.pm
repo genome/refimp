@@ -3,6 +3,8 @@ package RefImp::Project::Command::Update::Taxonomy;
 use strict;
 use warnings;
 
+use RefImp::Util::Tablizer;
+
 class RefImp::Project::Command::Update::Taxonomy { 
     is => 'RefImp::Project::Command::BaseWithMany',
     has_input => {
@@ -16,36 +18,45 @@ class RefImp::Project::Command::Update::Taxonomy {
             doc => 'Chromosome for the project.',
         },
     },
-    doc => 'update the file system location of projects',
+    has_transient_optional => {
+        old_values => { is => 'ARRAY', default_value => [], },
+    },
+    doc => 'update the taxonomy of projects',
 };
 
 sub help_detail { $_[0]->__meta__->doc }
 
-sub _before_execute {
-    my $self = shift;
-    $self->status_message('Update project(s) taxonomy...');
-    $self->status_message('Taxon: %s', $self->taxon->__display_name__);
-    $self->status_message('Chromosome: %s', $self->chromosome);
-}
-
 sub _execute_with_project {
     my ($self, $project) = @_;
 
-    $self->status_message('Project: %s', $project->__display_name__);
     my $taxonomy = $project->taxonomy;
-    $self->status_message('Current taxonomy %s', ($taxonomy ? $taxonomy->__display_name__ : 'NULL'));
+    my $old_taxonomy = ($taxonomy ? $taxonomy->__display_name__ : 'NULL');
+    push @{$self->old_values}, $old_taxonomy;
     $taxonomy->delete if $taxonomy;
-    my $new_taxonomy = RefImp::Project::Taxonomy->create(
+
+    RefImp::Project::Taxonomy->create(
         project => $project,
         taxon => $self->taxon,
         chromosome => $self->chromosome,
     );
-    $self->status_message('New taxonomy %s', $project->taxonomy->__display_name__);
 }
 
 sub _after_execute {
     my $self = shift;
-    $self->status_message('Update project(s) taxonomy...OK');
+
+    my @rows = (
+        [qw/ ID NAME TAXONOMY OLD_TAXONOMY /],
+        [qw/ -- ---- -------- ------------ /],
+    );
+
+    my $old_values = $self->old_values;
+    my $i = 0;
+    for my $project ( $self->projects ) {
+        push @rows, [ map({ $project->$_ } (qw/ id name /)), $project->taxonomy->__display_name__, $old_values->[$i] ];
+        $i++;
+    }
+
+    print RefImp::Util::Tablizer->format(\@rows);
 }
 
 1;

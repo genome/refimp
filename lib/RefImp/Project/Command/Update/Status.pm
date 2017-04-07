@@ -13,25 +13,33 @@ class RefImp::Project::Command::Update::Status {
             doc => 'Status to set on the given projects.',
         },
     },
+    has_optional => {
+        old_values => { is => 'ARRAY', default_value => [], },
+    },
     doc => 'update the status of projects',
 };
 
 sub help_detail { $_[0]->__meta__->doc }
 
-sub execute {
+sub _execute_with_project {
+    my ($self, $project) = @_;
+    push @{$self->old_values}, $project->status;
+    $project->status($self->value) if $self->value;
+}
+
+sub _after_execute {
     my $self = shift;
 
-    my $status = $self->value // '';
     my @rows = (
         [qw/ ID NAME STATUS OLD_STATUS /],
         [qw/ -- ---- ------ ---------- /],
     );
+
+    my $old_values = $self->old_values;
+    my $i = 0;
     for my $project ( $self->projects ) {
-        my $old_status = $project->status;
-        my $new_status = $project->status($status) if $status;
-        my @row = map { $project->$_ } (qw/ id name status /);
-        push @row, $old_status;
-        push @rows, \@row;
+        push @rows, [ map({ $project->$_ } (qw/ id name status /)), $old_values->[$i] ];
+        $i++;
     }
 
     print RefImp::Util::Tablizer->format(\@rows);
