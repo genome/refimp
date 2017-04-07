@@ -44,29 +44,27 @@ sub execute {
     my $self = shift; 
     $self->status_message('Create projects...');
 
-    my $taxon_params = $self->_resolve_taxon_params;
+    my $directory_updater = RefImp::Project::Command::Update::Directory->create(value => $self->directory) if $self->directory;
+    my $taxonomy_params = $self->_resolve_taxonomy_params;
+    my $taxonomy_updater = RefImp::Project::Command::Update::Taxonomy->create(%$taxonomy_params);
 
     for my $name ( $self->names ) {
         my $project = $self->_get_or_create_project($name);
-
-        $self->status_message('Status: %s', $project->status($self->status));
-        if ( $self->directory ) {
-            RefImp::Project::Command::Update::Directory->execute(
-                projects => [$project],
-                value => $self->directory,
-            );
+        $project->status($self->status);
+        if ( $directory_updater ) {
+            $directory_updater->_execute_with_project($project);
         }
-
-        RefImp::Project::Command::Update::Taxonomy->execute(
-            projects => [$project],
-            %$taxon_params,
-        );
+        $taxonomy_updater->_execute_with_project($project);
+        $self->status_message( join(' ', $project->__display_name__, $project->status, ($project->directory || 'NA')) );
     }
+
+    $directory_updater->delete if $directory_updater;
+    $taxonomy_updater->delete;
 
     return 1;
 }
 
-sub _resolve_taxon_params {
+sub _resolve_taxonomy_params {
     my $self = shift;
 
     my $taxon = $self->taxon;
@@ -87,18 +85,13 @@ sub _get_or_create_project {
     my ($self, $name) = @_;
 
     my $project = RefImp::Project->get(name => $name);
-    if ( $project ) {
-        $self->status_message('Found existing project: %s', $project->__display_name__);
-        return $project;
-    }
+    return $project if $project;
 
     my %params = (
         name => $name,
     );
-    $self->status_message("Project params:\n%s---\n", YAML::Dump(\%params));
     $project = RefImp::Project->create(%params);
     $self->fatal_message('Failed to create project!') if !$project;
-    $self->status_message('Created project: %s', $project->__display_name__);
 
     $project;
 }

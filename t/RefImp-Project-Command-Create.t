@@ -60,7 +60,7 @@ subtest 'from file existing updates' => sub{
     my $cmd;
     lives_ok(
         sub{ $cmd = RefImp::Project::Command::Create->execute(
-                names => [$file],
+                names => [$name],
                 status => 'unknown',
                 taxon => $taxon,
                 chromosome => 2,
