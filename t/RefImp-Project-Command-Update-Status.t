@@ -4,7 +4,8 @@ use strict;
 use warnings;
 
 use TestEnv;
-use Test::More tests => 2;
+
+use Test::More tests => 3;
 
 my $pkg = 'RefImp::Project::Command::Update::Status';
 
@@ -15,7 +16,19 @@ subtest "setup" => sub{
     use_ok($pkg) or die;
 
     $setup{project} = RefImp::Project->get(1);
-    $setup{project}->status('10X done');
+
+};
+
+subtest 'list' => sub{
+    plan tests => 2;
+
+    $setup{project}->status('10 done');
+    my $update = $pkg->execute(
+        projects => [ $setup{project}, ],
+    );
+    ok($update->result, 'execute');
+
+    is($setup{project}->status, '10 done', 'did not set project status');
 
 };
 
