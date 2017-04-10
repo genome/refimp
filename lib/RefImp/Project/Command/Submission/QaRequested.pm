@@ -1,4 +1,4 @@
-package RefImp::Project::Command::Presubmit;
+package RefImp::Project::Command::Submission::QaRequested;
 
 use strict;
 use warnings;
@@ -7,8 +7,8 @@ use MIME::Lite;
 use RefImp::Project::Submissions::Info;
 use RefImp::Project::Submissions::Form;
 
-class RefImp::Project::Command::Presubmit {
-    is => 'RefImp::Project::Command::QaBase',
+class RefImp::Project::Command::Submission::QaRequested {
+    is => 'RefImp::Project::Command::Submission::QaBase',
     has_input => {
         checker_unix_logins => {
             is => 'String',
@@ -16,7 +16,7 @@ class RefImp::Project::Command::Presubmit {
             doc => 'Unix logins of checkers to apprvoe this project for submit.',
         },
     },
-    doc => 'presubmit a project',
+    doc => 'request qa review for a project',
 };
 
 sub help_detail { __PACKAGE__->__meta__->doc }

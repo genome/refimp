@@ -1,4 +1,4 @@
-package RefImp::Project::Command::Submit;
+package RefImp::Project::Command::Submission::Submit;
 
 use strict;
 use warnings;
@@ -18,8 +18,8 @@ use RefImp::Project::Submissions::Sequence;
 use RefImp::Resources::NcbiFtp;
 use YAML;
 
-class RefImp::Project::Command::Submit { 
-    is => 'RefImp::Project::Command::QaBase',
+class RefImp::Project::Command::Submission::Submit { 
+    is => 'RefImp::Project::Command::Submission::QaBase',
     has_transient_optional => {
         asn_path => { is => 'Text', },
         staging_directory => { is => 'Text', },
