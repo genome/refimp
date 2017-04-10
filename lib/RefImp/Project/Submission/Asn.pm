@@ -1,4 +1,4 @@
-package RefImp::Project::Submissions::Asn;
+package RefImp::Project::Submission::Asn;
 
 use strict;
 use warnings 'FATAL';
@@ -8,7 +8,7 @@ use File::Spec;
 use List::Util;
 use RefImp::Resources::Ncbi::ProjectName;
 
-class RefImp::Project::Submissions::Asn {
+class RefImp::Project::Submission::Asn {
     has => {
         project => { is => 'RefImp::Project', },
         submit_info => { is => 'HASH', },
