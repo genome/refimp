@@ -11,7 +11,6 @@ use File::Temp;
 use IO::File;
 use Net::FTP;
 use RefImp::Ace::Directory;
-use RefImp::Project::Submissions;
 use RefImp::Project::Submissions::Info;
 use RefImp::Project::Submissions::Form;
 use RefImp::Project::Submissions::Sequence;
@@ -73,7 +72,7 @@ sub _generate_submit_info {
     $self->submit_info( RefImp::Project::Submissions::Info->generate($self->project) );
 
     my $file = File::Spec->join(
-        $self->staging_directory, RefImp::Project::Submissions->submit_info_yml_file_name_for_project($self->project),
+        $self->staging_directory, $self->submission->submit_info_yml_file_name,
     );
     $self->status_message('Save submit YAML: %s', $file);
     YAML::DumpFile($file, $self->submit_info);
@@ -89,7 +88,7 @@ sub _save_submit_form {
         or die 'Failed to generate submissions form!';
     my $file = File::Spec->join(
         $self->staging_directory,
-        RefImp::Project::Submissions->submit_form_file_name_for_project($self->project),
+        $self->submission->submit_form_file_name,
     );
     $self->status_message('Submit form path: %s', $file);
     my $fh = IO::File->new($file, 'w')

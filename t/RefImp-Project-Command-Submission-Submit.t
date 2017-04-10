@@ -12,25 +12,19 @@ use Test::More tests => 3;
 
 my %setup;
 subtest 'setup' => sub{
-    plan tests => 1;
+    plan tests => 2;
 
     $setup{pkg} = 'RefImp::Project::Command::Submission::Submit';
     use_ok($setup{pkg}) or die;
+    use_ok('RefImp::Project::Submission') or die;
 
     $setup{project} = RefImp::Project->get(1);
 
     Sub::Install::reinstall_sub({
             code => sub { File::Spec->join(RefImp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
             as => 'raw_sqn_template_for_taxon',
-            into => 'RefImp::Project::Submissions',
+            into => 'RefImp::Project::Submission',
         });
-
-    $setup{file_names_to_compare} = [
-        RefImp::Project::Submissions->submit_info_yml_file_name_for_project($setup{project}),
-        RefImp::Project::Submissions->submit_form_file_name_for_project($setup{project}),
-        join('.', $setup{project}->name, 'whole', 'contig'),
-        join('.', $setup{project}->name, 'seq'),
-    ];
 
    $setup{ftp} = RefImp::Test::Factory->setup_test_ftp;
 
@@ -78,8 +72,14 @@ subtest 'submit' => sub{
     is($submissions[0]->project, $project, 'submission project');
     is($submissions[0]->project_size, 1413, 'submission project_size');
 
+    my @file_names_to_compare = (
+        $submissions[0]->submit_info_yml_file_name,
+        $submissions[0]->submit_form_file_name,
+        join('.', $setup{project}->name, 'whole', 'contig'),
+        join('.', $setup{project}->name, 'seq'),
+    );
     my $test_data_path = TestEnv::test_data_directory_for_package($setup{pkg});
-    for my $file_name ( @{$setup{file_names_to_compare}} ) {
+    for my $file_name ( @file_names_to_compare ) {
         my $path = File::Spec->join($submissions[0]->directory, $file_name);
         my $expected_path = File::Spec->join($test_data_path, $file_name);
         is(File::Compare::compare($path, $expected_path), 0, "$file_name saved");

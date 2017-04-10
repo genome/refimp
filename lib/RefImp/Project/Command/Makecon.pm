@@ -10,7 +10,6 @@ use File::Spec;
 use IO::File;
 use RefImp::Ace::Directory;
 use RefImp::Ace::Reader;
-use RefImp::Project::Submissions;
 
 class RefImp::Project::Command::Makecon {
     is => 'RefImp::Project::Command::Base',

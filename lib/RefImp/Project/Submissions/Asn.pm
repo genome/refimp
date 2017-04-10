@@ -6,7 +6,6 @@ use warnings 'FATAL';
 use Bio::SeqIO;
 use File::Spec;
 use List::Util;
-use RefImp::Project::Submissions;
 use RefImp::Resources::Ncbi::ProjectName;
 
 class RefImp::Project::Submissions::Asn {
@@ -241,7 +240,7 @@ sub _create_template_file {
         }
     }
 
-    my $raw_template_path = RefImp::Project::Submissions->raw_sqn_template_for_taxon($self->project->taxon);
+    my $raw_template_path = RefImp::Project::Submission->raw_sqn_template_for_taxon($self->project->taxon);
     $self->status_message('Raw template path: %s', $raw_template_path);
     my $rawfh = IO::File->new($raw_template_path, 'r');
     $self->fatal_message('Failed to open raw template path! %s', $!) if not $rawfh;

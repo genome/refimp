@@ -6,8 +6,11 @@ use warnings;
 use Date::Format;
 use File::Basename 'basename';
 use File::Path 'make_path';
+use File::Spec;
+use RefImp::Config;
 use Storable 'retrieve';
 
+use Params::Validate qw/ :types validate_pos /;
 class RefImp::Project::Submission {
     table_name => 'projects_submissions',
     #id_generator => '-uuid',
@@ -125,6 +128,21 @@ sub submit_form_file {
 
 sub legacy_submit_form_file {
     File::Spec->join($_[0]->directory, 'README');
+}
+
+sub submit_info_yml_file_name {
+    join('.', $_[0]->project->name, 'submit', 'yml');
+}
+
+sub raw_sqn_template_for_taxon {
+    my ($class, $taxon) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Taxon'});
+    my $raw_template_path = File::Spec->join(
+        RefImp::Config::get('analysis_directory'),
+        'templates',
+        join('_', 'raw', $taxon->species_short_name, 'template'),
+    );
+    $raw_template_path .= '.sqn';
+    return $raw_template_path;
 }
 
 1;
