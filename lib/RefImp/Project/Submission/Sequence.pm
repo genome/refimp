@@ -1,4 +1,4 @@
-package RefImp::Project::Submissions::Sequence;
+package RefImp::Project::Submission::Sequence;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use Bio::Seq;
 use RefImp::Ace::Reader;
 use Params::Validate qw/ :types validate /;
 
-class RefImp::Project::Submissions::Sequence {
+class RefImp::Project::Submission::Sequence {
     has => {
         project_name => { is => 'Text', },
         ace => { is => 'Text', },

@@ -1,11 +1,11 @@
-package RefImp::Project::Command::QaBase;
+package RefImp::Project::Command::Submission::QaBase;
 
 use strict;
 use warnings;
 
 use List::MoreUtils 'any';
 
-class RefImp::Project::Command::QaBase {
+class RefImp::Project::Command::Submission::QaBase {
     is => 'RefImp::Project::Command::Base',
     is_abstract => 1,
 };

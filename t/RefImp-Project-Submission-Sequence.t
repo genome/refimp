@@ -9,7 +9,7 @@ use File::Spec;
 use Test::Exception;
 use Test::More tests => 4;
 
-my $pkg = 'RefImp::Project::Submissions::Sequence';
+my $pkg = 'RefImp::Project::Submission::Sequence';
 use_ok($pkg) or die;
 
 my $ace = File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'HMPB-AAD13A05.fasta.ace.0');

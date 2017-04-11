@@ -1,4 +1,4 @@
-package RefImp::Project::Submissions::Asn;
+package RefImp::Project::Submission::Asn;
 
 use strict;
 use warnings 'FATAL';
@@ -6,10 +6,9 @@ use warnings 'FATAL';
 use Bio::SeqIO;
 use File::Spec;
 use List::Util;
-use RefImp::Project::Submissions;
 use RefImp::Resources::Ncbi::ProjectName;
 
-class RefImp::Project::Submissions::Asn {
+class RefImp::Project::Submission::Asn {
     has => {
         project => { is => 'RefImp::Project', },
         submit_info => { is => 'HASH', },
@@ -241,7 +240,7 @@ sub _create_template_file {
         }
     }
 
-    my $raw_template_path = RefImp::Project::Submissions->raw_sqn_template_for_taxon($self->project->taxon);
+    my $raw_template_path = RefImp::Project::Submission->raw_sqn_template_for_taxon($self->project->taxon);
     $self->status_message('Raw template path: %s', $raw_template_path);
     my $rawfh = IO::File->new($raw_template_path, 'r');
     $self->fatal_message('Failed to open raw template path! %s', $!) if not $rawfh;

@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec;
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my $pkg = 'RefImp::Project::Submission';
 
@@ -96,6 +96,20 @@ subtest 'form' => sub{
     is($submission->submit_form_file_name, $expected_submit_form_file_name, 'submit_form_file_name');
     is($submission->submit_form_file, File::Spec->join($submission->directory, $expected_submit_form_file_name), 'submit_form_file');
     is($submission->legacy_submit_form_file, File::Spec->join($submission->directory,'README'), 'legacy_submit_form_file');
+
+};
+
+subtest 'files' => sub{
+    plan tests => 2;
+
+    is($submission->submit_info_yml_file_name, join('.', $submission->project->name, 'submit', 'yml'), 'submit_form_file_name');
+
+    my $analysis_directory = RefImp::Config::get('analysis_directory');
+    is(
+        $submission->raw_sqn_template_for_taxon($submission->project->taxon),
+        File::Spec->join($analysis_directory, 'templates', 'raw_'.$submission->project->taxon->species_short_name.'_template.sqn'),
+        'raw_sqn_template_for_taxon',
+    );
 
 };
 

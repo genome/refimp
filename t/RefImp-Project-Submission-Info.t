@@ -9,7 +9,7 @@ use File::Spec;
 use Test::More tests => 3;
 use YAML;
 
-my $pkg = 'RefImp::Project::Submissions::Info';
+my $pkg = 'RefImp::Project::Submission::Info';
 use_ok($pkg) or die;
 
 my $expected_hash = YAML::LoadFile( File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'expected.yml') );

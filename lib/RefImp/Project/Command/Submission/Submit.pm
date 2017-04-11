@@ -1,4 +1,4 @@
-package RefImp::Project::Command::Submit;
+package RefImp::Project::Command::Submission::Submit;
 
 use strict;
 use warnings;
@@ -11,15 +11,14 @@ use File::Temp;
 use IO::File;
 use Net::FTP;
 use RefImp::Ace::Directory;
-use RefImp::Project::Submissions;
-use RefImp::Project::Submissions::Info;
-use RefImp::Project::Submissions::Form;
-use RefImp::Project::Submissions::Sequence;
+use RefImp::Project::Submission::Info;
+use RefImp::Project::Submission::Form;
+use RefImp::Project::Submission::Sequence;
 use RefImp::Resources::NcbiFtp;
 use YAML;
 
-class RefImp::Project::Command::Submit { 
-    is => 'RefImp::Project::Command::QaBase',
+class RefImp::Project::Command::Submission::Submit { 
+    is => 'RefImp::Project::Command::Submission::QaBase',
     has_transient_optional => {
         asn_path => { is => 'Text', },
         staging_directory => { is => 'Text', },
@@ -70,10 +69,10 @@ sub _generate_submit_info {
     $self->status_message('Staging directory: %s', $self->staging_directory);
 
     $self->status_message('Load submit info...');
-    $self->submit_info( RefImp::Project::Submissions::Info->generate($self->project) );
+    $self->submit_info( RefImp::Project::Submission::Info->generate($self->project) );
 
     my $file = File::Spec->join(
-        $self->staging_directory, RefImp::Project::Submissions->submit_info_yml_file_name_for_project($self->project),
+        $self->staging_directory, $self->submission->submit_info_yml_file_name,
     );
     $self->status_message('Save submit YAML: %s', $file);
     YAML::DumpFile($file, $self->submit_info);
@@ -85,11 +84,11 @@ sub _save_submit_form {
     my $self = shift;
     $self->status_message('Save submit form...');
 
-    my $form = RefImp::Project::Submissions::Form->create($self->submit_info)
+    my $form = RefImp::Project::Submission::Form->create($self->submit_info)
         or die 'Failed to generate submissions form!';
     my $file = File::Spec->join(
         $self->staging_directory,
-        RefImp::Project::Submissions->submit_form_file_name_for_project($self->project),
+        $self->submission->submit_form_file_name,
     );
     $self->status_message('Submit form path: %s', $file);
     my $fh = IO::File->new($file, 'w')
@@ -115,7 +114,7 @@ sub _save_sequence {
     if ( $self->submit_info->{COMMENTS}->{TransposonComments} ) {
         $seq_params{transposons} = $self->submit_info->{COMMENTS}->{TransposonComments};
     }
-    my $sequence = RefImp::Project::Submissions::Sequence->create(%seq_params);
+    my $sequence = RefImp::Project::Submission::Sequence->create(%seq_params);
 
     my $io = Bio::SeqIO->new(
         -file => '>'.File::Spec->join($self->staging_directory, join('.', $self->project->name, 'whole', 'contig')),
@@ -137,7 +136,7 @@ sub _generate_asn {
     my $self = shift;
     $self->status_message('Generate ASN...');
 
-    my $asn = RefImp::Project::Submissions::Asn->create(
+    my $asn = RefImp::Project::Submission::Asn->create(
         project => $self->project,
         submit_info => $self->submit_info,
         working_directory => $self->staging_directory,

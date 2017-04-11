@@ -1,4 +1,4 @@
-package RefImp::Project::Submissions::Info;
+package RefImp::Project::Submission::Info;
 
 use strict;
 use warnings;

@@ -10,7 +10,7 @@ use File::Temp;
 use Test::More tests => 2;
 use YAML 'LoadFile';
 
-my $pkg = 'RefImp::Project::Submissions::Asn';
+my $pkg = 'RefImp::Project::Submission::Asn';
 use_ok($pkg) or die;
 
 subtest 'create' => sub{
