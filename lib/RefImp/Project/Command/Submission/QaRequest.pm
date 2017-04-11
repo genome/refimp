@@ -1,4 +1,4 @@
-package RefImp::Project::Command::Submission::QaRequested;
+package RefImp::Project::Command::Submission::QaRequest;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use MIME::Lite;
 use RefImp::Project::Submissions::Info;
 use RefImp::Project::Submissions::Form;
 
-class RefImp::Project::Command::Submission::QaRequested {
+class RefImp::Project::Command::Submission::QaRequest {
     is => 'RefImp::Project::Command::Submission::QaBase',
     has_input => {
         checker_unix_logins => {
