@@ -18,7 +18,7 @@ class RefImp::Project::Command::Submission::Report {
         },
         type => {
             is => 'Text',
-            valid_values => [qw/ general /],
+            valid_values => [qw/ general finisher /],
             default_value => 'general',
             doc => 'Type of report to display.',
         },
@@ -43,10 +43,34 @@ sub general {
     for my $submission ( $self->submissions ) {
         $metrics{'Number of Projects'}++;
         my $size = $submission->project_size || 0;
-        $metrics{'Total Size'} = $size;
-        push @rows, [ $submission->project->name, join(',', map { $_->name } $submission->project->finishers), $submission->submitted_on, $size, ];
+        $metrics{'Total Size'} += $size;
+        push @rows, [ $submission->project->name, (map { $_->name } $submission->project->finishers)[0], $submission->submitted_on, $size, ];
     }
     print RefImp::Util::Tablizer->format(\@rows).YAML::Dump(\%metrics);
+}
+
+sub finisher {
+    my $self = shift;
+
+    my %finishers;
+    for my $submission ( $self->submissions ) {
+        my ($finisher) = map { $_->name } $submission->project->finishers;
+        $finishers{$finisher}->{metrics}->{'Number of Projects'}++;
+        my $size = $submission->project_size || 0;
+        $finishers{$finisher}->{metrics}->{'Total Size'} += $size;
+        push @{$finishers{$finisher}->{rows}}, [ $submission->project->name, $submission->submitted_on, $size, ];
+    }
+
+    my $headers = [qw/ Project Date Size  /];
+    my @output;
+    for my $finisher ( sort keys %finishers ) {
+        my $rows = $finishers{$finisher}->{rows};
+        unshift @$rows, $headers, [ map { '-' x length } @$headers ];
+        my %metrics = %{$finishers{$finisher}->{metrics}};
+        $metrics{Finisher} = $finisher;
+        push @output, RefImp::Util::Tablizer->format($finishers{$finisher}->{rows}).YAML::Dump(\%metrics);
+    }
+    print join("\n", @output);
 }
 
 1;
