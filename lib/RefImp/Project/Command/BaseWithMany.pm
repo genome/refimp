@@ -13,6 +13,7 @@ class RefImp::Project::Command::BaseWithMany {
             is => 'RefImp::Project',
             is_many => 1,
             shell_args_position => 1,
+            require_user_verify => 0,
             doc => 'Projects to use. Use ids, names, or filter on other properties.',
         },
     },

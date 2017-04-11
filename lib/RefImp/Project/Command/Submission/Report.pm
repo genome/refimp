@@ -23,7 +23,7 @@ class RefImp::Project::Command::Submission::Report {
             doc => 'Type of report to display.',
         },
     },
-    doc => 'generate a report of submision records',
+    doc => 'generate a report of submission records',
 };
 
 sub help_detail { __PACKAGE__->__meta__->doc }
