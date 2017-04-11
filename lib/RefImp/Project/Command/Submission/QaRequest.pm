@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use MIME::Lite;
-use RefImp::Project::Submissions::Info;
-use RefImp::Project::Submissions::Form;
+use RefImp::Project::Submission::Info;
+use RefImp::Project::Submission::Form;
 
 class RefImp::Project::Command::Submission::QaRequest {
     is => 'RefImp::Project::Command::Submission::QaBase',
@@ -41,8 +41,8 @@ sub execute {
 sub _display_submit_form {
     my $self = shift;
 
-    my $submit_info = RefImp::Project::Submissions::Info->generate( $self->project );
-    my $form = RefImp::Project::Submissions::Form->create($submit_info);
+    my $submit_info = RefImp::Project::Submission::Info->generate( $self->project );
+    my $form = RefImp::Project::Submission::Form->create($submit_info);
     $self->fatal_message('Failed to generate submissions form!') if not $form;
 
     print STDOUT "$form\nProceed with presubmit? ([Y]/n) ";

@@ -10,7 +10,7 @@ use File::Spec;
 use Test::More tests => 2;
 use YAML;
 
-my $pkg = 'RefImp::Project::Submissions::Form';
+my $pkg = 'RefImp::Project::Submission::Form';
 use_ok($pkg) or die;
 
 subtest 'create' => sub{
