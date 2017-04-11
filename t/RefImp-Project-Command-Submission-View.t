@@ -7,11 +7,11 @@ use TestEnv;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 3;
+use Test::More tests => 2;
 
 my %setup;
 subtest 'setup'=> sub{
-    plan tests => 2;
+    plan tests => 3;
 
     $setup{pkg} = 'RefImp::Project::Command::Submission::View';
     use_ok($setup{pkg}) or die;
@@ -19,58 +19,33 @@ subtest 'setup'=> sub{
     $setup{project} = RefImp::Project->get(1);
     ok($setup{project}, 'got project');
 
-};
-
-my $submission;
-subtest 'execute fails' => sub{
-    plan tests => 3;
-
-    my $cmd;
-    throws_ok(
-        sub{ $cmd = $setup{pkg}->execute(
-               project => $setup{project},
-            ); },
-        qr/No submissions found for/,
-        'execute submission form when no submission',
-    );
-
     $setup{submission} = RefImp::Project::Submission->create(
         project => $setup{project},
         directory => '/blah',
+        project_size => 111111,
+        phase => 3,
     );
-    throws_ok(
-        sub{ $cmd = $setup{pkg}->execute(
-               project => $setup{project},
-            ); },
-        qr/No directory for submission/,
-        'execute submission form when no directory',
-    );
-
-    $setup{submission}->directory('/tmp');
-    throws_ok(
-        sub{ $cmd = $setup{pkg}->execute(
-               project => $setup{project},
-            ); },
-        qr/No submit form file found for/,
-        'execute submission form when no form',
-    );
+    ok($setup{submission}, 'create submission');
 
 };
 
 subtest 'execute' => sub{
-    plan tests => 3;
+    plan tests => 6;
+
+    my $output;
+    open local(*STDOUT), '>', \$output or die $!;
+    lives_ok(sub{ $setup{pkg}->execute(submission => $setup{submission}); }, 'execute submission w/o directroy');
+    like($output, qr/Submission directory not defined or does not exist/, 'correct output');
+
+    $output = '';
+    $setup{submission}->directory('/tmp');
+    lives_ok(sub{ $setup{pkg}->execute(submission => $setup{submission}); }, 'execute submission w/o form');
+    like($output, qr/No submission form in directory/, 'correct output');
 
     $setup{submission}->directory( TestEnv::test_data_directory_for_package($setup{pkg}) );
-
-    my $cmd;
-    lives_ok(
-        sub{ $cmd = $setup{pkg}->execute(
-               project => $setup{project},
-            ); },
-        'execute submission form',
-    );
-    ok($cmd->result, 'execute successful');
-    ok(!$cmd->error_message, 'no error message');
+    $output = '';
+    lives_ok( sub{ $setup{pkg}->execute(submission => $setup{project}); }, 'execute submission w/ form');
+    like($output, qr/1\) CLONE NAME IS/, 'correct output');
 
 };
 
