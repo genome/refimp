@@ -6,5 +6,5 @@ use warnings;
 use TestEnv;
 use Test::More tests => 1;
 
-use_ok('RefImp::Assembly::Submission::FTPToGenBank') or die;
+use_ok('RefImp::Assembly::Command::Submit') or die;
 done_testing();
