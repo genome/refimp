@@ -1,61 +1,81 @@
-package GSC::PSE::FTPToGenBank;
+package RefImp::Assembly::Command::Submit;
+
 use strict;
 use warnings FATAL => qw(all);
-use Net::FTP;
+
 use String::TT qw(tt strip);
+use RefImp::Resources::NcbiFtp;
 
-sub confirm {
+class RefImp::Assembly::Command::Submit {
+    is => 'Command::V2',
+    has_input => {
+        assembly => {
+            is => 'RefImp:Assembly',
+        },
+    },
+};
+
+sub execute {
     my $self = shift;
-    return unless $self->SUPER::confirm;
 
-    unless ( do { no warnings 'once'; $App::Mail::DISABLE_FOR_TESTING } or App::DBI->no_commit) {
-        $self->do_ftp;
-        $self->send_mail;
-    }
-    $self->get_genbank_assembly_submission->status('transferred');
-    $self->delete_temp_data();
+    $self->_create_submission_record;
+    $self->_create_submission_tar;
+    $self->_ftp_to_ncbi;
+    $self->_send_mail;
 
+    1;
+}
+
+sub _create_submission_record {
+    my $self = shift;
     return 1;
+    $self->submission(
+         RefImp::Project::Submission->create(
+             project => $self->project,
+             phase => 3,
+       )
+     ) or $self->fatal_message('Failed to create submission record for %s', $self->project->__display_name__);
+    $self->status_message('Submission record: %s', $self->submission->__display_name__);
 }
 
-sub delete_temp_data {
+sub _create_submission_tar {
     my $self = shift;
-    my $execute_tbl2asn    = $self->get_prior_pse;
-    my $initialize_tbl2asn = $execute_tbl2asn->get_prior_pse;
-    my ($alloc_pse)        = $initialize_tbl2asn->get_disk_allocation_pse;
-    $alloc_pse->delete_and_deallocate;
 }
 
-sub get_genbank_assembly_submission {
-    shift->get_first_prior_pse_with_process_to(
-        'configure assembly submission to genbank')
-            ->get_genbank_assembly_submission
-}
-
-sub do_ftp {
+sub _ftp_to_ncbi {
     my $self = shift;
-    local $@;
+    $self->status_message('FTP to NCBI...OK');
 
-    my $ftp = Net::FTP->new('ftp-private.ncbi.nlm.nih.gov', Passive => 1);
-    die "Unable to construct FTP object per $@" unless($ftp);
-    $ftp->login('wugsc', 'hum+seqs') or die 'FTP login failed '.$ftp->message;
-    $ftp->cwd('TEMP') or die 'FTP cwd failed '.$ftp->message;
-    $ftp->binary or die 'FTP binary failed '.$ftp->message;
+    my $ftp = RefImp::Resources::NcbiFtp->connect;
+    $self->status_message('Entering remote directory TEMP');
+    $ftp->cwd('TEMP') or $self->fatal_message('Failed to FTP->cwd! %', $ftp->message);
+    $self->status_message('Setting FTP binary mode');
+    $ftp->binary or $self->fatal_message('Failed to FTP->binary! %', $ftp->message);
 
-    my $file = $self->tar_file;
-    $self->status_message("About to ftp $file");
+    my $tar_path = $self->tar_path;
+    $self->status_message('TAR path: %s', $tar_path);
+    my $tar_path_size = -s $tar_path;
+    $self->status_message('TAR size: %s', $tar_path_size);
 
-    my $ftp_result  = $ftp->put($file->stringify);
-    if ($ftp_result) {
-        $self->status_message("ftp success, result: $ftp_result; message:".$ftp->message);
-    } else {
-        die "ftp failed: ".($ftp->message||'');
+    if ( not $ftp->put($tar_path) ) {
+        $self->fatal_message('Failed to FTP->put! %s', $ftp->message);
     }
+
+    my $tar_file_name = File::Basename::basename($tar_path);
+    my $ncbi_size = $ftp->size($tar_file_name);
+    if ( not $ncbi_size ) {
+        $self->fatal_message('FTP->put succeeded, but file has no size!');
+    }
+    elsif ( $ncbi_size != $tar_path_size ) {
+        $self->fatal_message('FTP->put succeeded, but file was only partially uploaded!');
+    }
+
+    $self->status_message('FTP to NCBI...OK');
 }
 
-sub send_mail {
+sub _send_mail {
     my $self = shift;
-    my $email_ncbi = $self->genbank_assembly_submission->email_ncbi;
+    my $email_ncbi = $self->submission->email_ncbi;
 
     my $mail_subject = $self->mail_subject||'';
     my $mail_message = $self->mail_message||'';
@@ -104,7 +124,7 @@ sub send_mail {
 sub mail_subject {
     my $self = shift;
 
-    my %h = $self->genbank_assembly_submission->query_bioproject(
+    my %h = $self->submission->query_bioproject(
         'Organism_Name',
         'Project_Title'
     );
@@ -113,26 +133,26 @@ sub mail_subject {
         die
           "[err] Did not find a 'Project_Title' for GenBank Assembly Submission - ",
           'gas_id: ',
-          $self->genbank_assembly_submission->gas_id, ' (',
+          $self->submission->gas_id, ' (',
           'bioproject_id: ',
-          $self->genbank_assembly_submission->bioproject_id, ' ',
+          $self->submission->bioproject_id, ' ',
           'creation_event_id: ',
-          $self->genbank_assembly_submission->creation_event_id, ")\n";
+          $self->submission->creation_event_id, ")\n";
     }
 
     unless ($h{'Organism_Name'}) {
         die
           "[err] Did not find a 'Organism_Name' for GenBank Assembly Submission - ",
           'gas_id: ',
-          $self->genbank_assembly_submission->gas_id, ' (',
+          $self->submission->gas_id, ' (',
           'bioproject_id: ',
-          $self->genbank_assembly_submission->bioproject_id, ' ',
+          $self->submission->bioproject_id, ' ',
           'creation_event_id: ',
-          $self->genbank_assembly_submission->creation_event_id, ")\n";
+          $self->submission->creation_event_id, ")\n";
     }
 
     my ($org_name, $prj_title) = @h{'Organism_Name', 'Project_Title'};
-    my $bioproject_id = $self->genbank_assembly_submission->bioproject_id;
+    my $bioproject_id = $self->submission->bioproject_id;
 
     my $subject = "New '$org_name' - '$prj_title' [BioProject: $bioproject_id] assembly submission";
     return $subject;
@@ -141,13 +161,13 @@ sub mail_subject {
 sub mail_message {
     my $self = shift;
 
-    my %h = $self->genbank_assembly_submission->query_bioproject(
+    my %h = $self->submission->query_bioproject(
         'Organism_Name', 'Organism_Strain', 'Project_Title');
     die unless %h;
 
-    my $bioproject_id = $self->genbank_assembly_submission->bioproject_id;
-    my $biosample_id = $self->genbank_assembly_submission->biosample_id;
-    my $release_date  = $self->genbank_assembly_submission->release_date;
+    my $bioproject_id = $self->submission->bioproject_id;
+    my $biosample_id = $self->submission->biosample_id;
+    my $release_date  = $self->submission->release_date;
     my $tar_file      = $self->tar_file->basename;
 
     my $msg = strip tt qq{
@@ -165,39 +185,6 @@ sub mail_message {
     };
 
     return $msg;
-}
-
-sub genbank_assembly_submission {
-    my $self = shift;
-    my $configure_pse = $self->get_first_prior_pse_with_process_to(
-        "configure assembly submission to genbank");
-    return $configure_pse->get_genbank_assembly_submission;
-}
-
-sub tar_file {
-    my $self = shift;
-
-    my $results_dir = $self->get_prior_pse->results_dir_path;
-    my $tar_file_path = $results_dir->file(
-        $self->genbank_assembly_submission->version .'.tar');
-
-    unless (-e $tar_file_path) {
-        $self->error_message("Expected to find $tar_file_path.  Not found.");
-        die;
-    }
-
-    return $tar_file_path;
-}
-
-sub expunge_execution {
-    my $self = shift;
-
-    if (($self->pse_status eq 'confirm') and ($self->pse_result eq 'failed')) {
-        return 1;
-    }
-
-    $self->error_message("This assembly has already been transmitted to GenBank -- refusing to expunge.");
-    return;
 }
 
 1;
