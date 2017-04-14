@@ -1,4 +1,4 @@
--- Deploy refimp:create_users to sqlite
+-- Deploy refimp:create_users to mysql
 
 BEGIN;
 
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
 	CONSTRAINT users_pk PRIMARY KEY(id)
 );
 
-CREATE UNIQUE INDEX user_email_idx ON users (email);
-CREATE INDEX user_name_idx ON users (name);
+CREATE UNIQUE INDEX IF NOT EXISTS users_name ON users(name);
+CREATE UNIQUE INDEX IF NOT EXISTS users_email ON users(email);
 
 COMMIT;

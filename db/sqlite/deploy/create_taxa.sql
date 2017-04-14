@@ -1,4 +1,4 @@
--- Deploy refimp:create_taxa to sqlite
+-- Deploy refimp:create_taxa to mysql
 
 BEGIN;
 
@@ -11,5 +11,6 @@ CREATE TABLE IF NOT EXISTS taxa (
 	CONSTRAINT taxa_pk PRIMARY KEY(id),
 	UNIQUE(species_name, strain_name)
 );
+
 
 COMMIT;

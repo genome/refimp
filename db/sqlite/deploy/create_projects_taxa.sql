@@ -1,4 +1,4 @@
--- Deploy refimp:create_project_taxa to sqlite
+-- Deploy refimp:create_project_taxa to mysql
 -- requires projects
 -- requires taxa
 
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS projects_taxa (
 	CONSTRAINT protax_taxon_fk FOREIGN KEY(taxon_id) REFERENCES taxa(id)
 );
 
-CREATE INDEX protax_project_idx ON projects_taxa (project_id);
-CREATE INDEX protax_taxon_idx ON projects_taxa (taxon_id);
+CREATE INDEX IF NOT EXISTS protax_project_index ON projects_taxa(project_id);
+CREATE INDEX IF NOT EXISTS protax_taxon_index ON projects_taxa(taxon_id);
 
 COMMIT;
