@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE eSummaryResult PUBLIC "-//NLM//DTD esummary bioproject 20140903//EN" "https://eutils.ncbi.nlm.nih.gov/eutils/dtd/20140903/esummary_bioproject.dtd">
+<eSummaryResult>
+<DocumentSummarySet status="OK">
+<DbBuild>Build170424-0555.1</DbBuild>
+
+<DocumentSummary uid="376014">
+	<TaxId>6565</TaxId>
+	<Project_Id>376014</Project_Id>
+	<Project_Acc>PRJNA376014</Project_Acc>
+	<Project_Type>Primary submission</Project_Type>
+	<Project_Data_Type>Genome sequencing and assembly</Project_Data_Type>
+	<Sort_By_ProjectType>27493</Sort_By_ProjectType>
+	<Sort_By_DataType>238334</Sort_By_DataType>
+	<Sort_By_Organism>41200</Sort_By_Organism>
+	<Project_Subtype></Project_Subtype>
+	<Project_Target_Scope>Monoisolate</Project_Target_Scope>
+	<Project_Target_Material>Genome</Project_Target_Material>
+	<Project_Target_Capture>Whole</Project_Target_Capture>
+	<Project_MethodType>Sequencing</Project_MethodType>
+	<Project_Method></Project_Method>
+	<Project_Objectives_List>
+		<Project_Objectives_Struct>
+			<Project_ObjectivesType>Sequence</Project_ObjectivesType>
+			<Project_Objectives></Project_Objectives>
+		</Project_Objectives_Struct>
+		<Project_Objectives_Struct>
+			<Project_ObjectivesType>Assembly</Project_ObjectivesType>
+			<Project_Objectives></Project_Objectives>
+		</Project_Objectives_Struct>
+	</Project_Objectives_List>
+	<Registration_Date>2017/03/07 00:00</Registration_Date>
+	<Project_Name>Crassostrea virginica</Project_Name>
+	<Project_Title>Crassostrea virginica Genome sequencing and assembly</Project_Title>
+	<Project_Description>The Eastern oyster, Crassostrea virginica, provides important ecological and economical services, making it the target of restoration projects and supporting a significant fishery/aquaculture industry with landings valued at more than $100 million in 2012. While traditional breeding practices have achieved production of oyster lines with fast growth and improved disease resistance, little is known about the genetic basis of traits of commercial, biological, and ecological importance. Advanced molecular breeding techniques necessitate information regarding markers and genes associated with these traits. The goal of this research is to develop tools and resources to assist in the elucidation of the genomic basis of traits of commercial, biological, evolutionary, and ecological interest in the Eastern oyster. We propose to develop these key resources and tools by performing the sequencing, assembly, and annotation of a reference genome and transcriptome for the Eastern oyster C. virginica. Genome researchers and bioinformatics experts, in collaboration with the Eastern Oyster Genome Consortium, will use state-of-the-art sequencing and assembly strategies to achieve these aims. These reference genome and transcriptomes for the Eastern oysters will aid the research community in the discovery of candidate genes and markers associated with traits of commercial, biological, and ecological importance in oysters.</Project_Description>
+	<Keyword></Keyword>
+	<Relevance_Agricultural></Relevance_Agricultural>
+	<Relevance_Medical></Relevance_Medical>
+	<Relevance_Industrial></Relevance_Industrial>
+	<Relevance_Environmental>yes</Relevance_Environmental>
+	<Relevance_Evolution></Relevance_Evolution>
+	<Relevance_Model></Relevance_Model>
+	<Relevance_Other></Relevance_Other>
+	<Organism_Name>Crassostrea virginica</Organism_Name>
+	<Organism_Strain></Organism_Strain>
+	<Organism_Label>RU13XGHG1 #28</Organism_Label>
+	<Sequencing_Status>Scaffolds</Sequencing_Status>
+	<Submitter_Organization>McDonnell Genome Institute - Washington University School of Medicine</Submitter_Organization>
+	<Submitter_Organization_List>
+		<string>McDonnell Genome Institute - Washington University School of Medicine</string>
+	</Submitter_Organization_List>
+	<Supergroup>Eukaryotes</Supergroup>
+</DocumentSummary>
+
+</DocumentSummarySet>
+</eSummaryResult>
