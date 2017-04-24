@@ -7,51 +7,22 @@ use LWP::UserAgent;
 use XML::LibXML;
 
 class RefImp::Assembly::Submission {
-    has_optional => {
-        agp_file_path => { is => 'Text', },
-        assembly_method => { is => 'Text', },
-        authors_json  => { is => 'Text', },
-        bioproject_id => { is => 'Text', },
-        biosample_id => { is => 'Text', },
-        contigs_bases_file_path => { is => 'Text', },
-        file_sets => { is => 'Text', },
-        genome_model_build_id => { is => 'Text', },
-        genome_coverage => { is => 'Text', },
-        minimum_contig_length => { is => 'Text', },
-        release_date => { is => 'Text', },
-        sequencing_technology => { is => 'Text', },
-        tbl2asn_source_qualifiers => { is => 'Text', },
-        unstructured_comment => { is => 'Text', },
-        version => { is => 'Text', },
+   doc => 'Assembly submission record',
+   #data_source => RefImp::Config::get('ds_mysql'),
+   #table_name => 'assemblies_submissions',
+   id_generator => '-uuid',
+   has => {
+        bioproject => { is => 'Text', },
    },
 };
-
-sub bioproject_biosample_xml_dom {
-    my $self = shift;
-
-    my $url = sprintf(
-        'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=bioproject&db=biosample&id=%s', $self->bioproject,
-    );
-
-    my $ua = LWP::UserAgent->new;
-    $ua->timeout(10);
-    $ua->env_proxy;
-
-    my $response = $ua->get($url);
-    #$response = $ua->get($request_uri) unless $esummary_response->is_success; # retry?
-    if ( not $response->is_success ) {
-        $self->fatal_message('Failed to GET %s', $url);
-    }
-
-    # TODO store this
-    XML::LibXML->load_xml(string => $response->decoded_content);
-}
 
 sub create {
     my $class = shift;
 
     my $self = $class->SUPER::create(@_);
     return if not $self;
+
+    return $self;
 
     my @file_sets=$self->file_sets;
     if(! @file_sets && !($self->agp_file_path && $self->contigs_bases_file_path)) {
@@ -69,6 +40,7 @@ sub create {
         return;
     }
 
+    # TODO handle files ... need a submission dir?
     if(defined($self->agp_file_path) && defined($self->contigs_bases_file_path)) {
     # my $gbsf=GSC::GenBankSubFileset->create( gas_id                  => $gb, agp_file_path           => $self->agp_file_path, contigs_bases_file_path => $self->contigs_bases_file_path);
     }
@@ -92,6 +64,26 @@ sub create {
     }
 
     return $self;
+}
+
+sub bioproject_biosample_xml_dom {
+    my $self = shift;
+
+    my $url = sprintf(
+        'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?dbfrom=bioproject&db=biosample&id=%s',
+        $self->bioproject,
+    );
+
+    my $ua = LWP::UserAgent->new;
+    $ua->timeout(10);
+    $ua->env_proxy;
+
+    my $response = $ua->get($url);
+    if ( not $response->is_success ) {
+        $self->fatal_message('Failed to GET %s', $url);
+    }
+
+    XML::LibXML->load_xml(string => $response->decoded_content);
 }
 
 sub organism_name_and_strain {
