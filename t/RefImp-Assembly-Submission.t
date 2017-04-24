@@ -18,8 +18,6 @@ subtest 'setup' => sub{
     $setup{pkg} = 'RefImp::Assembly::Submission';
     use_ok($setup{pkg}) or die;
 
-    $setup{bioproject} = 'PRJNA376014';
-
     # User Agent
     my $ua = Test::MockObject->new();
     $ua->set_true('timeout');
@@ -38,6 +36,14 @@ subtest 'setup' => sub{
     ok($xml_content, 'loaded xml');
     $setup{response}->set_true('is_success');
     $setup{response}->mock('decoded_content', $xml_content);
+
+};
+
+subtest 'create' => sub{
+    plan tests => 1;
+
+    $setup{submission} = $setup{pkg}->create(bioproject => 'PRJNA376014');
+    ok($setup{submission}, 'create submission');
 
 };
 
