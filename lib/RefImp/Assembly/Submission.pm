@@ -66,7 +66,7 @@ sub create {
     return $self;
 }
 
-sub bioproject_biosample_xml_dom {
+sub ncbi_xml_dom {
     my $self = shift;
 
     my $url = sprintf(
@@ -83,68 +83,24 @@ sub bioproject_biosample_xml_dom {
         $self->fatal_message('Failed to GET %s', $url);
     }
 
-    XML::LibXML->load_xml(string => $response->decoded_content);
+    my $dom  = XML::LibXML->load_xml(string => $response->decoded_content);
+    my $error = $dom->findvalue('//error');
+    $self->fatal_message("NCBI XML DOM error: $error") if $error;
+    $dom;
+}
+
+sub query_ncbi_xml_dom {
+    my ($self, @fields) = @_;
+    $self->fatal_message('No fields given to retrieve from NCBI XML DOM!') if not @fields;
+
+    my $dom = $self->ncbi_xml_dom;
+    my $attrs = { map { my $v = $dom->findvalue("//$_") || undef; $_ => $v } @fields };
+    $attrs;
 }
 
 sub organism_name_and_strain {
     my $self = shift;
-
-    my @fields = ('Organism_Name','Organism_Strain');
-    my %results = $self->query_bioproject(@fields);
-    return @results{@fields};
-}
-
-sub query_bioproject {
-    my $self = shift;
-    my @fields = @_;
-    @fields = ('Project_Title') unless @fields;
-
-    my $dom = XML::LibXML->load_xml(
-        string => $self->get_bioproject_xml);
-
-    if (my $error = $dom->findvalue('//error') ) {
-        print STDERR "$error\n";
-        return;
-    }
-    else {
-        return map {$_ => $dom->findvalue("//$_")||''} @fields;
-    }
-}
-
-sub submission_construction_path {
-    my $self = shift;
-    my $config_pse = $self->get_creation_event;
-    my @subsequent_pses = $config_pse->get_pse_posterity;
-    my ($alloc) = grep { $_->process_to eq 'allocate disk space' } @subsequent_pses;
-    return unless $alloc;
-    return $alloc->absolute_path;
-}
-
-sub get_file_sets {
-    my $self=shift;
-    return GSC::GenBankSubFileset->get(gas_id => $self);
-}
-
-sub all_contigs_bases_file_paths {
-    my $self=shift;
-    my @contig_paths=
-      map {$_->contigs_bases_file_path}
-        $self->get_file_sets;
-    push @contig_paths,
-      $self->contigs_bases_file_path
-        if($self->contigs_bases_file_path);
-    return @contig_paths;
-}
-
-sub all_agp_file_paths {
-    my $self=shift;
-    my @agp_paths=
-      map {$_->agp_file_path}
-        $self->get_file_sets;
-    push @agp_paths,
-      $self->agp_file_path
-        if($self->agp_file_path);
-    return @agp_paths;
+    $self->query_ncbi_xml_dom(qw/ Organism_Name Organism_Strain /);
 }
 
 1;

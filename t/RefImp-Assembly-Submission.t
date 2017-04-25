@@ -10,7 +10,7 @@ use LWP::UserAgent;
 use Sub::Install;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my %setup;
 subtest 'setup' => sub{
@@ -61,6 +61,20 @@ subtest 'ncbi_xml_dom' => sub{
     $setup{response}->set_true('is_success');
     my $dom = $setup{submission}->ncbi_xml_dom;
     ok($dom, 'got ncbi xml dom');
+
+};
+
+subtest 'query_ncbi_xml_dom' => sub{
+    plan tests => 5;
+
+    throws_ok(sub{ $setup{submission}->query_ncbi_xml_dom; }, qr/No fields/, 'fails w/o fields');
+
+    my $attrs;
+    lives_ok(sub{ $attrs = $setup{submission}->query_ncbi_xml_dom('Project_Title'); },' query for project title');
+    is_deeply($attrs, {Project_Title => 'Crassostrea virginica Genome sequencing and assembly'}, 'project title');
+
+    lives_ok(sub{ $attrs = $setup{submission}->organism_name_and_strain; },' query for project title');
+    is_deeply($attrs, {Organism_Name => 'Crassostrea virginica', Organism_Strain => undef}, 'org name and strain');
 
 };
 
