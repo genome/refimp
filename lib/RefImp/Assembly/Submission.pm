@@ -26,20 +26,40 @@ class RefImp::Assembly::Submission {
    },
 };
 
+sub __errors__ {
+    my $self = shift;
+
+    my @errors = $self->SUPER::__errors__;
+    return @errors if @errors;
+
+    my $esummary = RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $self->biosample);
+    $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
+    $self->esummary($esummary);
+
+    for my $file_method (qw/ agp_file contigs_file supercontigs_file /) {
+        my $file = $self->$file_method;
+        $self->fatal_message('No %s given!', $file_method) if not $file;
+        $self->fatal_message('%s %s does not exists!', $file_method, $file) if not -s $file;
+    }
+
+    # TODO
+    # check contigs/supercontigs/agp file(s)
+    # check contigs/supercontigs names are in agp
+    # check RELEASE_NOTES and FINAL_STATS files
+
+    return @errors;
+}
+
 sub create {
     my $class = shift;
 
     my $self = $class->SUPER::create(@_);
     return if not $self;
 
-    my $esummary = RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $self->biosample);
-    $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
-    $self->esummary($esummary);
+    my @errors = $self->__errors__;
+    $self->fatal_message( join("\n", map { $_->__display_name__ } @errors) ) if @errors;
 
     # TODO
-    # check contigs/supercontigs/agp file(s)
-    # check contigs/supercontigs names are in agp
-    # check RELEASE_NOTES and FINAL_STATS files
     # export as yml with assembly info
 
     $self;
