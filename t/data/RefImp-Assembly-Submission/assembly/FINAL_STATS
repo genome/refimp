@@ -1,0 +1,28 @@
+SCAFFOLDS
+  COUNT     755            
+  LENGTH    811963843      
+  AVG       1075448        
+  N50       2437656 (2436952) 2421970
+  LARGEST   12680670       
+ (ID: LG2_Scaffold1, BASES_ONLY_LENGTH: 12679178)
+  Scaffolds > 1M: 255 ( 647981873 bp )
+  Scaffolds 250K--1M: 253 ( 140970771 bp )
+  Scaffolds 100K--250K: 102 ( 17368373 bp )
+  Scaffolds 10K--100K: 119 ( 5512672 bp )
+  Scaffolds 5K--10K: 13 ( 99076 bp )
+  Scaffolds 2K--5K: 7 ( 23569 bp )
+  Scaffolds 0--2K: 6 ( 7509 bp )
+
+CONTIGS
+  COUNT     1207           
+  LENGTH    810381505      
+  AVG       671401         
+  N50       1593283 (1592942) 1561902
+  LARGEST   9802061        
+  Contigs > 1M: 254 ( 545383945 bp )
+  Contigs 250K--1M: 397 ( 221159583 bp )
+  Contigs 100K--250K: 179 ( 30595579 bp )
+  Contigs 10K--100K: 301 ( 12852602 bp )
+  Contigs 5K--10K: 40 ( 290927 bp )
+  Contigs 2K--5K: 26 ( 86604 bp )
+  Contigs 0--2K: 10 ( 12265 bp )

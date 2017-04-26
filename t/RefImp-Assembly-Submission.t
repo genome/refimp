@@ -58,12 +58,19 @@ subtest 'setup' => sub{
 };
 
 subtest 'create fails' => sub{
-    plan tests => 9;
+    plan tests => 12;
 
     my $submission_params = $setup{submission_params};
     for my $k ( keys %$submission_params ) {
         my $v = delete $submission_params->{$k};
-        throws_ok(sub{ $setup{pkg}->create(%$submission_params); }, qr//, "create fails w/o $k");
+        throws_ok(sub{ $setup{pkg}->create(%$submission_params); }, qr/INVALID: property '$k'/, "create fails w/o $k");
+        $submission_params->{$k} = $v;
+    }
+
+    for my $k (qw/ agp_file contigs_file supercontigs_file /) {
+        my $v = delete $submission_params->{$k};
+        $submission_params->{$k} = '/blah';
+        throws_ok(sub{ $setup{pkg}->create(%$submission_params); }, qr/Given $k does not exist/, "create fails w/ non existing $k");
         $submission_params->{$k} = $v;
     }
 

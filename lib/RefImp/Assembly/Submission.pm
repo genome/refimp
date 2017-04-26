@@ -38,12 +38,21 @@ sub __errors__ {
 
     for my $file_method (qw/ agp_file contigs_file supercontigs_file /) {
         my $file = $self->$file_method;
-        $self->fatal_message('No %s given!', $file_method) if not $file;
-        $self->fatal_message('%s %s does not exists!', $file_method, $file) if not -s $file;
+
+        push @errors, UR::Object::Tag->create(
+            type => 'error',
+            properties => [ $file_method ],
+            desc => "No $file_method given!",
+        ) if not $file;
+
+        push @errors, UR::Object::Tag->create(
+            type => 'error',
+            properties => [ $file_method ],
+            desc => "Given $file_method does not exist! $file",
+        ) if not -s $file;
     }
 
     # TODO
-    # check contigs/supercontigs/agp file(s)
     # check contigs/supercontigs names are in agp
     # check RELEASE_NOTES and FINAL_STATS files
 
