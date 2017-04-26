@@ -18,8 +18,11 @@ subtest 'setup' => sub{
 
     $setup{pkg} = 'RefImp::Assembly::Submission';
     use_ok($setup{pkg}) or die;
-    $setup{bioproject} = 'PRJNA376014';
-    $setup{biosample} = 'SAMN06349363';
+    my %submission_params = (
+        bioproject => 'PRJNA376014',
+        biosample => 'SAMN06349363',
+    );
+    $setup{submission_params} = \%submission_params;
 
     # User Agent
     $setup{ua} = Test::MockObject->new();
@@ -33,7 +36,7 @@ subtest 'setup' => sub{
         });
 
     # Load XML, set as decoded content
-    my $xml_file = File::Spec->join(TestEnv::test_data_directory_for_package($setup{pkg}), join('.', 'esummary', $setup{biosample}, 'xml'));
+    my $xml_file = File::Spec->join(TestEnv::test_data_directory_for_package($setup{pkg}), join('.', 'esummary', $submission_params{biosample}, 'xml'));
     my $xml_content = File::Slurp::slurp($xml_file);
     ok($xml_content, 'loaded xml');
 
@@ -45,10 +48,13 @@ subtest 'setup' => sub{
 };
 
 subtest 'create' => sub{
-    plan tests => 1;
+    plan tests => 2;
 
-    $setup{submission} = $setup{pkg}->create(biosample => $setup{biosample});
-    ok($setup{submission}, 'create submission');
+    my $submission = $setup{pkg}->create(%{$setup{submission_params}});
+    ok($submission, 'create submission');
+    ok($submission->esummary, 'created and set biosample esummary',);
+
+    $setup{submission} = $submission;
 
 };
 

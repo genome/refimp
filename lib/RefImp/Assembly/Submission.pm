@@ -3,16 +3,26 @@ package RefImp::Assembly::Submission;
 use strict;
 use warnings 'FATAL';
 
-use LWP::UserAgent;
-use XML::LibXML;
-
 class RefImp::Assembly::Submission {
    doc => 'Assembly submission record',
    #data_source => RefImp::Config::get('ds_mysql'),
    #table_name => 'assemblies_submissions',
    id_generator => '-uuid',
    has => {
-        biosample => { is => 'Text', },
+    # assembler => on asssembly
+    # read_type => on assembly
+        agp_file => { is => 'Text', doc => 'AGP file', },
+        authors => { is => 'Text', doc => 'Comma separated list of authors', },
+        biosample => { is => 'Text', doc => 'NCBI biosample', },
+        bioproject => { is => 'Text', doc => 'NCBI bioproject', },
+        contigs_file => { is => 'Text', doc => 'Contigs [bases] fasta file', },
+        coverage => { is => 'Text', doc => 'Coverage', },
+        release_date => { is => 'Date', doc => '', },
+        supercontigs_file => { is => 'Text', doc => 'Supercontigs fasta file', },
+        version => { is => 'Text', doc => 'NCBI formatted assembly version', },
+   },
+   has_optional_transient => {
+        esummary => { is => 'RefImp::Resources::Ncbi::EsummaryBiosample', },
    },
 };
 
@@ -23,35 +33,16 @@ sub create {
     return if not $self;
 
     my $esummary = RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $self->biosample);
+    $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
+    $self->esummary($esummary);
 
-    return $self;
+    # TODO
+    # check contigs/supercontigs/agp file(s)
+    # check contigs/supercontigs names are in agp
+    # check RELEASE_NOTES and FINAL_STATS files
+    # export as yml with assembly info
 
-    # TODO check agp/bases file(s)
-    # if(defined($self->agp_file_path) && defined($self->contigs_bases_file_path)) {
-    # TODO handle files ... need a submission dir?
-
-    my $dom = $self->bioproject_biosample_xml_dom;
-    my @links = $dom->findnodes('/eLinkResult/LinkSet/LinkSetDb/Link/Id');
-    my $biosample_num = $self->biosample_id;
-    $biosample_num =~ s/\D//g;
-
-    unless( grep { $biosample_num == $_->textContent } @links ) {
-        $self->fatal_message("BioProject ".$self->bioproject_id." is not linked with BioSample ".$self->biosample_id);
-        return;
-    }
-
-    # ensure that the release date has been set
-    unless ($self->release_date) {
-        die "[err] A 'release date' has not been set on the ",
-            "GSC::GenBankAssemblySubmission!\n";
-    }
-
-    return $self;
-}
-
-sub organism_name_and_strain {
-    my $self = shift;
-    $self->query_ncbi_xml_dom(qw/ Organism_Name Organism_Strain /);
+    $self;
 }
 
 1;
