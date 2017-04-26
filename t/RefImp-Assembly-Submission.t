@@ -10,7 +10,7 @@ use LWP::UserAgent;
 use Sub::Install;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 4;
+use Test::More tests => 2;
 
 my %setup;
 subtest 'setup' => sub{
@@ -18,6 +18,8 @@ subtest 'setup' => sub{
 
     $setup{pkg} = 'RefImp::Assembly::Submission';
     use_ok($setup{pkg}) or die;
+    $setup{bioproject} = 'PRJNA376014';
+    $setup{biosample} = 'SAMN06349363';
 
     # User Agent
     $setup{ua} = Test::MockObject->new();
@@ -31,50 +33,22 @@ subtest 'setup' => sub{
         });
 
     # Load XML, set as decoded content
-    my $xml_file = File::Spec->join(TestEnv::test_data_directory_for_package($setup{pkg}), 'esummary.xml');
+    my $xml_file = File::Spec->join(TestEnv::test_data_directory_for_package($setup{pkg}), join('.', 'esummary', $setup{biosample}, 'xml'));
     my $xml_content = File::Slurp::slurp($xml_file);
     ok($xml_content, 'loaded xml');
 
     $setup{response} = Test::MockObject->new();
     $setup{response}->set_true('is_success');
     $setup{response}->set_always('decoded_content', $xml_content);
+    $setup{ua}->set_always('get', $setup{response});
 
 };
 
 subtest 'create' => sub{
     plan tests => 1;
 
-    $setup{submission} = $setup{pkg}->create(bioproject => 'PRJNA376014');
+    $setup{submission} = $setup{pkg}->create(biosample => $setup{biosample});
     ok($setup{submission}, 'create submission');
-
-};
-
-subtest 'ncbi_xml_dom' => sub{
-    plan tests => 3;
-
-    my $expected_url = sprintf('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?dbfrom=bioproject&db=biosample&id=%s', $setup{submission}->bioproject);
-    $setup{ua}->mock('get', sub{ is($_[1], $expected_url, 'correct url'); $setup{response}; });
-    $setup{response}->set_false('is_success');
-    throws_ok(sub{ $setup{submission}->ncbi_xml_dom; }, qr/Failed to GET/, 'fails when response is not success');
-
-    $setup{ua}->mock('get', sub{ $setup{response} });
-    $setup{response}->set_true('is_success');
-    my $dom = $setup{submission}->ncbi_xml_dom;
-    ok($dom, 'got ncbi xml dom');
-
-};
-
-subtest 'query_ncbi_xml_dom' => sub{
-    plan tests => 5;
-
-    throws_ok(sub{ $setup{submission}->query_ncbi_xml_dom; }, qr/No fields/, 'fails w/o fields');
-
-    my $attrs;
-    lives_ok(sub{ $attrs = $setup{submission}->query_ncbi_xml_dom('Project_Title'); },' query for project title');
-    is_deeply($attrs, {Project_Title => 'Crassostrea virginica Genome sequencing and assembly'}, 'project title');
-
-    lives_ok(sub{ $attrs = $setup{submission}->organism_name_and_strain; },' query for project title');
-    is_deeply($attrs, {Organism_Name => 'Crassostrea virginica', Organism_Strain => undef}, 'org name and strain');
 
 };
 
