@@ -26,6 +26,9 @@ class RefImp::Assembly::Submission {
    },
 };
 
+sub valid_release_dates { ( 'immediately after processing', 'hold until publication', '\d{2}-\d{2}-\d{4}' ) }
+sub valid_release_date_regexps { map { qr/^$_$/ } valid_release_dates() }
+
 sub __errors__ {
     my $self = shift;
 

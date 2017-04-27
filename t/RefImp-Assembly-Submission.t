@@ -10,7 +10,7 @@ use LWP::UserAgent;
 use Sub::Install;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my %setup;
 subtest 'setup' => sub{
@@ -84,6 +84,14 @@ subtest 'create' => sub{
     ok($submission->esummary, 'created and set biosample esummary',);
 
     $setup{submission} = $submission;
+
+};
+
+subtest 'release date' => sub{
+    plan tests => 2;
+
+    ok($setup{pkg}->valid_release_dates, 'valid_release_dates');
+    ok($setup{pkg}->valid_release_date_regexps, 'valid_release_date_regexps');
 
 };
 
