@@ -57,8 +57,9 @@ sub _create_from_params {
         project_id => $self->project->id,
         phase => $self->phase,
     );
-    $params{directory} = $self->directory if $self->directory;
-    $params{submitted_on} = $self->submitted_on if $self->submitted_on;
+    for my $param (qw/ accession_id directory submitted_on /) {
+        $params{$param} = $self->$param if defined $self->$param;
+    }
     $self->status_message('Submission params: %s', YAML::Dump(\%params));
 
     RefImp::Project::Submission->create(%params);

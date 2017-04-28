@@ -10,7 +10,7 @@ use Test::More tests => 2;
 
 my $pkg = 'RefImp::Project::Command::Submission::Create';
 subtest 'create' => sub{
-    plan tests => 11;
+    plan tests => 12;
 
     use_ok($pkg) or die;
 
@@ -24,6 +24,7 @@ subtest 'create' => sub{
     lives_ok(
         sub{ $cmd = $pkg->execute(
                 project => $project,
+                accession_id => 'AC000000',
                 directory => '/tmp',
                 phase => 3,
                 submitted_on => '2001-01-20',
@@ -35,6 +36,7 @@ subtest 'create' => sub{
     @submissions = $project->submissions;
     is(@submissions, 1, 'created submission');
     is($submissions[0]->project, $project, 'set submission project');
+    is($submissions[0]->accession_id, 'AC000000', 'set submission accession_id');
     is($submissions[0]->directory, '/tmp', 'set submission directory');
     is($submissions[0]->phase, 3, 'set submission phase');
     like($submissions[0]->submitted_on, qr/^2001-01-20/, 'set submitted_on');
