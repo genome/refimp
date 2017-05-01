@@ -44,18 +44,21 @@ sub execute {
     my %submission = (
         assembler => '',
         authors => '',
+        agp_file => '',
         bioproject => '',
         biosample => '',
+        contigs_file => '',
         coverage => '',
         read_type => '',
         release_date => 'immediately after processing',
+        release_notes_file => '',
+        supercontigs_file => '',
         version => '',
     );
 
     my $string = YAML::Dump(\%submission);
     $string =~ s/'//g;
     print $string;
-    #print YAML::Dump(\%submission);
 }
 
 1;
