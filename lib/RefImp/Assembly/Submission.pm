@@ -49,4 +49,21 @@ sub info_for {
     $self->submission_info->{$key};
 }
 
+sub validate_for_submit {
+    my $self = shift;
+
+    my $info = $self->submission_info;
+    $self->fatal_message('No submission info set!') if not $info or not %$info;
+
+    my $esummary = RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $self->biosample);
+    $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
+    for my $key (qw/ agp_file contigs_file supercontigs_file /) {
+        my $file = $info->{$key};
+        $self->fatal_message('No %s in submission info!', $key) if not $file;
+        $self->fatal_message('File %s in submission info not exist! %s', $key, $file) if not -s $file;
+    }
+
+    1;
+}
+
 1;

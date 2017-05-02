@@ -8,10 +8,10 @@ use TestEnv;
 use File::Spec;
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my %setup;
-subtest 'create' => sub{
+subtest 'setup' => sub{
     plan tests => 3;
 
     $setup{pkg} = 'RefImp::Assembly::Submission';
@@ -72,6 +72,25 @@ subtest 'submission_info' => sub {
     is_deeply($setup{submission}->submission_info, $setup{submission_params}, 'submission info hash');
     throws_ok(sub{ $setup{submission}->info_for; }, qr/No key given/, 'info_for fails w/o key');
     is($setup{submission}->info_for('coverage'), '20X', 'info_for coverage');
+
+};
+
+subtest 'validate_for_submit' => sub{
+    plan tests => 7;
+
+    my $submission = $setup{submission};
+    my $info = $submission->submission_info();
+    $submission->submission_info({});
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/No submission info set/, 'validate_for_submit fails w/o submit info');
+    
+    $submission->submission_info($info);
+    for my $k (qw/ agp_file contigs_file supercontigs_file /) {
+        my $v = delete $info->{$k};
+        throws_ok(sub{ $submission->validate_for_submit; }, qr/No $k in submission info/, "validate_for_submit fails w/o $k");
+        $info->{$k} = '/blah';
+        throws_ok(sub{ $submission->validate_for_submit; }, qr/File $k in submission info not exist/, "validate_for_submit fails w/ non existing $k");
+        $info->{$k} = $v;
+    }
 
 };
 
