@@ -6,83 +6,46 @@ use warnings;
 use TestEnv;
 
 use File::Slurp;
+use File::Temp 'tempdir';
 use LWP::UserAgent;
+require RefImp::Assembly::Submission;
 use Sub::Install;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 4;
+use Test::More tests => 3;
+use YAML;
 
 my %setup;
 subtest 'setup' => sub{
-    plan tests => 2;
+    plan tests => 1;
 
     $setup{pkg} = 'RefImp::Assembly::Command::Submit';
     use_ok($setup{pkg}) or die;
 
-    my $data_dir = TestEnv::test_data_directory_for_package($setup{pkg});
+    my $data_dir = TestEnv::test_data_directory_for_package('RefImp::Assembly::Submission');
     my $assembly_dir = File::Spec->join($data_dir, 'assembly');
-    my %submission_params = (
-        agp_file => File::Spec->join($assembly_dir, ''),
-        authors => 'Wesley C. Warren,Marta Gomez-Chiarri,Chad Tomlinson',
-        bioproject => 'PRJNA376014',
-        biosample => 'SAMN06349363',
-        contigs_file => File::Spec->join($assembly_dir, ''),
-        coverage => '20X',
-        release_date => 'immediately after processing',
-        supercontigs_file => File::Spec->join($assembly_dir, ''),
-        version => '',
-    );
-    $setup{submission_params} = \%submission_params;
-    $setup{submission_yaml} = File::Spec->join($data_dir, 'submission.yml');
-
-    # User Agent
-    $setup{ua} = Test::MockObject->new();
-    $setup{ua}->set_true('timeout');
-    $setup{ua}->set_true('env_proxy');
+    $setup{submission_yml} = File::Spec->join($data_dir, 'submission.yml');
+    $setup{tempdir} = tempdir(CLEANUP => 1);
 
     Sub::Install::reinstall_sub({
-        code => sub{ $setup{ua} },
-        into => 'LWP::UserAgent',
-        as => 'new',
+        code => sub{ 1 },
+        as => 'validate_for_submit',
+        into => 'RefImp::Assembly::Submission',    
         });
-
-    # Load XML, set as decoded content
-    my $xml_file = File::Spec->join($data_dir, join('.', 'esummary', $submission_params{biosample}, 'xml'));
-    my $xml_content = File::Slurp::slurp($xml_file);
-    ok($xml_content, 'loaded xml');
-
-    $setup{response} = Test::MockObject->new();
-    $setup{response}->set_true('is_success');
-    $setup{response}->set_always('decoded_content', $xml_content);
-    $setup{ua}->set_always('get', $setup{response});
 
 };
 
 subtest 'execute fails' => sub{
-    plan tests => 13;
+    plan tests => 1;
 
-    throws_ok(sub{ $setup{pkg}->execute(submission_yaml => '/blah'); }, qr/INVALID: property 'submission_yaml' dd/, 'execute fails w/ non existing submission yaml');
-
-    my $submission_params = $setup{submission_params};
-    for my $k ( keys %$submission_params ) {
-        my $v = delete $submission_params->{$k};
-        throws_ok(sub{ $setup{pkg}->execute(submission_yaml => ''); }, qr/INVALID: property '$k'/, "create fails w/o $k");
-        $submission_params->{$k} = $v;
-    }
-
-    for my $k (qw/ agp_file contigs_file supercontigs_file /) {
-        my $v = delete $submission_params->{$k};
-        $submission_params->{$k} = '/blah';
-        throws_ok(sub{ $setup{pkg}->create(submission_yaml => ''); }, qr/Given $k does not exist/, "create fails w/ non existing $k");
-        $submission_params->{$k} = $v;
-    }
+    throws_ok(sub{ $setup{pkg}->execute(submission_yml => '/blah'); }, qr/Submission YAML does not exist/, 'execute fails w/ non existing submission yml');
 
 };
 
 subtest 'execute' => sub{
     plan tests => 1;
 
-    my $submission = $setup{pkg}->create(submission_yaml => '');
+    my $submission = $setup{pkg}->create(submission_yml => $setup{submission_yml});
     ok($submission, 'create submission');
 
     $setup{submission} = $submission;

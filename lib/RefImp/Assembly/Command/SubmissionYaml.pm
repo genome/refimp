@@ -37,26 +37,27 @@ Version
 HELP
 }
 
+my %submission_info = (
+    assembler => '',
+    authors => '',
+    agp_file => '',
+    bioproject => '',
+    biosample => '',
+    contigs_file => '',
+    coverage => '',
+    read_type => '',
+    release_date => 'immediately after processing',
+    release_notes_file => '',
+    supercontigs_file => '',
+    version => '',
+);
+sub submission_info_hash { %submission_info }
+sub submission_info_keys { sort keys %submission_info }
 
 sub execute {
     my $self = shift;
 
-    my %submission = (
-        assembler => '',
-        authors => '',
-        agp_file => '',
-        bioproject => '',
-        biosample => '',
-        contigs_file => '',
-        coverage => '',
-        read_type => '',
-        release_date => 'immediately after processing',
-        release_notes_file => '',
-        supercontigs_file => '',
-        version => '',
-    );
-
-    my $string = YAML::Dump(\%submission);
+    my $string = YAML::Dump( {submission_info_hash()} );
     $string =~ s/'//g;
     print $string;
 }

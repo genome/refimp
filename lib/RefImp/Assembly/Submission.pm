@@ -3,6 +3,9 @@ package RefImp::Assembly::Submission;
 use strict;
 use warnings 'FATAL';
 
+use File::Basename;
+use File::Spec;
+use Set::Scalar;
 use YAML;
 
 class RefImp::Assembly::Submission {
@@ -17,6 +20,7 @@ class RefImp::Assembly::Submission {
         version => { is => 'Text', doc => 'NCBI formatted assembly version', },
    },
    has_optional => {
+        directory => { is => 'Text', doc => 'Submission directory', },
         submission_yml => { is => 'Text', doc => 'YAML file with submission information', },
    },
    has_optional_transient => {
@@ -39,6 +43,7 @@ sub create_from_yml {
     my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
     $params{submission_info} = $info;
     $params{submission_yml} = $yml;
+    $params{directory} = File::Basename::dirname($yml);
 
     $class->SUPER::create(%params);
 }
@@ -52,16 +57,31 @@ sub info_for {
 sub validate_for_submit {
     my $self = shift;
 
+    $self->fatal_message('No directory set to validate submission!') if not $self->directory;
+    $self->fatal_message('Faikled to validate for submit, submission directory (%s) does not exist!', $self->directory) if not -d $self->directory;
+
     my $info = $self->submission_info;
     $self->fatal_message('No submission info set!') if not $info or not %$info;
 
     my $esummary = RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $self->biosample);
     $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
-    for my $key (qw/ agp_file contigs_file supercontigs_file /) {
-        my $file = $info->{$key};
-        $self->fatal_message('No %s in submission info!', $key) if not $file;
+
+    my $info_keys = Set::Scalar->new( RefImp::Assembly::Command::SubmissionYaml->submission_info_keys );
+    my $file_keys = Set::Scalar->new( grep { /_file$/ } $info_keys->members );
+    for my $key ( $file_keys->members ) {
+        my $file_name = $info->{$key};
+        $self->fatal_message('No %s in submission info!', $key) if not $file_name;
+        my $file = File::Spec->join($self->directory, $file_name);
         $self->fatal_message('File %s in submission info not exist! %s', $key, $file) if not -s $file;
     }
+
+    my $nonfile_keys = $info_keys->difference($file_keys);
+    for my $key ( $nonfile_keys ) {
+        $self->fatal_message('No %s in submission info!', $key) if not defined $info->{$key};
+    }
+
+    # TODO
+    # check contigs/supercontigs names are in agp
 
     1;
 }

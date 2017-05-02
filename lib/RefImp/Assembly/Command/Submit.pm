@@ -10,55 +10,43 @@ use RefImp::Resources::NcbiFtp;
 class RefImp::Assembly::Command::Submit {
     is => 'Command::V2',
     has_input => {
-        submission_yaml => {
+        submission_yml => {
             is => 'Text',
             doc => 'YAML with submission info. Use "submission-yaml" command for a template.',
         },
     },
+    has_optional_transient => {
+        submission => { is => 'RefImp::Project::Submission', },
+    },
 };
-
-sub __errors__ {
-    my $self = shift;
-
-    my @errors = $self->SUPER::__errors__;
-    return @errors if @errors;
-
-    my $submission_yaml = $self->submission_yaml;
-    if ( not -s $submission_yaml ) {
-        return (
-            UR::Object::Tag->create(
-                type => 'error',
-                #type => 'invalid',
-                properties => [qw/ submission_yaml /],
-                desc => 'Submission YAML does not exist! '.$self->submission_yaml,
-            )
-        );
-    }
-
-    return;
-}
 
 sub execute {
     my $self = shift;
+    $self->status_message('Submit assembly...');
 
     $self->_create_submission_record;
     $self->_create_submission_tar;
     $self->_ftp_to_ncbi;
     $self->_send_mail;
 
+    $self->status_message('Submit assembly...OK');
     1;
 }
 
 sub _create_submission_record {
     my $self = shift;
-    return 1;
-    $self->submission(
-         RefImp::Project::Submission->create(
-             project => $self->project,
-             phase => 3,
-       )
-     ) or $self->fatal_message('Failed to create submission record for %s', $self->project->__display_name__);
-    $self->status_message('Submission record: %s', $self->submission->__display_name__);
+
+    my $submission = RefImp::Assembly::Submission->create_from_yml($self->submission_yml);
+    if ( my @errors = $submission->__errors__ ) {
+        $self->fatal_message( join("\n", map { $_->__display_name__ } @errors) );
+    }
+    $self->status_message('Created submission record: %s', $submission->__display_name__);
+
+    $self->status_message('Validating submission for submit...');
+    $submission->validate_for_submit;
+    $self->status_message('Validating submission for submit...OK');
+
+    $self->submission($submission);
 }
 
 sub _create_submission_tar {
