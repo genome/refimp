@@ -5,93 +5,34 @@ use warnings;
 
 use TestEnv;
 
-use File::Slurp;
-use LWP::UserAgent;
-use Sub::Install;
-use Test::Exception;
-use Test::MockObject;
-use Test::More tests => 4;
+use Test::More tests => 2;
 
-my %setup;
-subtest 'setup' => sub{
-    plan tests => 2;
+my $pkg = 'RefImp::Assembly::Submission';
+subtest 'create' => sub{
+    plan tests => 4;
 
-    $setup{pkg} = 'RefImp::Assembly::Submission';
-    use_ok($setup{pkg}) or die;
+    use_ok($pkg) or die;
 
-    my $data_dir = TestEnv::test_data_directory_for_package($setup{pkg});
-    my $assembly_dir = File::Spec->join($data_dir, 'assembly');
-    my %submission_params = (
-        agp_file => File::Spec->join($assembly_dir, ''),
-        authors => 'Wesley C. Warren,Marta Gomez-Chiarri,Chad Tomlinson',
+    my %params = (
         bioproject => 'PRJNA376014',
         biosample => 'SAMN06349363',
-        contigs_file => File::Spec->join($assembly_dir, ''),
-        coverage => '20X',
-        release_date => 'immediately after processing',
-        supercontigs_file => File::Spec->join($assembly_dir, ''),
-        version => '',
+        version => { is => 'Text', doc => 'NCBI formatted assembly version', },
+        submission_yml => { is => 'Text', doc => 'YAML file with submission information', },
     );
-    $setup{submission_params} = \%submission_params;
-
-    # User Agent
-    $setup{ua} = Test::MockObject->new();
-    $setup{ua}->set_true('timeout');
-    $setup{ua}->set_true('env_proxy');
-
-    Sub::Install::reinstall_sub({
-        code => sub{ $setup{ua} },
-        into => 'LWP::UserAgent',
-        as => 'new',
-        });
-
-    # Load XML, set as decoded content
-    my $xml_file = File::Spec->join($data_dir, join('.', 'esummary', $submission_params{biosample}, 'xml'));
-    my $xml_content = File::Slurp::slurp($xml_file);
-    ok($xml_content, 'loaded xml');
-
-    $setup{response} = Test::MockObject->new();
-    $setup{response}->set_true('is_success');
-    $setup{response}->set_always('decoded_content', $xml_content);
-    $setup{ua}->set_always('get', $setup{response});
-
-};
-
-subtest 'create fails' => sub{
-    plan tests => 12;
-
-    my $submission_params = $setup{submission_params};
-    for my $k ( keys %$submission_params ) {
-        my $v = delete $submission_params->{$k};
-        throws_ok(sub{ $setup{pkg}->create(%$submission_params); }, qr/INVALID: property '$k'/, "create fails w/o $k");
-        $submission_params->{$k} = $v;
-    }
-
-    for my $k (qw/ agp_file contigs_file supercontigs_file /) {
-        my $v = delete $submission_params->{$k};
-        $submission_params->{$k} = '/blah';
-        throws_ok(sub{ $setup{pkg}->create(%$submission_params); }, qr/Given $k does not exist/, "create fails w/ non existing $k");
-        $submission_params->{$k} = $v;
-    }
-
-};
-
-subtest 'create' => sub{
-    plan tests => 2;
-
-    my $submission = $setup{pkg}->create(%{$setup{submission_params}});
+    my $submission = $pkg->create(%params);
     ok($submission, 'create submission');
-    ok($submission->esummary, 'created and set biosample esummary',);
+    like($submission->submitted_on, qr/^\d{4}\-\d{2}\-\d{2}/, 'set submitted_on');
 
-    $setup{submission} = $submission;
-
+    ok(UR::Context->commit, 'commit');
 };
 
-subtest 'release date' => sub{
-    plan tests => 2;
+subtest 'valid release dates' => sub {
+    plan tests => 3;
 
-    ok($setup{pkg}->valid_release_dates, 'valid_release_dates');
-    ok($setup{pkg}->valid_release_date_regexps, 'valid_release_date_regexps');
+    my @valid_release_dates = $pkg->valid_release_dates;
+    ok(@valid_release_dates, 'valid_release_dates');
+    ok($pkg->valid_release_date_regexps, 'valid_release_date_regexps');
+    is($pkg->default_release_date, $valid_release_dates[0], 'default_release_date');
 
 };
 
