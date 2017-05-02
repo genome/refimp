@@ -1,0 +1,10 @@
+---
+agp_file: /vol/gpfs-home-app/aggr0-home/home/ebelter/dev/refimp/t/data/RefImp-Assembly-Submission/assembly/
+authors: 'Wesley C. Warren,Marta Gomez-Chiarri,Chad Tomlinson'
+bioproject: PRJNA376014
+biosample: SAMN06349363
+contigs_file: /vol/gpfs-home-app/aggr0-home/home/ebelter/dev/refimp/t/data/RefImp-Assembly-Submission/assembly/
+coverage: 20X
+release_date: immediately after processing
+supercontigs_file: /vol/gpfs-home-app/aggr0-home/home/ebelter/dev/refimp/t/data/RefImp-Assembly-Submission/assembly/
+version: 'Crassostrea_virginica_2.0'
