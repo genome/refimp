@@ -3,17 +3,40 @@ package RefImp::Assembly::Command::Submit;
 use strict;
 use warnings FATAL => qw(all);
 
+use MIME::Lite;
 use String::TT qw(tt strip);
 use RefImp::Resources::NcbiFtp;
 
 class RefImp::Assembly::Command::Submit {
     is => 'Command::V2',
     has_input => {
-        assembly => {
-            is => 'RefImp:Assembly',
+        submission_yaml => {
+            is => 'Text',
+            doc => 'YAML with submission info. Use "submission-yaml" command for a template.',
         },
     },
 };
+
+sub __errors__ {
+    my $self = shift;
+
+    my @errors = $self->SUPER::__errors__;
+    return @errors if @errors;
+
+    my $submission_yaml = $self->submission_yaml;
+    if ( not -s $submission_yaml ) {
+        return (
+            UR::Object::Tag->create(
+                type => 'error',
+                #type => 'invalid',
+                properties => [qw/ submission_yaml /],
+                desc => 'Submission YAML does not exist! '.$self->submission_yaml,
+            )
+        );
+    }
+
+    return;
+}
 
 sub execute {
     my $self = shift;
@@ -45,6 +68,7 @@ sub _create_submission_tar {
 sub _ftp_to_ncbi {
     my $self = shift;
     $self->status_message('FTP to NCBI...OK');
+    return 1;
 
     my $ftp = RefImp::Resources::NcbiFtp->connect;
     $self->status_message('Entering remote directory TEMP');
@@ -75,6 +99,7 @@ sub _ftp_to_ncbi {
 
 sub _send_mail {
     my $self = shift;
+    return 1;
     my $email_ncbi = $self->submission->email_ncbi;
 
     my $mail_subject = $self->mail_subject||'';
@@ -95,30 +120,23 @@ sub _send_mail {
     my $subject_and_message = "Subject: $mail_subject\nMessage:\n$mail_message\n\n";
     $self->status_message("About to send mail:\n$subject_and_message");
 
-    my $mail_result;
-    if ($email_ncbi) {
-        $self->status_message("Sending email to NCBI");
-        $mail_result = App::Mail->mail(
-            'From'     => q|submissions@genome.wustl.edu|,
-            'To'       => q|genomes@ncbi.nlm.nih.gov|,
-            'Cc'       => q|submissions@genome.wustl.edu|,
-            'Subject'  => $mail_subject,
-            'Message'  => $mail_message,
-        );
-    }
-    else {
-        $self->status_message("NOT Sending email to NCBI");
-        $mail_result = App::Mail->mail(
-            'From'     => q|submissions@genome.wustl.edu|,
-            'To'       => q|submissions@genome.wustl.edu|,
-            'Subject'  => $mail_subject,
-            'Message'  => $mail_message,
-        );
-    }
+    my $to = 'genomes@ncbi.nlm.nih.gov';
+    $to = 'submissions@genome.wustl.edu';
+    $self->status_message("Sending email to %s", $to);
+    my $msg = MIME::Lite->new(
+        To => [ $to ],
+        Cc => [qw/ submissions@genome.wustl.edu /],
+        From => 'submissions@genome.wustl.edu',
+        Subject => $mail_subject,
+        Type     => 'multipart/mixed'
+    ) or die "Can't create Mail::Sender";
 
-    $self->status_message("Mail result:\n$mail_result");
+    $msg->attach(
+        Type =>'TEXT',
+        Data => $mail_message,
+    );
 
-    return $mail_result;
+    $msg->send;
 }
 
 sub mail_subject {
