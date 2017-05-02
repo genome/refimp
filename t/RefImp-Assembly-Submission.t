@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec;
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my %setup;
 subtest 'create' => sub{
@@ -60,8 +60,18 @@ subtest 'create_from_yml' => sub{
     is($submission->bioproject, $submission_params->{bioproject}, 'set bioproject');
     like($submission->submitted_on, qr/^\d{4}\-\d{2}\-\d{2}/, 'set submitted_on');
     is($submission->version, $submission_params->{version}, 'set version');
+    $setup{submission} = $submission;
 
     ok(UR::Context->commit, 'commit');
+
+};
+
+subtest 'submission_info' => sub {
+    plan tests => 3;
+
+    is_deeply($setup{submission}->submission_info, $setup{submission_params}, 'submission info hash');
+    throws_ok(sub{ $setup{submission}->info_for; }, qr/No key given/, 'info_for fails w/o key');
+    is($setup{submission}->info_for('coverage'), '20X', 'info_for coverage');
 
 };
 

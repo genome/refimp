@@ -43,4 +43,10 @@ sub create_from_yml {
     $class->SUPER::create(%params);
 }
 
+sub info_for {
+    my ($self, $key) = @_;
+    $self->fatal_message('No key given to get submission info!') if not $key;
+    $self->submission_info->{$key};
+}
+
 1;
