@@ -5,6 +5,7 @@ use warnings 'FATAL';
 
 use File::Basename;
 use File::Spec;
+use File::Slurp;
 use Set::Scalar;
 use YAML;
 
@@ -27,10 +28,10 @@ class RefImp::Assembly::Submission {
    },
    has_optional_calculated => {
         esummary => {
+            is => 'RefImp::Resources::Ncbi::EsummaryBiosample',
             is_constant => 1,
             calculate_from => [qw/ biosample /],
             calculate => q| RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $biosample) |,
-            is => 'RefImp::Resources::Ncbi::EsummaryBiosample',
         },
    },
    has_optional_transient => {
@@ -60,8 +61,24 @@ sub create_from_yml {
 
 sub info_for {
     my ($self, $key) = @_;
+    $self->fatal_message('No submission info set!') if not $self->submission_info;
     $self->fatal_message('No key given to get submission info!') if not $key;
     $self->submission_info->{$key};
+}
+
+sub release_notes {
+    my $self = shift;
+
+    $self->fatal_message('No submission directory!') if not $self->directory;
+    $self->fatal_message('Submission directory does not exist!') if not -d $self->directory;
+
+    my $release_notes_file_name = $self->info_for('release_notes_file');
+    $self->fatal_message('No release notes file in submission info!') if not $release_notes_file_name;
+
+    my $release_notes_file = File::Spec->join($self->directory, $release_notes_file_name);
+    $self->fatal_message('Release notes file does not exist! %s', $release_notes_file) if not -s $release_notes_file;
+
+    File::Slurp::slurp($release_notes_file);
 }
 
 sub validate_for_submit {

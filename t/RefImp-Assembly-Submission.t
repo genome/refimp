@@ -10,7 +10,7 @@ use File::Spec;
 use File::Temp 'tempdir';
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 my %setup;
 subtest 'setup' => sub{
@@ -88,11 +88,17 @@ subtest 'create_from_yml' => sub{
 };
 
 subtest 'submission_info' => sub {
-    plan tests => 3;
+    plan tests => 4;
 
-    is_deeply($setup{submission}->submission_info, $setup{submission_params}, 'submission info hash');
-    throws_ok(sub{ $setup{submission}->info_for; }, qr/No key given/, 'info_for fails w/o key');
-    is($setup{submission}->info_for('coverage'), '20X', 'info_for coverage');
+    my $submission = $setup{submission};
+    my $info = $submission->submission_info;
+    $submission->submission_info(undef);
+    throws_ok(sub{ $submission->info_for(); }, qr/No submission info set/, 'info_for fails w/o submission info');
+    $submission->submission_info($info);
+
+    is_deeply($submission->submission_info, $setup{submission_params}, 'submission info hash');
+    throws_ok(sub{ $submission->info_for; }, qr/No key given/, 'info_for fails w/o key');
+    is($submission->info_for('coverage'), '20X', 'info_for coverage');
 
 };
 
@@ -122,6 +128,15 @@ subtest 'esummary' => sub{
     ok($submission->esummary, 'get esummary');
     is($submission->bioproject_uid, '376014', 'bioproject_uid fom esummary');
     is($submission->biosample_uid, '6349363', 'biosample_uid fom esummary');
+
+};
+
+subtest 'release notes' => sub{
+    plan tests => 1;
+
+    my $submission = $setup{submission};
+    my $release_notes = $submission->release_notes;
+    like($release_notes, qr/^Crassostrea virginica sequence assembly release C_virginica-1\.0 notes/, 'release_notes');
 
 };
 
