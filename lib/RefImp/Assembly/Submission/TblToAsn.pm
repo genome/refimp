@@ -29,6 +29,8 @@ sub output_agp_file_path {
 
 sub execute {
     my $self = shift;
+    $self->status_message('TBL TO ASN...');
+    $self->status_message('Submission: %s', $self->submission->__display_name__);
 
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     $self->tempdir( Path::Class::dir($tempdir) );
@@ -37,64 +39,45 @@ sub execute {
     return unless $self->write_file('template.sbt', 'format_template');
 
     $self->status_message("Writing 'COMMENT' file");
-    return unless $self->write_file(
-        'COMMENT', 'format_unstructured_comment');
+    return unless $self->write_file('COMMENT', 'format_unstructured_comment');
 
-    my $gas = $self->get_genbank_assembly_submission;
-    $self->status_message(
-        "Got genbank_assembly_submission gas_id: " 
-        . $gas->gas_id
+    my $agp_file_path = $self->submission->path_for('agp_file');
+    my $contigs_bases_file_path = $self->submission->path_for('contigs_file');
+    $self->status_message('Processing agp_file '.$agp_file_path.', '.  'contig file '.$contigs_bases_file_path);
+    my $agp = GenBank::AGP->new(
+        agp   => $agp_file_path,
+        fasta => $contigs_bases_file_path,
     );
-
-    my $dir_obj = $self->tempdir;
-    while( my $file = $dir_obj->next ) {
-        if( not($file->is_dir) && $file->basename =~ /\.agp$/) {
-            $self->status_message('Removing previousy existing file '.$file->stringify);
-            $file->remove;
-        }
-    }
-
-    my @gsfs=$gas->get_file_sets;
-    foreach my $gsf (@gsfs) {
-        $self->status_message('Processing agp_file '.$gsf->agp_file_path.', '.
-                              'contig file '.$gsf->contigs_bases_file_path);
-        my $agp = GenBank::AGP->new(
-                                    agp   => $gsf->agp_file_path,
-                                    fasta => $gsf->contigs_bases_file_path,
-                                   );
         
-        # potentially filtering contigs here
-        $self->status_message("entering modify_contigs");
-        my $num_contigs_filtered = $self->modify_contigs($agp);
-        $self->status_message("exiting modify_contigs");
-        $self->status_message("# of contigs filtered: $num_contigs_filtered");
+    # potentially filtering contigs here
+    $self->status_message("entering modify_contigs");
+    my $num_contigs_filtered = $self->modify_contigs($agp);
+    $self->status_message("exiting modify_contigs");
+    $self->status_message("# of contigs filtered: $num_contigs_filtered");
 
-        #TODO remove adjacent gaps
-        # I'm skipping this feature for now, because pminx said
-        # small contigs will likely have been removed from the
-        # contigs file and agp file at this point
+    #TODO remove adjacent gaps
+    # I'm skipping this feature for now, because pminx said
+    # small contigs will likely have been removed from the
+    # contigs file and agp file at this point
 
-        my $strategy = $num_contigs_filtered ? 'complex' : 'simple';
-        $self->status_message("strategy: $strategy");
+    my $strategy = $num_contigs_filtered ? 'complex' : 'simple';
+    $self->status_message("strategy: $strategy");
 
-        if ($strategy eq 'complex') {
-            # Performance hit, but more robust
-            $self->status_message("entering write_agp_fasta_and_cmt_files");
-            $self->write_agp_fasta_and_cmt_files($agp);
-            $self->status_message("exiting write_agp_fasta_and_cmt_files");
-        }
-        else {
-            # Better performance, but not as robust
-            # use when no contigs have been filtered out
-            $self->status_message("entering simple_write_agp_fasta_and_cmt_files");
-            $self->simple_write_agp_fasta_and_cmt_files($agp);
-            $self->status_message("exiting simple_write_agp_fasta_and_cmt_files");
-        }
+    if ($strategy eq 'complex') {
+        # Performance hit, but more robust
+        $self->status_message("entering write_agp_fasta_and_cmt_files");
+        $self->write_agp_fasta_and_cmt_files($agp);
+        $self->status_message("exiting write_agp_fasta_and_cmt_files");
+    }
+    else {
+        # Better performance, but not as robust
+        # use when no contigs have been filtered out
+        $self->status_message("entering simple_write_agp_fasta_and_cmt_files");
+        $self->simple_write_agp_fasta_and_cmt_files($agp);
+        $self->status_message("exiting simple_write_agp_fasta_and_cmt_files");
     }
 
-    $self->status_message(
-        "setting genbank_assembly_submission status to 'initialized'"
-    );
+    $self->status_message("setting genbank_assembly_submission status to 'initialized'");
 
     $self->results_dir_path->mkpath unless -e $self->results_dir_path;
 
@@ -105,6 +88,7 @@ sub execute {
     $self->create_tar_file;
 
     $self->get_genbank_assembly_submission->status('submission created');
+    $self->status_message('TBL TO ASN...OK');
     1;
 }
 
@@ -434,10 +418,12 @@ sub format_template {
     my $self = shift;
 
     my $authors = $self->formatted_submission_authors;
-    my $my_bioproject_id=$self->get_genbank_assembly_submission->bioproject_id;
-    my $my_biosample= $self->get_genbank_assembly_submission->biosample_id;
-    my $my_biosample_num = substr($my_biosample, 4)+0; # extract number part after SAMN
-return <<EOF;
+    my $bioproject = $self->submission->bioproject;
+    my $bioproject_uid = $self->submission->bioproject_uid;
+    my $biosample = $self->submission->biosample;
+    my $biosample_uid = $self->submission->biosample_uid;
+
+    return <<EOF;
 Submit-block ::= {
   contact {
     contact {
@@ -480,16 +466,16 @@ Seqdesc ::= user {
     data {
         {
             label str "BioProject",
-            num $my_bioproject_id,
+            num $bioproject_uid,
             data strs {
-                "PRJNA$my_bioproject_id"
+                "$bioproject"
             }
         },
         {
             label str "BioSample",
-            num $my_biosample_num,
+            num $biosample_uid,
             data strs {
-                "$my_biosample"
+                "$biosample"
             }
         }
     }
@@ -498,10 +484,7 @@ Seqdesc ::= user {
 EOF
 }
 
-sub format_unstructured_comment {
-    my $self = shift;
-    return $self->get_genbank_assembly_submission->unstructured_comment;
-}
+sub format_unstructured_comment { $_[0]->submission->release_notes }
 
 sub format_structured_comment {
     my $self = shift;
