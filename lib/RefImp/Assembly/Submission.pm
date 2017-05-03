@@ -20,8 +20,18 @@ class RefImp::Assembly::Submission {
         version => { is => 'Text', doc => 'NCBI formatted assembly version', },
    },
    has_optional => {
+        bioproject_uid => { is => 'Text', via => 'esummary', to => 'bioproject_uid', },
+        biosample_uid => { is => 'Text', via => 'esummary', to => 'biosample_uid', },
         directory => { is => 'Text', doc => 'Submission directory', },
         submission_yml => { is => 'Text', doc => 'YAML file with submission information', },
+   },
+   has_optional_calculated => {
+        esummary => {
+            is_constant => 1,
+            calculate_from => [qw/ biosample /],
+            calculate => q| RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $biosample) |,
+            is => 'RefImp::Resources::Ncbi::EsummaryBiosample',
+        },
    },
    has_optional_transient => {
         submission_info => { is => 'HASH', },
@@ -58,12 +68,12 @@ sub validate_for_submit {
     my $self = shift;
 
     $self->fatal_message('No directory set to validate submission!') if not $self->directory;
-    $self->fatal_message('Faikled to validate for submit, submission directory (%s) does not exist!', $self->directory) if not -d $self->directory;
+    $self->fatal_message('Failed to validate for submit, submission directory (%s) does not exist!', $self->directory) if not -d $self->directory;
 
     my $info = $self->submission_info;
     $self->fatal_message('No submission info set!') if not $info or not %$info;
 
-    my $esummary = RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $self->biosample);
+    my $esummary = $self->esummary;
     $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
 
     my $info_keys = Set::Scalar->new( RefImp::Assembly::Command::SubmissionYaml->submission_info_keys );

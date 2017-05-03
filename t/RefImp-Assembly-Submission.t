@@ -10,7 +10,7 @@ use File::Spec;
 use File::Temp 'tempdir';
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 my %setup;
 subtest 'setup' => sub{
@@ -67,7 +67,6 @@ subtest 'create_from_yml' => sub{
     my $submission_params = $setup{submission_params};
     for my $k (qw/ biosample bioproject version /) {
         my $v = delete $submission_params->{$k};
-        #unlink $submission_yml;
         YAML::DumpFile($setup{invalid_submission_yml}, $submission_params);
         my $submission = $setup{pkg}->create_from_yml($setup{invalid_submission_yml});
         my @errors = $submission->__errors__;
@@ -113,6 +112,16 @@ subtest 'validate_for_submit' => sub{
         throws_ok(sub{ $submission->validate_for_submit; }, qr/File $k in submission info not exist/, "validate_for_submit fails w/ non existing $k");
         $info->{$k} = $v;
     }
+
+};
+
+subtest 'esummary' => sub{
+    plan tests => 3;
+
+    my $submission = $setup{submission};
+    ok($submission->esummary, 'get esummary');
+    is($submission->bioproject_uid, '376014', 'bioproject_uid fom esummary');
+    is($submission->biosample_uid, '6349363', 'biosample_uid fom esummary');
 
 };
 
