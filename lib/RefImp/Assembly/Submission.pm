@@ -66,18 +66,22 @@ sub info_for {
     $self->submission_info->{$key};
 }
 
-sub release_notes {
-    my $self = shift;
+sub path_for {
+    my ($self, $key) = @_;
 
     $self->fatal_message('No submission directory!') if not $self->directory;
     $self->fatal_message('Submission directory does not exist!') if not -d $self->directory;
 
-    my $release_notes_file_name = $self->info_for('release_notes_file');
-    $self->fatal_message('No release notes file in submission info!') if not $release_notes_file_name;
+    my $file_name = $self->info_for($key);
+    $self->fatal_message('No %s in submission info!', $key) if not $file_name;
 
-    my $release_notes_file = File::Spec->join($self->directory, $release_notes_file_name);
+    File::Spec->join($self->directory, $file_name);
+}
+
+sub release_notes {
+    my $self = shift;
+    my $release_notes_file = $self->path_for('release_notes_file');
     $self->fatal_message('Release notes file does not exist! %s', $release_notes_file) if not -s $release_notes_file;
-
     File::Slurp::slurp($release_notes_file);
 }
 
@@ -96,15 +100,13 @@ sub validate_for_submit {
     my $info_keys = Set::Scalar->new( RefImp::Assembly::Command::SubmissionYaml->submission_info_keys );
     my $file_keys = Set::Scalar->new( grep { /_file$/ } $info_keys->members );
     for my $key ( $file_keys->members ) {
-        my $file_name = $info->{$key};
-        $self->fatal_message('No %s in submission info!', $key) if not $file_name;
-        my $file = File::Spec->join($self->directory, $file_name);
+        my $file = $self->path_for($key);
         $self->fatal_message('File %s in submission info not exist! %s', $key, $file) if not -s $file;
     }
 
     my $nonfile_keys = $info_keys->difference($file_keys);
     for my $key ( $nonfile_keys ) {
-        $self->fatal_message('No %s in submission info!', $key) if not defined $info->{$key};
+        $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
     }
 
     # TODO

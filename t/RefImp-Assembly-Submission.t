@@ -88,7 +88,7 @@ subtest 'create_from_yml' => sub{
 };
 
 subtest 'submission_info' => sub {
-    plan tests => 4;
+    plan tests => 6;
 
     my $submission = $setup{submission};
     my $info = $submission->submission_info;
@@ -99,6 +99,9 @@ subtest 'submission_info' => sub {
     is_deeply($submission->submission_info, $setup{submission_params}, 'submission info hash');
     throws_ok(sub{ $submission->info_for; }, qr/No key given/, 'info_for fails w/o key');
     is($submission->info_for('coverage'), '20X', 'info_for coverage');
+
+    throws_ok(sub{ $submission->path_for; }, qr/No key given/, 'path_for fails w/o key');
+    is($submission->path_for('agp_file'), File::Spec->join($submission->directory, 'supercontigs.agp'), 'path_for agp_file');
 
 };
 
