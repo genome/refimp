@@ -1,63 +1,37 @@
-package GSC::PSE::InitializeTbl2asn;
+package RefImp::Assembly::Submission::TblToAsn;
 
-use Moose;
-use warnings FATAL => 'all';
-use Path::Class qw(file dir);
-use File::Copy  qw(copy);
-use JSON qw(decode_json);
-use POSIX qw(ceil);
-use List::Util qw(max);
+use strict;
+use warnings 'FATAL';
 
-########################################
-### BEGIN 'GSC::PSE::Role::RequiresAllocation'
-########################################
+use File::Temp;
+use Path::Class;
 
-sub derive_allocation_path { 'initialize_tbl2asn-'. shift->id }
-sub disk_group_name {'submissions_staging'}
-sub space_needed {1000}
+class RefImp::Assembly::Submission::TblToAsn {
+    is => 'Command::V2',
+    has => {
+        submission => { is => 'RefImp::Assembly::Submission', },
+    },
+    has_optional_transient => {
+        tempdir => { is => 'Path::Class', },
+    }
+};
+#has file_count => (
 
-########################################
-### END 'GSC::PSE::Role::RequiresAllocation'
-########################################
-
-has file_count => (
-                   is       => 'ro',
-                   isa      => 'Int',
-                   traits   => ['Counter'],
-                   required => 1,
-                   lazy     => 1,
-                   default  => 0,
-                   handles  => {
-                                increase_file_count => 'inc',
-                               },
-                  );
-
-sub get_genbank_assembly_submission {
-    shift->get_prior_pse->get_genbank_assembly_submission }
+sub results_dir_path { $_[0]->tempdir->subdir('RESULTS') }
+sub discrepancy_report_path { $_[0]->results_dir_path->file('discrepancy_report') }
+sub template_file_path  { $_[0]->tempdir->file('template.sbt') }
+sub comment_file_path  { $_[0]->tempdir->file('COMMENT') }
 
 sub output_agp_file_path {
     my ($self, $agp_path_obj) = @_;
-    my $gbas = $self->get_genbank_assembly_submission;
-    my $name;
-    if( scalar(@{[$gbas->get_file_sets()]}) > 1 ) {
-        $name = $agp_path_obj->basename;
-    } else {
-        $name = $self->get_genbank_assembly_submission->version . '.agp';
-    }
-    return $self->allocation_absolute_path->file($name);
+    return $self->tempdir->file( $self->submission->infor_for('version'). '.agp' );
 }
 
-sub confirm {
+sub execute {
     my $self = shift;
-    return unless $self->SUPER::confirm;
 
-    $self->status_message(
-        "allocation path: " 
-        . $self->allocation_absolute_path->stringify
-    );
-
-    $self->allocation_absolute_path->mkpath()
-        unless -e $self->allocation_absolute_path;
+    my $tempdir = File::Temp::tempdir(CLEANUP => 1);
+    $self->tempdir( Path::Class::dir($tempdir) );
 
     $self->status_message("Writing 'template.sbt' file");
     return unless $self->write_file('template.sbt', 'format_template');
@@ -72,7 +46,7 @@ sub confirm {
         . $gas->gas_id
     );
 
-    my $dir_obj = Path::Class::Dir->new($self->allocation_absolute_path);
+    my $dir_obj = $self->tempdir;
     while( my $file = $dir_obj->next ) {
         if( not($file->is_dir) && $file->basename =~ /\.agp$/) {
             $self->status_message('Removing previousy existing file '.$file->stringify);
@@ -121,10 +95,22 @@ sub confirm {
     $self->status_message(
         "setting genbank_assembly_submission status to 'initialized'"
     );
-    $gas->status('initialized');
+
+    $self->results_dir_path->mkpath unless -e $self->results_dir_path;
+
+    my $tbl2asn_cmd = $self->tbl2asn_command;
+    $self->results_dir_path->file('tbl2asn_command')->openw->say($tbl2asn_cmd);
+    $self->_run($tbl2asn_cmd);
+
+    $self->create_tar_file;
+
+    $self->get_genbank_assembly_submission->status('submission created');
+    1;
 }
 
 sub modify_contigs {
+    # filter by size stored on submission
+    # rename contigs in agp (join '-', $gas->version, $contig_number);
     my $self = shift;
     my ($agp) = @_;
 
@@ -149,7 +135,6 @@ sub modify_contigs {
             die "Unable to parse out contig number from ".$c->component_id;
         }
         $self->status_message("Found contig number $contig_number");
-        $c->component_id(join '-', $gas->version, $contig_number);
     }
 
     return $removal_count;
@@ -253,7 +238,7 @@ sub generate_cmt_file {
     my ($self, $file_count) = @_;
     my $base_name = "contigs." . sprintf("%02d", $file_count);
 
-    my $cmt_file = $self->allocation_absolute_path->file("$base_name.cmt");
+    my $cmt_file = $self->tempdir->file("$base_name.cmt");
 
     $self->status_message("Writing file: $cmt_file");
     $self->write_file( "$base_name.cmt", 'format_structured_comment')
@@ -265,7 +250,7 @@ sub generate_fsa_file {
     my ($self, $file_count) = @_;
     my $base_name = "contigs." . sprintf("%02d", $file_count);
 
-    my $fsa_file = $self->allocation_absolute_path->file("$base_name.fsa");
+    my $fsa_file = $self->tempdir->file("$base_name.fsa");
     $self->status_message("Creating file: $fsa_file");
     return $fsa_file;
 }
@@ -410,7 +395,7 @@ sub write_file {
     my $self = shift;
     my ($file_name, $method_name) = @_;
 
-    my $fh = $self->allocation_absolute_path->file($file_name)->openw;
+    my $fh = $self->tempdir->file($file_name)->openw;
     unless ($fh->print( $self->$method_name ) ) {
         $self->error_message('problem writing '. $file_name);
         return;
@@ -419,14 +404,36 @@ sub write_file {
     return 1;
 }
 
+sub formatted_submission_authors {
+    my $self = shift;
+
+    my $authors_string = $self->submission->info_for('authors');
+    $self->fatal_message('No submission authors!') if not $authors_string;
+
+    my @formatted_submission_authors;
+    foreach my $author ( split(/,/, $authors_string) ) {
+        my @name_parts = split /[ \.]/, $author;
+
+        my $first = shift @name_parts;
+        my $last  = pop @name_parts;
+        my @initials = map {"$_."} map {uc $_} map {m/^(.)/} ($first, @name_parts);
+
+        push @formatted_submission_authors, sprintf(
+            '{ name name { last "%s" , first "%s" , initials "%s" } } ,',
+            $last,
+            $first,
+            join('', @initials),
+        );
+    }
+
+    join("\n", @formatted_submission_authors);
+}
+
+
 sub format_template {
     my $self = shift;
-    my $authors = join "\n", map {
-        sprintf q|{ name name { last "%s" , first "%s" , initials "%s" } } ,|,
-            $_->{last},
-            $_->{first},
-            $_->{initials};
-    } @{ decode_json $self->get_genbank_assembly_submission->authors_json };
+
+    my $authors = $self->formatted_submission_authors;
     my $my_bioproject_id=$self->get_genbank_assembly_submission->bioproject_id;
     my $my_biosample= $self->get_genbank_assembly_submission->biosample_id;
     my $my_biosample_num = substr($my_biosample, 4)+0; # extract number part after SAMN
@@ -518,34 +525,93 @@ sub format_structured_comment {
     return $c;
 }
 
-sub expunge_execution {
+sub create_tar_file {
     my $self = shift;
-    my $alloc = $self->get_allocate_disk_space_pse;
-    if ($alloc) {
-        $self->status_message('Scheduling delete_allocation_data');
-        my $del = $alloc->delete_allocation_data;
-        unless ($del) {
-            $self->error_message('failed to schedule delete_allocation_data');
-            $self->pse_status('failed');
-            return;
-        }
+    my $gas = $self->get_genbank_assembly_submission;
 
-#        $self->status_message('Place deallocate in wait');
-#        my $dealloc = $alloc->deallocate;
-#        unless ($dealloc) {
-#            $self->error_message('failed to schedule deallocate');
-#            $self->pse_status('failed');
-#            return;
-#        }
-#        $dealloc->pse_status('wait');
-    }
-    else {
-        $self->status_message('No allocation to remove');
-    }
+    # The tar file cannot be created in one step,
+    # so it is broken into two steps:
+    #   i) Create a tar file with just the agp in it
+    #  ii) Append to the tar file with the .sqn files
+
+
+    my $root_dir_path      = $self->tempdir;
+    my $results_dir_path   = $self->results_dir_path;
+    my $tar_file_path      = $self->results_dir_path->file($gas->version .'.tar');
+    my @agp_file_basenames = map { $_->basename } map { $self->get_prior_pse->output_agp_file_path(file($_->agp_file_path)) } $gas->get_file_sets;
+
+    my @sqn_file_names = map {file($_)->basename} glob( $self->results_dir_path->file('*.sqn') );
+    die "Expected at least one .sqn file from tbl2asn, "
+        ."but none were found in $results_dir_path"
+        unless @sqn_file_names;
+
+    local $" = q| |; #ensure @sqn_file_names and agp_file_basenames print with a space between each file name
+    $self->_run("tar --create --directory $root_dir_path    --file $tar_file_path @agp_file_basenames");
+    $self->_run("tar --append --directory $results_dir_path --file $tar_file_path @sqn_file_names");
 
     return 1;
 }
 
-__PACKAGE__->meta->make_immutable;
-no Moose;
-__END__
+sub tbl2asn_command {
+    my $self = shift;
+
+    my $cmd = 'tbl2asn'
+        # Path to Files [String]  Optional
+        .' -p '. $self->tempdir
+
+        # Path for Results [String]  Optional
+        .' -r '. $self->results_dir_path
+
+        # Template File [File In]  Optional
+        .' -t '. $self->template_file_path
+
+        # Read FASTAs as Set [T/F]  Optional
+        .' -s'
+
+        # Verification: (combine any of the following letters)
+        # v Validate with Normal Stringency
+        # r Validate without Country Check
+        # c BarCode Validation
+        # b Generate GenBank Flatfile
+        # g Generate Gene Report
+        .' -V vb'
+
+        # Discrepancy Report Output File [File Out]  Optional
+        .' -Z '. $self->discrepancy_report_path
+
+        # Extra Flags (combine any of the following letters)
+        # A Automatic definition line generator
+        # C Apply comments in .cmt files to all sequences
+        # E Treat like eukaryota in the Discrepancy Report
+        .' -X AC'
+
+        # Source Qualifiers [String]  Optional
+        ." -j '". $self->source_qualifiers ."'"
+    ;
+
+    if (-e $self->comment_file_path) {
+        # Comment File [File In]  Optional
+        $cmd .= ' -Y '. $self->comment_file_path;
+    }
+
+    return $cmd;
+}
+
+sub source_qualifiers {
+    my $self = shift;
+    #format: [modifier=text] [modifier=text] [modifier=text]
+    my $configure_pse = $self->get_first_prior_pse_with_process_to(
+        "configure assembly submission to genbank");
+    my $gas = $configure_pse->get_genbank_assembly_submission;
+    my ($name, $strain) = $gas->organism_name_and_strain;
+    my $tbl2asn_source_qualifiers   = $gas->tbl2asn_source_qualifiers;
+
+    my $source_qualifiers = qq|[organism=$name]|;
+    $source_qualifiers   .= qq| [strain=$strain]| if defined $strain;
+    $source_qualifiers   .= qq| [tech=wgs]|;
+    $source_qualifiers   .= qq| $tbl2asn_source_qualifiers| if defined $tbl2asn_source_qualifiers;
+
+    return $source_qualifiers;
+}
+
+1;

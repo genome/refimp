@@ -13,7 +13,9 @@ class RefImp::Assembly::Command::SubmissionYaml {
 sub help_detail {
     my $valid_release_dates = join("\n\n", ,map { "  $_" } RefImp::Assembly::Submission->valid_release_dates);
 <<HELP;
-Notes on some of the required fields.
+Save this YAML to a file named 'submission.myl' in the submission directory. It will be the input into the assembly submit commmand.
+
+Each field is required. Here are notes on some of the required fields.
 
 Authors
 

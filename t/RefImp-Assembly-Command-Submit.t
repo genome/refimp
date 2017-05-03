@@ -43,12 +43,11 @@ subtest 'execute fails' => sub{
 };
 
 subtest 'execute' => sub{
-    plan tests => 1;
+    plan tests => 2;
 
-    my $submission = $setup{pkg}->create(submission_yml => $setup{submission_yml});
-    ok($submission, 'create submission');
-
-    $setup{submission} = $submission;
+    my $cmd = $setup{pkg}->execute(submission_yml => $setup{submission_yml});
+    ok($cmd->result, 'execute submission');
+    ok($cmd->submission, 'created submission');
 
 };
 
