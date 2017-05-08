@@ -17,11 +17,21 @@ Save this YAML to a file named 'submission.myl' in the submission directory. It 
 
 Each field is required. Here are notes on some of the required fields.
 
+Assembly Method
+  The assembler used to create the assembly.
+  Example
+    Falcon January 2017
+
 Authors
 
   Comma separated list of names. Include first name, middle intials [optional], and last name.
   Example:
     Barack H Obama,Joe Biden
+
+Coverage 
+  The approximate coverage of the genome. Expressed with an 'X'.
+  Example
+    87X
 
 Release Date 
 
@@ -29,28 +39,39 @@ Release Date
 
 $valid_release_dates
 
+Sequenceing Technology
+  The read type. Sequencing machine and chemistry
+  Example
+    PacBio_RSII
+
+Taxon
+  The NCBI taxon species name. It must exist in our DB. Create with 'ref-imp taxon create'.
+  Example:
+    Crassostrea virginica
+
 Version
 
-  The version should be the genus name, species name and the vesion. These are separarted by an underscore.
+  The version of the assembly. This will be combined with the taxon to make the NCBI version.
   Example:
     Crassostrea_virginica_2.0
-
 
 HELP
 }
 
 my %submission_info = (
-    assembler => '',
+    assembly_method => '',
     authors => '',
     agp_file => '',
     bioproject => '',
     biosample => '',
     contigs_file => '',
     coverage => '',
-    read_type => '',
+    polishing_method => 'NA',
     release_date => 'immediately after processing',
     release_notes_file => '',
+    sequencing_technology => '',
     supercontigs_file => '',
+    taxon => '',
     version => '',
 );
 sub submission_info_hash { %submission_info }
