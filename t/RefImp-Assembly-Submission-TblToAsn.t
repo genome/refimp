@@ -52,7 +52,6 @@ subtest 'execute' => sub{
 
     my $results_path = $cmd->results_path;
     is($cmd->sqn_files, 2, 'sqn_files');
-    print $cmd->tempdir."\n"; <STDIN>;
 
 };
 
