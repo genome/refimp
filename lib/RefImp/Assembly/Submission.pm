@@ -25,7 +25,7 @@ class RefImp::Assembly::Submission {
         bioproject_uid => { is => 'Text', via => 'esummary', to => 'bioproject_uid', },
         biosample_uid => { is => 'Text', via => 'esummary', to => 'biosample_uid', },
         directory => { is => 'Text', doc => 'Submission directory', },
-        submission_yml => { is => 'Text', doc => 'YAML file with submission information', },
+        submission_yml => { is => 'Text', doc => 'YAML with submission information', },
    },
    has_optional_calculated => {
         esummary => {
@@ -48,7 +48,6 @@ class RefImp::Assembly::Submission {
    },
 };
 
-#Crassostrea_virginica_2.0
 sub default_release_date { (__PACKAGE__->valid_release_dates)[0] }
 sub valid_release_dates { ( 'immediately after processing', 'hold until publication', '\d{2}-\d{2}-\d{4}' ) }
 sub valid_release_date_regexps { map { qr/^$_$/ } valid_release_dates() }
@@ -68,7 +67,7 @@ sub create_from_yml {
      my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
      $params{directory} = File::Basename::dirname($yml);
      $params{submission_info} = $info;
-     $params{submission_yml} = $yml;
+     $params{submission_yml} = YAML::Dump($info);
      $params{taxon} = $taxon;
 
      $class->SUPER::create(%params);
