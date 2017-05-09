@@ -10,14 +10,17 @@ use File::Spec;
 use File::Temp 'tempdir';
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 my %setup;
 subtest 'setup' => sub{
-    plan tests => 3;
+    plan tests => 4;
 
     $setup{pkg} = 'RefImp::Assembly::Submission';
     use_ok($setup{pkg}) or die;
+
+    my $taxon = RefImp::Taxon->create(name => 'oyster', species_name => 'Crassostrea virginica');
+    ok($taxon, 'create taxon');
 
     my $data_dir = TestEnv::test_data_directory_for_package($setup{pkg});
     $setup{submission_yml} = File::Spec->join($data_dir, 'submission.yml');
@@ -59,7 +62,7 @@ subtest 'valid release dates' => sub {
 };
 
 subtest 'create_from_yml' => sub{
-    plan tests => 11;
+    plan tests => 13;
 
     throws_ok(sub{ $setup{pkg}->create_from_yml(); }, qr/No submission YAML given/, 'create_from_yml fails w/o submission yml');
     throws_ok(sub{ $setup{pkg}->create_from_yml('/blah'); }, qr/Submission YAML does not exist/, 'create_from_yml fails w/ non existing submission yml');
@@ -74,6 +77,15 @@ subtest 'create_from_yml' => sub{
         $submission_params->{$k} = $v;
         $submission->delete;
     }
+
+    my $taxon = delete $submission_params->{taxon};
+    YAML::DumpFile($setup{invalid_submission_yml}, $submission_params);
+    throws_ok(sub{ $setup{pkg}->create_from_yml($setup{invalid_submission_yml}); }, qr/No taxon in submission YAML/, 'fails w/o taxon');
+    $submission_params->{taxon} = 'i dunno';
+    YAML::DumpFile($setup{invalid_submission_yml}, $submission_params);
+    throws_ok(sub{ $setup{pkg}->create_from_yml($setup{invalid_submission_yml}); }, qr/Taxon not found for "i dunno"/, 'fails when taxon not found');
+    $submission_params->{taxon} = $taxon;
+
 
     my $submission = $setup{pkg}->create_from_yml($setup{submission_yml});
     ok($submission, 'create from yml fails w/o submission yml');
@@ -134,12 +146,20 @@ subtest 'esummary' => sub{
 
 };
 
-subtest 'release notes' => sub{
+subtest 'release_notes' => sub{
     plan tests => 1;
 
     my $submission = $setup{submission};
     my $release_notes = $submission->release_notes;
     like($release_notes, qr/^Crassostrea virginica sequence assembly release C_virginica-1\.0 notes/, 'release_notes');
+
+};
+
+subtest 'ncbi_version' => sub{
+    plan tests => 1;
+
+    my $submission = $setup{submission};
+    is($submission->ncbi_version, 'Crassostrea_virginica_2.0', 'ncbi_version');
 
 };
 

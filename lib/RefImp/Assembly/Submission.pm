@@ -18,7 +18,8 @@ class RefImp::Assembly::Submission {
         biosample => { is => 'Text', doc => 'NCBI biosample', },
         bioproject => { is => 'Text', doc => 'NCBI bioproject', },
         submitted_on => { is => 'Date', default_value => UR::Context->now, doc => 'The date of submission', },
-        version => { is => 'Text', doc => 'NCBI formatted assembly version', },
+        taxon => { is => 'RefImp::Taxon', doc => 'Assembly taxon', },
+        version => { is => 'Text', doc => 'Numbered assembly version', },
    },
    has_optional => {
         bioproject_uid => { is => 'Text', via => 'esummary', to => 'bioproject_uid', },
@@ -33,12 +34,21 @@ class RefImp::Assembly::Submission {
             calculate_from => [qw/ biosample /],
             calculate => q| RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $biosample) |,
         },
+        ncbi_version => {
+            is => 'Text',
+            calculate_from => [qw/ taxon version /],
+            calculate => q|
+                my @species_name_tokens = split(/\s+/, $taxon->species_name);
+                join('_', ucfirst($species_name_tokens[0]), @species_name_tokens[1..$#species_name_tokens], $version);
+            |,
+        },
    },
    has_optional_transient => {
         submission_info => { is => 'HASH', },
    },
 };
 
+#Crassostrea_virginica_2.0
 sub default_release_date { (__PACKAGE__->valid_release_dates)[0] }
 sub valid_release_dates { ( 'immediately after processing', 'hold until publication', '\d{2}-\d{2}-\d{4}' ) }
 sub valid_release_date_regexps { map { qr/^$_$/ } valid_release_dates() }
@@ -51,12 +61,17 @@ sub create_from_yml {
      my $info = YAML::LoadFile($yml);
      $class->fatal_message('Failed to open submission YAML!') if not $info;
 
-    my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
-    $params{submission_info} = $info;
-    $params{submission_yml} = $yml;
-    $params{directory} = File::Basename::dirname($yml);
+     $class->fatal_message('No taxon in submission YAML! %s', $yml) if not $info->{taxon};
+     my $taxon = RefImp::Taxon->get(species_name => $info->{taxon});
+     $class->fatal_message('Taxon not found for "%s"!', $info->{taxon}) if not $taxon;
 
-    $class->SUPER::create(%params);
+     my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
+     $params{directory} = File::Basename::dirname($yml);
+     $params{submission_info} = $info;
+     $params{submission_yml} = $yml;
+     $params{taxon} = $taxon;
+
+     $class->SUPER::create(%params);
 }
 
 sub info_for {
