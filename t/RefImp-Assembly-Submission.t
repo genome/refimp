@@ -86,7 +86,6 @@ subtest 'create_from_yml' => sub{
     throws_ok(sub{ $setup{pkg}->create_from_yml($setup{invalid_submission_yml}); }, qr/Taxon not found for "i dunno"/, 'fails when taxon not found');
     $submission_params->{taxon} = $taxon;
 
-
     my $submission = $setup{pkg}->create_from_yml($setup{submission_yml});
     ok($submission, 'create from yml fails w/o submission yml');
     is($submission->biosample, $submission_params->{biosample}, 'set biosample');
@@ -110,7 +109,7 @@ subtest 'submission_info' => sub {
 
     is_deeply($submission->submission_info, $setup{submission_params}, 'submission info hash');
     throws_ok(sub{ $submission->info_for; }, qr/No key given/, 'info_for fails w/o key');
-    is($submission->info_for('coverage'), '20X', 'info_for coverage');
+    is($submission->info_for('coverage'), '20x', 'info_for coverage');
 
     throws_ok(sub{ $submission->path_for; }, qr/No key given/, 'path_for fails w/o key');
     is($submission->path_for('agp_file'), File::Spec->join($submission->directory, 'supercontigs.agp'), 'path_for agp_file');
@@ -118,7 +117,7 @@ subtest 'submission_info' => sub {
 };
 
 subtest 'validate_for_submit' => sub{
-    plan tests => 7;
+    plan tests => 8;
 
     my $submission = $setup{submission};
     my $info = $submission->submission_info();
@@ -133,6 +132,11 @@ subtest 'validate_for_submit' => sub{
         throws_ok(sub{ $submission->validate_for_submit; }, qr/File $k in submission info not exist/, "validate_for_submit fails w/ non existing $k");
         $info->{$k} = $v;
     }
+
+    my $assembly_method = delete $info->{assembly_method};
+    $info->{assembly_method} = 'NO_VDOT';
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/Invalid assembly_method/, 'fails w/ invalid assembly_method');
+    $info->{assembly_method} = $assembly_method;
 
 };
 

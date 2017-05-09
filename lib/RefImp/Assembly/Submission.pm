@@ -119,12 +119,17 @@ sub validate_for_submit {
     }
 
     my $nonfile_keys = $info_keys->difference($file_keys);
-    for my $key ( $nonfile_keys ) {
+    for my $key ( $nonfile_keys->members ) {
         $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
     }
 
+    my $assembly_method = $self->info_for('assembly_method');
+    $self->fatal_message('Invalid assembly_method "%s", a "v. is required between the assembler and the date run/version.', $assembly_method) if $assembly_method !~ / v\. /;
+
     # TODO
     # check contigs/supercontigs names are in agp
+    # contigs file alone ok
+    # super contgis needs agp
 
     1;
 }
