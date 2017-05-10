@@ -61,7 +61,7 @@ sub create_from_yml {
      $class->fatal_message('Failed to open submission YAML!') if not $info;
 
      $class->fatal_message('No taxon in submission YAML! %s', $yml) if not $info->{taxon};
-     my $taxon = RefImp::Taxon->get(species_name => $info->{taxon});
+     my $taxon = RefImp::Taxon->get(species_name => lc $info->{taxon});
      $class->fatal_message('Taxon not found for "%s"!', $info->{taxon}) if not $taxon;
 
      my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);

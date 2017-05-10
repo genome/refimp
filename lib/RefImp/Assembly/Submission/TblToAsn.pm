@@ -313,7 +313,7 @@ sub source_qualifiers {
     my $taxon = $submission->taxon;
 
     my $format = '[%s=%s]'; # format: [modifier=text]
-    my @source_qualifiers = sprintf($format, 'organism', $taxon->species_name);
+    my @source_qualifiers = sprintf($format, 'organism', ucfirst $taxon->species_name);
     push @source_qualifiers, sprintf($format, 'strain', $taxon->strain_name) if $taxon->strain_name;
     push @source_qualifiers, sprintf($format, 'tech', 'wgs');
     # Potential other qualifiers: [host=Homo sapiens] [isolation-source=Stool sample of individual with bacteremia] [country=USA: MO]

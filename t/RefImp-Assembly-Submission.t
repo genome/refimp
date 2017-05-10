@@ -14,13 +14,10 @@ use Test::More tests => 8;
 
 my %setup;
 subtest 'setup' => sub{
-    plan tests => 4;
+    plan tests => 3;
 
     $setup{pkg} = 'RefImp::Assembly::Submission';
     use_ok($setup{pkg}) or die;
-
-    my $taxon = RefImp::Taxon->create(name => 'oyster', species_name => 'Crassostrea virginica');
-    ok($taxon, 'create taxon');
 
     my $data_dir = TestEnv::test_data_directory_for_package($setup{pkg});
     $setup{submission_yml} = File::Spec->join($data_dir, 'submission.yml');

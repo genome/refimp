@@ -12,12 +12,9 @@ use Test::More tests => 3;
 my $pkg = 'RefImp::Assembly::Submission::TblToAsn';
 my $cmd;
 subtest 'setup' => sub {
-    plan tests => 4;
+    plan tests => 3;
 
     use_ok($pkg) or die;
-
-    my $taxon = RefImp::Taxon->create(name => 'oyster', species_name => 'Crassostrea virginica');
-    ok($taxon, 'create taxon');
 
     my $submission_yml = File::Spec->join(TestEnv::test_data_directory_for_package('RefImp::Assembly::Submission'), 'submission.yml');
     my $submission = RefImp::Assembly::Submission->create_from_yml($submission_yml);
