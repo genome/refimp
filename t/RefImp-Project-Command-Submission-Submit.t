@@ -26,7 +26,7 @@ subtest 'setup' => sub{
             into => 'RefImp::Project::Submission',
         });
 
-   $setup{ftp} = RefImp::Test::Factory->setup_test_ftp;
+   $setup{ftp} = TestEnv::NcbiFtp->setup;
 
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     RefImp::Config::set('analysis_directory', $tempdir);

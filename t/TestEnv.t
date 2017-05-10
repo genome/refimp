@@ -5,7 +5,7 @@ use warnings;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 use TestEnv;
 
@@ -61,6 +61,15 @@ subtest 'lims rest api' => sub{
 
     my $lims = TestEnv::LimsRestApi::setup();
     ok($lims, 'setup test lims rest api');
+
+};
+
+subtest "ncbi ftp" => sub{
+    plan tests => 2;
+
+    my $ftp = TestEnv::NcbiFtp->setup;
+    ok($ftp, 'setup test ncbi ftp');
+    is(RefImp::Resources::NcbiFtp->connect, $ftp, 'correctly redefined Net::FTP new');
 
 };
 

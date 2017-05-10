@@ -20,7 +20,6 @@ INIT { # runs after compilation, right before execution
 
     my $use = <<USE;
     use RefImp;
-    use RefImp::Test::Factory;
 USE
     eval $use;
     die "FATAL: $@" if $@;
@@ -89,5 +88,38 @@ sub setup {
         });
 }
 
-1;
+package TestEnv::NcbiFtp;
 
+use strict;
+use warnings 'FATAL';
+
+use Net::FTP;
+use Sub::Install;
+use Test::MockObject;
+
+my $ftp;
+sub setup {
+    my $class = shift;
+
+    return $ftp if $ftp;
+
+    RefImp::Config::set('ncbi_ftp_host', 'ftp-host');
+    RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
+    RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
+
+    my $ftp = Test::MockObject->new;
+    $ftp->set_true('login');
+    $ftp->set_true('cwd');
+    $ftp->set_true('binary');
+    $ftp->set_true('quot');
+    $ftp->set_true('put');
+    Sub::Install::reinstall_sub({
+            code => sub { $ftp },
+            as => 'new',
+            into => 'Net::FTP',
+        });
+
+    return $ftp;
+}
+
+1;
