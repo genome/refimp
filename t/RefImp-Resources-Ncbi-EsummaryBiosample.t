@@ -72,13 +72,16 @@ subtest 'create' => sub{
 };
 
 subtest 'query_dom' => sub{
-    plan tests => 3;
+    plan tests => 6;
 
-    throws_ok(sub{ $setup{esummary}->query_dom; }, qr/No fields/, 'fails w/o fields');
+    throws_ok(sub{ $setup{esummary}->query_dom; }, qr/No field/, 'fails w/o field');
+    throws_ok(sub{ $setup{esummary}->query_dom(1, 2); }, qr/Too many fields/, 'fails w/o more than one field');
 
-    my $attrs;
-    lives_ok(sub{ $attrs = $setup{esummary}->query_dom('Organism'); },' query for organism');
-    is_deeply($attrs, {Organism => 'Crassostrea virginica' }, 'organism');
+    my $v;
+    lives_ok(sub{ $v = $setup{esummary}->query_dom('Organisms'); },' query for organisms lives');
+    ok(!$v, 'nothing in dom for Organisms');
+    lives_ok(sub{ $v = $setup{esummary}->query_dom('Organism'); },' query for organism lives');
+    is($v, 'Crassostrea virginica', 'found organism in dom');
 
 };
 

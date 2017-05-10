@@ -68,10 +68,10 @@ sub load_xml_dom {
 sub _load_biosample_xml_dom {
     my $self = shift;
 
-    my $attrs = $self->query_dom('SampleData');
-    $self->fatal_message('No sample data xml') if not $attrs->{SampleData};
+    my $sample_data = $self->query_dom('SampleData');
+    $self->fatal_message('No sample data xml') if not $sample_data;
 
-    my $biosample_dom = XML::LibXML->load_xml(string => $attrs->{SampleData});
+    my $biosample_dom = XML::LibXML->load_xml(string => $sample_data);
     my $error = $biosample_dom->findvalue('//error');
     $self->fatal_message("Biosample XML DOM error: $error") if $error;
 
@@ -82,12 +82,10 @@ sub _load_biosample_xml_dom {
 }
 
 sub query_dom {
-    my ($self, @fields) = @_;
-    $self->fatal_message('No fields given to retrieve from NCBI XML DOM!') if not @fields;
-
-    my $dom = $self->dom;
-    my $attrs = { map { my $v = $dom->findvalue("//$_") || undef; $_ => $v } @fields };
-    $attrs;
+    my ($self, $field) = @_;
+    $self->fatal_message('No fields given to query NCBI XML DOM!') if not $field;
+    $self->fatal_message('Too many fields given to query NCBI XML DOM!') if @_ > 2;
+    $self->dom->findvalue("//$field");
 }
 
 1;
