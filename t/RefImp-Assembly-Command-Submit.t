@@ -5,15 +5,11 @@ use warnings;
 
 use TestEnv;
 
-use File::Slurp;
-use File::Temp 'tempdir';
-use LWP::UserAgent;
-require RefImp::Assembly::Submission;
+use MIME::Lite;
 use Sub::Install;
 use Test::Exception;
 use Test::MockObject;
 use Test::More tests => 3;
-use YAML;
 
 my %setup;
 subtest 'setup' => sub{
@@ -25,13 +21,37 @@ subtest 'setup' => sub{
     my $data_dir = TestEnv::test_data_directory_for_package('RefImp::Assembly::Submission');
     my $assembly_dir = File::Spec->join($data_dir, 'assembly');
     $setup{submission_yml} = File::Spec->join($data_dir, 'submission.yml');
-    $setup{tempdir} = tempdir(CLEANUP => 1);
 
     Sub::Install::reinstall_sub({
         code => sub{ 1 },
         as => 'validate_for_submit',
         into => 'RefImp::Assembly::Submission',    
         });
+
+    $setup{ftp} = TestEnv::NcbiFtp->setup;
+
+    my $msg = Test::MockObject->new;
+    Sub::Install::reinstall_sub({
+        code => sub{
+            my ($class, %p) = @_;
+            is_deeply($p{To}, ['genomes@ncbi.nlm.nih.gov'], 'email To');
+            is_deeply($p{Cc}, ['gen_improv@gowustl.onmicrosoft.com'], 'email Cc');
+            is($p{From}, 'gen_improv@gowustl.onmicrosoft.com', 'email From');
+            like($p{Subject}, qr/Assembly Submission/, 'email Subject');
+            ok($p{Type}, 'Type defined');
+            $msg;
+        },
+        as => 'new',
+        into => 'MIME::Lite',    
+        });
+
+    $msg->mock('attach', sub{
+            my ($class, %p) = @_;
+            like($p{Data}, qr/The McDonnell Genome Institute has submitted a new assembly to GenBank/, 'email msg attached');
+            ok($p{Type}, 'Data defined');
+        }
+    );
+    $msg->mock('send', sub{ 1 });
 
 };
 
@@ -43,11 +63,21 @@ subtest 'execute fails' => sub{
 };
 
 subtest 'execute' => sub{
-    plan tests => 2;
+    plan tests => 13;
 
-    my $cmd = $setup{pkg}->execute(submission_yml => $setup{submission_yml});
-    ok($cmd->result, 'execute submission');
+    my $cmd = $setup{pkg}->create(submission_yml => $setup{submission_yml});
+
+    $setup{ftp}->mock('cwd', sub{ is($_[1], 'TEMP', 'correct cwd'); });
+    $setup{ftp}->mock('put', sub{ is($_[1], $cmd->tar_file); });
+    $setup{ftp}->mock('size', sub{ -s $cmd->tar_file; });
+
+    ok($cmd->execute, 'execute submit');
+    ok($cmd->result, 'cmd result');
+
     ok($cmd->submission, 'created submission');
+    like($cmd->tar_file, qr/Crassostrea_virginica_2\.0\.tar$/, 'tar_file name');
+    ok(-s $cmd->tar_file, 'created tar file');
+    print $cmd->tempdir."\n"; <STDIN>;
 
 };
 
