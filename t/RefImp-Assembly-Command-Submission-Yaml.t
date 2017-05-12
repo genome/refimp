@@ -8,7 +8,7 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Assembly::Command::SubmissionYaml';
+my $pkg = 'RefImp::Assembly::Command::Submission::Yaml';
 use_ok($pkg) or die;
 
 subtest 'print YAML' => sub {

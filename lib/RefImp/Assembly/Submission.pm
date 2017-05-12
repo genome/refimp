@@ -48,6 +48,8 @@ class RefImp::Assembly::Submission {
    },
 };
 
+sub __display_name__ { sprintf('%s %s submitted on %s part of %s %s', $_[0]->id, $_[0]->version, $_[0]->submitted_on, $_[0]->bioproject, $_[0]->biosample) }
+
 sub default_release_date { (__PACKAGE__->valid_release_dates)[0] }
 sub valid_release_dates { ( 'immediately after processing', 'hold until publication', '\d{2}-\d{2}-\d{4}' ) }
 sub valid_release_date_regexps { map { qr/^$_$/ } valid_release_dates() }
@@ -131,7 +133,7 @@ sub validate_for_submit {
         $self->fatal_message('No contigs or supercontigs files set in submission YAML!');
     }
 
-    my $nonfile_keys = Set::Scalar->new( grep { $_ !~ /_file$/ } RefImp::Assembly::Command::SubmissionYaml->submission_info_keys );
+    my $nonfile_keys = Set::Scalar->new( grep { $_ !~ /_file$/ } RefImp::Assembly::Command::Submission::Yaml->submission_info_keys );
     for my $key ( $nonfile_keys->members ) {
         $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
     }

@@ -1,4 +1,4 @@
-package RefImp::Assembly::Submission::TblToAsn;
+package RefImp::Assembly::Command::Submission::TblToAsn;
 
 use strict;
 use warnings 'FATAL';
@@ -8,7 +8,7 @@ use File::Temp;
 use IO::File;
 use Path::Class;
 
-class RefImp::Assembly::Submission::TblToAsn {
+class RefImp::Assembly::Command::Submission::TblToAsn {
     is => 'Command::V2',
     has => {
         submission => { is => 'RefImp::Assembly::Submission', },
@@ -25,7 +25,10 @@ class RefImp::Assembly::Submission::TblToAsn {
         results_path => { calculate_from => [qw/ output_directory /], calculate => q| $output_directory->subdir('RESULTS'); |, },
         template_file => { calculate_from => [qw/ output_directory /], calculate => q| $output_directory->file('template.sbt'); |, },
     },
+    doc => 'run tbl2asn on a submission',
 };
+
+sub help_detail { $_[0]->__meta__->doc }
 
 sub execute {
     my $self = shift;
@@ -166,7 +169,7 @@ sub split_fasta_files {
         my $fasta_file = $self->submission->path_for($type."_file");
         next if not $fasta_file;
 
-        my $splitter = RefImp::Assembly::Submission::SplitFasta->execute(
+        my $splitter = RefImp::Assembly::Command::Submission::SplitFasta->execute(
             fasta_file => $fasta_file,
             output_fasta_file_pattern => File::Spec->join($self->output_directory, join('.', $type, '%02d', 'fsa')),
             max_seq_count => 10_000,

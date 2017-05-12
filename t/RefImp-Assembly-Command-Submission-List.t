@@ -6,5 +6,5 @@ use warnings;
 use TestEnv;
 use Test::More tests => 1;
 
-use_ok('RefImp::Assembly::Command::Submission') or die;
+use_ok('RefImp::Assembly::Command::Submission::List') or die;
 done_testing();

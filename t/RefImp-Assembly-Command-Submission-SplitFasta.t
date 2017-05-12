@@ -14,7 +14,7 @@ my %setup;
 subtest 'setup' => sub {
     plan tests => 2;
 
-    $setup{pkg} = 'RefImp::Assembly::Submission::SplitFasta';
+    $setup{pkg} = 'RefImp::Assembly::Command::Submission::SplitFasta';
     use_ok($setup{pkg}) or die;
 
     $setup{data_dir} = TestEnv::test_data_directory_for_package($setup{pkg});

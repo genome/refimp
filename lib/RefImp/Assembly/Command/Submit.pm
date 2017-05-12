@@ -18,7 +18,7 @@ class RefImp::Assembly::Command::Submit {
     },
     has_optional_transient => {
         submission => { is => 'RefImp::Project::Submission', },
-        tbl2asn_cmd => { is => 'RefImp::Assembly::Submission::TblToAsn', },
+        tbl2asn_cmd => { is => 'RefImp::Assembly::Command::Submission::TblToAsn', },
         tempdir => { is => 'Path::Class', },
     },
     has_optional_calculated => {
@@ -28,7 +28,10 @@ class RefImp::Assembly::Command::Submit {
             calculate => q| $tempdir->file($submission->ncbi_version.'.tar'); |,
         },
     },
+    doc => 'submit a assembly to NCBI',
 };
+
+sub help_detail { __PACKAGE__->__meta__->doc }
 
 sub execute {
     my $self = shift;
@@ -67,7 +70,7 @@ sub _create_sqn_files {
     my $self = shift;
     $self->status_message('Create SQN files with TBL2ASN...');
 
-    my $tbl2asn = RefImp::Assembly::Submission::TblToAsn->execute(
+    my $tbl2asn = RefImp::Assembly::Command::Submission::TblToAsn->execute(
         submission => $self->submission,
         output_directory => $self->tempdir,
     );

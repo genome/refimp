@@ -1,4 +1,4 @@
-package RefImp::Assembly::Submission::SplitFasta;
+package RefImp::Assembly::Command::Submission::SplitFasta;
 
 use strict;
 use warnings 'FATAL';
@@ -7,7 +7,7 @@ use Bio::SeqIO;
 use Encode;
 use File::Basename;
 
-class RefImp::Assembly::Submission::SplitFasta {
+class RefImp::Assembly::Command::Submission::SplitFasta {
     is => 'Command::V2',
     has_input => {
         fasta_file => { is => 'Text', },
@@ -22,8 +22,11 @@ class RefImp::Assembly::Submission::SplitFasta {
     },
     has_optional_transient => {
         output_fasta_file_pattern => { is => 'Text', },
-    }
+    },
+    doc => 'split fastas by count and size',
 };
+
+sub help_detail { $_[0]->__meta__->doc }
 
 sub __errors__ {
     my $self = shift;

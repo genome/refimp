@@ -9,7 +9,7 @@ use File::Temp;
 use Path::Class 'dir';
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Assembly::Submission::TblToAsn';
+my $pkg = 'RefImp::Assembly::Command::Submission::TblToAsn';
 my $cmd;
 subtest 'setup' => sub {
     plan tests => 3;

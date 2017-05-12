@@ -1,11 +1,11 @@
-package RefImp::Assembly::Command::SubmissionYaml;
+package RefImp::Assembly::Command::Submission::Yaml;
 
 use strict;
 use warnings;
 
 use YAML;
 
-class RefImp::Assembly::Command::SubmissionYaml {
+class RefImp::Assembly::Command::Submission::Yaml {
     is => 'Command::V2',
     doc => 'print submission yaml to fill out',
 };
