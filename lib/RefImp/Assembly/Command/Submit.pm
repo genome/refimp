@@ -181,8 +181,8 @@ MSG
 
     my $mimelite = MIME::Lite->new(
         To => \@to,
-        Cc => [qw/ gen_improv@gowustl.onmicrosoft.com /],
-        From => 'gen_improv@gowustl.onmicrosoft.com',
+        Cc => [qw/ mgi-submission@gowustl.onmicrosoft.com /],
+        From => 'mgi-submission@gowustl.onmicrosoft.com',
         Subject => $subject,
         Type => 'multipart/mixed'
     );
