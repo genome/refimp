@@ -87,9 +87,11 @@ sub path_for {
     $self->fatal_message('Submission directory does not exist!') if not -d $self->directory;
 
     my $file_name = $self->info_for($key);
-    $self->fatal_message('No %s in submission info!', $key) if not $file_name;
+    return if not $file_name; # FIXME test!
 
-    File::Spec->join($self->directory, $file_name);
+    my $file = File::Spec->join($self->directory, $file_name);
+    $self->fatal_message('File %s is defined in submission info, but does not exist! %s', $key, $file) if not -s $file;
+    $file;
 }
 
 sub release_notes {
@@ -111,14 +113,25 @@ sub validate_for_submit {
     my $esummary = $self->esummary;
     $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
 
-    my $info_keys = Set::Scalar->new( RefImp::Assembly::Command::SubmissionYaml->submission_info_keys );
-    my $file_keys = Set::Scalar->new( grep { /_file$/ } $info_keys->members );
-    for my $key ( $file_keys->members ) {
-        my $file = $self->path_for($key);
-        $self->fatal_message('File %s in submission info not exist! %s', $key, $file) if not -s $file;
+    # Release notes is required
+    $self->fatal_message('No release_notes_file in submission info!') if not $self->info_for('release_notes_file');
+    $self->path_for('release_notes_file'); # fatal if not defined and existing
+
+    # Contigs/Supercontigs/AGP
+    my $contigs_file = $self->path_for('contigs_file');
+    my $supercontigs_file = $self->path_for('supercontigs_file');
+    my $agp_file = $self->path_for('agp_file');
+    if ( $supercontigs_file ) {
+        $self->fatal_message('AGP file is not in submission YAML, and is required for supercontigs file!') if not $agp_file;
+    }
+    elsif ( $contigs_file ) { # contigs, but no supercontigs
+        $self->fatal_message('AGP file in submission YAML, but only contigs file set!') if $agp_file;
+    }
+    else { # need something!
+        $self->fatal_message('No contigs or supercontigs files set in submission YAML!');
     }
 
-    my $nonfile_keys = $info_keys->difference($file_keys);
+    my $nonfile_keys = Set::Scalar->new( grep { $_ !~ /_file$/ } RefImp::Assembly::Command::SubmissionYaml->submission_info_keys );
     for my $key ( $nonfile_keys->members ) {
         $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
     }
@@ -126,12 +139,6 @@ sub validate_for_submit {
     my $assembly_method = $self->info_for('assembly_method');
     $self->fatal_message('Invalid assembly_method "%s", a "v. is required between the assembler and the date run/version.', $assembly_method) if $assembly_method !~ / v\. /;
 
-    # TODO
-    # check contigs/supercontigs names are in agp
-    # contigs file alone ok
-    # super contgis needs agp
-
-    1;
 }
 
 1;

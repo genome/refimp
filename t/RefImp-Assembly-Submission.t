@@ -96,7 +96,7 @@ subtest 'create_from_yml' => sub{
 };
 
 subtest 'submission_info' => sub {
-    plan tests => 6;
+    plan tests => 7;
 
     my $submission = $setup{submission};
     my $info = $submission->submission_info;
@@ -109,6 +109,9 @@ subtest 'submission_info' => sub {
     is($submission->info_for('coverage'), '20x', 'info_for coverage');
 
     throws_ok(sub{ $submission->path_for; }, qr/No key given/, 'path_for fails w/o key');
+    my $agp_file = delete $info->{agp_file};
+    is($submission->path_for('agp_file'), undef, 'path_for when value is undefined');
+    $info->{agp_file} = $agp_file;
     is($submission->path_for('agp_file'), File::Spec->join($submission->directory, 'supercontigs.agp'), 'path_for agp_file');
 
 };
@@ -120,16 +123,32 @@ subtest 'validate_for_submit' => sub{
     my $info = $submission->submission_info();
     $submission->submission_info({});
     throws_ok(sub{ $submission->validate_for_submit; }, qr/No submission info set/, 'validate_for_submit fails w/o submit info');
-    
     $submission->submission_info($info);
-    for my $k (qw/ agp_file contigs_file supercontigs_file /) {
-        my $v = delete $info->{$k};
-        throws_ok(sub{ $submission->validate_for_submit; }, qr/No $k in submission info/, "validate_for_submit fails w/o $k");
-        $info->{$k} = '/blah';
-        throws_ok(sub{ $submission->validate_for_submit; }, qr/File $k in submission info not exist/, "validate_for_submit fails w/ non existing $k");
-        $info->{$k} = $v;
-    }
+    
+    # Release notes requrired
+    my $v = delete $info->{release_notes_file};
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/No release_notes_file in submission info/, "validate_for_submit fails w/o release_notes_file");
+    $info->{release_notes_file} = 'blah';
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/File release_notes_file is defined in submission info, but does not exist/, "validate_for_submit fails w/o release_notes_file");
+    $info->{release_notes_file} = $v;
 
+    # Contigs w/ AGP and no supercontigs
+    $v = delete $info->{supercontigs_file};
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/AGP file in submission YAML, but only contigs file set/, "validate_for_submit fails w/ contigs and agp");
+    $info->{supercontigs_file} = 'blah';
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/File supercontigs_file is defined in submission info, but does not exist/, "validate_for_submit fails w/o release_notes_file");
+    $info->{supercontigs_file} = $v;
+
+    # AGP required with supercontigs
+    $v = delete $info->{agp_file};
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/AGP file is not in submission YAML, and is required for supercontigs file/, "validate_for_submit fails w/ supercontigs and no agp");
+    $info->{agp_file} = 'blah';
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/File agp_file is defined in submission info, but does not exist/, "validate_for_submit fails w/ agp but does not exist");
+    $info->{agp_file} = $v;
+
+    # No contigs or supercontigs files set in submission YAML
+
+    # Assembly method required, and correct format
     my $assembly_method = delete $info->{assembly_method};
     $info->{assembly_method} = 'NO_VDOT';
     throws_ok(sub{ $submission->validate_for_submit; }, qr/Invalid assembly_method/, 'fails w/ invalid assembly_method');
