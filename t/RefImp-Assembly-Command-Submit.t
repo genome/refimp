@@ -35,8 +35,8 @@ subtest 'setup' => sub{
         code => sub{
             my ($class, %p) = @_;
             is_deeply($p{To}, ['genomes@ncbi.nlm.nih.gov'], 'email To');
-            is_deeply($p{Cc}, ['gen_improv@gowustl.onmicrosoft.com'], 'email Cc');
-            is($p{From}, 'gen_improv@gowustl.onmicrosoft.com', 'email From');
+            is_deeply($p{Cc}, ['mgi-submission@gowustl.onmicrosoft.com'], 'email Cc');
+            is($p{From}, 'mgi-submission@gowustl.onmicrosoft.com', 'email From');
             like($p{Subject}, qr/Assembly Submission/, 'email Subject');
             ok($p{Type}, 'Type defined');
             $msg;
@@ -63,7 +63,7 @@ subtest 'execute fails' => sub{
 };
 
 subtest 'execute' => sub{
-    plan tests => 13;
+    plan tests => 14;
 
     my $cmd = $setup{pkg}->create(submission_yml => $setup{submission_yml});
 
