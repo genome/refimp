@@ -10,9 +10,8 @@ use Set::Scalar;
 use YAML;
 
 class RefImp::Assembly::Submission {
-   doc => 'Assembly submission record',
-   #data_source => RefImp::Config::get('ds_mysql'),
-   #table_name => 'assemblies_submissions',
+   data_source => RefImp::Config::get('ds_mysql'),
+   table_name => 'assemblies_submissions',
    id_generator => '-uuid',
    has => {
         assembly => { is => 'RefImp::Assembly', id_by => 'assembly_id', doc => 'Assembly being submitted', },
@@ -47,6 +46,7 @@ class RefImp::Assembly::Submission {
    has_optional_transient => {
         submission_info => { is => 'HASH', },
    },
+   doc => 'Assembly submission record',
 };
 
 sub __display_name__ { sprintf('%s %s submitted on %s part of %s %s', $_[0]->id, $_[0]->version, $_[0]->submitted_on, $_[0]->bioproject, $_[0]->biosample) }
