@@ -1,4 +1,4 @@
--- Deploy refimp:create_projects to mysql
+-- Deploy refimp:create_projects to sqlite
 
 BEGIN;
 

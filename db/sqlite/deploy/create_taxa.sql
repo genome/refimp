@@ -1,4 +1,4 @@
--- Deploy refimp:create_taxa to mysql
+-- Deploy refimp:create_taxa to sqlite
 
 BEGIN;
 

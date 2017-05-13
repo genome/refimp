@@ -1,4 +1,4 @@
--- Deploy refimp:create_users to mysql
+-- Deploy refimp:create_users to sqlite
 
 BEGIN;
 
