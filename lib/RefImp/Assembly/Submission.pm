@@ -3,7 +3,7 @@ package RefImp::Assembly::Submission;
 use strict;
 use warnings 'FATAL';
 
-use File::Basename;
+use Path::Class;
 use File::Spec;
 use File::Slurp;
 use Set::Scalar;
@@ -15,16 +15,17 @@ class RefImp::Assembly::Submission {
    #table_name => 'assemblies_submissions',
    id_generator => '-uuid',
    has => {
+        assembly => { is => 'RefImp::Assembly', id_by => 'assembly_id', doc => 'Assembly being submitted', },
         biosample => { is => 'Text', doc => 'NCBI biosample', },
         bioproject => { is => 'Text', doc => 'NCBI bioproject', },
         submitted_on => { is => 'Date', default_value => UR::Context->now, doc => 'The date of submission', },
-        taxon => { is => 'RefImp::Taxon', doc => 'Assembly taxon', },
+        taxon => { via => 'assembly', to => 'taxon', doc => 'Assembly taxon', },
         version => { is => 'Text', doc => 'Numbered assembly version', },
    },
    has_optional => {
         bioproject_uid => { is => 'Text', via => 'esummary', to => 'bioproject_uid', },
         biosample_uid => { is => 'Text', via => 'esummary', to => 'biosample_uid', },
-        directory => { is => 'Text', doc => 'Submission directory', },
+        directory => { is => 'Path::Class::Dir', doc => 'Submission directory', },
         submission_yml => { is => 'Text', doc => 'YAML with submission information', },
    },
    has_optional_calculated => {
@@ -59,6 +60,7 @@ sub create_from_yml {
 
      $class->fatal_message('No submission YAML given!') if not $yml;
      $class->fatal_message('Submission YAML does not exist! %s', $yml) if not -s $yml;
+     $yml = Path::Class::file($yml);
      my $info = YAML::LoadFile($yml);
      $class->fatal_message('Failed to open submission YAML!') if not $info;
 
@@ -66,13 +68,22 @@ sub create_from_yml {
      my $taxon = RefImp::Taxon->get(species_name => lc $info->{taxon});
      $class->fatal_message('Taxon not found for "%s"!', $info->{taxon}) if not $taxon;
 
+     my $directory = $yml->dir->absolute;
+     my $id = UR::Object::Type->autogenerate_new_object_id_uuid;
+     my $assembly = RefImp::Assembly->create( # for now, just create a new assembly for each submission
+         id => $id,
+         name => $id, # gott be unique
+         taxon => $taxon, # only thing we really know
+         directory => $directory, # submission dir, assembly is somewhere nearby
+     );
+
      my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
-     $params{directory} = File::Basename::dirname($yml);
+     $params{assembly} = $assembly,
+     $params{directory} = $directory;
      $params{submission_info} = $info;
      $params{submission_yml} = YAML::Dump($info);
-     $params{taxon} = $taxon;
 
-     $class->SUPER::create(%params);
+     $class->create(%params);
 }
 
 sub info_for {
@@ -139,7 +150,7 @@ sub validate_for_submit {
     }
 
     my $assembly_method = $self->info_for('assembly_method');
-    $self->fatal_message('Invalid assembly_method "%s", a "v. is required between the assembler and the date run/version.', $assembly_method) if $assembly_method !~ / v\. /;
+    $self->fatal_message('Invalid assembly_method "%s", a "v." is required between the assembler and the date run/version.', $assembly_method) if $assembly_method !~ / v\. /;
 
 }
 
