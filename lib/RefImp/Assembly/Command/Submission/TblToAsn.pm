@@ -173,7 +173,7 @@ sub split_fasta_files {
             fasta_file => $fasta_file,
             output_fasta_file_pattern => File::Spec->join($self->output_directory, join('.', $type, '%02d', 'fsa')),
             max_seq_count => 10_000,
-            max_file_size => 1_800_000,
+            max_file_size => 1_800_000_000,
         );
         $self->fatal_message('Failed to split fasta file!') if not $splitter->result;
         push @fasta_files, $splitter->output_fasta_files;
