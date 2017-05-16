@@ -8,13 +8,16 @@ requires 'Devel::Cover::Report::Coveralls';
 requires 'File::Slurp';
 requires 'FindBin';
 requires 'JSON';
+requires 'LWP::UserAgent';
 requires 'MIME::Lite';
 requires 'Net::LDAP';
 requires 'Params::Validate';
+requires 'Path::Class';
+requires 'Set::Scalar';
 requires 'Test::More';
 requires 'Test::Exception';
 requires 'Test::MockObject';
 requires 'UR', '0.46';
 requires 'WWW::Mechanize';
+requires 'XML::LibXML';
 requires 'YAML';
-

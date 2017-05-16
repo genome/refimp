@@ -1,4 +1,4 @@
--- Deploy refimp:create_project_taxa to mysql
+-- Deploy refimp:create_project_taxa to sqlite
 -- requires projects
 -- requires taxa
 

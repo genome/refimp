@@ -1,4 +1,4 @@
--- Deploy refimp:create_projects_users to mysql
+-- Deploy refimp:create_projects_users to sqlite
 -- requires projects
 -- requires users
 

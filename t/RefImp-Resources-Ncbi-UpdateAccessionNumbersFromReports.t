@@ -22,7 +22,7 @@ subtest setup => sub{
         "wugsc20160707.HMPB-AAD13A05.phase3.fa2htgs.asn.ac4htgs",
     );
 
-    $setup{ftp} = RefImp::Test::Factory->setup_test_ftp;
+    $setup{ftp} = TestEnv::NcbiFtp->setup;
     $setup{ftp}->mock('ls', sub{ ( $setup{file} ) });
     $setup{ftp}->mock('get', sub{
             if ( not -l $setup{file} ) {

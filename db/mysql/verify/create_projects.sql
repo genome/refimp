@@ -1,4 +1,4 @@
--- Verify refimp:create_projects on sqlite
+-- Verify refimp:create_projects on mysql
 
 BEGIN;
 

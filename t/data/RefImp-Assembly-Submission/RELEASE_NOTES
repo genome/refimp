@@ -1,0 +1,56 @@
+Crassostrea virginica sequence assembly release C_virginica-1.0 notes:
+
+We have sequenced the genome of the Eastern oyster using DNA from a gynogenetic oyster of an inbred line produced at the Haskin Shellfish Research Laboratory, Rutgers University, known as sample RU13XGHG1-28 from either a single tissue or pooled extracts from two tissues (mantle, adductor muscle). Sequences were generated on the Pacific Biosciences RSII instrument (P6/C4 chemistry) to ~74x genome coverage based on a genome size estimate of 675 Mb.  All reads were assembled with the FALCON algorithm then error corrected using the Quiver and Pilon algorithms. Scaffolds were generated with the SSPACE-LongRead software.
+
+Of the 685 Mb genome (C_virginica-1.0), the total assembly N50 contig and scaffold lengths are 1.97Mb (n=690) and 2.79Mb (n=358), respectively. 
+
+For questions regarding this C_virginica-1.0 assembly please contact Dr. Marta Gomez-Chiarri, Department of Fisheries, Animal and Veterinary Science, University of Rhode Island, 169 CBLS, Kingston, RI 02881, USA or Dr. Wes Warren, McDonnell Genome Institute at Washington University School of Medicine, St. Louis. 
+
+
+Credits:
+
+Funding – USDA 20158701622942-Sequencing of the genome of the eastern oyster, Crassostrea virginica to PI - Marta Gomez-Chiarri
+DNA source and isolation – Ximing Guo, Haskin Shellfish Research Laboratory, Department of Marine and Coastal Sciences, Rutgers University, 6959 Miller Avenue, Port Norris, NJ 08349, USA; Dina Proestou, USDA Agricultural Research Service, National Cold Water Marine Aquaculture Center, 469 CBLS, Kingston, RI 02881, USA
+Sequencing - McDonnell Genome Institute at Washington University School of Medicine, St. Louis. 
+Assembly, Assembly/Map Integration - LaDeana Hillier, Chad Tomlinson, Pat Minx, Wesley Warren, McDonnell Genome Institute at Washington University School of Medicine, St. Louis.
+Assembly submission – Pat Minx, LaDeana Hillier, McDonnell Genome Institute at Washington University School of Medicine, St. Louis.
+Linkage mapping - Yan He and Ximing Guo, Haskin Shellfish Research Laboratory, Department of Marine and Coastal Sciences, Rutgers University, 6959 Miller Avenue, Port Norris, NJ 08349, USA.
+RNAseq data – Dina Proestou, USDA Agricultural Research Service, National Cold Water Marine Aquaculture Center, 469 CBLS, Kingston, RI 02881, USA; Marta Gomez-Chiarri and Tejashree Modak, Department of Fisheries, Animal and Veterinary Science, University of Rhode Island, 169 CBLS, Kingston, RI 02881, USA.
+
+Data use:
+
+The Crassostrea virginica sequence is made freely available to the community by McDonnell Genome Institute at Washington University School of Medicine, with the following understanding:
+1. The data may be freely downloaded, used in analyses, and repackaged in databases.
+2. Users are free to use the data in scientific papers analyzing these data if the providers of this data are properly cited. 
+3. Any redistribution of the data should carry this notice. 
+
+Assembly statistics:
+
+SCAFFOLDS
+   COUNT     358
+   LENGTH    685793667
+   AVG       1915624
+   N50       2791541 (2791483) 2738754
+   LARGEST   12680670
+  (ID: LG2_scaffold1_size12680670, BASES_ONLY_LENGTH: 12679178)
+   Scaffolds > 1M: 232 ( 613681101 bp )
+   Scaffolds 250K--1M: 111 ( 69888768 bp )
+   Scaffolds 100K--250K: 12 ( 2060638 bp )
+   Scaffolds 10K--100K: 3 ( 163160 bp )
+   Scaffolds 5K--10K: 0 ( 0 bp )
+   Scaffolds 2K--5K: 0 ( 0 bp )
+   Scaffolds 0--2K: 0 ( 0 bp )
+
+CONTIGS
+   COUNT     670
+   LENGTH    684663495
+   AVG       1021885
+   N50       1975305 (1971208) 1921126
+   LARGEST   9802061
+   Contigs > 1M: 238 ( 522420151 bp )
+   Contigs 250K--1M: 243 ( 145713162 bp )
+   Contigs 100K--250K: 72 ( 12359820 bp )
+   Contigs 10K--100K: 94 ( 4065194 bp )
+   Contigs 5K--10K: 11 ( 71898 bp )
+   Contigs 2K--5K: 9 ( 29295 bp )
+   Contigs 0--2K: 3 ( 3975 bp )
