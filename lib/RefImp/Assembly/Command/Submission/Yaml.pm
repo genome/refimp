@@ -15,42 +15,55 @@ sub help_detail {
 <<HELP;
 Save this YAML to a file named 'submission.myl' in the submission directory. It will be the input into the assembly submit commmand.
 
-Each field is required. Here are notes on some of the required fields.
+All fields that are left in the YAML must be defined. Here are notes on some of the required fields.
 
-Assembly Method
+Assembly Method [required]
   The assembler used to create the assembly.
   Example
     Falcon January 2017
 
-Authors
-
+Authors [required]
   Comma separated list of names. Include first name, middle intials [optional], and last name.
   Example:
     Barack H Obama,Joe Biden
 
-Coverage 
+Bioproject [required]
+  Example
+    PRJNA376014
+
+Biosample [required]
+  Example
+    SAMN06349363
+
+Coverage [required]
   The approximate coverage of the genome. Expressed with an 'X'.
   Example
     87X
 
-Release Date 
+Polishing Method [optioanl]
+  The assembly improvement methods, separated by a semicolon.
+  Example
+    Quiver; Pilon
 
+Release Date  [required]
   There are 2 NCBI standard, or set your own. Valid values/formats:
 
 $valid_release_dates
 
-Sequenceing Technology
-  The read type. Sequencing machine and chemistry
+Sequencing Files
+  Include a contigs_file OR supercontigs_file in fasta format. An optional agp_file for the contigs_file can be included. Do not include both contigs_file and superconting_file. Also, do not include an agp_file with supercontigs_file.
+
+Sequencing Technology [required]
+  The read type. Sequencing machine and chemistry.
   Example
     PacBio_RSII
 
-Taxon
+Taxon [required]
   The NCBI taxon species name. It must exist in our DB. Create with 'ref-imp taxon create'.
   Example:
     Crassostrea virginica
 
-Version
-
+Version [required]
   The version of the assembly. This will be combined with the taxon to make the NCBI version.
   Example:
     Crassostrea_virginica_2.0
@@ -66,7 +79,7 @@ my %submission_info = (
     biosample => '',
     contigs_file => '',
     coverage => '',
-    polishing_method => 'NA',
+    polishing_method => '',
     release_date => 'immediately after processing',
     release_notes_file => '',
     sequencing_technology => '',
