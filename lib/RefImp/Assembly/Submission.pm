@@ -123,6 +123,9 @@ sub validate_for_submit {
     my $info = $self->submission_info;
     $self->fatal_message('No submission info set!') if not $info or not %$info;
 
+    my $assembly_method = $self->info_for('assembly_method');
+    $self->fatal_message('Invalid assembly_method "%s", a "v." is required between the assembler and the date run/version.', $assembly_method) if $assembly_method !~ / v\. /;
+
     my $esummary = $self->esummary;
     $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
 
@@ -135,12 +138,10 @@ sub validate_for_submit {
     my $supercontigs_file = $self->path_for('supercontigs_file');
     my $agp_file = $self->path_for('agp_file');
     if ( $supercontigs_file ) {
-        $self->fatal_message('AGP file is not in submission YAML, and is required for supercontigs file!') if not $agp_file;
+        $self->fatal_message('Both contigs and supercontigs files are defined in submission info, but can only specify one!') if $contigs_file;
+        $self->fatal_message('Supercontigs cannot have an AGP file!') if $agp_file;
     }
-    elsif ( $contigs_file ) { # contigs, but no supercontigs
-        $self->fatal_message('AGP file in submission YAML, but only contigs file set!') if $agp_file;
-    }
-    else { # need something!
+    elsif ( not $contigs_file ) { # no contigs, no supercontigs
         $self->fatal_message('No contigs or supercontigs files set in submission YAML!');
     }
 
@@ -149,9 +150,7 @@ sub validate_for_submit {
         $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
     }
 
-    my $assembly_method = $self->info_for('assembly_method');
-    $self->fatal_message('Invalid assembly_method "%s", a "v." is required between the assembler and the date run/version.', $assembly_method) if $assembly_method !~ / v\. /;
-
+    1;
 }
 
 1;
