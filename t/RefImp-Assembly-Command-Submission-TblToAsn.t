@@ -43,7 +43,7 @@ subtest 'various things' => sub{
     my $expected_source_qualifiers = "'[organism=Crassostrea virginica] [tech=wgs]'";
     is($cmd->source_qualifiers, $expected_source_qualifiers, 'source_qualifiers');
 
-    my $expected_structured_comments = "StructuredCommentPrefix	##Genome-Assembly-Data-START##\nAssembly Method	Falcon v. January 2017\nGenome Coverage	20x\nSequencing Technology	PacBio_RSII\n";
+    my $expected_structured_comments = "StructuredCommentPrefix	##Genome-Assembly-Data-START##\nAssembly Method	Falcon v. January 2017\nGenome Coverage	20x\nPolishing Method	Quiver; Pilon\nSequencing Technology	PacBio_RSII\n";
     is($cmd->structured_comments, $expected_structured_comments, 'structured_comments');
 
 };
@@ -55,7 +55,7 @@ subtest 'execute' => sub{
     ok($cmd->result, 'execute');
 
     my $results_path = $cmd->results_path;
-    is($cmd->sqn_files, 2, 'sqn_files');
+    is_deeply([$cmd->sqn_files], [File::Spec->join($cmd->results_path, 'contigs.01.sqn')], 'sqn_files');
 
 };
 

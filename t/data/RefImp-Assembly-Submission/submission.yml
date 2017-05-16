@@ -5,6 +5,7 @@ bioproject: PRJNA376014
 biosample: SAMN06349363
 contigs_file: contigs.bases
 coverage: 20x
+polishing_method: Quiver; Pilon
 release_date: immediately after processing
 release_notes_file: RELEASE_NOTES
 sequencing_technology: PacBio_RSII
