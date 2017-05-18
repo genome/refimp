@@ -25,15 +25,10 @@ class RefImp::Assembly::Submission {
         bioproject_uid => { is => 'Text', via => 'esummary', to => 'bioproject_uid', },
         biosample_uid => { is => 'Text', via => 'esummary', to => 'biosample_uid', },
         directory => { is => 'Path::Class::Dir', doc => 'Submission directory', },
+        project_title => { is => 'Text', via => 'esummary', to => 'project_title', },
         submission_yml => { is => 'Text', doc => 'YAML with submission information', },
    },
    has_optional_calculated => {
-        esummary => {
-            is => 'RefImp::Resources::Ncbi::EsummaryBiosample',
-            is_constant => 1,
-            calculate_from => [qw/ biosample /],
-            calculate => q| RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $biosample) |,
-        },
         ncbi_version => {
             is => 'Text',
             calculate_from => [qw/ taxon version /],
@@ -45,6 +40,7 @@ class RefImp::Assembly::Submission {
    },
    has_optional_transient => {
         submission_info => { is => 'HASH', },
+        esummary => { is => 'RefImp::Resources::Ncbi::EsummaryBiosample', },
    },
    doc => 'Assembly submission record',
 };
@@ -126,8 +122,10 @@ sub validate_for_submit {
     my $assembly_method = $self->info_for('assembly_method');
     $self->fatal_message('Invalid assembly_method "%s", a "v." is required between the assembler and the date run/version.', $assembly_method) if $assembly_method !~ / v\. /;
 
-    my $esummary = $self->esummary;
+
+    my $esummary = RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $self->biosample);
     $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
+    $self->esummary($esummary);
 
     # Release notes is required
     $self->fatal_message('No release_notes_file in submission info!') if not $self->info_for('release_notes_file');

@@ -63,7 +63,7 @@ subtest 'execute fails' => sub{
 };
 
 subtest 'execute' => sub{
-    plan tests => 14;
+    plan tests => 5;
 
     my $cmd = $setup{pkg}->create(submission_yml => $setup{submission_yml});
 
@@ -77,7 +77,6 @@ subtest 'execute' => sub{
     ok($cmd->submission, 'created submission');
     like($cmd->tar_file, qr/Crassostrea_virginica_2\.0\.tar$/, 'tar_file name');
     ok(-s $cmd->tar_file, 'created tar file');
-    #print $cmd->tempdir."\n"; <STDIN>;
 
 };
 
