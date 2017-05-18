@@ -13,7 +13,7 @@ class RefImp::Assembly::Command::Submit {
     has_input => {
         submission_yml => {
             is => 'Text',
-            doc => 'YAML file with submission info. It must be in the assembly submission directory. Use the "submission-yaml" command for a template.',
+            doc => 'YAML file with submission info. It must be in the assembly submission directory. Use the "refimp assembly submission yaml" command for a template or help (--h).',
         },
     },
     has_optional_transient => {

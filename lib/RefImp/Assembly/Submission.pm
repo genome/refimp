@@ -144,7 +144,8 @@ sub validate_for_submit {
     }
 
     my $nonfile_keys = Set::Scalar->new( grep { $_ !~ /_file$/ } RefImp::Assembly::Command::Submission::Yaml->submission_info_keys );
-    for my $key ( $nonfile_keys->members ) {
+    my $optional_keys = Set::Scalar->new( RefImp::Assembly::Command::Submission::Yaml->submission_info_optional_keys );
+    for my $key ( $nonfile_keys->difference($optional_keys)->members ) {
         $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
     }
 

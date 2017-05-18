@@ -32,13 +32,12 @@ subtest 'setup' => sub {
 subtest 'various things' => sub{
     plan tests => 3;
 
-    my $expected_authors = join(
-        "\n",
-        '{ name name { last "Warren" , first "Wesley" , initials "W.C." } } ,',
-        '{ name name { last "Gomez-Chiarri" , first "Marta" , initials "M." } } ,',
-        '{ name name { last "Tomlinson" , first "Chad" , initials "C." } } ,',
+    my @expected_authors = (
+        'name name { last "Warren" , first "Wesley" , initials "W.C." }',
+        'name name { last "Gomez-Chiarri" , first "Marta" , initials "M." }',
+        'name name { last "Tomlinson" , first "Chad" , initials "C." }',
     );
-    is($cmd->submission_authors, $expected_authors, 'formatted_submission_authors');
+    is_deeply([$cmd->format_names( $cmd->submission->info_for('authors') )], \@expected_authors, 'formatted_submission_authors');
 
     my $expected_source_qualifiers = "'[organism=Crassostrea virginica] [tech=wgs]'";
     is($cmd->source_qualifiers, $expected_source_qualifiers, 'source_qualifiers');

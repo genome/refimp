@@ -78,7 +78,14 @@ sub write_template_file {
 sub submission_template {
     my $self = shift;
 
-    my $authors = $self->submission_authors;
+    my $string = $self->submission->info_for('authors');
+    $self->fatal_message('No authors for submission!') if not $string;
+    my $authors = join("\n          ", map { '{ '.$_.' } ,' } $self->format_names($string));
+
+    $string = $self->submission->info_for('contact');
+    $self->fatal_message('No contact for submission!') if not $string;
+    my ($contact) = $self->format_names($string);
+
     my $bioproject = $self->submission->bioproject;
     my $bioproject_uid = $self->submission->bioproject_uid;
     my $biosample = $self->submission->biosample;
@@ -88,11 +95,7 @@ sub submission_template {
 Submit-block ::= {
   contact {
     contact {
-      name
-        name {
-          last "Wilson" ,
-          first "Rick" ,
-          initials "R.K." } ,
+      $contact ,
       affil
         std {
           affil "Washington University School of Medicine" ,
@@ -107,8 +110,7 @@ Submit-block ::= {
     authors {
       names
         std {
-            $authors
-            } ,
+          $authors } ,
       affil
         std {
           affil "Washington University School of Medicine" ,
@@ -212,29 +214,28 @@ sub write_file {
     return 1;
 }
 
-sub submission_authors {
-    my $self = shift;
+sub format_names {
+    my ($self, $string) = @_;
+    $self->fatal_message('No names string given to format!') if not $string;
 
-    my $authors_string = $self->submission->info_for('authors');
-    $self->fatal_message('No submission authors!') if not $authors_string;
-
-    my @submission_authors;
-    foreach my $author ( split(/,/, $authors_string) ) {
-        my @name_parts = split /[ \.]/, $author;
+    my @formatted_names;
+    foreach my $name ( split(/,/, $string) ) {
+        my @name_parts = split /[ \.]/, $name;
 
         my $first = shift @name_parts;
         my $last  = pop @name_parts;
         my @initials = map {"$_."} map {uc $_} map {m/^(.)/} ($first, @name_parts);
 
-        push @submission_authors, sprintf(
-            '{ name name { last "%s" , first "%s" , initials "%s" } } ,',
+
+        push @formatted_names, sprintf(
+            'name name { last "%s" , first "%s" , initials "%s" }',
             $last,
             $first,
             join('', @initials),
         );
     }
 
-    join("\n", @submission_authors);
+    @formatted_names;
 }
 
 sub run_tbl2asn {
