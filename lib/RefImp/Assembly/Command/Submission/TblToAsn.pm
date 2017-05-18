@@ -151,8 +151,8 @@ sub structured_comments {
     my $submission = $self->submission;
     my $comment = join("\t", 'StructuredCommentPrefix', '##Genome-Assembly-Data-START##')."\n";
     $comment .= join("\t", 'Assembly Method', $submission->info_for('assembly_method'))."\n";
-    my $polishing_method = $submission->info_for('polishing_method');
     $comment .= join("\t", 'Genome Coverage', $submission->info_for('coverage'))."\n";
+    my $polishing_method = $submission->info_for('polishing_method');
     $comment .= join("\t", 'Polishing Method', $polishing_method)."\n" if $polishing_method;
     $comment .= join("\t", 'Sequencing Technology', $submission->info_for('sequencing_technology'))."\n";
 
