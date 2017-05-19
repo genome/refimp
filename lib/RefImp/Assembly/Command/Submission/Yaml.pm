@@ -10,124 +10,122 @@ class RefImp::Assembly::Command::Submission::Yaml {
     doc => 'print submission yaml to fill out',
 };
 
+my %submission_info = (
+    assembly_method => {
+        required => 1,
+        doc => 'The assembler used to create the assembly.',
+        example => 'Falcon January 2017',
+    },
+    assembly_name => {
+        required => 0,
+        doc => 'The brief/short assembly name. This is a short name suitable for display that does not include the organism name.',
+        example => 'NA19240_Illumina_1.0',
+    },
+    authors => {
+        required => 1,
+        doc => 'Comma separated list of names. Include first name, middle intials [optional, must have periods], and last name.',
+        example => 'Barack H. Obama,Joe Biden',
+    },
+    agp_file => {
+        required => 0,
+        doc => 'The file name (without directory) of the AGP file. Include only as supplement to a contigs file. Do NOT include with supercontigs.',
+    },
+    bioproject => {
+        required => 1,
+        doc => 'NCBI issued project.',
+        example => 'PRJNA376014',
+    },
+    biosample => {
+        required => 1,
+        doc => 'The NCBI issues biosample.',
+        example => 'SAMN06349363',
+    },
+    contact => {
+        required => 1, 
+        value => 'Richard K. Wilson',
+        doc => 'The contact person',
+        example => 'Richard K. Wilson',
+    },
+    contigs_file => {
+        required => 0,
+        doc => 'The file name (without directory) of the contigs fasta file. OPtionally include an AGP file. Do NOT include a supercontigs file.',
+    },
+    coverage => {
+        required => 1,
+        doc => 'The approximate coverage of the genome. Expressed with an "X".',
+        example => '87X',
+    },
+    long_assembly_name => {
+        required => 0,
+        doc => ' he long/descriptive  assembly name.',
+        example => 'NA19240 Illumina assembly version 1',
+    },
+    polishing_method => {
+        required => 0,
+        doc => 'The assembly improvement methods, separated by a semicolon.',
+        example => 'Quiver; Pilon',
+    },
+    release_date => {
+        required => 1,
+        value => 'immediately after processing',
+        doc => "There are 2 NCBI standard, or set your own.",
+        example => join(" or ", RefImp::Assembly::Submission->valid_release_dates),
+    },
+    release_notes_file => {
+        required => 1,
+        doc => 'File name (without directory) containing unstuctured comments.',
+    },
+    sequencing_technology => {
+        required => 1,
+        doc => 'The read type. Sequencing machine and chemistry.',
+        example => 'PacBio_RSII',
+    },
+    supercontigs_file => {
+        required => 1,
+        doc => 'The file name (without directory) of the supercontigs fasta file. Include as th fasta file for submission. Do NOT include contigs or AGP files.',
+    },
+    taxon => {
+        required => 1,
+        doc => "The NCBI taxon species name. It must exist in our DB. Create with 'ref-imp taxon create'.",
+        example => 'Crassostrea virginica'
+    },
+    version => {
+        required => 1,
+        doc => 'The version of the assembly. This will be combined with the taxon to make the NCBI version.',
+        example => '2.0',
+    },
+);
+
+sub submission_info_hash { my %h = map { my $v = $submission_info{$_}->{value} // ''; ($_, $v) } submission_info_keys(); %h }
+sub submission_info_keys { sort keys %submission_info }
+sub submission_info_optional_keys { grep { !$submission_info{$_}->{required} } submission_info_keys() }
+
 sub help_detail {
-    my $valid_release_dates = join("\n\n", ,map { "  $_" } RefImp::Assembly::Submission->valid_release_dates);
-<<HELP;
+    my $help = <<HELP;
 Save this YAML to a file named 'submission.myl' in the submission directory. It will be the input into the assembly submit commmand.
 
 Fill in or remove unneeded fields. All fields that remain in the YAML must be defined.
 
 Files should not include the directory. The submission directory is automatically prepended to the file names.
 
-Here are notes on some of the required fields:
-
-Assembly Method [required]
-
-  The assembler used to create the assembly.
-  Example
-    Falcon January 2017
-
-Assembly Name
-
-  The brief/short assembly name.
-  Example:
-    NA19240_Illumina_1.0
-
-Authors [required]
-
-  Comma separated list of names. Include first name, middle intials [optional, must have periods], and last name.
-  Example:
-    Barack H. Obama,Joe Biden
-
-Bioproject [required]
-
-  NCBI issue project.
-  Example
-    PRJNA376014
-
-Biosample [required]
-
-  NCBI issused sample.
-  Example
-    SAMN06349363
-
-Contact [required]
-
-  Name of contact here at the MGI. Default is RW.
-  Example
-    Richard K. Wilson
-
-Coverage [required]
-
-  The approximate coverage of the genome. Expressed with an 'X'.
-  Example
-    87X
-
-Long Assembly Name
-
-  The long assembly name.
-  Example:
-    NA19240 Illumina assembly version 1
-
-Polishing Method [optional]
-
-  The assembly improvement methods, separated by a semicolon.
-  Example
-    Quiver; Pilon
-
-Release Date  [required]
-
-  There are 2 NCBI standard, or set your own. Valid values/formats:
-
-$valid_release_dates
-
-Sequencing Files
-
-  As fasta format file of sequences is required. Include a contigs_file OR supercontigs_file in fasta format. An optional agp_file for the contigs_file can be included. Do not include both contigs_file and superconting_file. Also, do not include an agp_file with supercontigs_file.
-
-Sequencing Technology [required]
-
-  The read type. Sequencing machine and chemistry.
-  Example
-    PacBio_RSII
-
-Taxon [required]
-
-  The NCBI taxon species name. It must exist in our DB. Create with 'ref-imp taxon create'.
-  Example:
-    Crassostrea virginica
-
-Version [required]
-
-  The version of the assembly. This will be combined with the taxon to make the NCBI version.
-  Example:
-    Crassostrea_virginica_2.0
+Submission Info Field Docs
 
 HELP
+    for my $key ( submission_info_keys() ) {
+        $help .= sprintf(
+            "%s [%s]\n\n  %s%s\n\n",
+            # Name
+            join(' ', map { ucfirst } split(/_/, $key)),
+            # Required?
+            ( $submission_info{$key}->{required} ? 'required' : 'optional' ),
+            # Doc
+            $submission_info{$key}->{doc},
+            # Example
+            ( $submission_info{$key}->{example} ? sprintf(" Example: %s\n", $submission_info{$key}->{example}) : '' ),
+        );
+    }
+    $help;
 }
-
-my %submission_info = (
-    assembly_method => '',
-    assembly_name => '',
-    authors => '',
-    agp_file => '',
-    bioproject => '',
-    biosample => '',
-    contact => 'Richard K. Wilson',
-    contigs_file => '',
-    coverage => '',
-    long_assembly_name => '',
-    polishing_method => '',
-    release_date => 'immediately after processing',
-    release_notes_file => '',
-    sequencing_technology => '',
-    supercontigs_file => '',
-    taxon => '',
-    version => '',
-);
-sub submission_info_hash { %submission_info }
-sub submission_info_keys { sort keys %submission_info }
-sub submission_info_optional_keys { ( 'polishing_method' ) }
 
 sub execute {
     my $self = shift;
