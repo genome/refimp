@@ -13,7 +13,8 @@ class RefImp::Assembly::Command::Submit {
     has_input => {
         submission_yml => {
             is => 'Text',
-            doc => 'YAML file with submission info. It must be in the assembly submission directory. Use the "submission-yaml" command for a template.',
+            shell_args_position => 1,
+            doc => 'YAML file with submission info. It must be in the assembly submission directory. Use the "refimp assembly submission yaml" command for a template or help (--h).',
         },
     },
     has_optional_transient => {
@@ -146,7 +147,7 @@ sub _send_mail {
     $self->status_message("To: %s", join(',', @to));
 
     my $submission = $self->submission;
-    my $project_title = $submission->esummary->query_dom('Title');
+    my $project_title = $submission->project_title;
     my $bioproject = $self->submission->bioproject;
     my $species_name = ucfirst $submission->taxon->species_name;
 
@@ -159,7 +160,7 @@ sub _send_mail {
     $self->status_message("Subject: %s", $subject);
 
     my $biosample = $self->submission->biosample;
-    my $strain_name = $submission->taxon->strain_name;
+    my $strain_name = $submission->taxon->strain_name || 'NA';
     my $release_date = $self->submission->info_for('release_date');
     my $tar_file = $self->tar_file->basename;
 
