@@ -63,7 +63,7 @@ subtest 'execute fails' => sub{
 };
 
 subtest 'execute' => sub{
-    plan tests => 5;
+    plan tests => 14;
 
     my $cmd = $setup{pkg}->create(submission_yml => $setup{submission_yml});
 
