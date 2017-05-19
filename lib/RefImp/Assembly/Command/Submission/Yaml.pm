@@ -27,6 +27,12 @@ Assembly Method [required]
   Example
     Falcon January 2017
 
+Assembly Name
+
+  The brief/short assembly name.
+  Example:
+    NA19240_Illumina_1.0
+
 Authors [required]
 
   Comma separated list of names. Include first name, middle intials [optional, must have periods], and last name.
@@ -57,6 +63,11 @@ Coverage [required]
   Example
     87X
 
+Long Assembly Name
+
+  The long assembly name.
+  Example:
+    NA19240 Illumina assembly version 1
 
 Polishing Method [optional]
 
@@ -97,6 +108,7 @@ HELP
 
 my %submission_info = (
     assembly_method => '',
+    assembly_name => '',
     authors => '',
     agp_file => '',
     bioproject => '',
@@ -104,6 +116,7 @@ my %submission_info = (
     contact => 'Richard K. Wilson',
     contigs_file => '',
     coverage => '',
+    long_assembly_name => '',
     polishing_method => '',
     release_date => 'immediately after processing',
     release_notes_file => '',
