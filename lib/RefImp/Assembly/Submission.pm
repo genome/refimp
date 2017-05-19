@@ -13,6 +13,9 @@ class RefImp::Assembly::Submission {
    data_source => RefImp::Config::get('ds_mysql'),
    table_name => 'assemblies_submissions',
    id_generator => '-uuid',
+   id_by => {
+        id => { is => 'Text', column_name => 'submission_id', },
+   },
    has => {
         assembly => { is => 'RefImp::Assembly', id_by => 'assembly_id', doc => 'Assembly being submitted', },
         biosample => { is => 'Text', doc => 'NCBI biosample', },
