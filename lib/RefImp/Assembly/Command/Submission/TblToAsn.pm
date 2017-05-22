@@ -11,8 +11,8 @@ use Path::Class;
 class RefImp::Assembly::Command::Submission::TblToAsn {
     is => 'Command::V2',
     has => {
-        submission => { is => 'RefImp::Assembly::Submission', },
-        output_directory => { is => 'Path::Class::Dir', },
+        submission => { is => 'RefImp::Assembly::Submission', doc => 'Assembly submission object' },
+        output_directory => { is => 'Path::Class::Dir', doc => 'File system location to put output of tabl2asn', },
     },
     has_optional_transient => {
         fasta_files => { is => 'Text', is_many => 1, },

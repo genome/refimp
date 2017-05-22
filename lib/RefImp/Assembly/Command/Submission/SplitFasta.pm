@@ -10,12 +10,12 @@ use File::Basename;
 class RefImp::Assembly::Command::Submission::SplitFasta {
     is => 'Command::V2',
     has_input => {
-        fasta_file => { is => 'Text', },
-        output_fasta_file_pattern => { is => 'Text', },
+        fasta_file => { is => 'Text', doc => 'Fasta file to split', },
+        output_fasta_file_pattern => { is => 'Text', doc => 'Pattern for output fast file names. Must have a "%d" for file number. Example: contigs.%02d.fa', },
     },
     has_optional_input => {
-        max_seq_count => { is => 'Text', },
-        max_file_size => { is => 'Text', },
+        max_seq_count => { is => 'Text', doc => 'Maximum number of sequences to put in a fasta file.', },
+        max_file_size => { is => 'Text', doc => 'Maximum file size of fastas.', },
     },
     has_output => {
         output_fasta_files => { is => 'Text', is_many => 1, },

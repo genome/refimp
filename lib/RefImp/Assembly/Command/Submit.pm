@@ -109,7 +109,7 @@ sub _create_submission_tar {
 
 sub _ftp_to_ncbi {
     my $self = shift;
-    $self->status_message('FTP to NCBI...OK');
+    $self->status_message('FTP to NCBI...');
 
     my $ftp = RefImp::Resources::NcbiFtp->connect;
     $self->status_message('Entering remote directory TEMP');
@@ -122,11 +122,13 @@ sub _ftp_to_ncbi {
     my $tar_file_size = -s $tar_file;
     $self->status_message('TAR size: %s', $tar_file_size);
 
-    if ( not $ftp->put($tar_file) ) {
+    my $tar_file_name = $tar_file->basename;
+    $self->status_message('TAR basename: %s', $tar_file_name);
+
+    if ( not $ftp->put("$tar_file", "$tar_file_name") ) {
         $self->fatal_message('Failed to FTP->put! %s', $ftp->message);
     }
 
-    my $tar_file_name = $tar_file->basename;
     my $ncbi_size = $ftp->size($tar_file_name);
     $self->status_message('NCBI size: %s', $ncbi_size);
     if ( not $ncbi_size ) {
