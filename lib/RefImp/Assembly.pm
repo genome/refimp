@@ -3,8 +3,6 @@ package RefImp::Assembly;
 use strict;
 use warnings;
 
-use Path::Class;
-
 class RefImp::Assembly {
     table_name => 'assemblies',
     id_generator => '-uuid',
@@ -20,7 +18,7 @@ class RefImp::Assembly {
         },
     },
     has_optional => {
-        directory => { is => 'Path::Class::Dir', doc => 'File system location.', },
+        directory => { is => 'Text', doc => 'File system location.', },
     },
     data_source => RefImp::Config::get('ds_mysql'),
 };

@@ -71,9 +71,9 @@ sub create_from_yml {
      my $id = UR::Object::Type->autogenerate_new_object_id_uuid;
      my $assembly = RefImp::Assembly->create( # for now, just create a new assembly for each submission
          id => $id,
-         name => $id, # gott be unique
+         name => $id, # gotta be unique
          taxon => $taxon, # only thing we really know
-         directory => $directory, # submission dir, assembly is somewhere nearby
+         directory => "$directory", # submission dir, assembly is somewhere nearby
      );
 
      my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
