@@ -109,7 +109,7 @@ sub _create_submission_tar {
 
 sub _ftp_to_ncbi {
     my $self = shift;
-    $self->status_message('FTP to NCBI...OK');
+    $self->status_message('FTP to NCBI...');
 
     my $ftp = RefImp::Resources::NcbiFtp->connect;
     $self->status_message('Entering remote directory TEMP');
