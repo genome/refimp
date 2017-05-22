@@ -27,7 +27,7 @@ class RefImp::Assembly::Submission {
    has_optional => {
         bioproject_uid => { is => 'Text', via => 'esummary', to => 'bioproject_uid', },
         biosample_uid => { is => 'Text', via => 'esummary', to => 'biosample_uid', },
-        directory => { is => 'Path::Class::Dir', doc => 'Submission directory', },
+        directory => { is => 'Text', doc => 'Submission directory', },
         project_title => { is => 'Text', via => 'esummary', to => 'project_title', },
         submission_yml => { is => 'Text', doc => 'YAML with submission information', },
    },
@@ -78,7 +78,7 @@ sub create_from_yml {
 
      my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
      $params{assembly} = $assembly,
-     $params{directory} = $directory;
+     $params{directory} = "$directory";
      $params{submission_info} = $info;
      $params{submission_yml} = YAML::Dump($info);
 
@@ -99,7 +99,7 @@ sub path_for {
     $self->fatal_message('Submission directory does not exist!') if not -d $self->directory;
 
     my $file_name = $self->info_for($key);
-    return if not $file_name; # FIXME test!
+    return if not $file_name;
 
     my $file = File::Spec->join($self->directory, $file_name);
     $self->fatal_message('File %s is defined in submission info, but does not exist! %s', $key, $file) if not -s $file;
