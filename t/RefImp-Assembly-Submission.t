@@ -189,13 +189,13 @@ subtest 'validate_for_submit' => sub{
 
 };
 
-subtest 'esummary' => sub{
+subtest 'ncbi_biosample' => sub{
     plan tests => 3;
 
     my $submission = $setup{submission};
-    ok($submission->esummary, 'get esummary');
-    is($submission->bioproject_uid, '376014', 'bioproject_uid fom esummary');
-    is($submission->biosample_uid, '6349363', 'biosample_uid fom esummary');
+    ok($submission->ncbi_biosample, 'get ncbi_biosample');
+    is($submission->bioproject_uid, '376014', 'bioproject_uid fom ncbi_biosample');
+    is($submission->biosample_uid, '6349363', 'biosample_uid fom ncbi_biosample');
 
 };
 
