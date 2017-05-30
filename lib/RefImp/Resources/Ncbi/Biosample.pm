@@ -1,4 +1,4 @@
-package RefImp::Resources::Ncbi::EsummaryBiosample;
+package RefImp::Resources::Ncbi::Biosample;
 
 use strict;
 use warnings 'FATAL';
@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use LWP::UserAgent;
 use XML::LibXML;
 
-class RefImp::Resources::Ncbi::EsummaryBiosample {
+class RefImp::Resources::Ncbi::Biosample {
     has => {
         biosample => { is => 'Text', },
     },

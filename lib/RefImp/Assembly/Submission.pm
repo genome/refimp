@@ -43,7 +43,7 @@ class RefImp::Assembly::Submission {
    },
    has_optional_transient => {
         submission_info => { is => 'HASH', },
-        esummary => { is => 'RefImp::Resources::Ncbi::EsummaryBiosample', },
+        esummary => { is => 'RefImp::Resources::Ncbi::Biosample', },
    },
    doc => 'Assembly submission record',
 };
@@ -126,7 +126,7 @@ sub validate_for_submit {
     $self->fatal_message('Invalid assembly_method "%s", a "v." is required between the assembler and the date run/version.', $assembly_method) if $assembly_method !~ / v\. /;
 
 
-    my $esummary = RefImp::Resources::Ncbi::EsummaryBiosample->create(biosample => $self->biosample);
+    my $esummary = RefImp::Resources::Ncbi::Biosample->create(biosample => $self->biosample);
     $self->fatal_message('Bioproject given does not match that found linked to biosample! %s <=> %s', $self->bioproject, $esummary->bioproject) if $self->bioproject ne $esummary->bioproject;
     $self->esummary($esummary);
 
