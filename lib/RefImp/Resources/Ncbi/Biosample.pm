@@ -21,7 +21,7 @@ class RefImp::Resources::Ncbi::Biosample {
         bioproject => { is => 'Text', },
         bioproject_uid => { is => 'Text', },
         project_title => { is => 'Text', },
-        xml_content => { is => 'Text', },
+        esummary_xml_content => { is => 'Text', },
     },
     doc => 'NCBI E-Utils Biosample Helper',
 };
@@ -46,7 +46,7 @@ sub __init__ {
     my $self = shift;
 
     $self->fatal_message('No biosample given!') if not $self->biosample;
-    $self->load_xml_dom;
+    $self->load_esummary_xml;
     $self;
 }
 
@@ -63,13 +63,16 @@ sub fetch_xml_content {
         $self->fatal_message('Failed to GET %s', $url);
     }
 
-    $self->xml_content( $response->decoded_content );
+    $response->decoded_content;
 }
 
-sub load_xml_dom {
+sub load_esummary_xml {
     my $self = shift;
 
-    my $dom  = XML::LibXML->load_xml(string => $self->fetch_xml_content);
+    my $content = $self->fetch_xml_content;
+    $self->esummary_xml_content($content);
+
+    my $dom  = XML::LibXML->load_xml(string => $content);
     my $error = $dom->findvalue('//error');
     $self->fatal_message("NCBI XML DOM error: $error") if $error;
 
