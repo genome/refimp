@@ -63,7 +63,7 @@ subtest 'create' => sub{
     ok($esummary, 'create biosample esummary');
 
     my $expected_url = sprintf('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?dbfrom=bioproject&db=biosample&id=%s', $setup{biosample_uid});
-    is($esummary->eutils_biosample_url, $expected_url, 'correct url');
+    is($esummary->esummary_url, $expected_url, 'correct url');
 
     is($esummary->biosample, 'SAMN06349363', 'biosample');
     is($esummary->biosample_uid, $setup{biosample_uid}, 'biosample_uid');

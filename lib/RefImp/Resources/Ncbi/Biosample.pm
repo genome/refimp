@@ -26,7 +26,7 @@ class RefImp::Resources::Ncbi::Biosample {
     doc => 'NCBI E-Utils Biosample Helper',
 };
 
-sub eutils_biosample_url {
+sub esummary_url {
     sprintf(
         'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?dbfrom=bioproject&db=biosample&id=%s',
         $_[0]->biosample_uid,
@@ -50,21 +50,26 @@ sub __init__ {
     $self;
 }
 
-sub load_xml_dom {
+sub fetch_xml_content {
     my $self = shift;
 
     my $ua = LWP::UserAgent->new;
     $ua->timeout(10);
     $ua->env_proxy;
 
-    my $url = $self->eutils_biosample_url;
+    my $url = $self->esummary_url;
     my $response = $ua->get($url);
     if ( not $response->is_success ) {
         $self->fatal_message('Failed to GET %s', $url);
     }
 
     $self->xml_content( $response->decoded_content );
-    my $dom  = XML::LibXML->load_xml(string => $self->xml_content);
+}
+
+sub load_xml_dom {
+    my $self = shift;
+
+    my $dom  = XML::LibXML->load_xml(string => $self->fetch_xml_content);
     my $error = $dom->findvalue('//error');
     $self->fatal_message("NCBI XML DOM error: $error") if $error;
 
