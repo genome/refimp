@@ -9,8 +9,14 @@ use XML::LibXML;
 class RefImp::Resources::Ncbi::Biosample {
     has => {
         biosample => { is => 'Text', },
+        bioproject => { is => 'Text', },
     },
     has_calculated => {
+        bioproject_uid => {
+            is => 'Text',
+            calculate_from =>[qw/ bioproject /],
+            calculate => q| $bioproject =~ s/\D//g; $bioproject =~ s/^0+//; $bioproject; |,
+        },
         biosample_uid => {
             is => 'Text',
             calculate_from =>[qw/ biosample /],
@@ -18,11 +24,10 @@ class RefImp::Resources::Ncbi::Biosample {
         },
     },
     has_optional_transient => {
-        bioproject => { is => 'Text', },
-        bioproject_uid => { is => 'Text', },
         project_title => { is => 'Text', },
-        esummary_xml_content => { is => 'Text', },
-        ua => { is => 'LWP::UserAgent', },
+        esummary_xml => { is => 'Text', },
+        elink_xml => { is => 'Text', },
+        ua => { },
     },
     doc => 'NCBI E-Utils Biosample Helper',
 };
@@ -34,11 +39,21 @@ sub esummary_url {
     );
 }
 
+sub elink_url {
+    sprintf(
+        'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=bioproject&db=biosample&id=%s',
+        $_[0]->bioproject_uid,
+    );
+}
+
 sub create {
     my $class = shift;
     
     my $self = $class->SUPER::create(@_);
     return if not $self;
+
+    $self->fatal_message('No bioproject given!') if not $self->bioproject;
+    $self->fatal_message('No biosample given!') if not $self->biosample;
 
     $self->__init__;
 }
@@ -51,50 +66,52 @@ sub __init__ {
     $ua->env_proxy;
     $self->ua($ua);
 
-    $self->fatal_message('No biosample given!') if not $self->biosample;
     $self->load_esummary_xml;
+    $self->load_elink_xml;
     $self;
 }
 
-sub fetch_xml_content {
-    my ($self, $url) = @_;
+sub fetch_xml_dom {
+    my ($self, $type) = @_;
 
-    $self->fatal_message('No URL given to fetch content!') if not $url;
+    $self->fatal_message('No URL type given to fetch XML DOM!') if not $type;
 
+    my $url_method = join('_', $type, 'url');
+    my $url = $self->$url_method;
     my $response = $self->ua->get($url);
     if ( not $response->is_success ) {
         $self->fatal_message('Failed to GET %s', $url);
     }
 
-    $response->decoded_content;
+    my $content = $response->decoded_content;
+    my $dom = XML::LibXML->load_xml(string => $content);
+    my $error = $dom->findvalue('//error');
+    $self->fatal_message("NCBI %s XML DOM error: %s", $type, $error) if $error;
+
+    my $content_method = join('_', $type, 'xml');
+    $self->$content_method($content);
+
+    $dom
 }
 
 sub load_esummary_xml {
     my $self = shift;
 
-    my $url = $self->esummary_url;
-    my $content = $self->fetch_xml_content($url);
-    $self->esummary_xml_content($content);
-
-    my $dom  = XML::LibXML->load_xml(string => $content);
-    my $error = $dom->findvalue('//error');
-    $self->fatal_message("NCBI XML DOM error: $error") if $error;
-
+    my $dom = $self->fetch_xml_dom('esummary');
     my $title = $dom->findvalue("//Title");
     $self->fatal_message("No project title in esummary biosample XML!\n%s", $self->xml_content) if not $title;
     $self->project_title($title);
-
-    my $sample_data = $dom->findvalue("//SampleData");
-    $self->fatal_message('No sample data xml') if not $sample_data;
-
-    my $biosample_dom = XML::LibXML->load_xml(string => $sample_data);
-    my $error = $biosample_dom->findvalue('//error');
-    $self->fatal_message("Biosample XML DOM error: $error") if $error;
-
-    my $bioproject = $biosample_dom->findvalue('/BioSample/Links/Link/@label');
-    $self->bioproject($bioproject);
-    my $bioproject_uid = $biosample_dom->findvalue('/BioSample/Links/Link');
-    $self->bioproject_uid($bioproject_uid);
 }
+
+sub load_elink_xml {
+    my $self = shift;
+
+    my $dom = $self->fetch_xml_dom('elink');
+    my $biosample_uid = $self->biosample_uid;
+    my @links = $dom->findnodes('/eLinkResult/LinkSet/LinkSetDb/Link/Id');
+    $self->fatal_message("No bioproject/biosample links found in elink xml!\n%s", $self->elink_xml) if not @links;
+    my ($bioproject_link) = grep { $_->textContent eq $biosample_uid } @links;
+    $self->fatal_message('Could not find bioproject/biosample %s/%s link!', $self->bioproject, $self->biosample) if not $bioproject_link;
+};
 
 1;
