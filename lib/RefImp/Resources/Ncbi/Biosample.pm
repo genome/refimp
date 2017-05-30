@@ -51,13 +51,14 @@ sub __init__ {
 }
 
 sub fetch_xml_content {
-    my $self = shift;
+    my ($self, $url) = @_;
+
+    $self->fatal_message('No URL given to fetch content!') if not $url;
 
     my $ua = LWP::UserAgent->new;
     $ua->timeout(10);
     $ua->env_proxy;
 
-    my $url = $self->esummary_url;
     my $response = $ua->get($url);
     if ( not $response->is_success ) {
         $self->fatal_message('Failed to GET %s', $url);
@@ -69,7 +70,8 @@ sub fetch_xml_content {
 sub load_esummary_xml {
     my $self = shift;
 
-    my $content = $self->fetch_xml_content;
+    my $url = $self->esummary_url;
+    my $content = $self->fetch_xml_content($url);
     $self->esummary_xml_content($content);
 
     my $dom  = XML::LibXML->load_xml(string => $content);
