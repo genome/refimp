@@ -39,9 +39,14 @@ sub create {
     my $self = $class->SUPER::create(@_);
     return if not $self;
 
+    $self->__init__;
+}
+
+sub __init__ {
+    my $self = shift;
+
     $self->fatal_message('No biosample given!') if not $self->biosample;
     $self->load_xml_dom;
-
     $self;
 }
 
