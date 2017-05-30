@@ -28,7 +28,6 @@ class RefImp::Assembly::Submission {
         bioproject_uid => { is => 'Text', via => 'ncbi_biosample', to => 'bioproject_uid', },
         biosample_uid => { is => 'Text', via => 'ncbi_biosample', to => 'biosample_uid', },
         directory => { is => 'Text', doc => 'Submission directory', },
-        project_title => { is => 'Text', via => 'ncbi_biosample', to => 'project_title', },
         submission_yml => { is => 'Text', doc => 'YAML with submission information', },
    },
    has_optional_calculated => {

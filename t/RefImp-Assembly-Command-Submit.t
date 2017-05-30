@@ -47,7 +47,7 @@ subtest 'setup' => sub{
 
     $msg->mock('attach', sub{
             my ($class, %p) = @_;
-            like($p{Data}, qr/The McDonnell Genome Institute has submitted a new assembly to GenBank/, 'email msg attached');
+            like($p{Data}, qr/The McDonnell Genome Institute has submitted a new assembly\nfrom the BioSample SAMN06349363 of BioProject PRJNA376014 to GenBank/, 'email msg attached');
             ok($p{Type}, 'Data defined');
         }
     );

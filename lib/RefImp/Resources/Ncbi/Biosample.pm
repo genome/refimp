@@ -24,15 +24,13 @@ class RefImp::Resources::Ncbi::Biosample {
         },
     },
     has_optional_transient => {
-        project_title => { is => 'Text', },
-        esummary_xml => { is => 'Text', },
         elink_xml => { is => 'Text', },
         ua => { },
     },
     doc => 'NCBI E-Utils Biosample Helper',
 };
 
-sub esummary_url {
+sub esummary_url { # currently unused, keeping for notes
     sprintf(
         'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?dbfrom=bioproject&db=biosample&id=%s',
         $_[0]->biosample_uid,
@@ -66,7 +64,6 @@ sub __init__ {
     $ua->env_proxy;
     $self->ua($ua);
 
-    $self->load_esummary_xml;
     $self->load_elink_xml;
     $self;
 }
@@ -92,15 +89,6 @@ sub fetch_xml_dom {
     $self->$content_method($content);
 
     $dom
-}
-
-sub load_esummary_xml {
-    my $self = shift;
-
-    my $dom = $self->fetch_xml_dom('esummary');
-    my $title = $dom->findvalue("//Title");
-    $self->fatal_message("No project title in esummary biosample XML!\n%s", $self->xml_content) if not $title;
-    $self->project_title($title);
 }
 
 sub load_elink_xml {

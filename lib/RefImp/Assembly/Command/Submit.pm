@@ -149,15 +149,15 @@ sub _send_mail {
     $self->status_message("To: %s", join(',', @to));
 
     my $submission = $self->submission;
-    my $project_title = $submission->project_title;
     my $bioproject = $self->submission->bioproject;
+    my $biosample = $self->submission->biosample;
     my $species_name = ucfirst $submission->taxon->species_name;
 
     my $subject = sprintf(
-        "New '%s' - '%s' [BioProject: %s] Assembly Submission",
+        "New '%s' [%s %s] Assembly Submission",
         $species_name,
-        $project_title,
         $bioproject,
+        $biosample,
     );
     $self->status_message("Subject: %s", $subject);
 
@@ -169,16 +169,14 @@ sub _send_mail {
     my $msg = <<MSG;
 Greetings!
 
-The McDonnell Genome Institute has submitted a new assembly to GenBank.
+The McDonnell Genome Institute has submitted a new assembly
+from the BioSample $biosample of BioProject $bioproject to GenBank.
 
   Organism Name: $species_name
   Strain: $strain_name
   Release Date: $release_date
 
-This assembly is being submitted as part of the '$project_title' project
-with BioProject ID: [$bioproject] and BioSample [$biosample].
-        
-Please find [$tar_file] on ftp-private.ncbi.nlm.nih.gov
+Please find $tar_file on ftp-private.ncbi.nlm.nih.gov
 
 Sincerely,
 MGI Submissions <gen_improv\@gowustl.onmicrosoft.com>
