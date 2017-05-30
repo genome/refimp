@@ -22,6 +22,7 @@ class RefImp::Resources::Ncbi::Biosample {
         bioproject_uid => { is => 'Text', },
         project_title => { is => 'Text', },
         esummary_xml_content => { is => 'Text', },
+        ua => { is => 'LWP::UserAgent', },
     },
     doc => 'NCBI E-Utils Biosample Helper',
 };
@@ -45,6 +46,11 @@ sub create {
 sub __init__ {
     my $self = shift;
 
+    my $ua = LWP::UserAgent->new;
+    $ua->timeout(10);
+    $ua->env_proxy;
+    $self->ua($ua);
+
     $self->fatal_message('No biosample given!') if not $self->biosample;
     $self->load_esummary_xml;
     $self;
@@ -55,11 +61,7 @@ sub fetch_xml_content {
 
     $self->fatal_message('No URL given to fetch content!') if not $url;
 
-    my $ua = LWP::UserAgent->new;
-    $ua->timeout(10);
-    $ua->env_proxy;
-
-    my $response = $ua->get($url);
+    my $response = $self->ua->get($url);
     if ( not $response->is_success ) {
         $self->fatal_message('Failed to GET %s', $url);
     }
