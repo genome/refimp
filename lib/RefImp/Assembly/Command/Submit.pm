@@ -72,7 +72,7 @@ sub _create_sqn_files {
     $self->status_message('Create SQN files with TBL2ASN...');
 
     my $tbl2asn = RefImp::Assembly::Command::Submission::TblToAsn->execute(
-        submission => $self->submission,
+        submission_yml => $self->submission_yml,
         output_directory => $self->tempdir->stringify,
     );
     $self->fatal_message("Failed to run TBL to ASN!") if not $tbl2asn->result;

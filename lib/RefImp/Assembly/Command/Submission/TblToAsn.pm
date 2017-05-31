@@ -11,13 +11,14 @@ use Path::Class 'dir';
 class RefImp::Assembly::Command::Submission::TblToAsn {
     is => 'Command::V2',
     has => {
-        submission => { is => 'RefImp::Assembly::Submission', doc => 'Assembly submission object' },
+        submission_yml => { is => 'Text', doc => 'Assembly submission object' },
         output_directory => { is => 'Text', doc => 'File system location to put output of tabl2asn', },
     },
     has_optional_transient => {
-        _output_directory => { is => 'Path::Class::Dir', },
         fasta_files => { is => 'Text', is_many => 1, },
+        _output_directory => { is => 'Path::Class::Dir', },
         sqn_files => { is => 'Text', is_many => 1, },
+        submission => { is => 'RefImp::Assembly::Submission', },
     },
     has_optional_calculated => {
         comment_file => { calculate_from => [qw/ _output_directory /], calculate => q| $_output_directory->file('COMMENT'); |, },
@@ -34,6 +35,7 @@ sub execute {
     my $self = shift;
 
     $self->status_message('TBL TO ASN...');
+    $self->submission( RefImp::Assembly::Submission->define_from_yml($self->submission_yml) );
     $self->status_message('Submission: %s', $self->submission->__display_name__);
     $self->_output_directory( dir( $self->output_directory) );
     $self->status_message('Output directory: %s', $self->_output_directory);
