@@ -10,7 +10,7 @@ use File::Spec;
 use File::Temp 'tempdir';
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 my %setup;
 subtest 'setup' => sub{
@@ -94,6 +94,15 @@ subtest 'create_from_yml' => sub{
     $setup{submission} = $submission;
 
     ok(UR::Context->commit, 'commit');
+
+};
+
+subtest 'define_from_yml' => sub{
+    plan tests => 1;
+
+    my $submission = $setup{pkg}->define_from_yml($setup{submission_yml});
+    print Data::Dumper::Dumper($submission);
+    ok($submission, '__define__ from yml ');
 
 };
 
