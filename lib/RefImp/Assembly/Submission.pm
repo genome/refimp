@@ -54,34 +54,46 @@ sub valid_release_dates { ( 'immediately after processing', 'hold until publicat
 sub valid_release_date_regexps { map { qr/^$_$/ } valid_release_dates() }
 
 sub create_from_yml {
-    my ($class, $yml) = @_;
+    my $class = shift;
+    $class->_from_yml(@_);
+}
 
-     $class->fatal_message('No submission YAML given!') if not $yml;
-     $class->fatal_message('Submission YAML does not exist! %s', $yml) if not -s $yml;
-     $yml = Path::Class::file($yml);
-     my $info = YAML::LoadFile($yml);
-     $class->fatal_message('Failed to open submission YAML!') if not $info;
+sub define_from_yml {
+    my $class = shift;
+    $class->_from_yml(@_, '__define__');
+}
 
-     $class->fatal_message('No taxon in submission YAML! %s', $yml) if not $info->{taxon};
-     my $taxon = RefImp::Taxon->get(species_name => lc $info->{taxon});
-     $class->fatal_message('Taxon not found for "%s"!', $info->{taxon}) if not $taxon;
+sub _from_yml {
+    my ($class, $yml, $instantiation_method) = @_;
 
-     my $directory = $yml->dir->absolute;
-     my $id = UR::Object::Type->autogenerate_new_object_id_uuid;
-     my $assembly = RefImp::Assembly->create( # for now, just create a new assembly for each submission
-         id => $id,
-         name => $id, # gotta be unique
-         taxon => $taxon, # only thing we really know
-         directory => "$directory", # submission dir, assembly is somewhere nearby
-     );
+    $instantiation_method //= 'create';
 
-     my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
-     $params{assembly} = $assembly,
-     $params{directory} = "$directory";
-     $params{submission_info} = $info;
-     $params{submission_yml} = YAML::Dump($info);
+    $class->fatal_message('No submission YAML given!') if not $yml;
+    $class->fatal_message('Submission YAML does not exist! %s', $yml) if not -s $yml;
+    $yml = Path::Class::file($yml);
+    my $info = YAML::LoadFile($yml);
+    $class->fatal_message('Failed to open submission YAML!') if not $info;
 
-     $class->create(%params);
+    $class->fatal_message('No taxon in submission YAML! %s', $yml) if not $info->{taxon};
+    my $taxon = RefImp::Taxon->get(species_name => lc $info->{taxon});
+    $class->fatal_message('Taxon not found for "%s"!', $info->{taxon}) if not $taxon;
+
+    my $directory = $yml->dir->absolute;
+    my $id = UR::Object::Type->autogenerate_new_object_id_uuid;
+    my $assembly = RefImp::Assembly->$instantiation_method( # for now, just create a new assembly for each submission
+        id => $id,
+        name => $id, # gotta be unique
+        taxon => $taxon, # only thing we really know
+        directory => "$directory", # submission dir, assembly is somewhere nearby
+    );
+
+    my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
+    $params{assembly} = $assembly,
+    $params{directory} = "$directory";
+    $params{submission_info} = $info;
+    $params{submission_yml} = YAML::Dump($info);
+
+    $class->$instantiation_method(%params);
 }
 
 sub info_for {
