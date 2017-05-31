@@ -6,7 +6,6 @@ use warnings 'FATAL';
 use TestEnv;
 
 use File::Temp;
-use Path::Class 'dir';
 use Test::More tests => 3;
 
 my $pkg = 'RefImp::Assembly::Command::Submission::TblToAsn';
@@ -20,7 +19,7 @@ subtest 'setup' => sub {
     my $submission = RefImp::Assembly::Submission->create_from_yml($submission_yml);
     ok($submission, 'created submission from yml');
 
-    my $tempdir = dir( File::Temp::tempdir(CLEANUP => 1) );
+    my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     $cmd = $pkg->create(
         submission => $submission,
         output_directory => $tempdir,

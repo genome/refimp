@@ -6,24 +6,24 @@ use warnings 'FATAL';
 use File::Spec;
 use File::Temp;
 use IO::File;
-use Path::Class;
+use Path::Class 'dir';
 
 class RefImp::Assembly::Command::Submission::TblToAsn {
     is => 'Command::V2',
     has => {
         submission => { is => 'RefImp::Assembly::Submission', doc => 'Assembly submission object' },
-        output_directory => { is => 'Path::Class::Dir', doc => 'File system location to put output of tabl2asn', },
+        output_directory => { is => 'Text', doc => 'File system location to put output of tabl2asn', },
     },
     has_optional_transient => {
+        _output_directory => { is => 'Path::Class::Dir', },
         fasta_files => { is => 'Text', is_many => 1, },
         sqn_files => { is => 'Text', is_many => 1, },
-        tempdir => { is => 'Path::Class', },
     },
     has_optional_calculated => {
-        comment_file => { calculate_from => [qw/ output_directory /], calculate => q| $output_directory->file('COMMENT'); |, },
+        comment_file => { calculate_from => [qw/ _output_directory /], calculate => q| $_output_directory->file('COMMENT'); |, },
         discrepancy_report_path => { calculate_from => [qw/ results_path /], calculate => q| $results_path->file('discrepancy_report'); |, },
-        results_path => { calculate_from => [qw/ output_directory /], calculate => q| $output_directory->subdir('RESULTS'); |, },
-        template_file => { calculate_from => [qw/ output_directory /], calculate => q| $output_directory->file('template.sbt'); |, },
+        results_path => { calculate_from => [qw/ _output_directory /], calculate => q| $_output_directory->subdir('RESULTS'); |, },
+        template_file => { calculate_from => [qw/ _output_directory /], calculate => q| $_output_directory->file('template.sbt'); |, },
     },
     doc => 'run tbl2asn on a submission',
 };
@@ -32,8 +32,11 @@ sub help_detail { $_[0]->__meta__->doc }
 
 sub execute {
     my $self = shift;
+
     $self->status_message('TBL TO ASN...');
     $self->status_message('Submission: %s', $self->submission->__display_name__);
+    $self->_output_directory( dir( $self->output_directory) );
+    $self->status_message('Output directory: %s', $self->_output_directory);
 
     $self->write_comment_file;
     $self->write_template_file;
@@ -173,7 +176,7 @@ sub split_fasta_files {
 
         my $splitter = RefImp::Assembly::Command::Submission::SplitFasta->execute(
             fasta_file => $fasta_file,
-            output_fasta_file_pattern => File::Spec->join($self->output_directory, join('.', $type, '%02d', 'fsa')),
+            output_fasta_file_pattern => File::Spec->join($self->_output_directory, join('.', $type, '%02d', 'fsa')),
             max_seq_count => 10_000,
             max_file_size => 1_800_000_000,
         );
@@ -206,7 +209,7 @@ sub write_file {
     my $self = shift;
     my ($file_name, $method_name) = @_;
 
-    my $fh = $self->output_directory->file($file_name)->openw;
+    my $fh = $self->_output_directory->file($file_name)->openw;
     unless ($fh->print( $self->$method_name ) ) {
         $self->fatal_message('problem writing '. $file_name);
     }
@@ -274,13 +277,13 @@ sub tbl2asn_command {
         $tbl2asn,
 
         # Path to Files [String]  Optional
-        '-p', $self->output_directory,
+        '-p', $self->_output_directory->stringify,
 
         # Path for Results [String]  Optional
-        '-r', $self->results_path,
+        '-r', $self->results_path->stringify,
 
         # Template File [File In]  Optional
-        '-t', $self->template_file,
+        '-t', $self->template_file->stringify,
 
         # Read FASTAs as Set [T/F]  Optional
         '-s',
