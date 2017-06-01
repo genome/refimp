@@ -224,7 +224,7 @@ sub format_names {
     $self->fatal_message('No names string given to format!') if not $string;
 
     my @formatted_names;
-    foreach my $name ( split(/,/, $string) ) {
+    foreach my $name ( split(/;\s?/, $string) ) {
         my @name_parts = split /[ \.]/, $name;
 
         my $first = shift @name_parts;
