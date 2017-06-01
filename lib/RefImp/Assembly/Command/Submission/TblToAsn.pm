@@ -124,7 +124,7 @@ Submit-block ::= {
           sub "MO" ,
           country "USA" ,
           street "4444 Forest Park" ,
-          email "mgi-submission@gowustl.onmicrosoft.com" ,
+          email "mgi-submission\@gowustl.onmicrosoft.com" ,
           postal-code "63108" } } },
     subtype new ,
 }
