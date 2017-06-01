@@ -109,7 +109,7 @@ Submit-block ::= {
           sub "MO" ,
           country "USA" ,
           street "4444 Forest Park" ,
-          email "submissions\@genome.wustl.edu" ,
+          email "mgi-submission\@gowustl.onmicrosoft.com" ,
           postal-code "63108" } } } ,
   cit {
     authors {
@@ -124,7 +124,7 @@ Submit-block ::= {
           sub "MO" ,
           country "USA" ,
           street "4444 Forest Park" ,
-          email "submissions\@genome.wustl.edu" ,
+          email "mgi-submission@gowustl.onmicrosoft.com" ,
           postal-code "63108" } } },
     subtype new ,
 }
