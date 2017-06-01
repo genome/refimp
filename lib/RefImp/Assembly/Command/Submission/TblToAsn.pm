@@ -109,7 +109,7 @@ Submit-block ::= {
           sub "MO" ,
           country "USA" ,
           street "4444 Forest Park" ,
-          email "submissions\@genome.wustl.edu" ,
+          email "mgi-submission\@gowustl.onmicrosoft.com" ,
           postal-code "63108" } } } ,
   cit {
     authors {
@@ -124,7 +124,7 @@ Submit-block ::= {
           sub "MO" ,
           country "USA" ,
           street "4444 Forest Park" ,
-          email "submissions\@genome.wustl.edu" ,
+          email "mgi-submission\@gowustl.onmicrosoft.com" ,
           postal-code "63108" } } },
     subtype new ,
 }
@@ -224,7 +224,7 @@ sub format_names {
     $self->fatal_message('No names string given to format!') if not $string;
 
     my @formatted_names;
-    foreach my $name ( split(/,/, $string) ) {
+    foreach my $name ( split(/;\s?/, $string) ) {
         my @name_parts = split /[ \.]/, $name;
 
         my $first = shift @name_parts;

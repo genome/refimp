@@ -10,7 +10,7 @@ use File::Spec;
 use File::Temp 'tempdir';
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 9;
+use Test::More tests => 10;
 
 my %setup;
 subtest 'setup' => sub{
@@ -101,7 +101,6 @@ subtest 'define_from_yml' => sub{
     plan tests => 1;
 
     my $submission = $setup{pkg}->define_from_yml($setup{submission_yml});
-    print Data::Dumper::Dumper($submission);
     ok($submission, '__define__ from yml ');
 
 };
@@ -195,6 +194,25 @@ subtest 'validate_for_submit' => sub{
     $info->{supercontigs_file} = 'supercontigs.fasta';
     lives_ok(sub{ $submission->validate_for_submit; }, 'validate_for_submit w/ supercontigs');
     $info->{contigs_file} = $contigs_file;
+    delete $info->{supercontigs_file};
+
+};
+
+subtest 'validate_for_submit authors and contact' => sub{
+    plan tests => 3;
+
+    my $submission = $setup{submission};
+    my $info = $submission->submission_info();
+
+    my $authors = delete $info->{authors};
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/No authors in submission info/, 'validate_for_submit fails w/o authors');
+    $info->{authors} = $authors;
+
+    my $contact = delete $info->{contact};
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/No contact in submission info/, 'validate_for_submit fails w/o contact');
+    $info->{contact} = join(';', $contact, $contact);
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/More than one contact found in submission info/, 'validate_for_submit fails w/ too many contacts');
+    $info->{contact} = $contact;
 
 };
 

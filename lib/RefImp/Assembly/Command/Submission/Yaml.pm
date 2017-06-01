@@ -23,8 +23,8 @@ my %submission_info = (
     },
     authors => {
         required => 1,
-        doc => 'Comma separated list of names. Include first name, middle intials [optional, must have periods], and last name.',
-        example => 'Barack H. Obama,Joe Biden',
+        doc => 'Semicolon separated list of names. Include first name, middle intials [optional, must have periods], and last name.',
+        example => 'Barack H. Obama; Joe Biden',
     },
     agp_file => {
         required => 0,
