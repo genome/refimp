@@ -18,12 +18,12 @@ sub _after_execute {
     my $self = shift;
 
     my @rows = (
-        [qw/ ID NAME STATUS ACCESSIONS /],
-        [qw/ -- ---- ------ ---------- /],
+        [qw/ NAME STATUS ACCESSIONS /],
+        [qw/ ---- ------ ---------- /],
     );
 
     for my $project ( $self->projects ) {
-        my @row = map { $project->$_ // 'NA' } (qw/ id name status /);
+        my @row = map { $project->$_ // 'NA' } (qw/ name status /);
         my @accessions =  map { $_->accession_id } sort { $a cmp $b } $project->submissions;
         push @row, ( @accessions ? join(' ', @accessions) : 'NA');
         push @rows, \@row;
