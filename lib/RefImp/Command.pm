@@ -13,6 +13,7 @@ my %command_map = (
     assembly => 'RefImp::Assembly::Command',
     project => 'RefImp::Project::Command',
     taxon => 'RefImp::Taxon::Command',
+    tenx => 'RefImp::Tenx::Command',
 );
 
 $RefImp::Command::SUB_COMMAND_MAPPING = \%command_map;
