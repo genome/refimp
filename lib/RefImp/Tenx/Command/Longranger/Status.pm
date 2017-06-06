@@ -80,7 +80,7 @@ sub _journal {
     $self->status_message('Minutes since:    %.1f', $journal_access_min);
     my $journal_status = ( $journal_access_min < 10 ? 'pass' : 'fail' );
     $self->status_message('Journal status    %s', uc $journal_status);
-    $self->journal_status($journal_status);
+    $journal_status;
 }
 
 sub _log {
