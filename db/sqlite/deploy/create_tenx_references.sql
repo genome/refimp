@@ -5,7 +5,7 @@ BEGIN;
 CREATE TABLE IF NOT EXISTS tenx_references (
         id VARCHAR(32),
 	name VARCHAR(64),
-	directory VARCHAR(128),
+	directory VARCHAR(256),
 	taxon_id VARCHAR(32),
 
 	UNIQUE(name),
