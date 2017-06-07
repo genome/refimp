@@ -12,8 +12,9 @@ use Path::Class;
 class RefImp::Tenx::Command::Longranger::Status {
     is => 'Command::V2',
     has_input => {
-        directory => {
-            is => 'Text',
+        alignment => {
+            is => 'RefImp::Tenx::Alignment',
+            doc => 'Longranger alignmetn to check status.',
         },
     },
     has_optional_input => {
@@ -23,7 +24,7 @@ class RefImp::Tenx::Command::Longranger::Status {
         },
     },
     has_calculated_constant_optional => {
-        _directory => { calculate_from => [qw/ directory /], calculate => q| Path::Class::dir($directory) |, },
+        _directory => { calculate_from => [qw/ alignment /], calculate => q| Path::Class::dir($alignment->directory) |, },
     },
     has_constant => {
         datetime_format => { value => '%Y-%m-%d %H:%M:%S', },
@@ -52,7 +53,7 @@ sub execute {
     my $self = shift;
 
     $self->status_message('Longranger Run Status...');
-    $self->status_message('Directory:        %s', $self->directory);
+    $self->status_message('Directory:        %s', $self->_directory);
     $self->status_message('Current time:     %s', time2str($self->datetime_format, $self->now));
     my $status = $self->_resolve_status_from_log;
     return 1 if $status ne 'running';
@@ -78,7 +79,7 @@ sub _resolve_status_from_log {
     }
     elsif ( List::MoreUtils::any { $_ =~ /Pipestance failed/ } @log_tail ) {
         $status = 'failed';
-        my $error_file = dir($self->directory)->parent->file($log_tail[-2]);
+        my $error_file = $self->_directory->parent->file($log_tail[-2]);
         if ( -e "$error_file" ) {
             my $error_content = $error_file->slurp($error_file);
             print "$error_content\n";
@@ -104,7 +105,7 @@ sub _refine_status_from_journal {
     $self->status_message('Journal status:   %s', uc $journal_status);
 
     my $status = 'running';
-    $status = 'stuck' if $journal_status eq 'fail';
+    $status = 'died' if $journal_status eq 'fail';
     $self->status_message('Status:           %s',  uc $status);
     $status;
 }
