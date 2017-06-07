@@ -14,7 +14,8 @@ class RefImp::Tenx::Command::Longranger::Status {
     has_input => {
         alignment => {
             is => 'RefImp::Tenx::Alignment',
-            doc => 'Longranger alignmetn to check status.',
+            shell_args_position => 1,
+            doc => 'Longranger alignment to check status.',
         },
     },
     has_optional_input => {
