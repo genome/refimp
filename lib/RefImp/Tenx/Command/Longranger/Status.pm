@@ -14,7 +14,6 @@ class RefImp::Tenx::Command::Longranger::Status {
     has_input => {
         directory => {
             is => 'Text',
-            #default_value => '/gscmnt/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf',
         },
     },
     has_optional_input => {
@@ -79,7 +78,7 @@ sub _journal {
     my $journal_access_min = (($self->now - $journal_st->mtime) / 60);
     $self->status_message('Minutes since:    %.1f', $journal_access_min);
     my $journal_status = ( $journal_access_min < 10 ? 'pass' : 'fail' );
-    $self->status_message('Journal status    %s', uc $journal_status);
+    $self->status_message('Journal status:   %s', uc $journal_status);
     $journal_status;
 }
 
@@ -100,12 +99,10 @@ sub _log {
     elsif ( List::MoreUtils::any { $_ =~ /Pipestance failed/ } @log_tail ) {
         $status = 'failed';
         my $error_file = dir($self->directory)->parent->file($log_tail[-2]);
-        print "$error_file\n";
         if ( -e "$error_file" ) {
             my $error_content = $error_file->slurp($error_file);
             print "$error_content\n";
         }
-        #H_QD-WAPAT022-V0DHO7_targetde/PHASER_SVCALLER_EXOME_CS/PHASER_SVCALLER_EXOME/_SNPINDEL_PHASER/_SNPINDEL_CALLER/POPULATE_INFO_FIELDS/fork0/chnk0/_errors
     }
 
     $self->status_message('Log accessed:     %s', time2str($self->datetime_format, $log_st->mtime));
