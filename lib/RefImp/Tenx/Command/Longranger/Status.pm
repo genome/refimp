@@ -63,27 +63,16 @@ sub execute {
     $self->status_message('Longranger Run Status...');
     $self->status_message('Directory:        %s', $self->directory);
     $self->status_message('Current time:     %s', time2str($self->datetime_format, $self->now));
-    my $log_status = $self->_log;
-    $self->_journal if $log_status eq 'running';
+    my $status = $self->_resolve_status_from_log;
+    return 1 if $status ne 'running';
+    $self->_refine_status_from_journal;
 
     1;
 }
 
-sub _journal {
+sub _resolve_status_from_log {
     my $self = shift;
-
-    my $journal_path = $self->_directory->subdir('journal');
-    my $journal_st = stat($journal_path) or die "$!";
-    $self->status_message('Journal accessed: %s', time2str($self->datetime_format, $journal_st->mtime));
-    my $journal_access_min = (($self->now - $journal_st->mtime) / 60);
-    $self->status_message('Minutes since:    %.1f', $journal_access_min);
-    my $journal_status = ( $journal_access_min < 10 ? 'pass' : 'fail' );
-    $self->status_message('Journal status:   %s', uc $journal_status);
-    $journal_status;
-}
-
-sub _log {
-    my $self = shift;
+    $self->status_message('Resolving status from log...');
 
     my $log_file = $self->_directory->file('_log');
     my $log_st = stat($log_file) or die "$!",
@@ -107,7 +96,25 @@ sub _log {
 
     $self->status_message('Log accessed:     %s', time2str($self->datetime_format, $log_st->mtime));
     $self->status_message(join('', @log_tail)) if $self->show_log_tail;
-    $self->status_message('Log status:       %s', uc $status);
+    $self->status_message('Status:           %s', uc $status);
+    $status;
+}
+
+sub _refine_status_from_journal {
+    my $self = shift;
+    $self->status_message('Refining status from journal...');
+
+    my $journal_path = $self->_directory->subdir('journal');
+    my $journal_st = stat($journal_path) or die "$!";
+    $self->status_message('Journal accessed: %s', time2str($self->datetime_format, $journal_st->mtime));
+    my $journal_access_min = (($self->now - $journal_st->mtime) / 60);
+    $self->status_message('Minutes since:    %.1f', $journal_access_min);
+    my $journal_status = ( $journal_access_min < 10 ? 'pass' : 'fail' );
+    $self->status_message('Journal status:   %s', uc $journal_status);
+
+    my $status = 'running';
+    $status = 'stuck' if $journal_status eq 'fail';
+    $self->status_message('Status:           %s',  uc $status);
     $status;
 }
 
