@@ -39,20 +39,11 @@ Checks log and journal and tries to determine the longranger run status.
 
 Log File
 
-The tail of the log file is inspected looking for 2 known strings that indicate
-if the run has completed successfully. If "Pipestance completed successfully" is
-found, then the run is SUCCEEDED. If "Pipestance failed" is found, then the run
-tatus is FAILED. If niether of these is found, the log status will be RUNNING.
-The log access time will be reported, but the log may go a long time between
-writes. If the log status is not RUNNING, they journal status will ot be reported.
+The tail of the log file is inspected looking for 2 known strings that indicate if the run has completed successfully. If "Pipestance completed successfully" is found, then the run is SUCCEEDED. If "Pipestance failed" is found, then the run tatus is FAILED. If niether of these is found, then the journal status will be used to refine the status.
 
 Journal Directory
 
-The journal directrory  is often accessed throughoutthe run and is a good
-indicator of the longranger run status. Journal acceess time doesn't typically
-lag more than a couple of minutes. The time since last access threshold is 10
-miunutes. If the journal has been accessed within 10 minutes, the status is PASS,
-other wise it is FAIL.
+The journal directrory is often accessed throughout the run and is a good indicator of the longranger run status. Journal acceess time doesn't typically lag more than a couple of minutes. The time since last access threshold is 10 miunutes. If the journal has been accessed within 10 minutes, the status will be RUNNING. If the log does not have success/failure in it, and the journal hasd not been accessed for 10+ minutes, the status will be DIED.
 
 HELP
 }
