@@ -11,11 +11,11 @@ class RefImp::Tenx::Reference {
     },
     has => {
         directory => { is => 'Text', doc => 'File system location.', },
-        name => { is => 'Text', doc => 'Name of the reference.', },
+        name => { is => 'Text', doc => 'Short name of the reference.', },
         taxon => {
             is => 'RefImp::Taxon',
             id_by => 'taxon_id',
-            doc => 'The assembly taxon.',
+            doc => 'The reference taxon.',
         },
     },
     data_source => RefImp::Config::get('ds_mysql'),
