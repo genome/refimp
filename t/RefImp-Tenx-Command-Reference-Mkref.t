@@ -10,7 +10,7 @@ use File::Copy;
 use Path::Class;
 use Sub::Install;
 use Test::Exception;
-use Test::More tests => 5;
+use Test::More tests => 4;
 
 my %test;
 subtest 'setup' => sub{
@@ -33,6 +33,18 @@ subtest 'setup' => sub{
         taxon => $test{taxon},
     );
     ok($test{cmd}, 'create command');
+
+};
+
+subtest 'properties and tenx command' => sub{
+    plan tests => 3;
+
+    my @tenx_cmd = $test{cmd}->_tenx_command;
+    my @expected_tenx_cmd = ( 'longranger', 'mkref', $test{fasta_file}->stringify );
+    is_deeply(\@tenx_cmd, \@expected_tenx_cmd, '_tenx_cmd');
+
+    is($test{cmd}->_fasta_file->stringify, $test{fasta_file}->stringify, '_fasta_file');
+    is($test{cmd}->output_directory->stringify, $test{output_directory}->stringify, 'output_directory');
 
 };
 
@@ -88,50 +100,6 @@ subtest 'execute' => sub{
     my $reference = RefImp::Tenx::Reference->get(name => 'TESTREF');
     ok($reference, 'created reference object');
     is($reference->directory, $expected_reference_directory->stringify);
-
-    # Reinstate
-    Sub::Install::reinstall_sub({
-            code => $_bsub_command,
-            as => '_bsub_command',
-            into => $test{pkg},
-        });
-    Sub::Install::reinstall_sub({
-            code => $_tenx_command,
-            as => '_tenx_command',
-            into => $test{pkg},
-        });
-
-};
-
-subtest 'properties' => sub{
-    plan tests => 3;
-
-    is($test{cmd}->_fasta_file->stringify, $test{fasta_file}->stringify, '_fasta_file');
-    is($test{cmd}->output_directory->stringify, $test{output_directory}->stringify, 'output_directory');
-    my $expected_out_file = $test{output_directory}->file('mkref-out')->stringify;
-    like($test{cmd}->bsub_out_file->stringify, qr/$expected_out_file\-/, 'bsub_out_file');
-
-};
-
-subtest 'commands' => sub{
-    plan tests => 2;
-
-    my @bsub_cmd = $test{cmd}->_bsub_command;
-    my $mem = 8000;
-    my $queue = 'lims-pd-long';
-    my @expected_bsub_cmd = (
-        'bsub', '-K',
-        '-R', "select[mem>$mem] rusage[mem=$mem]",
-        '-M', ( $mem * 1200  ),
-        '-oo', $test{cmd}->bsub_out_file->stringify,
-        '-q', $queue,
-        '-a', 'docker(registry.gsc.wustl.edu/ebelter/longranger:2.1.3)',
-    );
-    is_deeply(\@bsub_cmd, \@expected_bsub_cmd, '_bsub_command');
-
-    my @tenx_cmd = $test{cmd}->_tenx_command;
-    my @expected_tenx_cmd = ( 'longranger', 'mkref', $test{fasta_file}->stringify );
-    is_deeply(\@tenx_cmd, \@expected_tenx_cmd, '_tenx_cmd');
 
 };
 
