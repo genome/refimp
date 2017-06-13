@@ -58,6 +58,7 @@ subtest 'bsub properties and cmd' => sub{
         '-M', ( $mem * 1200  ),
         '-oo', $bsub_out_file,
         '-q', $queue,
+        '-n', 1,
         '-a', 'docker(registry.gsc.wustl.edu/ebelter/longranger:2.1.3)',
     );
     is_deeply(\@bsub_cmd, \@expected_bsub_cmd, '_bsub_command');

@@ -14,6 +14,7 @@ class RefImp::Tenx::Command::LongrangerBase {
     has_optional => {
         bsub_queue => { is => 'Text', default_value => 'long', doc => 'Bsub queue to execute longranger.', },
         bsub_mem => { is => 'Text', default_value => '8000', doc => 'Bsub mem in MB.', },
+        bsub_cores => { is => 'Text', default_value => '1', doc => 'Bsub number of cores.', },
     },
     has_optional_transient => {
         bsub_out_file => { is => 'Class::Path::File', },
@@ -40,13 +41,13 @@ sub _create_db_entities { die 'Overload _create_db_entities' }
 sub _bsub_command {
     my $self = shift;
     my $mem = $self->bsub_mem;
-    my $queue = $self->bsub_queue;
     (
         'bsub', '-K',
         '-R', "select[mem>$mem] rusage[mem=$mem]",
         '-M', sprintf('%.0f', $mem * 1200),
         '-oo', $self->bsub_out_file->stringify,
-        '-q', $queue,
+        '-q', $self->bsub_queue,
+        '-n', $self->bsub_cores,
         '-a', 'docker(registry.gsc.wustl.edu/ebelter/longranger:2.1.3)',
     );
 }
