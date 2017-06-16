@@ -23,7 +23,7 @@ subtest 'setup' => sub{
 
 
     $test{data_dir} = dir( TestEnv::test_data_directory_for_package('RefImp::Tenx::Alignment') );
-    $test{directory} = $test{data_dir}->subdir('c037676823944d64ad1ec0d7ae3295e1');
+    $test{directory} = $test{data_dir}->subdir('succeeded');
 
 };
 
@@ -35,13 +35,11 @@ subtest 'create' => sub{
 
     my $cmd;
     lives_ok(
-        sub{ $cmd = $test{pkg}->create(
+        sub{ $cmd = $test{pkg}->execute(
                 directory => $test{directory}->stringify,
                 reads => $test{reads},
                 reference => $test{reference},
-            );
-            $cmd->execute;
-            },
+            ); },
         'execute',
     );
     ok($cmd->result, 'execute successful');
