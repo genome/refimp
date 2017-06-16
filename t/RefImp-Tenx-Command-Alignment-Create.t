@@ -35,11 +35,13 @@ subtest 'create' => sub{
 
     my $cmd;
     lives_ok(
-        sub{ $cmd = $test{pkg}->execute(
+        sub{ $cmd = $test{pkg}->create(
                 directory => $test{directory}->stringify,
                 reads => $test{reads},
                 reference => $test{reference},
-            ); },
+            );
+            $cmd->execute;
+            },
         'execute',
     );
     ok($cmd->result, 'execute successful');
