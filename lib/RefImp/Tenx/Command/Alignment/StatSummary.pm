@@ -1,4 +1,4 @@
-package RefImp::Tenx::Command::Longranger::StatSummary;
+package RefImp::Tenx::Command::Alignment::StatSummary;
 
 use strict;
 use warnings 'FATAL';
@@ -7,7 +7,7 @@ use Path::Class;
 use Text::CSV;
 use YAML;
 
-class RefImp::Tenx::Command::Longranger::StatSummary {
+class RefImp::Tenx::Command::Alignment::StatSummary {
     is => 'Command::V2',
     has_input => {
         directory => {
@@ -32,7 +32,7 @@ HELP
 sub execute {
     my $self = shift;
 
-    $self->status_message('Longranger Run Stat Summary...');
+    $self->status_message('Alignment Run Stat Summary...');
     my $summary_file = $self->summary_file;
     $self->status_message('Summary file: %s', $summary_file->stringify);
     $self->fatal_message(
