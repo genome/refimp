@@ -13,8 +13,7 @@ my %test;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    my $longranger_pkg = 'RefImp::Tenx::Command::Longranger';
-    $test{pkg} = join('::', $longranger_pkg, 'Status');
+    $test{pkg} = 'RefImp::Tenx::Command::Alignment::Status';
     use_ok($test{pkg}) or die;
 
     $test{alignment} = RefImp::Tenx::Alignment->__define__(
@@ -24,7 +23,7 @@ subtest 'setup' => sub{
     );
     ok($test{alignment}, 'define alignment') or die;
 
-    $test{data_dir} = dir( TestEnv::test_data_directory_for_package($longranger_pkg) );
+    $test{data_dir} = dir( TestEnv::test_data_directory_for_package('RefImp::Tenx::Alignment') );
 
 };
 

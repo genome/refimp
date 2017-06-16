@@ -1,4 +1,4 @@
-package RefImp::Tenx::Command::Longranger::Status;
+package RefImp::Tenx::Command::Alignment::Status;
 
 use strict;
 use warnings 'FATAL';
@@ -9,7 +9,7 @@ use IPC::Open3;
 use List::MoreUtils;
 use Path::Class;
 
-class RefImp::Tenx::Command::Longranger::Status {
+class RefImp::Tenx::Command::Alignment::Status {
     is => 'Command::V2',
     has_input => {
         alignment => {

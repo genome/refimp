@@ -21,7 +21,12 @@ class RefImp::Tenx::Alignment {
             id_by => 'reference_id',
             doc => 'The reference sequence the reads are aligned to',
         },
-        status => { is => 'Text', doc => 'The status of the alignment: running, succeeded, failed, etc.', },
+    },
+    has_optional => {
+        status => {
+            is => 'Text',
+            doc => 'The status of the alignment: running, succeeded, failed, etc.',
+        },
     },
     data_source => RefImp::Config::get('ds_mysql'),
 };
