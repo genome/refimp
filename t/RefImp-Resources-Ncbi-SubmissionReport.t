@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 3;
 
 my %setup;
 subtest "setup" => sub{
@@ -45,20 +45,13 @@ subtest "setup" => sub{
 };
 
 subtest "from_file" => sub{
-    plan tests => 1;
+    plan tests => 4;
 
     $setup{report} = RefImp::Resources::Ncbi::SubmissionReport->from_file($setup{file});
     is_deeply($setup{report}->data, $setup{expected_data}, 'load report from file');
-
-};
-
-subtest "project and submission" => sub{
-    plan tests => 3;
-
-    my $report = $setup{report};
-    is($report->project_name, $report->data->{localseqname}, 'report project_name');
-    is($report->project, $setup{project}, 'report project');
-    is($report->submission, $setup{submission}, 'report submission');
+    is($setup{report}->project_name, $setup{report}->data->{localseqname}, 'report project_name');
+    is($setup{report}->project, $setup{project}, 'report project');
+    is($setup{report}->submission, $setup{submission}, 'report submission');
 
 };
 
