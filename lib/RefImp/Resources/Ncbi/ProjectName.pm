@@ -5,7 +5,7 @@ use warnings 'FATAL';
 
 use Params::Validate qw/ :types validate_pos /;
 
-my %local_to_and_ncbi_prefix = (
+my %local_to_ncbi_prefix = (
     # human
     H_GS => 'GS1',
     H_RG => {
@@ -175,7 +175,7 @@ sub get {
     return $project_name if not $prefix;
 
     # No known prefix to substitute
-    my $conversion = $local_to_and_ncbi_prefix{$prefix};
+    my $conversion = $local_to_ncbi_prefix{$prefix};
     return $project_name if not $conversion;
 
     # Remove leading zeros from plate and col
@@ -195,6 +195,36 @@ sub get {
     }
 
     # Plate was not in the range of substitutions
+    return $project_name;
+}
+
+sub ncbi_to_local {
+    my ($class, $project_name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
+
+    # Parse name. If not parsable, return project name
+    my ($prefix, $plate, $row, $col) = $class->parse_project_name($project_name);
+    return $project_name if not $prefix;
+
+    # Add 0 back to col - how to add back to plate??
+    $col = sprintf('%02d', $col);
+
+    for my $local_prefix ( keys %local_to_ncbi_prefix ) {
+        my $conversion = $local_to_ncbi_prefix{$local_prefix};
+        if ( ref $conversion ) {
+            foreach my $new_prefix ( keys %$conversion ) {
+                next if $prefix ne $new_prefix;
+                next if $plate < $conversion->{$new_prefix}->{min};
+                next if exists $conversion->{$new_prefix}->{max} && $plate > $conversion->{$new_prefix}->{max};
+                return join('-', $local_prefix, join('', $plate, $row, $col));
+            }
+        }
+        else {
+            if ( $prefix eq $conversion ) {
+                return join('-', $local_prefix, join('', $plate, $row, $col));
+            }
+        }
+    }
+
     return $project_name;
 }
 
