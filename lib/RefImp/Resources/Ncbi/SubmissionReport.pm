@@ -3,9 +3,9 @@ package RefImp::Resources::Ncbi::SubmissionReport;
 use strict;
 use warnings;
 
-use File::Basename 'basename';
 use IO::File;
 use Params::Validate qw/ :types validate_pos /;
+use RefImp::Resources::Ncbi::ProjectName;
 
 class RefImp::Resources::Ncbi::SubmissionReport {
     is => 'UR::Object',
@@ -65,9 +65,7 @@ sub from_file {
     }
     $fh->close;
 
-    my $file_name = basename($file);
-    my @file_name_tokens = split(/\./, $file_name);
-    $data{localseqname} = $file_name_tokens[1];
+    $data{localseqname} = RefImp::Resources::Ncbi::ProjectName->ncbi_to_local($data{seqname});
 
     my ($accession, $version) = split(/\./, delete $data{accession});
     $version //= 1;
