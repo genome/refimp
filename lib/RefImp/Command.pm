@@ -11,6 +11,7 @@ class RefImp::Command {
 # instead of using the directory structure
 my %command_map = (
     assembly => 'RefImp::Assembly::Command',
+    cron => 'RefImp::Cron::Command',
     project => 'RefImp::Project::Command',
     taxon => 'RefImp::Taxon::Command',
     tenx => 'RefImp::Tenx::Command',
