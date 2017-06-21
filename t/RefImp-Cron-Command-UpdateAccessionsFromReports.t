@@ -12,7 +12,7 @@ my %setup;
 subtest setup => sub{
     plan tests => 1;
 
-    $setup{pkg} = 'RefImp::Resources::Ncbi::UpdateAccessionNumbersFromReports';
+    $setup{pkg} = 'RefImp::Cron::Command::UpdateAccessionsFromReports';
     use_ok($setup{pkg}) or die;
 
     $setup{project} = RefImp::Project->get(1);

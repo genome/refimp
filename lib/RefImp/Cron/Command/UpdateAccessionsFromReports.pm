@@ -1,4 +1,4 @@
-package RefImp::Resources::Ncbi::UpdateAccessionNumbersFromReports;
+package RefImp::Cron::Command::UpdateAccessionsFromReports;
 
 use strict;
 use warnings;
@@ -8,10 +8,12 @@ use File::Temp 'tempdir';
 use List::MoreUtils 'firstval';
 use RefImp::Resources::NcbiFtp;
 
-class RefImp::Resources::Ncbi::UpdateAccessionNumbersFromReports {
+class RefImp::Cron::Command::UpdateAccessionsFromReports {
     is => 'Command::V2',
     doc => 'update project accesssion number form ncbi reports',
 };
+
+sub help_detail { $_[0]->__meta__->doc }
 
 sub execute {
     my $self = shift;
