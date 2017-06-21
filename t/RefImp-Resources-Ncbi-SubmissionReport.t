@@ -64,12 +64,13 @@ subtest "setup" => sub{
 
 };
 
-subtest "from_file no submission" => sub{
-    plan tests => 4;
+subtest "from_file with no project" => sub{
+    plan tests => 5;
 
     my $report = RefImp::Resources::Ncbi::SubmissionReport->from_file($setup{file_without_submission});
     ok($report, 'loaded report from file');
     is_deeply($report->data, $setup{expected_data_without_submission}, 'data matches');
+    is($report->project_name, $setup{expected_data_without_submission}->{localseqname}, 'report project_name');
     ok(!$report->project, 'report does not have a project');
     ok(!$report->submission, 'report does not have a submission');
 
