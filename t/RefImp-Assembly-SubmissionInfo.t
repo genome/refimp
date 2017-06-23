@@ -47,7 +47,7 @@ subtest 'attributes for structured comments' => sub{
     my @attrs = $pkg->required_attributes_for_structured_comments;
     is(@attrs, 3, 'required_attributes_for_structured_comments');
     @attrs = $pkg->optional_attributes_for_structured_comments;
-    is(@attrs, 1, 'optional_attributes_for_structured_comments');
+    is(@attrs, 3, 'optional_attributes_for_structured_comments');
 
 };
 

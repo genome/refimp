@@ -15,7 +15,7 @@ my %submission_info = (
     },
     assembly_name => {
         required => 0,
-        #structured_comment => 1,
+        structured_comment => 1,
         doc => 'The brief/short assembly name. This is a short name suitable for display that does not include the organism name.',
         example => 'NA19240_Illumina_1.0',
     },
@@ -56,7 +56,8 @@ my %submission_info = (
     },
     long_assembly_name => {
         required => 0,
-        doc => ' he long/descriptive  assembly name.',
+        structured_comment => 1,
+        doc => ' The long/descriptive assembly name.',
         example => 'NA19240 Illumina assembly version 1',
     },
     polishing_method => {
