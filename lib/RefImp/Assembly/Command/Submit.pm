@@ -3,6 +3,7 @@ package RefImp::Assembly::Command::Submit;
 use strict;
 use warnings 'FATAL';
 
+use Date::Format;
 use File::Temp;
 use MIME::Lite;
 use Path::Class qw/ dir file /;
@@ -26,7 +27,7 @@ class RefImp::Assembly::Command::Submit {
         tar_file => {
             is => 'Path::Class',
             calculate_from => [qw/ tempdir submission /],
-            calculate => q| $tempdir->file($submission->ncbi_version.'.tar'); |,
+            calculate => q| $tempdir->file( $submission->ncbi_version.'_'.Date::Format::time2str('%Y-%m-%d', time()).'.tar' ); |,
         },
     },
     doc => 'submit a assembly to NCBI',
