@@ -48,7 +48,7 @@ my %submission_info = (
         required => 0,
         doc => 'The file name (without directory) of the contigs fasta file. OPtionally include an AGP file. Do NOT include a supercontigs file.',
     },
-    coverage => {
+    genome_coverage => {
         required => 1,
         structured_comment => 1,
         doc => 'The approximate coverage of the genome. Expressed with an "X".',

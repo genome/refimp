@@ -80,6 +80,7 @@ subtest 'execute' => sub{
     like($cmd->tar_file, qr/$tar_file_basename$/, 'tar_file name');
 
     ok(-s $cmd->tar_file, 'created tar file');
+    print "HERE\n"; <STDIN>;
 
 };
 

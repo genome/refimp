@@ -106,7 +106,7 @@ subtest 'submission_info' => sub {
 
     is_deeply($submission->submission_info, $setup{submission_params}, 'submission info hash');
     throws_ok(sub{ $submission->info_for; }, qr/No key given/, 'info_for fails w/o key');
-    is($submission->info_for('coverage'), '20x', 'info_for coverage');
+    is($submission->info_for('genome_coverage'), '20x', 'info_for coverage');
 
     throws_ok(sub{ $submission->path_for; }, qr/No key given/, 'path_for fails w/o key');
     my $contigs_file = delete $info->{contigs_file};
