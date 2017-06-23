@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my $pkg = 'RefImp::Assembly::SubmissionInfo';
 use_ok($pkg) or die;
@@ -38,6 +38,16 @@ subtest 'valid release dates' => sub {
     ok(@valid_release_dates, 'valid_release_dates');
     ok($pkg->valid_release_date_regexps, 'valid_release_date_regexps');
     is($pkg->default_release_date, $valid_release_dates[0], 'default_release_date');
+
+};
+
+subtest 'attributes for structured comments' => sub{
+    plan tests => 2;
+
+    my @attrs = $pkg->required_attributes_for_structured_comments;
+    is(@attrs, 3, 'required_attributes_for_structured_comments');
+    @attrs = $pkg->optional_attributes_for_structured_comments;
+    is(@attrs, 1, 'optional_attributes_for_structured_comments');
 
 };
 

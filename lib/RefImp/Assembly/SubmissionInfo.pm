@@ -9,11 +9,13 @@ use YAML;
 my %submission_info = (
     assembly_method => {
         required => 1,
+        structured_comment => 1,
         doc => 'The assembler used to create the assembly.',
         example => 'Falcon January 2017',
     },
     assembly_name => {
         required => 0,
+        #structured_comment => 1,
         doc => 'The brief/short assembly name. This is a short name suitable for display that does not include the organism name.',
         example => 'NA19240_Illumina_1.0',
     },
@@ -48,6 +50,7 @@ my %submission_info = (
     },
     coverage => {
         required => 1,
+        structured_comment => 1,
         doc => 'The approximate coverage of the genome. Expressed with an "X".',
         example => '87X',
     },
@@ -58,6 +61,7 @@ my %submission_info = (
     },
     polishing_method => {
         required => 0,
+        structured_comment => 1,
         doc => 'The assembly improvement methods, separated by a semicolon.',
         example => 'Quiver; Pilon',
     },
@@ -73,6 +77,7 @@ my %submission_info = (
     },
     sequencing_technology => {
         required => 1,
+        structured_comment => 1,
         doc => 'The read type. Sequencing machine and chemistry.',
         example => 'PacBio_RSII',
     },
@@ -99,6 +104,26 @@ sub valid_release_date_regexps { map { qr/^$_$/ } valid_release_dates() }
 sub submission_yaml { my %h = map { my $v = $submission_info{$_}->{value} // ''; ($_, $v) } submission_info_keys(); %h }
 sub submission_info_keys { sort keys %submission_info }
 sub submission_info_optional_keys { grep { !$submission_info{$_}->{required} } submission_info_keys() }
+
+sub required_attributes_for_structured_comments {
+    my $class = shift;
+
+    my @attrs;
+    for my $key ( submission_info_keys() ) {
+        push @attrs, $key if exists $submission_info{$key}->{structured_comment} and $submission_info{$key}->{required};
+    }
+    @attrs;
+}
+
+sub optional_attributes_for_structured_comments {
+    my $class = shift;
+
+    my @attrs;
+    for my $key ( submission_info_keys() ) {
+        push @attrs, $key if exists $submission_info{$key}->{structured_comment} and not $submission_info{$key}->{required};
+    }
+    @attrs;
+}
 
 sub help_doc_for_attribute {
     my ($class, $key) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
