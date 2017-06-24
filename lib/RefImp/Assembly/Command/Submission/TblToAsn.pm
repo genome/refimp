@@ -156,14 +156,18 @@ sub structured_comments {
     my $self = shift;
 
     my $submission = $self->submission;
-    my $comment = join("\t", 'StructuredCommentPrefix', '##Genome-Assembly-Data-START##')."\n";
-    $comment .= join("\t", 'Assembly Method', $submission->info_for('assembly_method'))."\n";
-    $comment .= join("\t", 'Genome Coverage', $submission->info_for('coverage'))."\n";
-    my $polishing_method = $submission->info_for('polishing_method');
-    $comment .= join("\t", 'Polishing Method', $polishing_method)."\n" if $polishing_method;
-    $comment .= join("\t", 'Sequencing Technology', $submission->info_for('sequencing_technology'))."\n";
+    my @comments;
+    for my $attr ( RefImp::Assembly::SubmissionInfo->required_attributes_for_structured_comments ) {
+        push @comments, join("\t", join(' ', map { ucfirst } split('_', $attr)), $submission->info_for($attr));
+    }
 
-    $comment;
+    for my $attr ( RefImp::Assembly::SubmissionInfo->optional_attributes_for_structured_comments ) {
+        my $val = $submission->info_for($attr);
+        next if not defined $val;
+        push @comments, join("\t", join(' ', map { ucfirst } split('_', $attr)), $val);
+     }
+
+     join("\n", join("\t", 'StructuredCommentPrefix', '##Genome-Assembly-Data-START##'), sort @comments)."\n";
 }
 
 sub split_fasta_files {

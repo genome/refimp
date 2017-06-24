@@ -10,7 +10,7 @@ use File::Spec;
 use File::Temp 'tempdir';
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 10;
+use Test::More tests => 9;
 
 my %setup;
 subtest 'setup' => sub{
@@ -45,16 +45,6 @@ subtest 'setup' => sub{
     $setup{response}->set_true('is_success');
     $setup{response}->set_always('decoded_content', $xml_content);
     $setup{ua}->set_always('get', $setup{response});
-
-};
-
-subtest 'valid release dates' => sub {
-    plan tests => 3;
-
-    my @valid_release_dates = $setup{pkg}->valid_release_dates;
-    ok(@valid_release_dates, 'valid_release_dates');
-    ok($setup{pkg}->valid_release_date_regexps, 'valid_release_date_regexps');
-    is($setup{pkg}->default_release_date, $valid_release_dates[0], 'default_release_date');
 
 };
 
@@ -116,7 +106,7 @@ subtest 'submission_info' => sub {
 
     is_deeply($submission->submission_info, $setup{submission_params}, 'submission info hash');
     throws_ok(sub{ $submission->info_for; }, qr/No key given/, 'info_for fails w/o key');
-    is($submission->info_for('coverage'), '20x', 'info_for coverage');
+    is($submission->info_for('genome_coverage'), '20x', 'info_for coverage');
 
     throws_ok(sub{ $submission->path_for; }, qr/No key given/, 'path_for fails w/o key');
     my $contigs_file = delete $info->{contigs_file};
