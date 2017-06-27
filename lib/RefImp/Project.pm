@@ -28,6 +28,11 @@ class RefImp::Project {
             ],
             doc => 'Clone type: bac, cosmid, etc.',
         },
+        my_status => {
+            is => 'Text',
+            via => 'project_finishers',
+            to => 'status',
+        },
         # Taxonomy
         taxonomy => {
             is => 'RefImp::Project::Taxonomy',
@@ -59,6 +64,12 @@ class RefImp::Project {
             doc => 'Project prefinisher unix logins.',
         },
         # Finishers
+        project_finishers => {
+            is => 'RefImp::Project::User',
+            reverse_as => 'project',
+            where => [qw/ purpose finisher /],
+            doc => 'Project finishers bridge object',
+        },
         finishers => {
             is => 'RefImp::User',
             via => 'project_users',
@@ -137,4 +148,3 @@ sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); 
 sub notes_file { RefImp::Project::NotesFile->new($_[0]->notes_file_path); }
 
 1;
-
