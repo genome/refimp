@@ -24,7 +24,7 @@ subtest 'setup' => sub{
 };
 
 subtest 'create' => sub{
-    plan tests => 5;
+    plan tests => 9;
 
     my @valid_purposes = $pkg->valid_purposes;
     is(@valid_purposes, 3, 'valid_purposes');
@@ -38,6 +38,12 @@ subtest 'create' => sub{
     is($claimer->project, $project, 'project');
     is($claimer->user, $user, 'user');
     is($claimer->purpose, $valid_purposes[0], 'correct purpose');
+
+    ok(UR::Context->commit, 'commit');
+
+    ok(!$claimer->status, 'no status set');
+    is($claimer->status('Good to go!'), 'Good to go!', 'set status');
+    ok(UR::Context->commit, 'commit with status');
 
 };
 

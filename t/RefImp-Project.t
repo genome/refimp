@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 my $project;
 subtest "basics" => sub{
@@ -92,6 +92,21 @@ subtest 'taxonomy' => sub{
     my $taxonomy = $project->taxonomy;
     ok($taxonomy, 'project has taxonomy');
     is($project->taxon, $taxonomy->taxon, 'project taxon');
+
+};
+
+subtest 'my_status' => sub{
+    plan tests => 4;
+
+    my $project_finisher = $project->project_finishers;
+    ok($project_finisher, 'got project_finisher');
+
+    ok(!$project_finisher->status, 'no status for project_finisher');
+    ok(!$project->my_status, 'no my_status for project');
+
+    my $my_status = 'Good to presubmit';
+    $project_finisher->status($my_status);
+    is($project->my_status, $my_status, 'got my_status');
 
 };
 
