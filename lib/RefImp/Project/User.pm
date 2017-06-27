@@ -14,6 +14,9 @@ class RefImp::Project::User {
         project => { is => 'RefImp::Project', id_by => 'project_id', },
         user => { is => 'RefImp::User', id_by => 'user_id', },
     },
+    has_optional => {
+        status => { is => 'Text', len => 264, },
+    },
     data_source => RefImp::Config::get('ds_mysql'),
 };
 
