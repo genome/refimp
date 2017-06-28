@@ -5,13 +5,14 @@ use warnings;
 
 use TestEnv;
 
-use Test::More tests => 1;
+use Test::Exception;
+use Test::More tests => 3;
+
+my $pkg = 'RefImp::Tenx::Reference';
+use_ok($pkg) or die;
 
 subtest "create" => sub{
-    plan tests => 7;
-
-    my $pkg = 'RefImp::Tenx::Reference';
-    use_ok($pkg) or die;
+    plan tests => 6;
 
     my $ref = $pkg->create(
         name => 'TESTY MCTESTERSON',
@@ -27,6 +28,29 @@ subtest "create" => sub{
 
     ok(UR::Context->commit, 'commit');
 
+};
+
+subtest 'create fails' => sub{
+    plan tests => 3;
+
+    throws_ok(
+        sub{ $pkg->create(name => 'TESTY MCTESTERSON', directory => '/blah', taxon_id => 1); },
+        qr/Reference directory does not exist/,
+        'failed to create w/ invalid directory',
+    );
+
+    throws_ok(
+        sub{ $pkg->create(name => 'TESTY MCTESTERSON', directory => '/tmp', taxon_id => 1); },
+        qr/Found existing reference with name/,
+        'failed to create when existing reference has same name',
+    );
+
+    throws_ok(
+        sub{ $pkg->create(name => 'BLAH', directory => '/tmp', taxon_id => 1); },
+        qr/Found existing reference with directory/,
+        'failed to create when existing reference has same directory',
+    );
+ 
 };
 
 done_testing();

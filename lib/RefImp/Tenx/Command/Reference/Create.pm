@@ -3,8 +3,6 @@ package RefImp::Tenx::Command::Reference::Create;
 use strict;
 use warnings;
 
-use Path::Class;
-
 use RefImp::Tenx::Reference;
 my %inputs = map {
         $_->property_name => {
@@ -28,9 +26,7 @@ sub execute {
     $self->status_message('Create longranger reference...');
 
     my %params = map { $_ => $self->$_ } keys %inputs;
-    $params{directory} = dir($params{directory})->absolute->stringify;
-    $self->fatal_message('Directory %s does not exist!', $params{directory}) if !-d $params{directory};
-    $self->status_message("Params:\n%s", YAML::Dump( {map { $_ => ( ref $params{$_} ? $params{$_}->id : $params{$_} ) } keys %params }));
+    $self->status_message("Params:\n%s", YAML::Dump( {map { $_ => ( ref $params{$_} ? $params{$_}->__display_name__ : $params{$_} ) } keys %params }));
     my $reference = RefImp::Tenx::Reference->create(%params);
     $self->status_message('Created reference: %s', $reference->__display_name__);
 
