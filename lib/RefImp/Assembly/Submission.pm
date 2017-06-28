@@ -26,6 +26,7 @@ class RefImp::Assembly::Submission {
         version => { is => 'Text', doc => 'Numbered assembly version', },
    },
    has_optional => {
+        accession_id => { is => 'Text', len => 32, },
         bioproject_uid => { is => 'Text', via => 'ncbi_biosample', to => 'bioproject_uid', },
         biosample_uid => { is => 'Text', via => 'ncbi_biosample', to => 'biosample_uid', },
         directory => { is => 'Text', doc => 'Submission directory', },

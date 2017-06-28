@@ -10,7 +10,7 @@ use File::Spec;
 use File::Temp 'tempdir';
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 9;
+use Test::More tests => 10;
 
 my %setup;
 subtest 'setup' => sub{
@@ -230,6 +230,15 @@ subtest 'ncbi_version' => sub{
 
     my $submission = $setup{submission};
     is($submission->ncbi_version, 'Crassostrea_virginica_2.0', 'ncbi_version');
+
+};
+
+subtest 'accession_id' => sub{
+    plan tests => 2;
+
+    my $submission = $setup{submission};
+    ok(!$submission->accession_id, 'submission does not have an accession_id');
+    is($submission->accession_id('HNH00000001'), 'HNH00000001', 'submission accession_id');
 
 };
 
