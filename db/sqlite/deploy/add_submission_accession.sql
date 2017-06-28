@@ -1,0 +1,8 @@
+-- Deploy refimp:add_submission_accession to sqlite
+-- requires assemblies_submissions
+
+BEGIN;
+
+ALTER TABLE assemblies_submissions ADD accession_id VARCHAR(32);
+
+COMMIT;
