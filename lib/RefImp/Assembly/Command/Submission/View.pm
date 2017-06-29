@@ -26,7 +26,7 @@ sub execute {
         "\n",
         'ASSEMBLY SUBMISSION RECORD',
         RefImp::Util::Tablizer->format([
-            map({ [ sprintf('%s:', uc($_)), $submission->$_ ] } (qw/ id ncbi_version bioproject biosample submitted_on directory /)),
+            map({ [ sprintf('%s:', uc($_)), ( $submission->$_ // 'NaN' ) ] } (qw/ id ncbi_version accession_id bioproject biosample submitted_on directory /)),
             ]),
         "SUBMISSION YAML:",
         ( $submission->submission_yml || 'NaN' ),
