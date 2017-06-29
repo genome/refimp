@@ -3,7 +3,6 @@ package RefImp::Assembly::Command::Submission::Yaml;
 use strict;
 use warnings;
 
-use RefImp::Assembly::Submission;
 use RefImp::Assembly::SubmissionInfo;
 use YAML;
 
@@ -14,7 +13,7 @@ class RefImp::Assembly::Command::Submission::Yaml {
 
 sub help_detail {
     my $help = <<HELP;
-Save this YAML to a file named 'submission.myl' in the submission directory. It will be the input into the assembly submit commmand.
+Save this YAML to a file named 'submission.yml' in the submission directory. It will be the input into the assembly submit command.
 
 Fill in or remove unneeded fields. All fields that remain in the YAML must be defined.
 
