@@ -45,11 +45,11 @@ subtest 'create fails' => sub{
 
     throws_ok(
         sub{ RefImp::Tenx::Command::Reference::Create->execute(
-                name => 'TESTREF',
+                name => 'BLAH',
                 directory => '/blah',
                 taxon => $taxon,
             ); },
-        qr/Directory \/blah does not exist/,
+        qr/Reference directory does not exist: \/blah/,
         'fails with invalid directory',
     );
 
