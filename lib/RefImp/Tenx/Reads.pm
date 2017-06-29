@@ -25,4 +25,6 @@ class RefImp::Tenx::Reads {
     data_source => RefImp::Config::get('ds_mysql'),
 };
 
+sub __display_name__ { sprintf('%s (%s %s)', $_[0]->sample_name, $_[0]->type, $_[0]->directory) }
+
 1;
