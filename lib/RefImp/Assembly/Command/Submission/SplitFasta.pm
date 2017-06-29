@@ -17,10 +17,8 @@ class RefImp::Assembly::Command::Submission::SplitFasta {
         max_seq_count => { is => 'Text', doc => 'Maximum number of sequences to put in a fasta file.', },
         max_file_size => { is => 'Text', doc => 'Maximum file size of fastas.', },
     },
-    has_output => {
-        output_fasta_files => { is => 'Text', is_many => 1, },
-    },
     has_optional_transient => {
+        output_fasta_files => { is => 'Text', is_many => 1, },
         output_fasta_file_pattern => { is => 'Text', },
     },
     doc => 'split fastas by count and size',
