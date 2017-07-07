@@ -104,4 +104,32 @@ sub lanes {
     List::MoreUtils::uniq @lanes;
 }
 
+sub fastq_directory_for_sample_name {
+    my ($self, $sample_name) = validate_pos(@_, {is => __PACKAGE__}, {is => SCALAR});
+
+    # Fastq Finder
+    my $has_fastqs = sub{
+        my $fq_dir = shift;
+        return if not -d $fq_dir;
+        my $fq_pattern = $fq_dir->file('*.fastq*');
+        my @fastq_files = glob($fq_pattern);
+        return @fastq_files;
+    };
+
+    # Check if there is a sample directory in the main directory
+    my $directory = $self->directory;
+    my $sample_directory = $directory->subdir($sample_name);
+    return $sample_directory if $has_fastqs->($sample_directory);
+
+    # Check in the project directories
+    my @project_names = List::MoreUtils::uniq map { $_->{project} } grep { defined $_->{project} and $_->{name} eq $sample_name } @{$self->samples};
+    unshift @project_names, $self->project_name if $self->project_name;
+    for my $project_name ( @project_names ) {
+        $sample_directory = $directory->subdir($project_name)->subdir($sample_name);
+        return $sample_directory if $has_fastqs->($sample_directory);
+    }
+
+    $self->fatal_message('Could not find fastqs for sample: %s', $sample_name);
+}
+
 1;
