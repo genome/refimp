@@ -54,12 +54,13 @@ subtest "create_from_mkfastq_directory sample sheet csv" => sub{
 };
 
 subtest "properties" => sub{
-    plan tests => 2;
+    plan tests => 3;
 
-    is_deeply([$test{ss}->lanes], [1,2], 'lanes');
+    is_deeply([$test{ss}->lanes], [1,2,3,4,5,6,8], 'lanes');
 
-    my @expected_sample_names = sort (qw/ M_EO-Fresh_Marrow-WT_Fresh_WBM_01252017_10x M_EO-cryo_marrow-WT_Frozen_WBM_01252017_10x M_EO-Kit_positive_marrow-WT_Fresh_c-KIT_01252017_10x M_EO-kit_positive_cryo_marrow-WT_Frozen_c-KIT_01252017_10x /);
+    my @expected_sample_names = sort (qw/ M_FA-1CNTRL-Control_10x M_FA-2PD1-aPD1_10x M_FA-3CTLA4-aCTLA4_10x M_FA-4PDCTLA-aPD1-aCTLA4_10x /);
     is_deeply([$test{ss}->sample_names], \@expected_sample_names, 'sample_names');
+    is_deeply($test{ss}->project_name, 'CA3MYANXX', 'project_name');
 
 };
 

@@ -6,12 +6,16 @@ use warnings;
 use IO::File;
 use List::MoreUtils;
 use Path::Class;
+use Params::Validate qw/ :types validate_pos /;
 use Text::CSV;
 
 class RefImp::Tenx::SampleSheet { 
     has => {
         directory => { is => 'Path::Class::Dir', },
         samples => { is => 'ARRAY', },
+    },
+    has_optional => {
+        project_name => { is => 'Text', },
     },
     doc => 'sample sheet for running mkfastq and creating reads db entries',
 };
@@ -57,10 +61,35 @@ sub create_from_mkfastq_directory {
         push @samples, \%sample;
     }
 
-    $class->create(
+    my $project_name;
+    my $invocation_file = $directory->file('_invocation');
+    if ( -s $invocation_file ) {
+        $project_name = $class->get_project_from_invocation($invocation_file);
+    }
+
+    my %params = (
         directory => $directory,
         samples => \@samples,
     );
+    $params{project_name} = $project_name if $project_name;
+
+    $class->create(%params);
+}
+
+sub get_project_from_invocation {
+    my ($class, $invocation_file) = validate_pos(@_, {is => __PACKAGE__}, {is => SCALAR});
+
+    my $fh = IO::File->new($invocation_file, 'r');
+    $class->fatal_message('Failed to open: %s', $invocation_file) if not $fh;
+    my $project;
+    while ( my $line = $fh->getline ) {
+        next if $line !~ /project\s+=\s+"(.+)"/;
+        $project = $1;
+        last;
+    }
+    $fh->close;
+
+    $project;
 }
 
 sub sample_names {
