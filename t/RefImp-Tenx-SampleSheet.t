@@ -20,34 +20,35 @@ subtest 'setup' => sub{
 
 };
 
-subtest "load_from_file fails" => sub{
-    plan tests => 6;
+subtest "create_from_mkfastq_directory fails" => sub{
+    plan tests => 7;
 
-    throws_ok(sub{ $test{pkg}->load_from_file(); }, qr/No sample sheet file given/, 'load_from_file fails w/o file');
-    throws_ok(sub{ $test{pkg}->load_from_file('/blah'); }, qr/Sample sheet file given does not exist/, 'load_from_file fails w/ non existing file');
+    throws_ok(sub{ $test{pkg}->create_from_mkfastq_directory(); }, qr/No mkfastq directory given/, 'create_from_mkfastq_directory fails w/o file');
+    throws_ok(sub{ $test{pkg}->create_from_mkfastq_directory('/blah'); }, qr/Mkfastq directory given does not exist/, 'create_from_mkfastq_directory fails w/ non existing file');
+    throws_ok(sub{ $test{pkg}->create_from_mkfastq_directory('/tmp'); }, qr/No samplesheet found in mkfastq/, 'create_from_mkfastq_directory fails w/ non existing file');
 
-    throws_ok(sub{ $test{pkg}->load_from_file( $test{data_dir}->file('no-sample-header.csv') ); }, qr/No sample column found in/, 'load_from_file fails w/o sample column');
+    throws_ok(sub{ $test{pkg}->create_from_mkfastq_directory( $test{data_dir}->subdir('no-sample-header') ); }, qr/No sample column found in/, 'create_from_mkfastq_directory fails w/o sample column');
 
-    throws_ok(sub{ $test{pkg}->load_from_file( $test{data_dir}->file('no-index.csv') ); }, qr/No index found/, 'load_from_file fails w/o index');
-    throws_ok(sub{ $test{pkg}->load_from_file( $test{data_dir}->file('no-sample.csv') ); }, qr/No sample name found/, 'load_from_file fails w/o sample');
-    throws_ok(sub{ $test{pkg}->load_from_file( $test{data_dir}->file('no-lane.csv') ); }, qr/No lane found/, 'load_from_file fails w/o lane');
+    throws_ok(sub{ $test{pkg}->create_from_mkfastq_directory( $test{data_dir}->subdir('no-index') ); }, qr/No index found/, 'create_from_mkfastq_directory fails w/o index');
+    throws_ok(sub{ $test{pkg}->create_from_mkfastq_directory( $test{data_dir}->subdir('no-sample') ); }, qr/No sample name found/, 'create_from_mkfastq_directory fails w/o sample');
+    throws_ok(sub{ $test{pkg}->create_from_mkfastq_directory( $test{data_dir}->subdir('no-lane') ); }, qr/No lane found/, 'create_from_mkfastq_directory fails w/o lane');
 
-
-};
-
-subtest "load_from_file simple csv" => sub{
-    plan tests => 1;
-
-    my $ss = $test{pkg}->load_from_file( $test{data_dir}->file('simple.csv') );
-    ok($ss, 'load_from_file');
 
 };
 
-subtest "load_from_file sample sheet csv" => sub{
+subtest "create_from_mkfastq_directory simple csv" => sub{
     plan tests => 1;
 
-    my $ss = $test{pkg}->load_from_file( $test{data_dir}->file('sample-sheet.csv') );
-    ok($ss, 'load_from_file');
+    my $ss = $test{pkg}->create_from_mkfastq_directory( $test{data_dir}->subdir('simple') );
+    ok($ss, 'create_from_mkfastq_directory');
+
+};
+
+subtest "create_from_mkfastq_directory sample sheet csv" => sub{
+    plan tests => 1;
+
+    my $ss = $test{pkg}->create_from_mkfastq_directory( $test{data_dir}->subdir('sample-sheet') );
+    ok($ss, 'create_from_mkfastq_directory');
     $test{ss} = $ss;
 
 };

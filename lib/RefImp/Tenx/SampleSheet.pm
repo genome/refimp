@@ -10,16 +10,21 @@ use Text::CSV;
 
 class RefImp::Tenx::SampleSheet { 
     has => {
+        directory => { is => 'Path::Class::Dir', },
         samples => { is => 'ARRAY', },
     },
     doc => 'sample sheet for running mkfastq and creating reads db entries',
 };
 
-sub load_from_file {
-    my ($class, $file) = @_;
+sub create_from_mkfastq_directory {
+    my ($class, $directory) = @_;
 
-    $class->fatal_message('No sample sheet file given!') if not $file;
-    $class->fatal_message('Sample sheet file given does not exist!') if not -s $file;
+    $class->fatal_message('No mkfastq directory given!') if not $directory;
+    $class->fatal_message('Mkfastq directory given does not exist: %s', $directory) if !-d $directory;
+
+    $directory = dir($directory);
+    my $file = $directory->subdir('outs')->file('input_samplesheet.csv');
+    $class->fatal_message('No samplesheet found in mkfastq directory: %s', $file) if !-s $file->stringify;
 
     my $fh = IO::File->new($file, 'r');
     $class->fatal_message('Failed to open %s => %s', $file, $!) if not $fh;
@@ -52,7 +57,10 @@ sub load_from_file {
         push @samples, \%sample;
     }
 
-    $class->create(samples => \@samples);
+    $class->create(
+        directory => $directory,
+        samples => \@samples,
+    );
 }
 
 sub sample_names {
