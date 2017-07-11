@@ -1,25 +1,29 @@
-package RefImp::Tenx::SampleSheet;
+package RefImp::Tenx::Reads::SampleSheet;
 
 use strict;
 use warnings;
 
 use IO::File;
 use List::MoreUtils;
+use Params::Validate qw/ :types validate_pos /;
 use Path::Class;
 use Text::CSV;
 
-class RefImp::Tenx::SampleSheet { 
+class RefImp::Tenx::Reads::SampleSheet { 
     has => {
         samples => { is => 'ARRAY', },
+    },
+    has_optional => {
+        file => { is => 'Path::Class::File', },
     },
     doc => 'sample sheet for running mkfastq and creating reads db entries',
 };
 
-sub load_from_file {
-    my ($class, $file) = @_;
+sub create {
+    my ($class, $file) = validate_pos(@_, {is => __PACKAGE__}, {is => SCALAR});
 
-    $class->fatal_message('No sample sheet file given!') if not $file;
-    $class->fatal_message('Sample sheet file given does not exist!') if not -s $file;
+    $file = file($file);
+    $class->fatal_message('Samplesheet file given does not exist: %s', $file) if !-s $file->stringify;
 
     my $fh = IO::File->new($file, 'r');
     $class->fatal_message('Failed to open %s => %s', $file, $!) if not $fh;
@@ -52,7 +56,10 @@ sub load_from_file {
         push @samples, \%sample;
     }
 
-    $class->create(samples => \@samples);
+    $class->SUPER::create(
+        file => $file,
+        samples => \@samples,
+    );
 }
 
 sub sample_names {

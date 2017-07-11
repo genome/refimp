@@ -29,24 +29,9 @@ sub execute {
     $self->status_message('Create longranger reads...');
 
     my %params = map { $_ => $self->$_ } keys %inputs;
-    $params{directory} = dir($params{directory})->absolute->stringify;
-    $self->fatal_message('Directory %s does not exist!', $params{directory}) if !-d $params{directory};
-    my $reads = RefImp::Tenx::Reads->get(directory => $params{directory});
-    $self->fatal_message('Existing reads found for directory: %s', $reads->__display_name__) if $reads;
-
-    if ( $params{targets_path} ) {
-        $params{targets_path} = dir($params{targets_path})->absolute->stringify;
-        $self->fatal_message('Targets path %s does not exist!', $params{targets_path}) if !-d $params{targets_path};
-        $reads = RefImp::Tenx::Reads->get(
-            sample_name => $params{sample_name},
-            targets_path => $params{targets_path},
-        );
-        $self->fatal_message('Existing reads found for sample_name and targets_path: %s', $reads->__display_name__) if $reads;
-    }
-
     $self->status_message("Params:\n%s", YAML::Dump( {map { $_ => ( ref $params{$_} ? $params{$_}->id : $params{$_} ) } keys %params }));
-    $reads = RefImp::Tenx::Reads->create(%params);
-    $self->status_message('Created reads %s', $reads->__display_name__);
+    my $reads = RefImp::Tenx::Reads->create(%params);
+    $self->status_message('Created reads: %s', $reads->__display_name__);
 
     1;
 }

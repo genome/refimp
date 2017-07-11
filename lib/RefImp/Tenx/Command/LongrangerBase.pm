@@ -11,6 +11,7 @@ use IPC::Open3;
 
 class RefImp::Tenx::Command::LongrangerBase { 
     is => 'Command::V2',
+    is_abstract => 1,
     has_optional => {
         bsub_queue => { is => 'Text', default_value => 'long', doc => 'Bsub queue to execute longranger.', },
         bsub_mem => { is => 'Text', default_value => '8000', doc => 'Bsub mem in MB.', },

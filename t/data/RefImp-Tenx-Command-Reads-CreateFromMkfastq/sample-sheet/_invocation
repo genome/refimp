@@ -1,0 +1,27 @@
+@include "make_fastqs_cs.mro"
+
+call MAKE_FASTQS_CS(
+    run_path              = "/gscmnt/gc3130/production/cir_156710057_CA3MYANXX/170220_D00170_0072_ACA3MYANXX",
+    lanes                 = null,
+    specs                 = [{
+        "csv": "/gscmnt/gc6142/finishing/mkfastq/samplesheet.max.csv"
+    }],
+    project               = "CA3MYANXX",
+    bases_mask            = null,
+    barcode_whitelist     = "737K-april-2014_rc",
+    bcl2fastq1_args       = " --min-log-level DEBUG --mismatches=1",
+    bcl2fastq2_args       = " --min-log-level DEBUG -d 4 -p 4 -r 4 -w 4",
+    bc_read_type          = "I1",
+    bc_start_index        = 0,
+    bc_length             = 14,
+    si_read_type          = "I2",
+    umi_read_type         = "R2",
+    umi_start_index       = 0,
+    umi_length            = 10,
+    output_path           = "/gscmnt/gc6142/finishing/mkfastq/CA3MYANXX/",
+    interop_output_path   = null,
+    delete_undetermined   = false,
+    ignore_dual_index     = false,
+    max_bcl2fastq_threads = 4,
+    software_version      = "cellranger 1.3.0",
+)
