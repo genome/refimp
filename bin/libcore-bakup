@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function echo_and_exit() {
+    echo "$1"
+    exit 1
+}
+
+echo "LIBCORE Back Up!"
+
+libcore_path=/gscmnt/905/mapping/LIBCORE/fpc
+echo "Entering ${libcore_path} ..."
+cd "${libcore_path}" || echo_and_exit "Could not change dir!"
+
+if [ -z "${BUILD_TAG}" ]; then
+    BUILD_TAG=$(date +%y%m%d-%H%M | xargs -I% echo manual-%)
+fi
+echo "Build tag: ${BUILD_TAG}"
+
+echo "Checking for changes..."
+$(git diff-index --quiet HEAD --)
+if [ $? -eq 1 ]; then
+    echo Found changes. Committing...
+    git commit -a -m "Cron libcore backup! ${BUILD_TAG}"
+    GIT_COMMIT_SHA1=$(git rev-parse --verify HEAD)
+    echo "Adding tag {$BUILD_TAG} with ${GIT_COMMIT_SHA1} to repo..."
+    git tag "${BUILD_TAG}" "${GIT_COMMIT_SHA1}" || echo_and_exit "Failed to create git tag!"
+else
+    echo None found!
+    echo "Adding tag ${BUILD_TAG} to repo..."
+    git tag "${BUILD_TAG}" || echo_and_exit "Failed to create git tag!"
+fi
+
+echo "Pushing to origin/master...";
+git push --tags origin master
+
+echo "LIBCORE Back up...OK"
