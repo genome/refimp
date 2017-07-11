@@ -54,7 +54,7 @@ sub __errors__ {
         type => 'error',
         properties => [qw/ targets_path /],
         desc => 'Targets path does not exist: '.$self->targets_path,
-    ) if $self->targets_path and !-d $self->targets_path;
+    ) if $self->targets_path and !-s $self->targets_path;
 
     @errors;
 }
