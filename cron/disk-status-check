@@ -1,0 +1,34 @@
+#!/bin/bash
+
+printf "Disk Usage Check...\n"
+printf "Disk group names: graveslab\n"
+printf "Disk status:      active\n"
+declare -i threshold=95
+printf "Threshold:        %d%%\n" "${threshold}"
+
+declare -a mount_paths
+mount_paths=( $(sqlrun "select v.mount_path from disk_volume v join disk_volume_group vg on vg.dv_id = v.dv_id join disk_group g on g.dg_id = vg.dg_id where v.disk_status = 'active' and g.disk_group_name in ('graveslab')" --no-header --no-count) )
+
+printf "\n%-20s %-6s %s\n" "PATH" "USED" "STATUS"
+
+declare disk_status
+declare script_status="PASS"
+declare -a full_paths
+for path in "${mount_paths[@]}"; do
+    declare df_output
+    df_output=$(df -hP "${path}")
+    declare -i pct_used
+    pct_used=$(echo "${df_output}" | grep -vE 'Filesystem|tmpfs|cdrom' | awk '{print $5}' | sed 's/\%//')
+    if [ "${pct_used}" -lt "${threshold}" ]; then
+        disk_status="PASS"
+    else
+        script_status="FAIL"
+        full_paths+=("${path}")
+        disk_status="FAIL"
+    fi
+    
+    printf "%-20s %-6s %s" "${path}" " ${pct_used}%" "${disk_status}"
+    echo
+done
+
+printf "\nDisk Check Status: %s\n" "${script_status}"
