@@ -7,7 +7,7 @@ declare -i threshold=95
 printf "Threshold:        %d%%\n" "${threshold}"
 
 declare -a mount_paths
-mount_paths=( $(sqlrun "select v.mount_path from disk_volume v join disk_volume_group vg on vg.dv_id = v.dv_id join disk_group g on g.dg_id = vg.dg_id where v.disk_status = 'active' and g.disk_group_name in ('graveslab')" --no-header --no-count) )
+mount_paths=( $(sqlrun "select v.mount_path from disk_volume v join disk_volume_group vg on vg.dv_id = v.dv_id join disk_group g on g.dg_id = vg.dg_id where v.disk_status = 'active' and g.disk_group_name like 'graveslab%'" --no-header --no-count) )
 
 printf "\n%-20s %-6s %s\n" "PATH" "USED" "STATUS"
 
