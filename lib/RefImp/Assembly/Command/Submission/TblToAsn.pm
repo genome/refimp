@@ -229,18 +229,12 @@ sub format_names {
 
     my @formatted_names;
     foreach my $name ( split(/;\s?/, $string) ) {
-        my @name_parts = split /[ \.]/, $name;
-
-        my $first = shift @name_parts;
-        my $last  = pop @name_parts;
-        my @initials = map {"$_."} map {uc $_} map {m/^(.)/} ($first, @name_parts);
-
-
+        my $parsed_name = RefImp::User->parse_name($name);
         push @formatted_names, sprintf(
             'name name { last "%s" , first "%s" , initials "%s" }',
-            $last,
-            $first,
-            join('', @initials),
+            $parsed_name->{last},
+            $parsed_name->{first},
+            $parsed_name->{initials},
         );
     }
 
