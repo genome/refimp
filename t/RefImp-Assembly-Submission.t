@@ -117,7 +117,7 @@ subtest 'submission_info' => sub {
 };
 
 subtest 'validate_for_submit' => sub{
-    plan tests => 13;
+    plan tests => 17;
 
     my $submission = $setup{submission};
     my $info = $submission->submission_info();
@@ -127,14 +127,28 @@ subtest 'validate_for_submit' => sub{
     throws_ok(sub{ $submission->validate_for_submit; }, qr/No submission info set/, 'validate_for_submit fails w/o submit info');
     $submission->submission_info($info);
     
+    # Authors required, format
+    my $v = delete $info->{authors};
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/No authors in submission info/, 'fails w/o authors');
+    $info->{authors} = 'Prince';
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/Expected a last name in "Prince"/, 'fails w/ invalid authors name');
+    $info->{authors} = $v;
+
     # Assembly method required, and correct format
-    my $assembly_method = delete $info->{assembly_method};
+    $v = delete $info->{assembly_method};
     $info->{assembly_method} = 'NO_VDOT';
     throws_ok(sub{ $submission->validate_for_submit; }, qr/Invalid assembly_method/, 'fails w/ invalid assembly_method');
-    $info->{assembly_method} = $assembly_method;
+    $info->{assembly_method} = $v;
+
+    # Contact required, format
+    $v = delete $info->{contact};
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/No contact in submission info/, 'fails w/o contact');
+    $info->{contact} = 'Prince';
+    throws_ok(sub{ $submission->validate_for_submit; }, qr/Expected a last name in "Prince"/, 'fails w/ invalid contact name');
+    $info->{contact} = $v;
 
     # Release notes required
-    my $v = delete $info->{release_notes_file};
+    $v = delete $info->{release_notes_file};
     throws_ok(sub{ $submission->validate_for_submit; }, qr/No release_notes_file in submission info/, "validate_for_submit fails w/o release_notes_file");
     $info->{release_notes_file} = 'blah';
     throws_ok(sub{ $submission->validate_for_submit; }, qr/File release_notes_file is defined in submission info, but does not exist/, "validate_for_submit fails w/o release_notes_file");
