@@ -10,7 +10,7 @@ class RefImp::Tenx::Command::Alignment::List {
             is_constant => 1,
             value => 'RefImp::Tenx::Alignment',
         },
-        show => { default_value => 'id,sample_name,directory,targets_path', },
+        show => { default_value => 'id,reads.sample_name,reference.name,directory', },
     },
     doc => 'list tenx reads and properties',
 };
