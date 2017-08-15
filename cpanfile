@@ -6,6 +6,7 @@ requires 'Class::Accessor';
 requires 'Devel::Cover';
 requires 'Devel::Cover::Report::Coveralls';
 requires 'File::Slurp';
+requires 'Filesys::Df';
 requires 'FindBin';
 requires 'JSON';
 requires 'LWP::UserAgent';

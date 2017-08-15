@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 class RefImp::DataSource::Oltp {
-    is => [qw/ UR::DataSource::RDBMSRetriableOperations UR::DataSource::Oracle /],
+    is => [qw/ UR::DataSource::Pg UR::DataSource::RDBMSRetriableOperations /],
     has_classwide_constant => [
         server  => { default_value => RefImp::Config::get('ds_oltp_server') },
         login   => { default_value => RefImp::Config::get('ds_oltp_login') },
