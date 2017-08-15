@@ -29,7 +29,10 @@ sub execute {
     chdir $working_dir;
 
     my @failed_projects;
-    for my $file ( grep { m/fa2htgs.asn.ac4htgs$/ } $ftp->ls ) {
+    my @files = grep { m/fa2htgs.asn.ac4htgs$/ } $ftp->ls;
+    $self->status_message("Found %s report files...", scalar(@files));
+    for my $file ( @files ) {
+        $self->status_message("Checking file: %s", $file);
         $ftp->get($file);
         my $report = RefImp::Resources::Ncbi::SubmissionReport->from_file($file);
         $self->fatal_message('Failed to create report from file: %s', $file) if not $report;
