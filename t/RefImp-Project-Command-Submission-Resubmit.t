@@ -14,11 +14,15 @@ my %test;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    $test{pkg} = 'RefImp::Project::Command::Submission::Submit';
+    $test{pkg} = 'RefImp::Project::Command::Submission::Resubmit';
     use_ok($test{pkg}) or die;
-    use_ok('RefImp::Project::Submission') or die;
 
-    $test{project} = RefImp::Project->get(1);
+    $test{submission} = RefImp::Project::Submission->create(
+        project => RefImp::Project->get(1),
+        directory => TestEnv::test_data_directory_for_package('RefImp::Project::Command::Submission::Submit');
+        phase => 3,
+    );
+    ok($test{submission}, 'create submission');
 
     Sub::Install::reinstall_sub({
             code => sub { File::Spec->join(RefImp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
@@ -26,11 +30,10 @@ subtest 'setup' => sub{
             into => 'RefImp::Project::Submission',
         });
 
-   $test{ftp} = TestEnv::NcbiFtp->setup;
-
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     RefImp::Config::set('analysis_directory', $tempdir);
 
+    $test{ftp} = TestEnv::NcbiFtp->setup;
     RefImp::Config::set('ncbi_ftp_host', 'ftp-host');
     RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
     RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
