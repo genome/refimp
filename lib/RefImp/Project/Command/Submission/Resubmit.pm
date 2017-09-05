@@ -3,19 +3,10 @@ package RefImp::Project::Command::Submission::Resubmit;
 use strict;
 use warnings 'FATAL';
 
-use Bio::SeqIO;
-use File::Basename;
 use File::Copy;
 use File::Copy::Recursive;
-use File::Spec;
 use File::Temp;
-use IO::File;
-use Net::FTP;
 use Path::Class;
-use RefImp::Ace::Directory;
-use RefImp::Project::Submission::Info;
-use RefImp::Project::Submission::Form;
-use RefImp::Project::Submission::Sequence;
 use RefImp::Resources::NcbiFtp;
 use YAML;
 
@@ -61,7 +52,7 @@ sub _setup {
 
     $self->submission(
         RefImp::Project::Submission->create(
-            project => $self->project,
+            project => $self->from_submission->project,
             phase => 3,
         )
     ) or $self->fatal_message('Failed to create submission record for %s', $self->project->__display_name__);
@@ -73,15 +64,16 @@ sub _copy_submission_files {
     $self->status_message('Copy submission files...');
 
     my $from_submission = $self->from_submission;
+    my $from_dir = dir( $from_submission->directory );
     my $submission = $self->submission;
-    for my $method (qw/ submit_info_yml_file_name /) {
-        my $from_file = $from_submission->$method;
+    for my $method (qw/ submit_info_yml_file_name sequence_file_name /) {
+        my $from_file = $from_dir->file($from_submission->$method);
         my $file = $self->staging_directory->file($submission->$method);
-        $self->status_message('Copy %s to %s', $from_file, $file->stringify);
-        if ( not File::Copy::copy($from_file, $file) ) {
-            $self->fatal_message('Failed to copy %s file from submission to staging directory', $methpd);
+        $self->status_message('Copy %s to %s', $from_file, $file);
+        if ( not File::Copy::copy($from_file->stringify, $file->stringify) ) {
+            $self->fatal_message('Failed to copy %s file from submission to staging directory: %s', $method, $!);
         }
-        if (not -s $file->file ) {
+        if ( not -s $file->stringify ) {
             $self->fatal_message('Copy succeeded, but file does not exist! %s', $file)
         }
     }
@@ -93,14 +85,10 @@ sub _load_submit_info {
     my $self = shift;
     $self->status_message('Load submit info...');
 
-    my $submit_file = $self->submission->submit_info_yml_file_name;
-    $self->submit_info( RefImp::Project::Submission::Info->load($self->project) );
+    my $submit_file = $self->staging_directory->file($self->submission->submit_info_yml_file_name);
+    $self->submit_info( YAML::LoadFile($submit_file->stringify) );
 
-    my $file = $self->staging_directory->file( $self->submission->submit_info_yml_file_name );
-    $self->status_message('Save submit YAML: %s', $file);
-    YAML::DumpFile($file->stringify, $self->submit_info);
-
-    $self->status_message('Generate submit info...OK');
+    $self->status_message('Load submit info...OK');
 }
 
 sub _generate_asn {
@@ -108,7 +96,7 @@ sub _generate_asn {
     $self->status_message('Generate ASN...');
 
     my $asn = RefImp::Project::Submission::Asn->create(
-        project => $self->project,
+        project => $self->submission->project,
         submit_info => $self->submit_info,
         working_directory => $self->staging_directory->stringify,
     );
@@ -132,7 +120,7 @@ sub _ftp_asn_to_ncbi {
     my $asn_file_name = File::Basename::basename($asn_path);
     my $asn_path_size = -s $asn_path;
     $self->status_message('ASN size: %s', $asn_path_size);
-    my $ncbi_file_name = join('.', $self->project->name, 'phase3', 'fa2htgs', 'asn');
+    my $ncbi_file_name = join('.', $self->submission->project->name, 'phase3', 'fa2htgs', 'asn');
     $self->status_message('Remote file name: %s', $ncbi_file_name);
 
     if ( not $ftp->put($asn_path, $ncbi_file_name) ) {
@@ -165,7 +153,7 @@ sub _copy_staging_content_to_submission_directory {
 
 sub _update_project_and_submission {
     my $self = shift;
-    $self->status_message('Project status: %s', $self->project->status('submitted'));
+    $self->status_message('Project status: %s', $self->submission->project->status('submitted'));
     my $size = 0;
     for ( @{$self->submit_info->{COMMENTS}->{ContigData}} ) { $size += $_->{ContigFinishedTo} - $_->{ContigFinishedFrom} + 1; }
     $self->status_message('Project size: %s', $self->submission->project_size($size));

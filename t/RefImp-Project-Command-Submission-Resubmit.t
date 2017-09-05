@@ -19,10 +19,12 @@ subtest 'setup' => sub{
 
     $test{submission} = RefImp::Project::Submission->create(
         project => RefImp::Project->get(1),
-        directory => TestEnv::test_data_directory_for_package('RefImp::Project::Command::Submission::Submit');
+        directory => TestEnv::test_data_directory_for_package('RefImp::Project::Command::Submission::Submit'),
+        submitted_on => '2000-01-01',
         phase => 3,
     );
     ok($test{submission}, 'create submission');
+    $test{submission}->project->status('presubmitted');
 
     Sub::Install::reinstall_sub({
             code => sub { File::Spec->join(RefImp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
@@ -43,41 +45,46 @@ subtest 'setup' => sub{
 };
 
 subtest 'submit' => sub{
-    plan tests => 15;
+    plan tests => 18;
 
-    my $project = $test{project};
-    $project->status('presubmitted');
+    my $from_submission = $test{submission};
+    my @submissions = $from_submission->project->submissions;
+    is(@submissions, 1, 'project has one submission');
 
-    my @submissions = $project->submissions;
-    is(@submissions, 0, 'project has not submissions');
-
-    my $cmd = $test{pkg}->create(project => $test{project});
-    $test{ftp}->mock('size', sub{ -s $cmd->asn_path });
+    my $cmd = $test{pkg}->create(from_submission => $from_submission);
     ok($cmd, 'create');
+    $test{ftp}->mock('size', sub{ -s $cmd->asn_path });
     ok($cmd->execute, 'execute');
 
-    is($cmd->project, $project, 'project');
-    is($project->status, 'submitted', 'set project status');
+    my $submission = $cmd->submission;
+    ok($submission, 'created and set submission');
+    ok($submission->directory, 'submission directory');
+    ok($submission->submitted_on, 'submission submitted_on');
+    is($submission->project_size, 1413, 'submission project_size');
 
+    ok($cmd->asn_path, 'set asn_path');
     ok($cmd->staging_directory, 'set staging_directory');
     ok($cmd->submit_info, 'set submit_info');
 
-    @submissions = $project->submissions;
-    is(@submissions, 1, 'created submission');
-    is($submissions[0]->project, $project, 'submission project');
-    is($submissions[0]->project_size, 1413, 'submission project_size');
+    @submissions = $submission->project->submissions;
+    is(@submissions, 2, 'created submission');
+
+    my $project = $submission->project;
+    is($project, $test{submission}->project, 'submission project');
+    is($project->status, 'submitted', 'project status is still submitted');
 
     my @file_names_to_compare = (
-        $submissions[0]->submit_info_yml_file_name,
-        $submissions[0]->submit_form_file_name,
-        join('.', $test{project}->name, 'whole', 'contig'),
-        join('.', $test{project}->name, 'seq'),
+        $submission->submit_info_yml_file_name,
+        $submission->submit_form_file_name,
+        join('.', $project->name, 'whole', 'contig'),
+        join('.', $project->name, 'seq'),
     );
     my $test_data_path = TestEnv::test_data_directory_for_package($test{pkg});
     for my $file_name ( @file_names_to_compare ) {
-        my $path = File::Spec->join($submissions[0]->directory, $file_name);
+        my $path = File::Spec->join($submission->directory, $file_name);
         my $expected_path = File::Spec->join($test_data_path, $file_name);
         is(File::Compare::compare($path, $expected_path), 0, "$file_name saved");
+        print "$path $expected_path\n";
     }
     ok(-s $cmd->asn_path, 'asn_path saved');
 
