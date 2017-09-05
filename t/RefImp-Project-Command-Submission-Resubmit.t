@@ -8,7 +8,7 @@ use TestEnv;
 use File::Compare;
 use Sub::Install;
 use Test::Exception;
-use Test::More tests => 3;
+use Test::More tests => 2;
 
 my %test;
 subtest 'setup' => sub{
@@ -39,14 +39,6 @@ subtest 'setup' => sub{
     RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
 
     TestEnv::LimsRestApi::setup;
-
-};
-
-subtest 'cannot submit project with incorrect status' => sub{
-    plan tests => 2;
-
-    is($test{project}->status('finish_start'), 'finish_start', 'set project status to finish_start');
-    throws_ok(sub{ $test{pkg}->execute(project => $test{project}); }, qr/Project /, 'fails w/ incorrect project status');
 
 };
 
