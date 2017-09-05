@@ -11,6 +11,7 @@ use File::Spec;
 use File::Temp;
 use IO::File;
 use Net::FTP;
+use Path::Class;
 use RefImp::Ace::Directory;
 use RefImp::Project::Submission::Info;
 use RefImp::Project::Submission::Form;
@@ -28,7 +29,7 @@ class RefImp::Project::Command::Submission::Resubmit {
     },
     has_transient_optional => {
         asn_path => { is => 'Text', },
-        staging_directory => { is => 'Text', },
+        staging_directory => { is => 'Path::Class::Dir', },
         submit_info => { is => 'Text', },
         submission => { is => 'RefImp::Project::Submission', },
     },
@@ -45,7 +46,7 @@ sub execute {
     $self->_load_submit_info;
     $self->_generate_asn;
     $self->_ftp_asn_to_ncbi;
-    $self->_move_staging_content_to_submission_directory;
+    $self->_copy_staging_content_to_submission_directory;
     $self->_update_project_and_submission;
 
     return 1;
@@ -54,8 +55,8 @@ sub execute {
 sub _setup {
     my $self = shift;
 
-    $self->staging_directory( File::Temp::tempdir(CLEANUP => 1) );
-    chmod(0775, $self->staging_directory);
+    $self->staging_directory( dir( File::Temp::tempdir(CLEANUP => 1)) );
+    chmod(0775, $self->staging_directory->stringify);
     $self->status_message('Staging directory: %s', $self->staging_directory);
 
     $self->submission(
@@ -75,9 +76,14 @@ sub _copy_submission_files {
     my $submission = $self->submission;
     for my $method (qw/ submit_info_yml_file_name /) {
         my $from_file = $from_submission->$method;
-        my $file = $submission->$method;
-        File::Copy::copy($from_file, $file)
-            or $self->fatal_message('Failed to copy %s file from submission to staging directory', $methpd);
+        my $file = $self->staging_directory->file($submission->$method);
+        $self->status_message('Copy %s to %s', $from_file, $file->stringify);
+        if ( not File::Copy::copy($from_file, $file) ) {
+            $self->fatal_message('Failed to copy %s file from submission to staging directory', $methpd);
+        }
+        if (not -s $file->file ) {
+            $self->fatal_message('Copy succeeded, but file does not exist! %s', $file)
+        }
     }
 
     $self->status_message('Copy submission files...OK');
@@ -90,11 +96,9 @@ sub _load_submit_info {
     my $submit_file = $self->submission->submit_info_yml_file_name;
     $self->submit_info( RefImp::Project::Submission::Info->load($self->project) );
 
-    my $file = File::Spec->join(
-        $self->staging_directory, $self->submission->submit_info_yml_file_name,
-    );
+    my $file = $self->staging_directory->file( $self->submission->submit_info_yml_file_name );
     $self->status_message('Save submit YAML: %s', $file);
-    YAML::DumpFile($file, $self->submit_info);
+    YAML::DumpFile($file->stringify, $self->submit_info);
 
     $self->status_message('Generate submit info...OK');
 }
@@ -106,7 +110,7 @@ sub _generate_asn {
     my $asn = RefImp::Project::Submission::Asn->create(
         project => $self->project,
         submit_info => $self->submit_info,
-        working_directory => $self->staging_directory,
+        working_directory => $self->staging_directory->stringify,
     );
     $asn->generate;
 
@@ -145,14 +149,16 @@ sub _ftp_asn_to_ncbi {
     $self->status_message('FTP ASN to NCBI...OK');
 }
 
-sub _move_staging_content_to_submission_directory {
+sub _copy_staging_content_to_submission_directory {
     my $self = shift;
     $self->status_message('Copy contents of staging directory to submission directory...');
 
     $self->status_message('Staging directory: %s', $self->staging_directory);
     $self->status_message('Submission directory: %s', $self->submission->directory);
-    my $rv = File::Copy::Recursive::dircopy($self->staging_directory, $self->submission->directory)
-        or $self->fatal_message('Failed to copy contents! '.$!);
+    my $rv = File::Copy::Recursive::dircopy($self->staging_directory->stringify, $self->submission->directory);
+    if ( not $rv ) {
+        $self->fatal_message('Failed to copy staging directory to submission directory! %s', $!);
+    }
 
     $self->status_message('Copy contents of staging directory to submission directory...OK');
 }
