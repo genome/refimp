@@ -125,7 +125,7 @@ sub _save_sequence {
 
     my $transposon_excised_seq = $sequence->transposon_excised_seq;
     $io = Bio::SeqIO->new(
-        -file => '>'.File::Spec->join($self->staging_directory, join('.', $self->project->name, 'seq')),
+        -file => '>'.File::Spec->join($self->staging_directory, $self->submission->sequence_file_name),
         -format => 'Fasta',
     );
     $io->write_seq($transposon_excised_seq);

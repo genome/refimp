@@ -100,7 +100,7 @@ subtest 'form' => sub{
 };
 
 subtest 'files' => sub{
-    plan tests => 2;
+    plan tests => 3;
 
     is($submission->submit_info_yml_file_name, join('.', $submission->project->name, 'submit', 'yml'), 'submit_form_file_name');
 
@@ -109,6 +109,12 @@ subtest 'files' => sub{
         $submission->raw_sqn_template_for_taxon($submission->project->taxon),
         File::Spec->join($analysis_directory, 'templates', 'raw_'.$submission->project->taxon->species_short_name.'_template.sqn'),
         'raw_sqn_template_for_taxon',
+    );
+
+    is(
+        $submission->sequence_file_name,
+        join('.', $submission->project->name, 'seq'),
+        'whole_sequence_file_name',
     );
 
 };

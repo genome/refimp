@@ -117,6 +117,11 @@ sub new_submission_directory {
     $directory
 }
 
+# Sequence Files
+sub sequence_file_name {
+    join('.', $_[0]->project->name, 'seq');
+}
+
 # Submit Form
 sub submit_form_file_name {
     join('.', $_[0]->project->name, 'submit', 'form');
