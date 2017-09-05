@@ -10,15 +10,15 @@ use Sub::Install;
 use Test::Exception;
 use Test::More tests => 3;
 
-my %setup;
+my %test;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    $setup{pkg} = 'RefImp::Project::Command::Submission::Submit';
-    use_ok($setup{pkg}) or die;
+    $test{pkg} = 'RefImp::Project::Command::Submission::Submit';
+    use_ok($test{pkg}) or die;
     use_ok('RefImp::Project::Submission') or die;
 
-    $setup{project} = RefImp::Project->get(1);
+    $test{project} = RefImp::Project->get(1);
 
     Sub::Install::reinstall_sub({
             code => sub { File::Spec->join(RefImp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
@@ -26,7 +26,7 @@ subtest 'setup' => sub{
             into => 'RefImp::Project::Submission',
         });
 
-   $setup{ftp} = TestEnv::NcbiFtp->setup;
+   $test{ftp} = TestEnv::NcbiFtp->setup;
 
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     RefImp::Config::set('analysis_directory', $tempdir);
@@ -42,22 +42,22 @@ subtest 'setup' => sub{
 subtest 'cannot submit project with incorrect status' => sub{
     plan tests => 2;
 
-    is($setup{project}->status('finish_start'), 'finish_start', 'set project status to finish_start');
-    throws_ok(sub{ $setup{pkg}->execute(project => $setup{project}); }, qr/Project /, 'fails w/ incorrect project status');
+    is($test{project}->status('finish_start'), 'finish_start', 'set project status to finish_start');
+    throws_ok(sub{ $test{pkg}->execute(project => $test{project}); }, qr/Project /, 'fails w/ incorrect project status');
 
 };
 
 subtest 'submit' => sub{
     plan tests => 15;
 
-    my $project = $setup{project};
+    my $project = $test{project};
     $project->status('presubmitted');
 
     my @submissions = $project->submissions;
     is(@submissions, 0, 'project has not submissions');
 
-    my $cmd = $setup{pkg}->create(project => $setup{project});
-    $setup{ftp}->mock('size', sub{ -s $cmd->asn_path });
+    my $cmd = $test{pkg}->create(project => $test{project});
+    $test{ftp}->mock('size', sub{ -s $cmd->asn_path });
     ok($cmd, 'create');
     ok($cmd->execute, 'execute');
 
@@ -75,10 +75,10 @@ subtest 'submit' => sub{
     my @file_names_to_compare = (
         $submissions[0]->submit_info_yml_file_name,
         $submissions[0]->submit_form_file_name,
-        join('.', $setup{project}->name, 'whole', 'contig'),
-        join('.', $setup{project}->name, 'seq'),
+        join('.', $test{project}->name, 'whole', 'contig'),
+        join('.', $test{project}->name, 'seq'),
     );
-    my $test_data_path = TestEnv::test_data_directory_for_package($setup{pkg});
+    my $test_data_path = TestEnv::test_data_directory_for_package($test{pkg});
     for my $file_name ( @file_names_to_compare ) {
         my $path = File::Spec->join($submissions[0]->directory, $file_name);
         my $expected_path = File::Spec->join($test_data_path, $file_name);
