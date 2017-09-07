@@ -100,8 +100,9 @@ subtest 'form' => sub{
 };
 
 subtest 'files' => sub{
-    plan tests => 4;
+    plan tests => 5;
 
+    is($submission->submit_info_stor_file_name, join('.', $submission->project->name, 'serialized', 'dat'), 'submit_info_stor_file_name');
     is($submission->submit_info_yml_file_name, join('.', $submission->project->name, 'submit', 'yml'), 'submit_form_file_name');
 
     my $analysis_directory = RefImp::Config::get('analysis_directory');

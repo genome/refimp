@@ -143,6 +143,10 @@ sub submit_info_yml_file_name {
     join('.', $_[0]->project->name, 'submit', 'yml');
 }
 
+sub submit_info_stor_file_name {
+    join('.', $_[0]->project->name, 'serialized', 'dat');
+}
+
 sub raw_sqn_template_for_taxon {
     my ($class, $taxon) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Taxon'});
     my $raw_template_path = File::Spec->join(
