@@ -7,6 +7,7 @@ use File::Copy;
 use File::Copy::Recursive;
 use File::Temp;
 use Path::Class;
+use RefImp::Project::Submission::Form;
 use RefImp::Resources::NcbiFtp;
 use YAML;
 
@@ -35,6 +36,7 @@ sub execute {
     $self->_setup;
     $self->_copy_submission_files;
     $self->_load_submit_info;
+    $self->_save_submit_form;
     $self->_generate_asn;
     $self->_ftp_asn_to_ncbi;
     $self->_copy_staging_content_to_submission_directory;
@@ -89,6 +91,25 @@ sub _load_submit_info {
     $self->submit_info( YAML::LoadFile($submit_file->stringify) );
 
     $self->status_message('Load submit info...OK');
+}
+
+sub _save_submit_form {
+    my $self = shift;
+    $self->status_message('Save submit form...');
+
+    my $form = RefImp::Project::Submission::Form->create($self->submit_info)
+        or die 'Failed to generate submissions form!';
+    my $file = File::Spec->join(
+        $self->staging_directory,
+        $self->submission->submit_form_file_name,
+    );
+    $self->status_message('Submit form path: %s', $file);
+    my $fh = IO::File->new($file, 'w')
+        or die "Failed to open submit form file ($file): $!";
+    $fh->print($form);
+    $fh->close;
+
+    $self->status_message('Save submit form...OK');
 }
 
 sub _generate_asn {
