@@ -17,9 +17,10 @@ subtest 'setup' => sub{
     $test{pkg} = 'RefImp::Project::Command::Submission::Resubmit';
     use_ok($test{pkg}) or die;
 
+    $test{data_dir} = TestEnv::test_data_directory_for_package('RefImp::Project::Command::Submission::Submit');
     $test{submission} = RefImp::Project::Submission->create(
         project => RefImp::Project->get(1),
-        directory => TestEnv::test_data_directory_for_package('RefImp::Project::Command::Submission::Submit'),
+        directory => $test{data_dir},
         submitted_on => '2000-01-01',
         phase => 3,
     );
@@ -79,10 +80,9 @@ subtest 'submit' => sub{
         join('.', $project->name, 'whole', 'contig'),
         join('.', $project->name, 'seq'),
     );
-    my $test_data_path = TestEnv::test_data_directory_for_package($test{pkg});
     for my $file_name ( @file_names_to_compare ) {
         my $path = File::Spec->join($submission->directory, $file_name);
-        my $expected_path = File::Spec->join($test_data_path, $file_name);
+        my $expected_path = File::Spec->join($test{data_dir}, $file_name);
         is(File::Compare::compare($path, $expected_path), 0, "$file_name saved");
         print "$path $expected_path\n";
     }
