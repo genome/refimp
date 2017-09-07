@@ -117,7 +117,7 @@ sub _save_sequence {
     my $sequence = RefImp::Project::Submission::Sequence->create(%seq_params);
 
     my $io = Bio::SeqIO->new(
-        -file => '>'.File::Spec->join($self->staging_directory, join('.', $self->project->name, 'whole', 'contig')),
+        -file => '>'.File::Spec->join($self->staging_directory, $self->submission->whole_contig_file_name),
         -format => 'Fasta',
     );
     $io->write_seq($sequence->seq);

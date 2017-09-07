@@ -100,7 +100,7 @@ subtest 'form' => sub{
 };
 
 subtest 'files' => sub{
-    plan tests => 3;
+    plan tests => 4;
 
     is($submission->submit_info_yml_file_name, join('.', $submission->project->name, 'submit', 'yml'), 'submit_form_file_name');
 
@@ -111,11 +111,8 @@ subtest 'files' => sub{
         'raw_sqn_template_for_taxon',
     );
 
-    is(
-        $submission->sequence_file_name,
-        join('.', $submission->project->name, 'seq'),
-        'whole_sequence_file_name',
-    );
+    is($submission->sequence_file_name, join('.', $submission->project->name, 'seq'), 'sequence_file_name');
+    is($submission->whole_contig_file_name, join('.', $submission->project->name, 'whole', 'contig'), 'whole_contig_file_name',);
 
 };
 

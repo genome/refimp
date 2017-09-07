@@ -68,7 +68,7 @@ sub _copy_submission_files {
     my $from_submission = $self->from_submission;
     my $from_dir = dir( $from_submission->directory );
     my $submission = $self->submission;
-    for my $method (qw/ submit_info_yml_file_name sequence_file_name /) {
+    for my $method (qw/ submit_info_yml_file_name sequence_file_name whole_contig_file_name /) {
         my $from_file = $from_dir->file($from_submission->$method);
         my $file = $self->staging_directory->file($submission->$method);
         $self->status_message('Copy %s to %s', $from_file, $file);

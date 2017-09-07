@@ -122,6 +122,10 @@ sub sequence_file_name {
     join('.', $_[0]->project->name, 'seq');
 }
 
+sub whole_contig_file_name { # includes transposons
+    join('.', $_[0]->project->name, 'whole', 'contig');
+}
+
 # Submit Form
 sub submit_form_file_name {
     join('.', $_[0]->project->name, 'submit', 'form');
