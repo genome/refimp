@@ -40,13 +40,15 @@ sub execute {
     $self->_generate_asn;
     $self->_ftp_asn_to_ncbi;
     $self->_copy_staging_content_to_submission_directory;
-    $self->_update_project_and_submission;
+    $self->_update_project;
 
     return 1;
 }
 
 sub _setup {
     my $self = shift;
+
+    $self->from_submission->dump_submit_info_from_stor_file_to_yml_file; # make sure yml exists
 
     $self->staging_directory( dir( File::Temp::tempdir(CLEANUP => 1)) );
     chmod(0775, $self->staging_directory->stringify);
@@ -172,7 +174,7 @@ sub _copy_staging_content_to_submission_directory {
     $self->status_message('Copy contents of staging directory to submission directory...OK');
 }
 
-sub _update_project_and_submission {
+sub _update_project {
     my $self = shift;
     $self->status_message('Project status: %s', $self->submission->project->status('submitted'));
     my $size = 0;

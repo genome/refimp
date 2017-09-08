@@ -84,7 +84,6 @@ subtest 'submit' => sub{
         my $path = File::Spec->join($submission->directory, $file_name);
         my $expected_path = File::Spec->join($test{data_dir}, $file_name);
         is(File::Compare::compare($path, $expected_path), 0, "$file_name saved");
-        print "$path $expected_path\n";
     }
     ok(-s $cmd->asn_path, 'asn_path saved');
 

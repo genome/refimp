@@ -139,12 +139,39 @@ sub legacy_submit_form_file {
     File::Spec->join($_[0]->directory, 'README');
 }
 
+# Submit Info Files
 sub submit_info_yml_file_name {
     join('.', $_[0]->project->name, 'submit', 'yml');
 }
 
 sub submit_info_stor_file_name {
     join('.', $_[0]->project->name, 'serialized', 'dat');
+}
+
+sub dump_submit_info_from_stor_file_to_yml_file {
+    my $self = shift;
+
+    my $directory = $self->directory;
+    $self->fatal_message('No directory for submission! %s', $self->__display_name__) if not $directory;
+    $self->fatal_message('Directory for submission does not exist! %s', $directory) if not -d $directory;
+
+    my $submit_info_yml_file = File::Spec->join($directory, $self->submit_info_yml_file_name);
+    return if -s $submit_info_yml_file;
+
+    my $submit_info_stor_file = File::Spec->join($directory, $self->submit_info_stor_file_name);
+    if ( not -s $submit_info_stor_file ) {
+        $self->fatal_message('No submit info stor file for submission! %s', $self->__display_name__);
+    }
+
+    my $info = retrieve($submit_info_stor_file);
+    if ( not $info ) {
+        $self->fatal_message('Failed to load submit info from stor file! %s', $submit_info_stor_file);
+    }
+
+    YAML::DumpFile($submit_info_yml_file, $info);
+    if ( not -s $submit_info_yml_file ) {
+        $self->fatal_message('Dumped submit info to %s but it does not exist!', $submit_info_yml_file);
+    }
 }
 
 sub raw_sqn_template_for_taxon {
