@@ -16,6 +16,7 @@ class RefImp::Project::Command::Submission::Resubmit {
     has => {
         from_submission => {
             is => 'RefImp::Project::Submission',
+            shell_args_position => 1,
             doc => 'Submission to resubmit.',
         },
     },
