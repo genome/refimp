@@ -5,14 +5,16 @@ use warnings;
 
 use TestEnv;
 
+use File::Copy 'copy';
 use File::Spec;
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 my $pkg = 'RefImp::Project::Submission';
-
+my $test_data_directory = TestEnv::test_data_directory_for_package($pkg);
 my $submission;
+
 subtest 'create' => sub {
     plan tests => 7;
 
@@ -45,7 +47,6 @@ subtest 'create_from_directory' => sub{
     throws_ok(sub{ $pkg->create_from_directory(); }, qr/No directory specified to create submission record from/, 'create_from_directory fails w/o directory');
     throws_ok(sub{ $pkg->create_from_directory('/blah'); }, qr/Directory to create submission record from does not exist/, 'create_from_directory fails w/ non existing directory');
 
-    my $test_data_directory = TestEnv::test_data_directory_for_package($pkg);
     throws_ok(sub{ $pkg->create_from_directory($test_data_directory); }, qr/because there is no submit info/, 'create_from_directory fails w/o submit info');
 
     my $directory = File::Spec->join($test_data_directory, '20010101');
@@ -100,8 +101,9 @@ subtest 'form' => sub{
 };
 
 subtest 'files' => sub{
-    plan tests => 2;
+    plan tests => 5;
 
+    is($submission->submit_info_stor_file_name, join('.', $submission->project->name, 'serialized', 'dat'), 'submit_info_stor_file_name');
     is($submission->submit_info_yml_file_name, join('.', $submission->project->name, 'submit', 'yml'), 'submit_form_file_name');
 
     my $analysis_directory = RefImp::Config::get('analysis_directory');
@@ -110,6 +112,39 @@ subtest 'files' => sub{
         File::Spec->join($analysis_directory, 'templates', 'raw_'.$submission->project->taxon->species_short_name.'_template.sqn'),
         'raw_sqn_template_for_taxon',
     );
+
+    is($submission->sequence_file_name, join('.', $submission->project->name, 'seq'), 'sequence_file_name');
+    is($submission->whole_contig_file_name, join('.', $submission->project->name, 'whole', 'contig'), 'whole_contig_file_name',);
+
+};
+
+subtest 'dump stor to yml' => sub{
+    plan tests => 7;
+
+    my $project = RefImp::Project->get(1);
+    my $submission = $pkg->create(
+        accession_id => 'AC22222',
+        phase => '3',
+        project => $project,
+        submitted_on => '2009-09-09',
+    );
+    ok($submission, 'create submission');
+
+    my $directory = $submission->directory;
+    $submission->directory(undef);
+    throws_ok(sub{ $submission->dump_submit_info_from_stor_file_to_yml_file; }, qr/No directory for submission/, 'fails w/o directory');
+    $submission->directory('/blah');
+    throws_ok(sub{ $submission->dump_submit_info_from_stor_file_to_yml_file; }, qr/Directory for submission does not exist/, 'fails w/o esisting directory');
+    $submission->directory($directory);
+    throws_ok(sub{ $submission->dump_submit_info_from_stor_file_to_yml_file; }, qr//, 'fails w/o stor');
+
+    my $stor_file = File::Spec->join($test_data_directory, '20090909', $submission->submit_info_stor_file_name);
+    ok(-s $stor_file, 'found stor file') or die;
+    copy($stor_file, File::Spec->join($directory, $submission->submit_info_stor_file_name));
+
+    lives_ok(sub{ $submission->dump_submit_info_from_stor_file_to_yml_file }, 'dump_submit_info_from_stor_file_to_yml_file');
+    my $yml_file = File::Spec->join($directory, $submission->submit_info_yml_file_name);
+    ok(-s $yml_file, 'created submit yml file');
 
 };
 
