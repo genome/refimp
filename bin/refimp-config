@@ -6,5 +6,5 @@ use warnings;
 use lib "$ENV{REFIMP_LIB}";
 use lib "$ENV{REFIMP_PERL5LIB}";
 
-use RefImp::Config::CLI;
-exit RefImp::Config::CLI->run(@ARGV);
+use Refimp::Config::CLI;
+exit Refimp::Config::CLI->run(@ARGV);

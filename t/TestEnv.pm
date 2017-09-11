@@ -19,21 +19,21 @@ INIT { # runs after compilation, right before execution
     die "FATAL: $@" if $@;
 
     my $use = <<USE;
-    use RefImp;
+    use Refimp;
 USE
     eval $use;
     die "FATAL: $@" if $@;
 
     my $test_data_path = File::Spec->join($current_repo_path, 't', 'data');
 
-    RefImp::Config::set('analysis_directory', File::Spec->join($test_data_path, 'analysis'));
-    RefImp::Config::set('environment', 'test');
-    RefImp::Config::set('ds_mysql', 'RefImp::DataSource::TestDb');
-    RefImp::Config::set('ds_oltp', 'RefImp::DataSource::TestDb');
-    RefImp::Config::set('ds_testdb_server', File::Spec->join($test_data_path, 'test.db'));
-    RefImp::Config::set('net_ldap_url', 'ipa.refimp.org');
-    RefImp::Config::set('seqmgr', File::Spec->join($test_data_path, 'seqmgr'));
-    RefImp::Config::set('test_data_path', $test_data_path);
+    Refimp::Config::set('analysis_directory', File::Spec->join($test_data_path, 'analysis'));
+    Refimp::Config::set('environment', 'test');
+    Refimp::Config::set('ds_mysql', 'Refimp::DataSource::TestDb');
+    Refimp::Config::set('ds_oltp', 'Refimp::DataSource::TestDb');
+    Refimp::Config::set('ds_testdb_server', File::Spec->join($test_data_path, 'test.db'));
+    Refimp::Config::set('net_ldap_url', 'ipa.refimp.org');
+    Refimp::Config::set('seqmgr', File::Spec->join($test_data_path, 'seqmgr'));
+    Refimp::Config::set('test_data_path', $test_data_path);
 
     printf(STDERR "***** TEST ENV on %s *****\n", Sys::Hostname::hostname);
 }
@@ -52,7 +52,7 @@ sub resolve_repo_path {
 sub test_data_directory_for_package {
     my $pkg = shift;
     die 'No package given to get test data directory' if not $pkg;
-    File::Spec->join( RefImp::Config::get('test_data_path'), join('-', split('::', $pkg)) );
+    File::Spec->join( Refimp::Config::get('test_data_path'), join('-', split('::', $pkg)) );
 }
 
 package TestEnv::LimsRestApi;
@@ -80,10 +80,10 @@ sub setup {
         },
     );
 
-    eval('use RefImp::Resources::LimsRestApi;');
+    eval('use Refimp::Resources::LimsRestApi;');
     Sub::Install::reinstall_sub({
             code => sub{ $lims_rest_api },
-            into => 'RefImp::Resources::LimsRestApi',
+            into => 'Refimp::Resources::LimsRestApi',
             as => 'new'
         });
 }
@@ -103,9 +103,9 @@ sub setup {
 
     return $ftp if $ftp;
 
-    RefImp::Config::set('ncbi_ftp_host', 'ftp-host');
-    RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
-    RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
+    Refimp::Config::set('ncbi_ftp_host', 'ftp-host');
+    Refimp::Config::set('ncbi_ftp_user', 'ftp-user');
+    Refimp::Config::set('ncbi_ftp_password', 'ftp-password');
 
     my $ftp = Test::MockObject->new;
     $ftp->set_true('login');
