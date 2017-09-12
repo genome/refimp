@@ -1,4 +1,4 @@
-package RefImp::Assembly::Command::Submission::TblToAsn;
+package Refimp::Assembly::Command::Submission::TblToAsn;
 
 use strict;
 use warnings 'FATAL';
@@ -8,7 +8,7 @@ use File::Temp;
 use IO::File;
 use Path::Class 'dir';
 
-class RefImp::Assembly::Command::Submission::TblToAsn {
+class Refimp::Assembly::Command::Submission::TblToAsn {
     is => 'Command::V2',
     has => {
         submission_yml => { is => 'Text', doc => 'Assembly submission object' },
@@ -18,7 +18,7 @@ class RefImp::Assembly::Command::Submission::TblToAsn {
         fasta_files => { is => 'Text', is_many => 1, },
         _output_directory => { is => 'Path::Class::Dir', },
         sqn_files => { is => 'Text', is_many => 1, },
-        submission => { is => 'RefImp::Assembly::Submission', },
+        submission => { is => 'Refimp::Assembly::Submission', },
     },
     has_optional_calculated => {
         comment_file => { calculate_from => [qw/ _output_directory /], calculate => q| $_output_directory->file('COMMENT'); |, },
@@ -35,7 +35,7 @@ sub execute {
     my $self = shift;
 
     $self->status_message('TBL TO ASN...');
-    $self->submission( RefImp::Assembly::Submission->define_from_yml($self->submission_yml) );
+    $self->submission( Refimp::Assembly::Submission->define_from_yml($self->submission_yml) );
     $self->status_message('Submission: %s', $self->submission->__display_name__);
     $self->_output_directory( dir( $self->output_directory) );
     $self->status_message('Output directory: %s', $self->_output_directory);
@@ -157,11 +157,11 @@ sub structured_comments {
 
     my $submission = $self->submission;
     my @comments;
-    for my $attr ( RefImp::Assembly::SubmissionInfo->required_attributes_for_structured_comments ) {
+    for my $attr ( Refimp::Assembly::SubmissionInfo->required_attributes_for_structured_comments ) {
         push @comments, join("\t", join(' ', map { ucfirst } split('_', $attr)), $submission->info_for($attr));
     }
 
-    for my $attr ( RefImp::Assembly::SubmissionInfo->optional_attributes_for_structured_comments ) {
+    for my $attr ( Refimp::Assembly::SubmissionInfo->optional_attributes_for_structured_comments ) {
         my $val = $submission->info_for($attr);
         next if not defined $val;
         push @comments, join("\t", join(' ', map { ucfirst } split('_', $attr)), $val);
@@ -180,7 +180,7 @@ sub split_fasta_files {
         my $fasta_file = $self->submission->path_for($type."_file");
         next if not $fasta_file;
 
-        my $splitter = RefImp::Assembly::Command::Submission::SplitFasta->execute(
+        my $splitter = Refimp::Assembly::Command::Submission::SplitFasta->execute(
             fasta_file => $fasta_file,
             output_fasta_file_pattern => File::Spec->join($self->_output_directory, join('.', $type, '%02d', 'fsa')),
             max_seq_count => 10_000,
@@ -229,7 +229,7 @@ sub format_names {
 
     my @formatted_names;
     foreach my $name ( split(/;\s?/, $string) ) {
-        my $parsed_name = RefImp::User->parse_name($name);
+        my $parsed_name = Refimp::User->parse_name($name);
         push @formatted_names, sprintf(
             'name name { last "%s" , first "%s" , initials "%s" }',
             $parsed_name->{last},

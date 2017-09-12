@@ -11,14 +11,14 @@ use File::Temp;
 use Test::Exception;
 use Test::More tests => 4;
 
-my $pkg = 'RefImp::Project::Command::Notes::Append';
+my $pkg = 'Refimp::Project::Command::Notes::Append';
 my ($project);
 subtest 'setup' => sub {
     plan tests => 3;
 
     use_ok($pkg) or die;
 
-    $project = RefImp::Project->create(name => 'H_PROJECT');
+    $project = Refimp::Project->create(name => 'H_PROJECT');
     ok($project, 'create project');
 
     my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
@@ -40,7 +40,7 @@ subtest 'execute' => sub {
     plan tests => 2;
 
     _write_notes_file();
-    my $cmd = RefImp::Project::Command::Notes::Append->execute(
+    my $cmd = Refimp::Project::Command::Notes::Append->execute(
         projects => [ $project ],
         content => "NEW CONTENT!\n",
     );
@@ -54,7 +54,7 @@ subtest 'execute w/ file' => sub {
     plan tests => 2;
 
     _write_notes_file();
-    my $cmd = RefImp::Project::Command::Notes::Append->execute(
+    my $cmd = Refimp::Project::Command::Notes::Append->execute(
         projects => [ $project ],
         from_file => File::Spec->join(TestEnv::test_data_directory_for_package($pkg), 'content.txt'),
     );

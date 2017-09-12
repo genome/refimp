@@ -1,4 +1,4 @@
-package RefImp::Util::Tablizer;
+package Refimp::Util::Tablizer;
 
 use strict;
 use warnings;

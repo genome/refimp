@@ -1,4 +1,4 @@
-package RefImp::Assembly::Submission;
+package Refimp::Assembly::Submission;
 
 use strict;
 use warnings 'FATAL';
@@ -6,19 +6,19 @@ use warnings 'FATAL';
 use File::Spec;
 use File::Slurp;
 use Path::Class;
-use RefImp::Assembly::SubmissionInfo;
+use Refimp::Assembly::SubmissionInfo;
 use Set::Scalar;
 use YAML;
 
-class RefImp::Assembly::Submission {
-   data_source => RefImp::Config::get('ds_mysql'),
+class Refimp::Assembly::Submission {
+   data_source => Refimp::Config::get('ds_mysql'),
    table_name => 'assemblies_submissions',
    id_generator => '-uuid',
    id_by => {
         id => { is => 'Text', column_name => 'submission_id', },
    },
    has => {
-        assembly => { is => 'RefImp::Assembly', id_by => 'assembly_id', doc => 'Assembly being submitted', },
+        assembly => { is => 'Refimp::Assembly', id_by => 'assembly_id', doc => 'Assembly being submitted', },
         biosample => { is => 'Text', doc => 'NCBI biosample', },
         bioproject => { is => 'Text', doc => 'NCBI bioproject', },
         submitted_on => { is => 'Date', default_value => UR::Context->now, doc => 'The date of submission', },
@@ -44,7 +44,7 @@ class RefImp::Assembly::Submission {
    },
    has_optional_transient => {
         submission_info => { is => 'HASH', },
-        ncbi_biosample => { is => 'RefImp::Resources::Ncbi::Biosample', },
+        ncbi_biosample => { is => 'Refimp::Resources::Ncbi::Biosample', },
    },
    doc => 'Assembly submission record',
 };
@@ -73,12 +73,12 @@ sub _from_yml {
     $class->fatal_message('Failed to open submission YAML!') if not $info;
 
     $class->fatal_message('No taxon in submission YAML! %s', $yml) if not $info->{taxon};
-    my $taxon = RefImp::Taxon->get(species_name => lc $info->{taxon});
+    my $taxon = Refimp::Taxon->get(species_name => lc $info->{taxon});
     $class->fatal_message('Taxon not found for "%s"!', $info->{taxon}) if not $taxon;
 
     my $directory = $yml->dir->absolute;
     my $id = UR::Object::Type->autogenerate_new_object_id_uuid;
-    my $assembly = RefImp::Assembly->$instantiation_method( # for now, just create a new assembly for each submission
+    my $assembly = Refimp::Assembly->$instantiation_method( # for now, just create a new assembly for each submission
         id => $id,
         name => $id, # gotta be unique
         taxon => $taxon, # only thing we really know
@@ -136,7 +136,7 @@ sub validate_for_submit {
 
 
     # Verify bioproject/biosample
-    my $ncbi_biosample = RefImp::Resources::Ncbi::Biosample->create(
+    my $ncbi_biosample = Refimp::Resources::Ncbi::Biosample->create(
         bioproject => $self->bioproject,
         biosample => $self->biosample,
     );
@@ -158,14 +158,14 @@ sub validate_for_submit {
         $self->fatal_message('No contigs or supercontigs files set in submission YAML!');
     }
 
-    my $nonfile_keys = Set::Scalar->new( grep { $_ !~ /_file$/ } RefImp::Assembly::SubmissionInfo->submission_info_keys );
-    my $optional_keys = Set::Scalar->new( RefImp::Assembly::SubmissionInfo->submission_info_optional_keys );
+    my $nonfile_keys = Set::Scalar->new( grep { $_ !~ /_file$/ } Refimp::Assembly::SubmissionInfo->submission_info_keys );
+    my $optional_keys = Set::Scalar->new( Refimp::Assembly::SubmissionInfo->submission_info_optional_keys );
     for my $key ( $nonfile_keys->difference($optional_keys)->members ) {
         $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
     }
 
-    RefImp::Assembly::Command::Submission::TblToAsn->format_names( $self->info_for('authors') );
-    my @formatted_contact = RefImp::Assembly::Command::Submission::TblToAsn->format_names( $self->info_for('contact') );
+    Refimp::Assembly::Command::Submission::TblToAsn->format_names( $self->info_for('authors') );
+    my @formatted_contact = Refimp::Assembly::Command::Submission::TblToAsn->format_names( $self->info_for('contact') );
     $self->fatal_message('More than one contact found in submission info!') if @formatted_contact > 1;
 
     1;

@@ -11,11 +11,11 @@ use File::Temp;
 use Sub::Install;
 use Test::More tests => 3;
 
-my $pkg_name = 'RefImp::Project::Command::Makecon';
+my $pkg_name = 'Refimp::Project::Command::Makecon';
 use_ok($pkg_name) or die;
 
 my $tempdir = File::Temp::tempdir(CLEANUP => 1);
-my $project = RefImp::Project->get(1);
+my $project = Refimp::Project->get(1);
 $project->status('finish_start');
 TestEnv::LimsRestApi::setup;
 
@@ -38,9 +38,9 @@ subtest 'from recent ace' => sub{
 subtest 'from lastest submission' => sub{
     plan tests => 3;
 
-    my $submission = RefImp::Project::Submission->create(
+    my $submission = Refimp::Project::Submission->create(
         project => $project,
-        directory => File::Spec->join(RefImp::Config::get('analysis_directory'), 'human', lc($project->name), '20160501'),
+        directory => File::Spec->join(Refimp::Config::get('analysis_directory'), 'human', lc($project->name), '20160501'),
     );
     my $output_file = File::Spec->join($tempdir, 'from_analysis_dir.con');
     my $makecon = $pkg_name->execute(

@@ -1,14 +1,14 @@
-package RefImp::Project::Command::Base;
+package Refimp::Project::Command::Base;
 
 use strict;
 use warnings;
 
-class RefImp::Project::Command::Base { 
+class Refimp::Project::Command::Base { 
     is => 'Command::V2',
     is_abstract => 1,
     has_input => {
         project => {
-            is => 'RefImp::Project',
+            is => 'Refimp::Project',
             shell_args_position => 1,
             doc => 'Project to use. Use id or name.',
         },

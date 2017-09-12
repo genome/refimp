@@ -16,7 +16,7 @@ my %setup;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    $setup{pkg} = 'RefImp::Resources::Ncbi::Biosample';
+    $setup{pkg} = 'Refimp::Resources::Ncbi::Biosample';
     use_ok($setup{pkg}) or die;
 
     # Bioproject/sample

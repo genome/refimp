@@ -12,15 +12,15 @@ use Test::More tests => 1;
 subtest 'create' => sub{
     plan tests => 9;
 
-    use_ok('RefImp::Taxon::Command::Create') or die;
+    use_ok('Refimp::Taxon::Command::Create') or die;
 
     my $name = "testy";
-    my $taxon = RefImp::Taxon->get(name => $name);
+    my $taxon = Refimp::Taxon->get(name => $name);
     ok(!$taxon, 'taxon does not exist');
 
     my $cmd;
     lives_ok(
-        sub{ $cmd = RefImp::Taxon::Command::Create->execute(
+        sub{ $cmd = Refimp::Taxon::Command::Create->execute(
                 name => $name,
                 species_name => 'Testy McTesterson',
                 strain_name => 'FaCe',
@@ -29,7 +29,7 @@ subtest 'create' => sub{
     );
     ok($cmd->result, 'execute successful');
 
-    $taxon = RefImp::Taxon->get(name => $name);
+    $taxon = Refimp::Taxon->get(name => $name);
     ok($taxon, 'taxon created');
     is($taxon->name, $name, 'set name');
     is($taxon->species_name, 'testy mctesterson', 'set name');

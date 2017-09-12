@@ -1,12 +1,12 @@
-package RefImp::Assembly::Command::Submission::Yaml;
+package Refimp::Assembly::Command::Submission::Yaml;
 
 use strict;
 use warnings;
 
-use RefImp::Assembly::SubmissionInfo;
+use Refimp::Assembly::SubmissionInfo;
 use YAML;
 
-class RefImp::Assembly::Command::Submission::Yaml {
+class Refimp::Assembly::Command::Submission::Yaml {
     is => 'Command::V2',
     doc => 'print submission yaml to fill out',
 };
@@ -22,14 +22,14 @@ Files should not include the directory. The submission directory is automaticall
 Submission Info Field Docs
 
 HELP
-    $help .= RefImp::Assembly::SubmissionInfo->help_doc_for_attributes;
+    $help .= Refimp::Assembly::SubmissionInfo->help_doc_for_attributes;
     $help;
 }
 
 sub execute {
     my $self = shift;
 
-    my %h = RefImp::Assembly::SubmissionInfo->submission_yaml;
+    my %h = Refimp::Assembly::SubmissionInfo->submission_yaml;
     my $string = YAML::Dump(\%h);
     $string =~ s/'//g;
     print $string;

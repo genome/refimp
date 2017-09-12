@@ -1,20 +1,20 @@
-package RefImp::Project::Taxonomy;
+package Refimp::Project::Taxonomy;
 
 use strict;
 use warnings 'FATAL';
 
-class RefImp::Project::Taxonomy {
+class Refimp::Project::Taxonomy {
     table_name => 'projects_taxa',
     id_by => {
-        project => { is => 'RefImp::Project', id_by => 'project_id', },
-        taxon => { is => 'RefImp::Taxon', id_by => 'taxon_id', constraint_name => 'protax_taxa_fk', },
+        project => { is => 'Refimp::Project', id_by => 'project_id', },
+        taxon => { is => 'Refimp::Taxon', id_by => 'taxon_id', constraint_name => 'protax_taxa_fk', },
     },
     has => {
         common_name => { via => 'taxon', to => 'name', },
         species_name => {via => 'taxon', to => 'species_name', },
         chromosome => { is => 'Text', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => Refimp::Config::get('ds_mysql'),
 };
 
 sub __display_name__ {

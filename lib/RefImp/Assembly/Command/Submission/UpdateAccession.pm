@@ -1,13 +1,13 @@
-package RefImp::Assembly::Command::Submission::UpdateAccession;
+package Refimp::Assembly::Command::Submission::UpdateAccession;
 
 use strict;
 use warnings;
 
-class RefImp::Assembly::Command::Submission::UpdateAccession { 
+class Refimp::Assembly::Command::Submission::UpdateAccession { 
     is => 'Command::V2',
     has_input => {
         submission => {
-            is => 'RefImp::Assembly::Submission',
+            is => 'Refimp::Assembly::Submission',
             shell_args_position => 1,
             doc => 'The submission to update.',
         },

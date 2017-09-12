@@ -1,14 +1,14 @@
-package RefImp::Project::Command::List;
+package Refimp::Project::Command::List;
 
 use strict;
 use warnings;
 
-class RefImp::Project::Command::List {
+class Refimp::Project::Command::List {
     is => 'UR::Object::Command::List',
     has => {
         subject_class_name  => {
             is_constant => 1,
-            value => 'RefImp::Project',
+            value => 'Refimp::Project',
         },
         show => { default_value => 'id,name,status', },
     },

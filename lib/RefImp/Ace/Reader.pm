@@ -1,4 +1,4 @@
-package RefImp::Ace::Reader;
+package Refimp::Ace::Reader;
 
 use strict;
 use warnings;
@@ -229,11 +229,11 @@ sub _build_read_tag {
 
 =head1 NAME
 
-RefImp::Ace::Reader
+Refimp::Ace::Reader
 
 =head1 SYNOPSIS
 
-    my $reader = RefImp::Ace::Reader->new($handle);
+    my $reader = Refimp::Ace::Reader->new($handle);
     while (my $obj = $reader->next_object()) {
         if ($obj->{'type'} eq 'contig') {
             ...
@@ -249,7 +249,7 @@ Iterates over an ace file, returning one element at a time.
 
 =item new [contructor] 
 
-    my $reader = RefImp::Ace::Reader->new(input => \*STDIN);
+    my $reader = Refimp::Ace::Reader->new(input => \*STDIN);
 
 =item next_object 
 

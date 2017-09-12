@@ -1,10 +1,10 @@
-package RefImp::Taxon;
+package Refimp::Taxon;
 
 
 use strict;
 use warnings 'FATAL';
 
-class RefImp::Taxon { 
+class Refimp::Taxon { 
     table_name => 'taxa',
     id_generator => '-uuid',
     id_by => {
@@ -20,7 +20,7 @@ class RefImp::Taxon {
     has_transient => {
         species_short_name => { is => 'Text', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => Refimp::Config::get('ds_mysql'),
 };
 
 my %species_short_names = (

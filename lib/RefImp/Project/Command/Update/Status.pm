@@ -1,12 +1,12 @@
-package RefImp::Project::Command::Update::Status;
+package Refimp::Project::Command::Update::Status;
 
 use strict;
 use warnings;
 
-use RefImp::Util::Tablizer;
+use Refimp::Util::Tablizer;
 
-class RefImp::Project::Command::Update::Status { 
-    is => 'RefImp::Project::Command::BaseWithMany',
+class Refimp::Project::Command::Update::Status { 
+    is => 'Refimp::Project::Command::BaseWithMany',
     has_optional_input => {
         value => {
             is => 'String',
@@ -42,7 +42,7 @@ sub _after_execute {
         $i++;
     }
 
-    print RefImp::Util::Tablizer->format(\@rows);
+    print Refimp::Util::Tablizer->format(\@rows);
 }
 
 1;

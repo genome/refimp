@@ -7,7 +7,7 @@ use TestEnv;
 
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Project::Command::Update::Status';
+my $pkg = 'Refimp::Project::Command::Update::Status';
 
 my %setup;
 subtest "setup" => sub{
@@ -15,7 +15,7 @@ subtest "setup" => sub{
 
     use_ok($pkg) or die;
 
-    $setup{project} = RefImp::Project->get(1);
+    $setup{project} = Refimp::Project->get(1);
 
 };
 

@@ -1,14 +1,14 @@
-package RefImp::User;
+package Refimp::User;
 
 use strict;
 use warnings;
 
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
-use RefImp::Resources::LDAP;
+use Refimp::Resources::LDAP;
 use Params::Validate qw/ :types validate_pos /;
 
-class RefImp::User {
+class Refimp::User {
     table_name => 'users',
     id_generator => '-uuid',
     id_by => {
@@ -22,7 +22,7 @@ class RefImp::User {
     has_optional => {
         email => { is => 'Text', doc => 'Email address for the user.', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => Refimp::Config::get('ds_mysql'),
 };
 
 sub first_initial { uc substr($_[0]->first_name, 0, 1); }

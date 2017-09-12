@@ -1,9 +1,9 @@
-package RefImp::Assembly::Command::Submission;
+package Refimp::Assembly::Command::Submission;
 
 use strict;
 use warnings;
 
-class RefImp::Assembly::Command::Submission {
+class Refimp::Assembly::Command::Submission {
     is => 'Command::Tree',
     doc => 'work with assembly submissions',
 };

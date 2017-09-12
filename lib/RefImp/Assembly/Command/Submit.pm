@@ -1,4 +1,4 @@
-package RefImp::Assembly::Command::Submit;
+package Refimp::Assembly::Command::Submit;
 
 use strict;
 use warnings 'FATAL';
@@ -7,9 +7,9 @@ use Date::Format;
 use File::Temp;
 use MIME::Lite;
 use Path::Class qw/ dir file /;
-use RefImp::Resources::NcbiFtp;
+use Refimp::Resources::NcbiFtp;
 
-class RefImp::Assembly::Command::Submit {
+class Refimp::Assembly::Command::Submit {
     is => 'Command::V2',
     has_input => {
         submission_yml => {
@@ -19,8 +19,8 @@ class RefImp::Assembly::Command::Submit {
         },
     },
     has_optional_transient => {
-        submission => { is => 'RefImp::Project::Submission', },
-        tbl2asn_cmd => { is => 'RefImp::Assembly::Command::Submission::TblToAsn', },
+        submission => { is => 'Refimp::Project::Submission', },
+        tbl2asn_cmd => { is => 'Refimp::Assembly::Command::Submission::TblToAsn', },
         tempdir => { is => 'Path::Class', },
     },
     has_optional_calculated => {
@@ -54,8 +54,8 @@ sub execute {
 sub _create_submission_record {
     my $self = shift;
 
-    use RefImp::Assembly::Submission;
-    my $submission = RefImp::Assembly::Submission->create_from_yml($self->submission_yml);
+    use Refimp::Assembly::Submission;
+    my $submission = Refimp::Assembly::Submission->create_from_yml($self->submission_yml);
     if ( my @errors = $submission->__errors__ ) {
         $self->fatal_message( join("\n", map { $_->__display_name__ } @errors) );
     }
@@ -72,7 +72,7 @@ sub _create_sqn_files {
     my $self = shift;
     $self->status_message('Create SQN files with TBL2ASN...');
 
-    my $tbl2asn = RefImp::Assembly::Command::Submission::TblToAsn->execute(
+    my $tbl2asn = Refimp::Assembly::Command::Submission::TblToAsn->execute(
         submission_yml => $self->submission_yml,
         output_directory => $self->tempdir->stringify,
     );
@@ -112,7 +112,7 @@ sub _ftp_to_ncbi {
     my $self = shift;
     $self->status_message('FTP to NCBI...');
 
-    my $ftp = RefImp::Resources::NcbiFtp->connect;
+    my $ftp = Refimp::Resources::NcbiFtp->connect;
     $self->status_message('Entering remote directory TEMP');
     $ftp->cwd('TEMP') or $self->fatal_message('Failed to FTP->cwd! %', $ftp->message);
     $self->status_message('Setting FTP binary mode');

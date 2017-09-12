@@ -8,7 +8,7 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 2;
 
-my $pkg = 'RefImp::Project::Taxonomy';
+my $pkg = 'Refimp::Project::Taxonomy';
 my ($project, $taxon);
 
 subtest 'setup' => sub{
@@ -16,9 +16,9 @@ subtest 'setup' => sub{
 
     use_ok($pkg) or die;
 
-    $project = RefImp::Project->create(name => 'McProject');
+    $project = Refimp::Project->create(name => 'McProject');
     ok($project, 'create project');
-    $taxon = RefImp::Taxon->create(name => 'McTaxon', species_name => 'taxon');
+    $taxon = Refimp::Taxon->create(name => 'McTaxon', species_name => 'taxon');
     ok($taxon, 'create taxon');
 
 };

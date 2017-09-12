@@ -1,4 +1,4 @@
-package RefImp::Tenx::Command::Alignment::StatSummary;
+package Refimp::Tenx::Command::Alignment::StatSummary;
 
 use strict;
 use warnings 'FATAL';
@@ -7,7 +7,7 @@ use Path::Class;
 use Text::CSV;
 use YAML;
 
-class RefImp::Tenx::Command::Alignment::StatSummary {
+class Refimp::Tenx::Command::Alignment::StatSummary {
     is => 'Command::V2',
     has_input => {
         directory => {

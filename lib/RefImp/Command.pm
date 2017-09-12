@@ -1,23 +1,23 @@
-package RefImp::Command;
+package Refimp::Command;
 
 use strict;
 use warnings;
 
-class RefImp::Command {
+class Refimp::Command {
     is => 'Command::Tree',
 };
 
 # This map allows the top-level commands to be set
 # instead of using the directory structure
 my %command_map = (
-    assembly => 'RefImp::Assembly::Command',
-    cron => 'RefImp::Cron::Command',
-    project => 'RefImp::Project::Command',
-    taxon => 'RefImp::Taxon::Command',
-    tenx => 'RefImp::Tenx::Command',
+    assembly => 'Refimp::Assembly::Command',
+    cron => 'Refimp::Cron::Command',
+    project => 'Refimp::Project::Command',
+    taxon => 'Refimp::Taxon::Command',
+    tenx => 'Refimp::Tenx::Command',
 );
 
-$RefImp::Command::SUB_COMMAND_MAPPING = \%command_map;
+$Refimp::Command::SUB_COMMAND_MAPPING = \%command_map;
 
 1;
 

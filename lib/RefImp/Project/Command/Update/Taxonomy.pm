@@ -1,15 +1,15 @@
-package RefImp::Project::Command::Update::Taxonomy;
+package Refimp::Project::Command::Update::Taxonomy;
 
 use strict;
 use warnings;
 
-use RefImp::Util::Tablizer;
+use Refimp::Util::Tablizer;
 
-class RefImp::Project::Command::Update::Taxonomy { 
-    is => 'RefImp::Project::Command::BaseWithMany',
+class Refimp::Project::Command::Update::Taxonomy { 
+    is => 'Refimp::Project::Command::BaseWithMany',
     has_input => {
         taxon => {
-            is => 'RefImp::Taxon',
+            is => 'Refimp::Taxon',
             doc => 'Taxon for the project.',
         },
         chromosome => {
@@ -34,7 +34,7 @@ sub _execute_with_project {
     push @{$self->old_values}, $old_taxonomy;
     $taxonomy->delete if $taxonomy;
 
-    RefImp::Project::Taxonomy->create(
+    Refimp::Project::Taxonomy->create(
         project => $project,
         taxon => $self->taxon,
         chromosome => $self->chromosome,
@@ -56,7 +56,7 @@ sub _after_execute {
         $i++;
     }
 
-    print RefImp::Util::Tablizer->format(\@rows);
+    print Refimp::Util::Tablizer->format(\@rows);
 }
 
 1;

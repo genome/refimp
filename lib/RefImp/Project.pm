@@ -1,4 +1,4 @@
-package RefImp::Project;
+package Refimp::Project;
 
 use strict;
 use warnings;
@@ -6,10 +6,10 @@ use warnings;
 use File::Path;
 use File::Spec;
 use Params::Validate qw( :types validate_pos );
-use RefImp::Project::NotesFile;
-use RefImp::Resources::LimsRestApi;
+use Refimp::Project::NotesFile;
+use Refimp::Resources::LimsRestApi;
 
-class RefImp::Project {
+class Refimp::Project {
     table_name => 'projects',
     id_generator => '-uuid',
     id_by => {
@@ -35,11 +35,11 @@ class RefImp::Project {
         },
         # Taxonomy
         taxonomy => {
-            is => 'RefImp::Project::Taxonomy',
+            is => 'Refimp::Project::Taxonomy',
             reverse_as => 'project',
         },
         taxon => {
-            is => 'RefImp::Taxon',
+            is => 'Refimp::Taxon',
             via => 'taxonomy',
             to => 'taxon',
         },
@@ -47,12 +47,12 @@ class RefImp::Project {
     has_many => {
         # Prefinishers
         project_users => {
-            is => 'RefImp::Project::User',
+            is => 'Refimp::Project::User',
             reverse_as => 'project',
             doc => 'Project user links.',
         },
         prefinishers => {
-            is => 'RefImp::User',
+            is => 'Refimp::User',
             via => 'project_users',
             where => [qw/ purpose prefinisher /],
             to => 'user',
@@ -65,13 +65,13 @@ class RefImp::Project {
         },
         # Finishers
         project_finishers => {
-            is => 'RefImp::Project::User',
+            is => 'Refimp::Project::User',
             reverse_as => 'project',
             where => [qw/ purpose finisher /],
             doc => 'Project finishers bridge object',
         },
         finishers => {
-            is => 'RefImp::User',
+            is => 'Refimp::User',
             via => 'project_users',
             where => [qw/ purpose finisher /],
             to => 'user',
@@ -84,7 +84,7 @@ class RefImp::Project {
         },
         # Saver
         savers => {
-            is => 'RefImp::User',
+            is => 'Refimp::User',
             via => 'project_users',
             where => [qw/ purpose saver /],
             to => 'user',
@@ -97,11 +97,11 @@ class RefImp::Project {
         },
         # Submissions
         submissions => {
-            is => 'RefImp::Project::Submission',
+            is => 'Refimp::Project::Submission',
             reverse_as => 'project',
         }
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => Refimp::Config::get('ds_mysql'),
 };
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }
@@ -120,7 +120,7 @@ sub directory {
     my ($self, $value) = @_;
     if ( not defined $value ) {
         return $self->__directory if $self->__directory;
-        return File::Spec->join( RefImp::Config::get('seqmgr'), $self->name );
+        return File::Spec->join( Refimp::Config::get('seqmgr'), $self->name );
     }
     $self->fatal_message('Directory to set does not exist! %s', $value) if not -d $value;
     $self->__directory($value);
@@ -145,6 +145,6 @@ sub create_project_directory_structure {
 }
 
 sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); }
-sub notes_file { RefImp::Project::NotesFile->new($_[0]->notes_file_path); }
+sub notes_file { Refimp::Project::NotesFile->new($_[0]->notes_file_path); }
 
 1;

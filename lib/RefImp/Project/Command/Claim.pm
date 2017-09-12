@@ -1,21 +1,21 @@
-package RefImp::Project::Command::Claim;
+package Refimp::Project::Command::Claim;
 
 use strict;
 use warnings 'FATAL';
 
-use RefImp::Project::User;
+use Refimp::Project::User;
 
-class RefImp::Project::Command::Claim {
-    is => 'RefImp::Project::Command::Base',
+class Refimp::Project::Command::Claim {
+    is => 'Refimp::Project::Command::Base',
     has_input => {
         as => {
             is => 'Text',
-            valid_values => [ RefImp::Project::User->valid_purposes ],
+            valid_values => [ Refimp::Project::User->valid_purposes ],
             shell_args_position => 2,
             doc => 'Claim the project as this function.',
         },
         user => {
-            is => 'RefImp::User',
+            is => 'Refimp::User',
             shell_args_position => 3,
             doc => 'Claim the project for this user.',
         },
@@ -35,7 +35,7 @@ sub execute {
     $self->status_message('Function: %s', $self->as);
     $self->status_message('User: %s', $self->user->__display_name__);
 
-    my $claimer = RefImp::Project::User->create(
+    my $claimer = Refimp::Project::User->create(
         project => $project,
         user => $self->user,
         purpose => $self->as,

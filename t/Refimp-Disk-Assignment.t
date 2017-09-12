@@ -11,14 +11,14 @@ my %test;
 subtest 'setup' => sub{
     plan tests => 3;
 
-    use_ok('RefImp::Disk::Assignment') or die;
+    use_ok('Refimp::Disk::Assignment') or die;
 
-    $test{group} = RefImp::Disk::Group->create(
+    $test{group} = Refimp::Disk::Group->create(
         disk_group_name => 'Text',
     );
     ok($test{group}, 'create group');
 
-    $test{volume} = RefImp::Disk::Volume->create(
+    $test{volume} = Refimp::Disk::Volume->create(
         mount_path => '/tmp',
     );
     ok($test{volume}, 'create volume');
@@ -28,7 +28,7 @@ subtest 'setup' => sub{
 subtest 'assignment' => sub{
     plan tests => 6;
 
-    my $assignment = RefImp::Disk::Assignment->create(
+    my $assignment = Refimp::Disk::Assignment->create(
         group => $test{group},
         volume => $test{volume},
     );

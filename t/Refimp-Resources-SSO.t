@@ -9,7 +9,7 @@ use Test::Exception;
 use Test::MockObject;
 use Test::More tests => 2;
 
-my $class = 'RefImp::Resources::SSO';
+my $class = 'Refimp::Resources::SSO';
 subtest 'setup' => sub{
     plan tests => 1;
 
@@ -41,8 +41,8 @@ subtest 'setup' => sub{
             as => 'new',
         });
 
-    RefImp::Config::set('rt_login', 'rt-login');
-    RefImp::Config::set('rt_auth', 'rt-auth');
+    Refimp::Config::set('rt_login', 'rt-login');
+    Refimp::Config::set('rt_auth', 'rt-auth');
 
 };
 

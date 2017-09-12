@@ -1,12 +1,12 @@
-package RefImp::Project::Command::Notes::Append;
+package Refimp::Project::Command::Notes::Append;
 
 use strict;
 use warnings 'FATAL';
 
 use IO::File;
 
-class RefImp::Project::Command::Notes::Append {
-    is => 'RefImp::Project::Command::BaseWithMany',
+class Refimp::Project::Command::Notes::Append {
+    is => 'Refimp::Project::Command::BaseWithMany',
     has_optional_input => {
         content => {
             is => 'Text',

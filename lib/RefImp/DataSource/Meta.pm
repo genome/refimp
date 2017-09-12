@@ -1,11 +1,11 @@
-package RefImp::DataSource::Meta;
+package Refimp::DataSource::Meta;
 
 use warnings;
 use strict;
 
 use UR;
 
-class RefImp::DataSource::Meta {
+class Refimp::DataSource::Meta {
     is => 'UR::DataSource::Meta',
 };
 

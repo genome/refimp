@@ -7,7 +7,7 @@ use TestEnv;
 
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Resources::Ncbi::ProjectName';
+my $pkg = 'Refimp::Resources::Ncbi::ProjectName';
 use_ok($pkg) or die;
 
 my %local_and_ncbi_names = (

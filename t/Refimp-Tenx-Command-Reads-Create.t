@@ -13,7 +13,7 @@ subtest 'setup' => sub{
     plan tests => 1;
 
     %test = (
-        pkg => 'RefImp::Tenx::Command::Reads::Create',
+        pkg => 'Refimp::Tenx::Command::Reads::Create',
         sample_name => 'TESTSAMPLE',
     );
     use_ok($test{pkg}) or die;
@@ -24,7 +24,7 @@ subtest 'create' => sub{
     plan tests => 8;
 
     my $sample_name = "TESTSAMPLE";
-    my $reads = RefImp::Tenx::Reads->get(sample_name => $sample_name);
+    my $reads = Refimp::Tenx::Reads->get(sample_name => $sample_name);
     ok(!$reads, 'reads does not exist');
 
     my $cmd;
@@ -38,7 +38,7 @@ subtest 'create' => sub{
     );
     ok($cmd->result, 'execute successful');
 
-    $reads = RefImp::Tenx::Reads->get(sample_name => $sample_name);
+    $reads = Refimp::Tenx::Reads->get(sample_name => $sample_name);
     ok($reads, 'reads created');
     is($reads->sample_name, $sample_name, 'sample_name set');
     is($reads->directory, '/tmp', 'directory set');

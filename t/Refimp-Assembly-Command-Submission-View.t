@@ -13,11 +13,11 @@ my %setup;
 subtest 'setup'=> sub{
     plan tests => 2;
 
-    $setup{pkg} = 'RefImp::Assembly::Command::Submission::View';
+    $setup{pkg} = 'Refimp::Assembly::Command::Submission::View';
     use_ok($setup{pkg}) or die;
 
-    my $submission_yml = File::Spec->join(TestEnv::test_data_directory_for_package('RefImp::Assembly::Submission'), 'submission.yml');
-    $setup{submission} = RefImp::Assembly::Submission->create_from_yml($submission_yml);
+    my $submission_yml = File::Spec->join(TestEnv::test_data_directory_for_package('Refimp::Assembly::Submission'), 'submission.yml');
+    $setup{submission} = Refimp::Assembly::Submission->create_from_yml($submission_yml);
     ok($setup{submission}, 'create submission');
 
 };

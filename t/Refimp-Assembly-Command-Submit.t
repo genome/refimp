@@ -16,17 +16,17 @@ my %setup;
 subtest 'setup' => sub{
     plan tests => 1;
 
-    $setup{pkg} = 'RefImp::Assembly::Command::Submit';
+    $setup{pkg} = 'Refimp::Assembly::Command::Submit';
     use_ok($setup{pkg}) or die;
 
-    my $data_dir = TestEnv::test_data_directory_for_package('RefImp::Assembly::Submission');
+    my $data_dir = TestEnv::test_data_directory_for_package('Refimp::Assembly::Submission');
     my $assembly_dir = File::Spec->join($data_dir, 'assembly');
     $setup{submission_yml} = File::Spec->join($data_dir, 'submission.yml');
 
     Sub::Install::reinstall_sub({
         code => sub{ 1 },
         as => 'validate_for_submit',
-        into => 'RefImp::Assembly::Submission',    
+        into => 'Refimp::Assembly::Submission',    
         });
 
     $setup{ftp} = TestEnv::NcbiFtp->setup;

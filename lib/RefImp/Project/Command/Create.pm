@@ -1,11 +1,11 @@
-package RefImp::Project::Command::Create;
+package Refimp::Project::Command::Create;
 
 use strict;
 use warnings;
 
-use RefImp::Role::PropertyValuesFromFile;
+use Refimp::Role::PropertyValuesFromFile;
 
-class RefImp::Project::Command::Create { 
+class Refimp::Project::Command::Create { 
     is => 'Command::V2',
     has_input => {
         names => {
@@ -30,13 +30,13 @@ class RefImp::Project::Command::Create {
             doc => 'Starting status of the project.',
         },
         taxon => {
-            is => 'RefImp::Taxon',
+            is => 'Refimp::Taxon',
             doc => 'The taxon to assign to the project. Deafult is to set as an unknown organism.',
         },
     },
     doc => 'create a project',
 };
-RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file(__PACKAGE__, 'names');
+Refimp::Role::PropertyValuesFromFile::class_properties_can_load_from_file(__PACKAGE__, 'names');
 
 sub help_detail { __PACKAGE__->__meta__->doc }
 
@@ -44,9 +44,9 @@ sub execute {
     my $self = shift; 
     $self->status_message('Create projects...');
 
-    my $directory_updater = RefImp::Project::Command::Update::Directory->create(value => $self->directory) if $self->directory;
+    my $directory_updater = Refimp::Project::Command::Update::Directory->create(value => $self->directory) if $self->directory;
     my $taxonomy_params = $self->_resolve_taxonomy_params;
-    my $taxonomy_updater = RefImp::Project::Command::Update::Taxonomy->create(%$taxonomy_params);
+    my $taxonomy_updater = Refimp::Project::Command::Update::Taxonomy->create(%$taxonomy_params);
 
     for my $name ( $self->names ) {
         my $project = $self->_get_or_create_project($name);
@@ -69,7 +69,7 @@ sub _resolve_taxonomy_params {
 
     my $taxon = $self->taxon;
     if ( not $taxon ) {
-        $taxon = RefImp::Taxon->get(name => 'unknown');
+        $taxon = Refimp::Taxon->get(name => 'unknown');
         $self->fatal_message('Failed to get "unknown" taxon!') if not $taxon;
     }
 
@@ -84,13 +84,13 @@ sub _resolve_taxonomy_params {
 sub _get_or_create_project {
     my ($self, $name) = @_;
 
-    my $project = RefImp::Project->get(name => $name);
+    my $project = Refimp::Project->get(name => $name);
     return $project if $project;
 
     my %params = (
         name => $name,
     );
-    $project = RefImp::Project->create(%params);
+    $project = Refimp::Project->create(%params);
     $self->fatal_message('Failed to create project!') if !$project;
 
     $project;

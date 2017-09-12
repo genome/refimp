@@ -14,7 +14,7 @@ my %setup;
 subtest 'setup' => sub{
     plan tests => 3;
 
-    $setup{pkg} = 'RefImp::Ace::Reader';
+    $setup{pkg} = 'Refimp::Ace::Reader';
     use_ok($setup{pkg}) or die;
     
     my $test_data_dir = TestEnv::test_data_directory_for_package($setup{pkg});

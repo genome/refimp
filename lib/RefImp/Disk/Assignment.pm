@@ -1,9 +1,9 @@
-package RefImp::Disk::Assignment;
+package Refimp::Disk::Assignment;
 
 use strict;
 use warnings 'FATAL';
 
-class RefImp::Disk::Assignment {
+class Refimp::Disk::Assignment {
     table_name => 'DISK_VOLUME_GROUP',
     id_by => {
         dg_id => { is => 'Number', doc => 'Disk group ID', },
@@ -11,15 +11,15 @@ class RefImp::Disk::Assignment {
     },
     has => {
         group => {
-            is => 'RefImp::Disk::Group',
+            is => 'Refimp::Disk::Group',
             id_by => 'dg_id',
         },
         volume => {
-            is => 'RefImp::Disk::Volume',
+            is => 'Refimp::Disk::Volume',
             id_by => 'dv_id',
         },
     },
-    data_source => RefImp::Config::get('ds_oltp'),
+    data_source => Refimp::Config::get('ds_oltp'),
     doc => 'disk group volume bridge',
 };
 

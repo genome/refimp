@@ -1,9 +1,9 @@
-package RefImp::Tenx::Alignment;
+package Refimp::Tenx::Alignment;
 
 use strict;
 use warnings;
 
-class RefImp::Tenx::Alignment {
+class Refimp::Tenx::Alignment {
     table_name => 'tenx_alignments',
     id_generator => '-uuid',
     id_by => {
@@ -12,12 +12,12 @@ class RefImp::Tenx::Alignment {
     has => {
         directory => { is => 'Text', doc => 'File system location.', },
         reads => {
-            is => 'RefImp::Tenx::Reads',
+            is => 'Refimp::Tenx::Reads',
             id_by => 'reads_id',
             doc => 'The reads that are aligned',
         },
         reference => {
-            is => 'RefImp::Tenx::Reference',
+            is => 'Refimp::Tenx::Reference',
             id_by => 'reference_id',
             doc => 'The reference sequence the reads are aligned to',
         },
@@ -28,7 +28,7 @@ class RefImp::Tenx::Alignment {
             doc => 'The status of the alignment: running, succeeded, failed, etc.',
         },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => Refimp::Config::get('ds_mysql'),
 };
 
 1;

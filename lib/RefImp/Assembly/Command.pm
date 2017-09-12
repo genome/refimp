@@ -1,9 +1,9 @@
-package RefImp::Assembly::Command;
+package Refimp::Assembly::Command;
 
 use strict;
 use warnings;
 
-class RefImp::Assembly::Command {
+class Refimp::Assembly::Command {
     is => 'Command::Tree',
     doc => 'commands to work with assemblies',
 };

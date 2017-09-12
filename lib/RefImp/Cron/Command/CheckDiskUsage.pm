@@ -1,16 +1,16 @@
-package RefImp::Cron::Command::CheckDiskUsage;
+package Refimp::Cron::Command::CheckDiskUsage;
 
 use strict;
 use warnings 'FATAL';
 
 use Filesys::Df 'df';
-use RefImp::Util::Tablizer;
+use Refimp::Util::Tablizer;
 
-class RefImp::Cron::Command::CheckDiskUsage {
+class Refimp::Cron::Command::CheckDiskUsage {
     is => 'Command::V2',
     has_input => {
         groups => {
-            is => 'RefImp::Disk::Group',
+            is => 'Refimp::Disk::Group',
             is_many => 1,
             doc => 'Disk groups to gather volumes',
         },
@@ -54,7 +54,7 @@ sub execute {
         }
     }
     
-    print RefImp::Util::Tablizer->format(\@data);
+    print Refimp::Util::Tablizer->format(\@data);
 }
 
 1;

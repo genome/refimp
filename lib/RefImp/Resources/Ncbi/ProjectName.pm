@@ -1,4 +1,4 @@
-package RefImp::Resources::Ncbi::ProjectName;
+package Refimp::Resources::Ncbi::ProjectName;
 
 use strict;
 use warnings 'FATAL';

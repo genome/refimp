@@ -8,13 +8,13 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 2;
 
-my $pkg = 'RefImp::Project::Command::Submission::Create';
+my $pkg = 'Refimp::Project::Command::Submission::Create';
 subtest 'create' => sub{
     plan tests => 12;
 
     use_ok($pkg) or die;
 
-    my $project = RefImp::Project->get(1);
+    my $project = Refimp::Project->get(1);
     ok($project, 'got project');
 
     my @submissions = $project->submissions;
@@ -48,7 +48,7 @@ subtest 'create' => sub{
 subtest 'create_from_directory' => sub{
     plan tests => 11;
 
-    my $project = RefImp::Project->get(1);
+    my $project = Refimp::Project->get(1);
     ok($project, 'got project');
 
     my @submissions = $project->submissions;

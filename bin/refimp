@@ -6,6 +6,6 @@ use warnings;
 use lib "$ENV{REFIMP_LIB}";
 use lib "$ENV{REFIMP_PERL5LIB}";
 
-use above "RefImp";
-use RefImp::Command;
-RefImp::Command->execute_with_shell_params_and_exit();
+use above "Refimp";
+use Refimp::Command;
+Refimp::Command->execute_with_shell_params_and_exit();

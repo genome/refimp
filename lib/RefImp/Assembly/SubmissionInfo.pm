@@ -1,4 +1,4 @@
-package RefImp::Assembly::SubmissionInfo;
+package Refimp::Assembly::SubmissionInfo;
 
 use strict;
 use warnings;

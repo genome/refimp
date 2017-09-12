@@ -11,12 +11,12 @@ my %test;
 subtest "setup" => sub{
     plan tests => 3;
 
-    $test{pkg} = 'RefImp::Assembly::Command::Submission::UpdateAccession';
+    $test{pkg} = 'Refimp::Assembly::Command::Submission::UpdateAccession';
     use_ok($test{pkg}) or die;
 
-    $test{assembly} = RefImp::Assembly->__define__();
+    $test{assembly} = Refimp::Assembly->__define__();
     ok($test{assembly}, 'define assembly');
-    $test{submission} = RefImp::Assembly::Submission->__define__(assembly => $test{assembly});
+    $test{submission} = Refimp::Assembly::Submission->__define__(assembly => $test{assembly});
     ok($test{submission}, 'define submission');
 
 };

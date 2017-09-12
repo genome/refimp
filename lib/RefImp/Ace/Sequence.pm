@@ -1,4 +1,4 @@
-package RefImp::Ace::Sequence;
+package Refimp::Ace::Sequence;
 
 use strict;
 use warnings;

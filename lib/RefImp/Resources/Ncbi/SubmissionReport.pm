@@ -1,19 +1,19 @@
-package RefImp::Resources::Ncbi::SubmissionReport;
+package Refimp::Resources::Ncbi::SubmissionReport;
 
 use strict;
 use warnings;
 
 use IO::File;
 use Params::Validate qw/ :types validate_pos /;
-use RefImp::Resources::Ncbi::ProjectName;
+use Refimp::Resources::Ncbi::ProjectName;
 
-class RefImp::Resources::Ncbi::SubmissionReport {
+class Refimp::Resources::Ncbi::SubmissionReport {
     is => 'UR::Object',
     has => {
-        project => { is => 'RefImp::Project', },
+        project => { is => 'Refimp::Project', },
         project_name => { is => 'Text', },
         data => { is => 'HASH', },
-        submission => { is => 'RefImp::Project::Submission', },
+        submission => { is => 'Refimp::Project::Submission', },
     },
 };
 
@@ -26,10 +26,10 @@ sub create {
     my $project_name = $self->data->{localseqname};
     $self->project_name($project_name);
 
-    my $project = RefImp::Project->get(name => $project_name);
+    my $project = Refimp::Project->get(name => $project_name);
     if ( $project ) {
         $self->project($project);
-        my @submissions = RefImp::Project::Submission->get(
+        my @submissions = Refimp::Project::Submission->get(
             project => $project,
             phase => $self->data->{phase},
             -order => 'submitted_on',
@@ -65,7 +65,7 @@ sub from_file {
     }
     $fh->close;
 
-    $data{localseqname} = RefImp::Resources::Ncbi::ProjectName->ncbi_to_local($data{seqname});
+    $data{localseqname} = Refimp::Resources::Ncbi::ProjectName->ncbi_to_local($data{seqname});
 
     my ($accession, $version) = split(/\./, delete $data{accession});
     $version //= 1;

@@ -1,4 +1,4 @@
-package RefImp::Tenx::Reads::MkfastqRun;
+package Refimp::Tenx::Reads::MkfastqRun;
 
 use strict;
 use warnings;
@@ -9,10 +9,10 @@ use Path::Class;
 use Params::Validate qw/ :types validate_pos /;
 use Text::CSV;
 
-class RefImp::Tenx::Reads::MkfastqRun { 
+class Refimp::Tenx::Reads::MkfastqRun { 
     has => {
         directory => { is => 'Path::Class::Dir', },
-        samplesheet => { is => 'RefImp::Tenx::Reads::SampleSheet', },
+        samplesheet => { is => 'Refimp::Tenx::Reads::SampleSheet', },
         lanes => { via => 'samplesheet', to => 'lanes', },
         samples => { via => 'samplesheet', to => 'samples', },
         sample_names => { via => 'samplesheet', to => 'sample_names', },
@@ -32,7 +32,7 @@ sub create {
     my $file = $directory->subdir('outs')->file('input_samplesheet.csv');
     $class->fatal_message('No samplesheet found in mkfastq directory: %s', $file) if !-s $file->stringify;
 
-    my $samplesheet = RefImp::Tenx::Reads::SampleSheet->create($file);
+    my $samplesheet = Refimp::Tenx::Reads::SampleSheet->create($file);
 
     my $project_name;
     my $invocation_file = $directory->file('_invocation');

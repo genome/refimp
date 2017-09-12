@@ -11,7 +11,7 @@ use Test::More tests => 1;
 subtest 'print YAML' => sub {
     plan tests => 3;
 
-    my $pkg = 'RefImp::Assembly::Command::Submission::Yaml';
+    my $pkg = 'Refimp::Assembly::Command::Submission::Yaml';
     use_ok($pkg) or die;
 
     my $output;

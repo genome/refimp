@@ -1,14 +1,14 @@
-package RefImp::Taxon::Command::List;
+package Refimp::Taxon::Command::List;
 
 use strict;
 use warnings;
 
-class RefImp::Taxon::Command::List {
+class Refimp::Taxon::Command::List {
     is => 'UR::Object::Command::List',
     has => {
         subject_class_name  => {
             is_constant => 1,
-            value => 'RefImp::Taxon',
+            value => 'Refimp::Taxon',
         },
         show => { default_value => 'id,name,species_name', },
     },

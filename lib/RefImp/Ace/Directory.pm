@@ -1,4 +1,4 @@
-package RefImp::Ace::Directory;
+package Refimp::Ace::Directory;
 
 use strict;
 use warnings;
@@ -89,19 +89,19 @@ sub ace0_file {
 
 =head1 Name
 
-RefImp::Ace::Directory
+Refimp::Ace::Directory
 
 =head1 Methods
 
 =head2 create
 
- my $acedir = RefImp::Ace::Directory->create(path => $edit_dir);
+ my $acedir = Refimp::Ace::Directory->create(path => $edit_dir);
 
  > Constructor. Valid path is required.
 
 =head2 create
 
- my $acedir = RefImp::Ace::Directory->get(path => $edit_dir);
+ my $acedir = Refimp::Ace::Directory->get(path => $edit_dir);
 
  > Get from cache by path [id].
 

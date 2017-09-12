@@ -12,7 +12,7 @@ my %test;
 subtest 'setup' => sub{
     plan tests => 1;
 
-    $test{pkg} = 'RefImp::Tenx::Reads';
+    $test{pkg} = 'Refimp::Tenx::Reads';
     use_ok($test{pkg}) or die;
 
     $test{sample_name} = 'TEST-TESTY-MCTESTERSON',

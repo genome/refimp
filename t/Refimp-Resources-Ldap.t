@@ -20,13 +20,13 @@ my @entries;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    use_ok('RefImp::Resources::LDAP');
+    use_ok('Refimp::Resources::LDAP');
 
     my $ldap = Test::MockObject->new;
     Sub::Install::reinstall_sub({
             code => sub{
                 my ($class, $url, %p) = @_;
-                is($url, RefImp::Config::get('net_ldap_url'), 'Net::LDAP URL');
+                is($url, Refimp::Config::get('net_ldap_url'), 'Net::LDAP URL');
                 is_deeply(\%p, {version => 3 }, 'Net::LDAP params');
                 $ldap;
             },
@@ -67,19 +67,19 @@ subtest 'ldap_user_for_unix_login' => sub{
     plan tests => 12; # 4 + param handling above
 
     throws_ok(
-        sub{ RefImp::Resources::LDAP->ldap_user_for_unix_login; },
+        sub{ Refimp::Resources::LDAP->ldap_user_for_unix_login; },
         qr/but 2 were expected/,
         'fails w/o unix_login',
     );
     my $ldap_user;
     lives_ok(
-        sub{ $ldap_user = RefImp::Resources::LDAP->ldap_user_for_unix_login($bobama_attrs{unix_login}); },
+        sub{ $ldap_user = Refimp::Resources::LDAP->ldap_user_for_unix_login($bobama_attrs{unix_login}); },
         'lives when no entries are found',
     );
 
     @entries = $bobama;
     lives_ok(
-        sub{ $ldap_user = RefImp::Resources::LDAP->ldap_user_for_unix_login($bobama_attrs{unix_login}); },
+        sub{ $ldap_user = Refimp::Resources::LDAP->ldap_user_for_unix_login($bobama_attrs{unix_login}); },
         "lives when user for $bobama_attrs{unix_login} is found",
     );
     is($ldap_user, $bobama, 'got correct ldap user');
@@ -90,14 +90,14 @@ subtest 'mail_for_unix_login' => sub{
     plan tests => 7; # 4 + param handling above
 
     throws_ok(
-        sub{ RefImp::Resources::LDAP->mail_for_unix_login; },
+        sub{ Refimp::Resources::LDAP->mail_for_unix_login; },
         qr/but 2 were expected/,
         'fails w/o unix_login',
     );
 
     my $mail;
     lives_ok(
-        sub{ $mail = RefImp::Resources::LDAP->mail_for_unix_login($bobama_attrs{unix_login}); },
+        sub{ $mail = Refimp::Resources::LDAP->mail_for_unix_login($bobama_attrs{unix_login}); },
         "lives when mail for $bobama_attrs{unix_login} is found",
     );
     is($mail, $bobama_attrs{mail}, 'got correct mail');

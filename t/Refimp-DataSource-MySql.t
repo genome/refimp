@@ -6,12 +6,12 @@ use warnings;
 use TestEnv;
 use Test::More tests => 1;
 
-RefImp::Config::set('ds_mysql_server', 'server');
-RefImp::Config::set('ds_mysql_owner', 'owner');
-RefImp::Config::set('ds_mysql_login', 'login');
-RefImp::Config::set('ds_mysql_auth', 'auth');
-RefImp::Config::set('ds_mysql_database', 'database');
+Refimp::Config::set('ds_mysql_server', 'server');
+Refimp::Config::set('ds_mysql_owner', 'owner');
+Refimp::Config::set('ds_mysql_login', 'login');
+Refimp::Config::set('ds_mysql_auth', 'auth');
+Refimp::Config::set('ds_mysql_database', 'database');
 
-use_ok('RefImp::DataSource::MySQL');
+use_ok('Refimp::DataSource::MySQL');
 
 done_testing();

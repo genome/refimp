@@ -1,10 +1,10 @@
-package RefImp::Project::Command::Submission::Create;
+package Refimp::Project::Command::Submission::Create;
 
 use strict;
 use warnings;
 
-class RefImp::Project::Command::Submission::Create { 
-    is => 'RefImp::Project::Command::Base',
+class Refimp::Project::Command::Submission::Create { 
+    is => 'Refimp::Project::Command::Base',
     has_input => {
         phase => {
             default_value => 3,
@@ -62,13 +62,13 @@ sub _create_from_params {
     }
     $self->status_message('Submission params: %s', YAML::Dump(\%params));
 
-    RefImp::Project::Submission->create(%params);
+    Refimp::Project::Submission->create(%params);
 }
 
 sub _create_from_directory {
     my $self = shift;
     $self->fatal_message('Requested to create submission from directory, but didn\'t provide one!') if not $self->directory;
-    RefImp::Project::Submission->create_from_directory($self->directory);
+    Refimp::Project::Submission->create_from_directory($self->directory);
 }
 
 1;

@@ -1,4 +1,4 @@
-package RefImp::Role::PropertyValuesFromFile;
+package Refimp::Role::PropertyValuesFromFile;
 
 use strict;
 use warnings;

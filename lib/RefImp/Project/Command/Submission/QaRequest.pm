@@ -1,14 +1,14 @@
-package RefImp::Project::Command::Submission::QaRequest;
+package Refimp::Project::Command::Submission::QaRequest;
 
 use strict;
 use warnings;
 
 use MIME::Lite;
-use RefImp::Project::Submission::Info;
-use RefImp::Project::Submission::Form;
+use Refimp::Project::Submission::Info;
+use Refimp::Project::Submission::Form;
 
-class RefImp::Project::Command::Submission::QaRequest {
-    is => 'RefImp::Project::Command::Submission::QaBase',
+class Refimp::Project::Command::Submission::QaRequest {
+    is => 'Refimp::Project::Command::Submission::QaBase',
     has_input => {
         checker_unix_logins => {
             is => 'String',
@@ -41,8 +41,8 @@ sub execute {
 sub _display_submit_form {
     my $self = shift;
 
-    my $submit_info = RefImp::Project::Submission::Info->generate( $self->project );
-    my $form = RefImp::Project::Submission::Form->create($submit_info);
+    my $submit_info = Refimp::Project::Submission::Info->generate( $self->project );
+    my $form = Refimp::Project::Submission::Form->create($submit_info);
     $self->fatal_message('Failed to generate submissions form!') if not $form;
 
     print STDOUT "$form\nProceed with presubmit? ([Y]/n) ";
@@ -61,7 +61,7 @@ sub _send_email {
     $self->fatal_message('No finisher assgined to project: %s', $self->project->__display_name__) if not $finisher;
 
     my @checker_unix_logins = $self->checker_unix_logins;
-    my @checkers = RefImp::User->get(name => \@checker_unix_logins);
+    my @checkers = Refimp::User->get(name => \@checker_unix_logins);
     if ( @checkers != @checker_unix_logins ) {
         $self->fatal_message('Failed to get all checkers for unix logins: %s', join(' ', $self->checker_unix_logins));
     }
@@ -85,7 +85,7 @@ Checkers (CC'd), can someone please review this project? When done, submit the p
 \$ refimp project submit %s
 
 Sincerely,
-The RefImp Team",
+The Refimp Team",
             $self->project->__display_name__, 
             $self->project->name,
         ),

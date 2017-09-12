@@ -1,15 +1,15 @@
-package RefImp::Project::Command::Digest::ToConsed;
+package Refimp::Project::Command::Digest::ToConsed;
 
 use strict;
 use warnings 'FATAL';
 
 use File::Spec;
-use RefImp::Project::Digest;
-use RefImp::Project::Digest::Enzymes;
-use RefImp::Project::Digest::Reader;
+use Refimp::Project::Digest;
+use Refimp::Project::Digest::Enzymes;
+use Refimp::Project::Digest::Reader;
 
-class RefImp::Project::Command::Digest::ToConsed {
-    is => 'RefImp::Project::Command::Base',
+class Refimp::Project::Command::Digest::ToConsed {
+    is => 'Refimp::Project::Command::Base',
     doc => 'extract digest info from sizes file',
 };
 
@@ -39,7 +39,7 @@ sub execute {
         my $sizes_file = File::Spec->join($digest_directory, $file_name);
         $self->status_message('Reading: %s', $sizes_file);
 
-        my $reader = RefImp::Project::Digest::Reader->new(file => $sizes_file);
+        my $reader = Refimp::Project::Digest::Reader->new(file => $sizes_file);
         while ( my $digest = $reader->next_for_project($project->name) ) {
             push @{$digests{ $digest->date }}, $digest;
         }

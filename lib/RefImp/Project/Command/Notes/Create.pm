@@ -1,12 +1,12 @@
-package RefImp::Project::Command::Notes::Create;
+package Refimp::Project::Command::Notes::Create;
 
 use strict;
 use warnings 'FATAL';
 
 use IO::File;
 
-class RefImp::Project::Command::Notes::Create {
-    is => 'RefImp::Project::Command::BaseWithMany',
+class Refimp::Project::Command::Notes::Create {
+    is => 'Refimp::Project::Command::BaseWithMany',
     has_input => {
         prefinisher => {
             is => 'Text',

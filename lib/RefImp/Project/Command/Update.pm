@@ -1,9 +1,9 @@
-package RefImp::Project::Command::Update;
+package Refimp::Project::Command::Update;
 
 use strict;
 use warnings;
 
-class RefImp::Project::Command::Update {
+class Refimp::Project::Command::Update {
     is => 'Command::Tree',
     doc => 'modify project property values',
 };

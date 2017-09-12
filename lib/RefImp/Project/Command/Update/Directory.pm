@@ -1,4 +1,4 @@
-package RefImp::Project::Command::Update::Directory;
+package Refimp::Project::Command::Update::Directory;
 
 use strict;
 use warnings;
@@ -6,10 +6,10 @@ use warnings;
 use Cwd 'abs_path';
 use File::Path;
 use File::Spec;
-use RefImp::Util::Tablizer;
+use Refimp::Util::Tablizer;
 
-class RefImp::Project::Command::Update::Directory { 
-    is => 'RefImp::Project::Command::BaseWithMany',
+class Refimp::Project::Command::Update::Directory { 
+    is => 'Refimp::Project::Command::BaseWithMany',
     has_input => {
         value => {
             is => 'String',
@@ -57,7 +57,7 @@ sub _after_execute {
         $i++;
     }
 
-    print RefImp::Util::Tablizer->format(\@rows);
+    print Refimp::Util::Tablizer->format(\@rows);
 }
 
 1;

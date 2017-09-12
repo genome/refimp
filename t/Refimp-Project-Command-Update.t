@@ -6,5 +6,5 @@ use warnings;
 use TestEnv;
 use Test::More tests => 1;
 
-use_ok('RefImp::Project::Command::Update') or die;
+use_ok('Refimp::Project::Command::Update') or die;
 done_testing();

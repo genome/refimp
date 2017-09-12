@@ -1,4 +1,4 @@
-package RefImp::Cron::Command::UpdateAccessionsFromReports;
+package Refimp::Cron::Command::UpdateAccessionsFromReports;
 
 use strict;
 use warnings;
@@ -6,9 +6,9 @@ use warnings;
 use Cwd 'cwd';
 use File::Temp 'tempdir';
 use List::MoreUtils 'firstval';
-use RefImp::Resources::NcbiFtp;
+use Refimp::Resources::NcbiFtp;
 
-class RefImp::Cron::Command::UpdateAccessionsFromReports {
+class Refimp::Cron::Command::UpdateAccessionsFromReports {
     is => 'Command::V2',
     doc => 'update project accesssion number form ncbi reports',
 };
@@ -19,7 +19,7 @@ sub execute {
     my $self = shift;
     $self->status_message('Update accession numbers from NCBI...');
 
-    my $ftp = RefImp::Resources::NcbiFtp->connect;
+    my $ftp = Refimp::Resources::NcbiFtp->connect;
     $ftp->cwd('REPORT');
 
     my $cwd = cwd();
@@ -34,7 +34,7 @@ sub execute {
     for my $file ( @files ) {
         $self->status_message("Checking file: %s", $file);
         $ftp->get($file);
-        my $report = RefImp::Resources::Ncbi::SubmissionReport->from_file($file);
+        my $report = Refimp::Resources::Ncbi::SubmissionReport->from_file($file);
         $self->fatal_message('Failed to create report from file: %s', $file) if not $report;
         if ( not $report->update_submission ) {
             push @failed_projects, $report->project_name;

@@ -1,4 +1,4 @@
-package RefImp::Project::Submission;
+package Refimp::Project::Submission;
 
 use strict;
 use warnings;
@@ -7,11 +7,11 @@ use Date::Format;
 use File::Basename 'basename';
 use File::Path 'make_path';
 use File::Spec;
-use RefImp::Config;
+use Refimp::Config;
 use Storable 'retrieve';
 
 use Params::Validate qw/ :types validate_pos /;
-class RefImp::Project::Submission {
+class Refimp::Project::Submission {
     table_name => 'projects_submissions',
     #id_generator => '-uuid',
     #id_by => {
@@ -23,14 +23,14 @@ class RefImp::Project::Submission {
     },
     has => {
         phase => { is => 'Text', },
-        project => { is => 'RefImp::Project', id_by => 'project_id', },
+        project => { is => 'Refimp::Project', id_by => 'project_id', },
     },
     has_optional => {
         accession_id => { is => 'Text', },
         directory => { is => 'Text', },
         project_size => { is => 'Number', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => Refimp::Config::get('ds_mysql'),
 };
 
 sub __display_name__ {
@@ -82,7 +82,7 @@ sub create_from_directory {
     $class->fatal_message('Cannot create submission record from directory because there is no submit info in %s', $directory) if not $submit_info;
 
     my $project_name = $submit_info->{GENINFO}->{CloneName};
-    my $project = RefImp::Project->get(name => $project_name);
+    my $project = Refimp::Project->get(name => $project_name);
     $class->fatal_message('Failed to get project for %s', $project_name) if not $project;
     $params{project} = $project;
 
@@ -103,7 +103,7 @@ sub new_submission_directory {
     my ($date_stamp) = split(/\s+/, $self->submitted_on, 2);
     $date_stamp =~ s/\-//g;
     my $directory = File::Spec->join(
-        RefImp::Config::get('analysis_directory'),
+        Refimp::Config::get('analysis_directory'),
         $self->project->taxon->species_short_name,
         lc( $self->project->name ),
         $date_stamp,
@@ -175,9 +175,9 @@ sub dump_submit_info_from_stor_file_to_yml_file {
 }
 
 sub raw_sqn_template_for_taxon {
-    my ($class, $taxon) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Taxon'});
+    my ($class, $taxon) = validate_pos(@_, {isa => __PACKAGE__}, {isa => 'Refimp::Taxon'});
     my $raw_template_path = File::Spec->join(
-        RefImp::Config::get('analysis_directory'),
+        Refimp::Config::get('analysis_directory'),
         'templates',
         join('_', 'raw', $taxon->species_short_name, 'template'),
     );

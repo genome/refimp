@@ -1,15 +1,15 @@
-package RefImp::Assembly::Command::Submission::View;
+package Refimp::Assembly::Command::Submission::View;
 
 use strict;
 use warnings;
 
-use RefImp::Util::Tablizer;
+use Refimp::Util::Tablizer;
 
-class RefImp::Assembly::Command::Submission::View { 
+class Refimp::Assembly::Command::Submission::View { 
     is => 'Command::V2',
     has_input => {
         submission => {
-            is => 'RefImp::Assembly::Submission',
+            is => 'Refimp::Assembly::Submission',
             shell_args_position => 1,
             doc => 'Submission record to show.',
         },
@@ -25,7 +25,7 @@ sub execute {
     print join(
         "\n",
         'ASSEMBLY SUBMISSION RECORD',
-        RefImp::Util::Tablizer->format([
+        Refimp::Util::Tablizer->format([
             map({ [ sprintf('%s:', uc($_)), ( $submission->$_ // 'NaN' ) ] } (qw/ id ncbi_version accession_id bioproject biosample submitted_on directory /)),
             ]),
         "SUBMISSION YAML:",

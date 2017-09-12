@@ -1,4 +1,4 @@
-package RefImp::Project::Digest::Enzymes;
+package Refimp::Project::Digest::Enzymes;
 
 use strict;
 use warnings;

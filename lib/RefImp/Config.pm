@@ -1,4 +1,4 @@
-package RefImp::Config;
+package Refimp::Config;
 
 use strict;
 use warnings;

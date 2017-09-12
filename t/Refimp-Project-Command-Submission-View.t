@@ -13,13 +13,13 @@ my %setup;
 subtest 'setup'=> sub{
     plan tests => 3;
 
-    $setup{pkg} = 'RefImp::Project::Command::Submission::View';
+    $setup{pkg} = 'Refimp::Project::Command::Submission::View';
     use_ok($setup{pkg}) or die;
 
-    $setup{project} = RefImp::Project->get(1);
+    $setup{project} = Refimp::Project->get(1);
     ok($setup{project}, 'got project');
 
-    $setup{submission} = RefImp::Project::Submission->create(
+    $setup{submission} = Refimp::Project::Submission->create(
         project => $setup{project},
         directory => '/blah',
         project_size => 111111,

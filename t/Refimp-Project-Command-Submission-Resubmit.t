@@ -14,12 +14,12 @@ my %test;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    $test{pkg} = 'RefImp::Project::Command::Submission::Resubmit';
+    $test{pkg} = 'Refimp::Project::Command::Submission::Resubmit';
     use_ok($test{pkg}) or die;
 
-    $test{data_dir} = TestEnv::test_data_directory_for_package('RefImp::Project::Command::Submission::Submit');
-    $test{submission} = RefImp::Project::Submission->create(
-        project => RefImp::Project->get(1),
+    $test{data_dir} = TestEnv::test_data_directory_for_package('Refimp::Project::Command::Submission::Submit');
+    $test{submission} = Refimp::Project::Submission->create(
+        project => Refimp::Project->get(1),
         directory => $test{data_dir},
         submitted_on => '2000-01-01',
         phase => 3,
@@ -28,18 +28,18 @@ subtest 'setup' => sub{
     $test{submission}->project->status('presubmitted');
 
     Sub::Install::reinstall_sub({
-            code => sub { File::Spec->join(RefImp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
+            code => sub { File::Spec->join(Refimp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
             as => 'raw_sqn_template_for_taxon',
-            into => 'RefImp::Project::Submission',
+            into => 'Refimp::Project::Submission',
         });
 
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
-    RefImp::Config::set('analysis_directory', $tempdir);
+    Refimp::Config::set('analysis_directory', $tempdir);
 
     $test{ftp} = TestEnv::NcbiFtp->setup;
-    RefImp::Config::set('ncbi_ftp_host', 'ftp-host');
-    RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
-    RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
+    Refimp::Config::set('ncbi_ftp_host', 'ftp-host');
+    Refimp::Config::set('ncbi_ftp_user', 'ftp-user');
+    Refimp::Config::set('ncbi_ftp_password', 'ftp-password');
 
     TestEnv::LimsRestApi::setup;
 

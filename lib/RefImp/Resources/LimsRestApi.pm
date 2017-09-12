@@ -1,4 +1,4 @@
-package RefImp::Resources::LimsRestApi;
+package Refimp::Resources::LimsRestApi;
 
 use strict;
 use warnings 'FATAL';
@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use Data::Dumper 'Dumper';
 use Params::Validate ':types';
 
-use RefImp::Resources::SSO;
+use Refimp::Resources::SSO;
 
 sub imp_lims_url {
     return 'https://imp-lims.gsc.wustl.edu/';
@@ -15,7 +15,7 @@ sub imp_lims_url {
 sub sso { return $_[0]->{sso}; }
 
 sub new { 
-    my $sso = RefImp::Resources::SSO->login(imp_lims_url());
+    my $sso = Refimp::Resources::SSO->login(imp_lims_url());
     return bless { sso => $sso, }, __PACKAGE__;
 }
 
@@ -74,7 +74,7 @@ sub resolve_gsc_class_for_object {
     my $object_class = $object->class;
     return $mapping{$object_class} if exists $mapping{$object_class};
 
-    $object_class =~ s/^RefImp/GSC/;
+    $object_class =~ s/^Refimp/GSC/;
     return $object_class;
 }
 

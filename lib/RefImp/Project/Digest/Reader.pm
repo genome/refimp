@@ -1,10 +1,10 @@
-package RefImp::Project::Digest::Reader;
+package Refimp::Project::Digest::Reader;
 
 use strict;
 use warnings 'FATAL';
 
 use Params::Validate qw/ :types validate_pos /;
-use RefImp::Project::Digest;
+use Refimp::Project::Digest;
 
 sub new {
     my ($class, %params) = @_;
@@ -26,7 +26,7 @@ sub new {
 sub next_for_project {
     my ($self, $project_name) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
 
-    my $digest = RefImp::Project::Digest->new($project_name);
+    my $digest = Refimp::Project::Digest->new($project_name);
     while ( my %info = $self->_next) {
         last if $digest->add_digest_info(%info);
     }

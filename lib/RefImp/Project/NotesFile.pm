@@ -1,4 +1,4 @@
-package RefImp::Project::NotesFile;
+package Refimp::Project::NotesFile;
 
 use strict;
 use warnings;

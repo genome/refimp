@@ -12,13 +12,13 @@ my %test;
 subtest "setup" => sub{
     plan tests => 3;
 
-    $test{pkg} = 'RefImp::Project::Command::Update::MyStatus';
+    $test{pkg} = 'Refimp::Project::Command::Update::MyStatus';
     use_ok($test{pkg}) or die;
 
-    $test{project} = RefImp::Project->get(1);
+    $test{project} = Refimp::Project->get(1);
     ok($test{project}, 'got project');
 
-    $test{user} = RefImp::User->get(1);
+    $test{user} = Refimp::User->get(1);
     ok($test{user}, 'got user');
 
 };
@@ -45,7 +45,7 @@ subtest 'execute fails' => sub{
 subtest 'execute' => sub{
     plan tests => 4;
 
-    my $project_finisher = RefImp::Project::User->__define__(
+    my $project_finisher = Refimp::Project::User->__define__(
         project => $test{project},
         user => $test{user},
         purpose => 'finisher',

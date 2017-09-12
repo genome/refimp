@@ -1,9 +1,9 @@
-package RefImp::Disk::Volume;
+package Refimp::Disk::Volume;
 
 use strict;
 use warnings 'FATAL';
 
-class RefImp::Disk::Volume {
+class Refimp::Disk::Volume {
     table_name => 'DISK_VOLUME',
     id_by => {
         dv_id => { is => 'Number' },
@@ -13,16 +13,16 @@ class RefImp::Disk::Volume {
     },
     has_many_optional => {
         assignments => {
-            is => 'RefImp::Disk::Assignment',
+            is => 'Refimp::Disk::Assignment',
             reverse_id_by => 'volume',
         },
         groups => {
-            is => 'RefImp::Disk::Group',
+            is => 'Refimp::Disk::Group',
             via => 'assignments',
             to =>  'group',
         },
     },
-    data_source => RefImp::Config::get('ds_oltp'),
+    data_source => Refimp::Config::get('ds_oltp'),
     doc => 'disk volume',
 };
 

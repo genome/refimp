@@ -1,9 +1,9 @@
-package RefImp::Taxon::Command::Create;
+package Refimp::Taxon::Command::Create;
 
 use strict;
 use warnings;
 
-class RefImp::Taxon::Command::Create { 
+class Refimp::Taxon::Command::Create { 
     is => 'Command::V2',
     has_input => {
         name => {
@@ -31,12 +31,12 @@ sub execute {
     $self->status_message('Create taxon...');
 
     my $name = lc($self->name);
-    my $taxon = RefImp::Taxon->get(name => $name);
+    my $taxon = Refimp::Taxon->get(name => $name);
     $self->fatal_message('Found existing taxon: %s', $taxon->__display_name__) if $taxon;
 
     my %params = map { $_ => lc($self->$_) } grep { defined $self->$_ } (qw/ name species_name strain_name /);
     $self->status_message("Taxon params:\n%s---\n", YAML::Dump(\%params));
-    $taxon = RefImp::Taxon->create(%params);
+    $taxon = Refimp::Taxon->create(%params);
     $self->fatal_message('Failed to create taxon!') if !$taxon;
     $self->status_message('Created taxon %s', $taxon->__display_name__);
 

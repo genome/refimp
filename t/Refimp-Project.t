@@ -14,9 +14,9 @@ my $project;
 subtest "basics" => sub{
     plan tests => 5;
 
-    use_ok('RefImp::Project') or die;
+    use_ok('Refimp::Project') or die;
 
-    $project = RefImp::Project->get(1);
+    $project = Refimp::Project->get(1);
     ok($project, 'got project');
     ok($project->name, 'project has a name');
     is($project->status('new'), 'new', 'status');
@@ -27,7 +27,7 @@ subtest "basics" => sub{
 subtest "directory" => sub{
     plan tests => 7;
 
-    my $expected_directory = File::Spec->join( RefImp::Config::get('seqmgr'), $project->name);
+    my $expected_directory = File::Spec->join( Refimp::Config::get('seqmgr'), $project->name);
     is($project->directory, $expected_directory, 'When no directory set, default to seqmgr directory');
 
     throws_ok(sub{ $project->directory('/doesnotexist'); }, qr/Directory to set does not exist/, 'cannot set non existing directory');
@@ -36,7 +36,7 @@ subtest "directory" => sub{
     $project->directory($expected_directory);
     is($project->directory, $expected_directory, 'set/get directory');
 
-    for my $sub_dir_name ( RefImp::Project->sub_directory_names ) {
+    for my $sub_dir_name ( Refimp::Project->sub_directory_names ) {
         ok(-d File::Spec->join($expected_directory, $sub_dir_name), "created $sub_dir_name");
     }
 
@@ -61,8 +61,8 @@ subtest 'subdir_for' => sub{
 subtest "claimers" => sub{
     plan tests => 15;
 
-    my $user = RefImp::User->get(1);
-    for my $purpose ( RefImp::Project::User->valid_purposes ) {
+    my $user = Refimp::User->get(1);
+    for my $purpose ( Refimp::Project::User->valid_purposes ) {
         my $claimer = $project->add_project_user(user => $user, purpose => $purpose);
         ok($claimer, "created project $purpose");
         is($claimer->project, $project, "project user $purpose project");

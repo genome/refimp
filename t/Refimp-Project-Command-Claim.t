@@ -7,7 +7,7 @@ use TestEnv;
 
 use Test::More tests => 2;
 
-my $pkg = 'RefImp::Project::Command::Claim';
+my $pkg = 'Refimp::Project::Command::Claim';
 
 my ($project, $user);
 subtest "setup" => sub{
@@ -15,9 +15,9 @@ subtest "setup" => sub{
 
     use_ok($pkg) or die;
 
-    $project = RefImp::Project->get(1);
+    $project = Refimp::Project->get(1);
     $project->status('10X done');
-    $user = RefImp::User->get(1);
+    $user = Refimp::User->get(1);
 
 };
 
@@ -31,7 +31,7 @@ subtest 'claim' => sub{
     );
     ok($claim->result, 'execute');
 
-    my $claimer = RefImp::Project::User->get(project => $project);
+    my $claimer = Refimp::Project::User->get(project => $project);
     ok($claimer, 'added user to project');
     is($claimer->user, $user, 'project user => user');
     is($claimer->purpose, 'finisher', 'project user => purpose');

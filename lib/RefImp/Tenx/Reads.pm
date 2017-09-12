@@ -1,11 +1,11 @@
-package RefImp::Tenx::Reads;
+package Refimp::Tenx::Reads;
 
 use strict;
 use warnings;
 
 use Path::Class;
 
-class RefImp::Tenx::Reads {
+class Refimp::Tenx::Reads {
     table_name => 'tenx_reads',
     id_generator => '-uuid',
     id_by => {
@@ -24,7 +24,7 @@ class RefImp::Tenx::Reads {
             calculate => q| ( defined $targets_path ? 'targeted' : 'wgs' ) |,
         },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => Refimp::Config::get('ds_mysql'),
 };
 
 sub __display_name__ { sprintf('%s (%s %s)', $_[0]->sample_name, $_[0]->type, $_[0]->directory) }

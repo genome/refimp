@@ -1,13 +1,13 @@
-package RefImp::Project::Submission::Sequence;
+package Refimp::Project::Submission::Sequence;
 
 use strict;
 use warnings;
 
 use Bio::Seq;
-use RefImp::Ace::Reader;
+use Refimp::Ace::Reader;
 use Params::Validate qw/ :types validate /;
 
-class RefImp::Project::Submission::Sequence {
+class Refimp::Project::Submission::Sequence {
     has => {
         project_name => { is => 'Text', },
         ace => { is => 'Text', },
@@ -48,7 +48,7 @@ sub _load_seq_from_ace0 {
 
     my $fh = IO::File->new($self->ace, 'r');
     $self->fatal_message("%s\nFailed to open %s", $!, $self->ace) if not $fh;
-    my $reader = RefImp::Ace::Reader->new($fh);
+    my $reader = Refimp::Ace::Reader->new($fh);
     $self->fatal_message('Failed to create ace reader for %s', $self->ace) if not $reader;
 
     my $contig_data = $self->contig_data->[0];

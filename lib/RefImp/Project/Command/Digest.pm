@@ -1,9 +1,9 @@
-package RefImp::Project::Command::Digest;
+package Refimp::Project::Command::Digest;
 
 use strict;
 use warnings 'FATAL';
 
-class RefImp::Project::Command::Digest {
+class Refimp::Project::Command::Digest {
     is => 'Command::Tree',
     doc => 'work with projects digests',
 };

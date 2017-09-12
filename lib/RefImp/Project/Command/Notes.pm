@@ -1,9 +1,9 @@
-package RefImp::Project::Command::Notes;
+package Refimp::Project::Command::Notes;
 
 use strict;
 use warnings;
 
-class RefImp::Project::Command::Notes {
+class Refimp::Project::Command::Notes {
     is => 'Command::Tree',
     doc => 'work with projects notes files',
 };

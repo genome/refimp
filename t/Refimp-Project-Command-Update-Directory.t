@@ -9,7 +9,7 @@ use File::Spec;
 use File::Temp;
 use Test::More tests => 2;
 
-my $pkg = 'RefImp::Project::Command::Update::Directory';
+my $pkg = 'Refimp::Project::Command::Update::Directory';
 
 subtest "setup" => sub{
     plan tests => 1;
@@ -21,7 +21,7 @@ subtest "setup" => sub{
 subtest 'update' => sub{
     plan tests => 7;
 
-    my $project = RefImp::Project->get(1);
+    my $project = Refimp::Project->get(1);
     ok($project, 'got project') or die;
 
     my $new_dir = File::Temp::tempdir(CLEANUP => 1);
@@ -33,7 +33,7 @@ subtest 'update' => sub{
     my $expected_directory = File::Spec->join($new_dir, $project->name);
     is($project->directory, $expected_directory, 'set new directory');
 
-    for my $sub_dir_name ( RefImp::Project->sub_directory_names ) {
+    for my $sub_dir_name ( Refimp::Project->sub_directory_names ) {
         ok(-d File::Spec->join($expected_directory, $sub_dir_name), "created $sub_dir_name");
     }
 

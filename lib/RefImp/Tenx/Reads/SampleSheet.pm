@@ -1,4 +1,4 @@
-package RefImp::Tenx::Reads::SampleSheet;
+package Refimp::Tenx::Reads::SampleSheet;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use Params::Validate qw/ :types validate_pos /;
 use Path::Class;
 use Text::CSV;
 
-class RefImp::Tenx::Reads::SampleSheet { 
+class Refimp::Tenx::Reads::SampleSheet { 
     has => {
         samples => { is => 'ARRAY', },
     },

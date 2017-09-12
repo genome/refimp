@@ -1,4 +1,4 @@
-package RefImp::Project::Submission::Info;
+package Refimp::Project::Submission::Info;
 
 use strict;
 use warnings;
@@ -6,9 +6,9 @@ use warnings;
 use IO::File;
 use Params::Validate ':types';
 use List::Util;
-use RefImp::Ace::Directory;
-use RefImp::Ace::Reader;
-use RefImp::Ace::Sequence;
+use Refimp::Ace::Directory;
+use Refimp::Ace::Reader;
+use Refimp::Ace::Sequence;
 use YAML;
 
 sub load {
@@ -20,7 +20,7 @@ sub load {
 }
 
 sub generate {
-    my ($class, $project) = Params::Validate::validate_pos(@_, {isa => __PACKAGE__}, {isa => 'RefImp::Project'});
+    my ($class, $project) = Params::Validate::validate_pos(@_, {isa => __PACKAGE__}, {isa => 'Refimp::Project'});
 
     my $self = bless {project => $project}, $class;
 
@@ -32,14 +32,14 @@ sub generate {
 
     $self->set_geninfo($submit, $project);
 
-    my $acedir = RefImp::Ace::Directory->create(project => $project);
+    my $acedir = Refimp::Ace::Directory->create(project => $project);
     my $ace0_file = $acedir->ace0_file;
     die "No ace.0 for ".$project->name if not $ace0_file;
 
     my $fh = IO::File->new($ace0_file, 'r');
     die "$!\nFailed to open ace file: $ace0_file" if not $fh;
 
-    my $reader = RefImp::Ace::Reader->new($fh);
+    my $reader = Refimp::Ace::Reader->new($fh);
     die "Failed to create ace reader: $ace0_file" if not $reader;
 
     my @contig_tags;
@@ -183,7 +183,7 @@ sub contig_seq {
 
 sub _add_contig {
     my ($self, $contig) = @_;
-    my $sequence = RefImp::Ace::Sequence->new(bases => $contig->{consensus});
+    my $sequence = Refimp::Ace::Sequence->new(bases => $contig->{consensus});
     $self->{_contig_seqs}->{ $contig->{name} } = $sequence;
 }
 

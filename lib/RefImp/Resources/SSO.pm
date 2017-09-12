@@ -1,4 +1,4 @@
-package RefImp::Resources::SSO;
+package Refimp::Resources::SSO;
 
 use strict;
 use warnings 'FATAL';
@@ -29,8 +29,8 @@ sub login { # new
     $mech->submit_form (
         form_number =>  1,
         fields =>  {
-            j_username => RefImp::Config::get('rt_login'),
-            j_password => RefImp::Config::get('rt_auth'),
+            j_username => Refimp::Config::get('rt_login'),
+            j_password => Refimp::Config::get('rt_auth'),
         },
     );
     $mech->submit();

@@ -10,9 +10,9 @@ use Test::More tests => 1;
 subtest 'basics' => sub {
     plan tests => 7;
 
-    use_ok('RefImp::Taxon') or die;
+    use_ok('Refimp::Taxon') or die;
 
-    my $taxon = RefImp::Taxon->get(name => 'human');
+    my $taxon = Refimp::Taxon->get(name => 'human');
     ok($taxon, 'got taxon');
     is($taxon->name, 'human', 'name');
     is($taxon->species_name, 'homo sapiens', 'species_name');

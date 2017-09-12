@@ -1,16 +1,16 @@
-package RefImp::Project::Command::Submission::Report;
+package Refimp::Project::Command::Submission::Report;
 
 use strict;
 use warnings;
 
-use RefImp::Util::Tablizer;
+use Refimp::Util::Tablizer;
 use YAML;
 
-class RefImp::Project::Command::Submission::Report { 
+class Refimp::Project::Command::Submission::Report { 
     is => 'Command::V2',
     has_input => {
         submissions => {
-            is => 'RefImp::Project::Submission',
+            is => 'Refimp::Project::Submission',
             is_many => 1,
             shell_args_position => 1,
             require_user_verify => 0,
@@ -46,7 +46,7 @@ sub general {
         $metrics{'Total Size'} += $size;
         push @rows, [ $submission->project->name, (map { $_->name } $submission->project->finishers)[0], $submission->submitted_on, $size, ];
     }
-    print RefImp::Util::Tablizer->format(\@rows).YAML::Dump(\%metrics);
+    print Refimp::Util::Tablizer->format(\@rows).YAML::Dump(\%metrics);
 }
 
 sub finisher {
@@ -68,7 +68,7 @@ sub finisher {
         unshift @$rows, $headers, [ map { '-' x length } @$headers ];
         my %metrics = %{$finishers{$finisher}->{metrics}};
         $metrics{Finisher} = $finisher;
-        push @output, RefImp::Util::Tablizer->format($finishers{$finisher}->{rows}).YAML::Dump(\%metrics);
+        push @output, Refimp::Util::Tablizer->format($finishers{$finisher}->{rows}).YAML::Dump(\%metrics);
     }
     print join("\n", @output);
 }

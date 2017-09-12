@@ -1,11 +1,11 @@
-package RefImp::Tenx::Command::Alignment::Create;
+package Refimp::Tenx::Command::Alignment::Create;
 
 use strict;
 use warnings;
 
 use Path::Class;
 
-use RefImp::Tenx::Alignment;
+use Refimp::Tenx::Alignment;
 my %inputs = map {
         $_->property_name => {
             is => $_->data_type,
@@ -14,9 +14,9 @@ my %inputs = map {
         }
     } grep {
         $_->property_name !~ /id$/
-} RefImp::Tenx::Alignment->__meta__->properties;
+} Refimp::Tenx::Alignment->__meta__->properties;
 
-class RefImp::Tenx::Command::Alignment::Create { 
+class Refimp::Tenx::Command::Alignment::Create { 
     is => 'Command::V2',
     has_input => \%inputs,
     doc => 'create a longranger alignment db entry',
@@ -32,11 +32,11 @@ sub execute {
     $params{directory} = dir($params{directory})->absolute->stringify;
     $self->fatal_message('Directory %s does not exist!', $params{directory}) if !-d $params{directory};
 
-    my $alignment = RefImp::Tenx::Alignment->get(directory => $params{directory});
+    my $alignment = Refimp::Tenx::Alignment->get(directory => $params{directory});
     $self->fatal_message('Found existing alignment for directory: %s', $alignment->__display_name__) if $alignment;
 
     $self->status_message("Params:\n%s", YAML::Dump( {map { $_ => ( ref $params{$_} ? $params{$_}->id : $params{$_} ) } keys %params }));
-    $alignment = RefImp::Tenx::Alignment->create(%params);
+    $alignment = Refimp::Tenx::Alignment->create(%params);
     $self->status_message('Created alignment %s', $alignment->__display_name__);
 
     1;

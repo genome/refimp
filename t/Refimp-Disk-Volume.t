@@ -11,12 +11,12 @@ my %test;
 subtest 'volume' => sub{
     plan tests => 4;
 
-    use_ok('RefImp::Disk::Volume') or die;
+    use_ok('Refimp::Disk::Volume') or die;
 
     my %params = (
         mount_path => '/tmp',
     );
-    $test{volume} = RefImp::Disk::Volume->create(%params);
+    $test{volume} = Refimp::Disk::Volume->create(%params);
     ok($test{volume}, 'create volume');
 
     for my $attr ( keys %params ) {

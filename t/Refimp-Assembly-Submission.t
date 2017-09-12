@@ -16,7 +16,7 @@ my %setup;
 subtest 'setup' => sub{
     plan tests => 3;
 
-    $setup{pkg} = 'RefImp::Assembly::Submission';
+    $setup{pkg} = 'Refimp::Assembly::Submission';
     use_ok($setup{pkg}) or die;
 
     my $data_dir = TestEnv::test_data_directory_for_package($setup{pkg});

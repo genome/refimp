@@ -7,7 +7,7 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Project::Digest';
+my $pkg = 'Refimp::Project::Digest';
 use_ok($pkg) or die;
 
 subtest 'resolve_project_basename' => sub {

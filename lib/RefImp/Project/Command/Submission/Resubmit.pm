@@ -1,4 +1,4 @@
-package RefImp::Project::Command::Submission::Resubmit;
+package Refimp::Project::Command::Submission::Resubmit;
 
 use strict;
 use warnings 'FATAL';
@@ -7,15 +7,15 @@ use File::Copy;
 use File::Copy::Recursive;
 use File::Temp;
 use Path::Class;
-use RefImp::Project::Submission::Form;
-use RefImp::Resources::NcbiFtp;
+use Refimp::Project::Submission::Form;
+use Refimp::Resources::NcbiFtp;
 use YAML;
 
-class RefImp::Project::Command::Submission::Resubmit { 
+class Refimp::Project::Command::Submission::Resubmit { 
     is => 'Command::V2',
     has => {
         from_submission => {
-            is => 'RefImp::Project::Submission',
+            is => 'Refimp::Project::Submission',
             shell_args_position => 1,
             doc => 'Submission to resubmit.',
         },
@@ -24,7 +24,7 @@ class RefImp::Project::Command::Submission::Resubmit {
         asn_path => { is => 'Text', },
         staging_directory => { is => 'Path::Class::Dir', },
         submit_info => { is => 'Text', },
-        submission => { is => 'RefImp::Project::Submission', },
+        submission => { is => 'Refimp::Project::Submission', },
     },
     doc => 'REsubmit a project to NCBI',
 };
@@ -56,7 +56,7 @@ sub _setup {
     $self->status_message('Staging directory: %s', $self->staging_directory);
 
     $self->submission(
-        RefImp::Project::Submission->create(
+        Refimp::Project::Submission->create(
             project => $self->from_submission->project,
             phase => 3,
         )
@@ -100,7 +100,7 @@ sub _save_submit_form {
     my $self = shift;
     $self->status_message('Save submit form...');
 
-    my $form = RefImp::Project::Submission::Form->create($self->submit_info)
+    my $form = Refimp::Project::Submission::Form->create($self->submit_info)
         or die 'Failed to generate submissions form!';
     my $file = File::Spec->join(
         $self->staging_directory,
@@ -119,7 +119,7 @@ sub _generate_asn {
     my $self = shift;
     $self->status_message('Generate ASN...');
 
-    my $asn = RefImp::Project::Submission::Asn->create(
+    my $asn = Refimp::Project::Submission::Asn->create(
         project => $self->submission->project,
         submit_info => $self->submit_info,
         working_directory => $self->staging_directory->stringify,
@@ -134,9 +134,9 @@ sub _ftp_asn_to_ncbi {
     my $self = shift;
     $self->status_message('FTP ASN to NCBI...');
 
-    my $ftphost = RefImp::Config::get('ncbi_ftp_host');
+    my $ftphost = Refimp::Config::get('ncbi_ftp_host');
     $self->status_message('FTP host: %s', $ftphost);
-    my $ftp = RefImp::Resources::NcbiFtp->connect;
+    my $ftp = Refimp::Resources::NcbiFtp->connect;
     $ftp->cwd('SEQSUBMIT');
 
     my $asn_path = $self->asn_path;

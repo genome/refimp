@@ -1,16 +1,16 @@
-package RefImp::Project::Command::BaseWithMany;
+package Refimp::Project::Command::BaseWithMany;
 
 use strict;
 use warnings;
 
-use RefImp::Role::PropertyValuesFromFile;
+use Refimp::Role::PropertyValuesFromFile;
 
-class RefImp::Project::Command::BaseWithMany { 
+class Refimp::Project::Command::BaseWithMany { 
     is => 'Command::V2',
     is_abstract => 1,
     has_input => {
         projects => {
-            is => 'RefImp::Project',
+            is => 'Refimp::Project',
             is_many => 1,
             shell_args_position => 1,
             require_user_verify => 0,
@@ -19,7 +19,7 @@ class RefImp::Project::Command::BaseWithMany {
     },
     doc => 'base class for commands that work with many projects',
 };
-RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file(__PACKAGE__, 'projects');
+Refimp::Role::PropertyValuesFromFile::class_properties_can_load_from_file(__PACKAGE__, 'projects');
 
 sub help_detail { $_[0]->__meta__->doc }
 

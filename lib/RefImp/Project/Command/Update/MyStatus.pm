@@ -1,10 +1,10 @@
-package RefImp::Project::Command::Update::MyStatus;
+package Refimp::Project::Command::Update::MyStatus;
 
 use strict;
 use warnings;
 
-class RefImp::Project::Command::Update::MyStatus { 
-    is => 'RefImp::Project::Command::Base',
+class Refimp::Project::Command::Update::MyStatus { 
+    is => 'Refimp::Project::Command::Base',
     has_input => {
         value => {
             is => 'String',
@@ -15,7 +15,7 @@ class RefImp::Project::Command::Update::MyStatus {
     },
     has_optional_input => {
         user => {
-            is => 'RefImp::User',
+            is => 'Refimp::User',
             doc => 'The user to associate the my status with. The user must be in the db, plus have claimed the project. Defaults to current ENV user.',
         },
     },
@@ -50,7 +50,7 @@ sub _resolve_user {
 
     $self->fatal_message('No ENV user set to resolve to set my status for!') if not $ENV{USER};
 
-    my $user = RefImp::User->get(name => $ENV{USER});
+    my $user = Refimp::User->get(name => $ENV{USER});
     $self->fatal_message('No user found for %s', $ENV{USER});
 
     $self->user($user);

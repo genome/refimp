@@ -1,4 +1,4 @@
-package RefImp::Project::Digest;
+package Refimp::Project::Digest;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use base 'Class::Accessor';
 __PACKAGE__->mk_accessors(qw/ bands date enzyme project_basename project_header project_name /);
 
 use Params::Validate qw/ :types validate_pos /;
-use RefImp::Project::Digest::Enzymes;
+use Refimp::Project::Digest::Enzymes;
 
 sub new {
     my ($class, $project_name) = @_;
@@ -52,7 +52,7 @@ sub add_digest_info {
 
     my $enzyme_code = $self->project_header;
     $enzyme_code =~ s/^$project_basename//;
-    $self->enzyme( RefImp::Project::Digest::Enzymes->enzyme_for_code($enzyme_code) );
+    $self->enzyme( Refimp::Project::Digest::Enzymes->enzyme_for_code($enzyme_code) );
 
     return 1;
 }

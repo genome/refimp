@@ -1,12 +1,12 @@
-package RefImp::Project::Command::Status;
+package Refimp::Project::Command::Status;
 
 use strict;
 use warnings;
 
-use RefImp::Util::Tablizer;
+use Refimp::Util::Tablizer;
 
-class RefImp::Project::Command::Status { 
-    is => 'RefImp::Project::Command::BaseWithMany',
+class Refimp::Project::Command::Status { 
+    is => 'Refimp::Project::Command::BaseWithMany',
     doc => 'show status and accessions',
 };
 
@@ -29,7 +29,7 @@ sub _after_execute {
         push @rows, \@row;
     }
 
-    print RefImp::Util::Tablizer->format(\@rows);
+    print Refimp::Util::Tablizer->format(\@rows);
 }
 
 1;

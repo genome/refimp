@@ -1,4 +1,4 @@
-package RefImp::Project::Submission::Asn;
+package Refimp::Project::Submission::Asn;
 
 use strict;
 use warnings 'FATAL';
@@ -6,18 +6,18 @@ use warnings 'FATAL';
 use Bio::SeqIO;
 use File::Spec;
 use List::Util;
-use RefImp::Resources::Ncbi::ProjectName;
+use Refimp::Resources::Ncbi::ProjectName;
 
-class RefImp::Project::Submission::Asn {
+class Refimp::Project::Submission::Asn {
     has => {
-        project => { is => 'RefImp::Project', },
+        project => { is => 'Refimp::Project', },
         submit_info => { is => 'HASH', },
         working_directory => { is => 'Text', },
     },
     has_calculated => {
         ncbi_clone_name => {
             calculate_from => [qw/ project /],
-            calculate => q/ RefImp::Resources::Ncbi::ProjectName->get($project->name) /,
+            calculate => q/ Refimp::Resources::Ncbi::ProjectName->get($project->name) /,
         },
         template_path => {
             calculate_from => [qw/ project working_directory /],
@@ -229,7 +229,7 @@ sub _create_template_file {
     foreach my $author_key (qw/ FinisherUserList PrefinisherUserList SaverUserList /) {
         push @author_names, @{$ref->{GENINFO}->{$author_key}} if $ref->{GENINFO}->{$author_key};
     }
-    my @authors = map { RefImp::User->get(name => $_) } @author_names;
+    my @authors = map { Refimp::User->get(name => $_) } @author_names;
 
     my @othercomments;
     if (defined ($ref->{COMMENTS}->{TransposonComments})){
@@ -240,7 +240,7 @@ sub _create_template_file {
         }
     }
 
-    my $raw_template_path = RefImp::Project::Submission->raw_sqn_template_for_taxon($self->project->taxon);
+    my $raw_template_path = Refimp::Project::Submission->raw_sqn_template_for_taxon($self->project->taxon);
     $self->status_message('Raw template path: %s', $raw_template_path);
     my $rawfh = IO::File->new($raw_template_path, 'r');
     $self->fatal_message('Failed to open raw template path! %s', $!) if not $rawfh;

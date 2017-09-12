@@ -1,9 +1,9 @@
-package RefImp::Tenx::Command;
+package Refimp::Tenx::Command;
 
 use strict;
 use warnings;
 
-class RefImp::Tenx::Command {
+class Refimp::Tenx::Command {
     is => 'Command::Tree',
     doc => '10X Genomics commands and utilites',
 };

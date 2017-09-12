@@ -1,9 +1,9 @@
-package RefImp::Cron::Command;
+package Refimp::Cron::Command;
 
 use strict;
 use warnings;
 
-class RefImp::Cron::Command {
+class Refimp::Cron::Command {
     is => 'Command::Tree',
     doc => 'service and cron commands',
 };

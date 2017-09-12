@@ -1,4 +1,4 @@
-package RefImp;
+package Refimp;
 
 use warnings;
 use strict;
@@ -7,16 +7,16 @@ our $VERSION = '0.010100';
 
 use Carp;
 use Carp::Heavy;
-use RefImp::Config;
+use Refimp::Config;
 use UR;
 
 UR::Object::Type->define(
-    class_name => 'RefImp',
+    class_name => 'Refimp',
     is => ['UR::Namespace'],
     english_name => 'reference improvement',
 );
 
-RefImp::Config::load_refimp_config_file();
+Refimp::Config::load_refimp_config_file();
 
 # Account for a perl bug in pre-5.10 by applying a runtime patch to Carp::Heavy
 if ($] < 5.01) {

@@ -1,4 +1,4 @@
-package RefImp::Assembly::Command::Submission::SplitFasta;
+package Refimp::Assembly::Command::Submission::SplitFasta;
 
 use strict;
 use warnings 'FATAL';
@@ -7,7 +7,7 @@ use Bio::SeqIO;
 use Encode;
 use File::Basename;
 
-class RefImp::Assembly::Command::Submission::SplitFasta {
+class Refimp::Assembly::Command::Submission::SplitFasta {
     is => 'Command::V2',
     has_input => {
         fasta_file => { is => 'Text', doc => 'Fasta file to split', },

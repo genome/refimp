@@ -1,11 +1,11 @@
-package RefImp::Tenx::Command::Reads::CreateFromMkfastq;
+package Refimp::Tenx::Command::Reads::CreateFromMkfastq;
 
 use strict;
 use warnings;
 
 use Path::Class;
 
-class RefImp::Tenx::Command::Reads::CreateFromMkfastq { 
+class Refimp::Tenx::Command::Reads::CreateFromMkfastq { 
     is => 'Command::V2',
     has_input => {
         directory => {
@@ -31,10 +31,10 @@ sub execute {
 
     $self->fatal_message('Given targets path does not exist: %s', $self->targets_path) if $self->targets_path and !-s $self->targets_path;
 
-    my $samplesheet = RefImp::Tenx::Reads::MkfastqRun->create( $self->directory );
+    my $samplesheet = Refimp::Tenx::Reads::MkfastqRun->create( $self->directory );
     for my $sample_name ( $samplesheet->sample_names ) {
         my $sample_directory = $samplesheet->fastq_directory_for_sample_name($sample_name);
-        my $reads = RefImp::Tenx::Reads->create(
+        my $reads = Refimp::Tenx::Reads->create(
             directory => $sample_directory->stringify,
             sample_name => $sample_name,
         );

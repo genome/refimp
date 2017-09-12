@@ -1,4 +1,4 @@
-package RefImp::Resources::LDAP;
+package Refimp::Resources::LDAP;
 
 use strict;
 use warnings 'FATAL';
@@ -6,12 +6,12 @@ use warnings 'FATAL';
 use Net::LDAP;
 use Params::Validate qw/ :types validate_pos /;
 
-class RefImp::Resources::LDAP {};
+class Refimp::Resources::LDAP {};
 
 sub ldap_user_for_unix_login {
     my ($class, $unix_login) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
 
-    my $ldap = Net::LDAP->new(RefImp::Config::get('net_ldap_url'), version => 3);
+    my $ldap = Net::LDAP->new(Refimp::Config::get('net_ldap_url'), version => 3);
     my $mesg = $ldap->start_tls(verify => 'none');
     $mesg->code && die $mesg->error;
 

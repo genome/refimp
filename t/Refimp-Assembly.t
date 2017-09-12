@@ -10,9 +10,9 @@ use Test::More tests => 1;
 subtest "create" => sub{
     plan tests => 7;
 
-    use_ok('RefImp::Assembly') or die;
+    use_ok('Refimp::Assembly') or die;
 
-    my $assembly = RefImp::Assembly->create(
+    my $assembly = Refimp::Assembly->create(
         name => 'TESTY MCTESTERSON',
         directory => '/tmp',
         taxon_id => 1,

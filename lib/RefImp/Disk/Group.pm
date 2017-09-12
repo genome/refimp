@@ -1,9 +1,9 @@
-package RefImp::Disk::Group;
+package Refimp::Disk::Group;
 
 use strict;
 use warnings 'FATAL';
 
-class RefImp::Disk::Group {
+class Refimp::Disk::Group {
     table_name => 'DISK_GROUP',
     id_by => {
         dg_id => { is => 'Number' },
@@ -13,16 +13,16 @@ class RefImp::Disk::Group {
     },
     has_many_optional => {
         assignments => {
-            is => 'RefImp::Disk::Assignment',
+            is => 'Refimp::Disk::Assignment',
             reverse_id_by => 'group',
         },
         volumes => {
-            is => 'RefImp::Disk::Volume',
+            is => 'Refimp::Disk::Volume',
             via => 'assignments',
             to =>  'volume',
         },
     },
-    data_source => RefImp::Config::get('ds_oltp'),
+    data_source => Refimp::Config::get('ds_oltp'),
     doc => "disk group",
 };
 

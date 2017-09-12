@@ -12,16 +12,16 @@ my %test;
 subtest setup => sub{
     plan tests => 5;
 
-    $test{pkg} = 'RefImp::Cron::Command::CheckDiskUsage';
+    $test{pkg} = 'Refimp::Cron::Command::CheckDiskUsage';
     use_ok($test{pkg}) or die;
 
-    $test{group} = RefImp::Disk::Group->create(disk_group_name => 'tester');
+    $test{group} = Refimp::Disk::Group->create(disk_group_name => 'tester');
     ok($test{group}, 'create disk group');
 
-    $test{volume} = RefImp::Disk::Volume->create(mount_path => '/tmp');
+    $test{volume} = Refimp::Disk::Volume->create(mount_path => '/tmp');
     ok($test{group}, 'create disk volume');
 
-    my $assignment = RefImp::Disk::Assignment->create(group => $test{group}, volume => $test{volume});
+    my $assignment = Refimp::Disk::Assignment->create(group => $test{group}, volume => $test{volume});
     ok($assignment, 'create disk group volume assignment');
 
     is_deeply([$test{group}->volumes], [$test{volume}], 'disk group volumes');

@@ -1,9 +1,9 @@
-package RefImp::Taxon::Command;
+package Refimp::Taxon::Command;
 
 use strict;
 use warnings;
 
-class RefImp::Taxon::Command {
+class Refimp::Taxon::Command {
     is => 'Command::Tree',
     doc => 'commands to work with taxa',
 };

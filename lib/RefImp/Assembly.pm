@@ -1,9 +1,9 @@
-package RefImp::Assembly;
+package Refimp::Assembly;
 
 use strict;
 use warnings;
 
-class RefImp::Assembly {
+class Refimp::Assembly {
     table_name => 'assemblies',
     id_generator => '-uuid',
     id_by => {
@@ -12,7 +12,7 @@ class RefImp::Assembly {
     has => {
         name => { is => 'Text', doc => 'Name of the project.', },
         taxon => {
-            is => 'RefImp::Taxon',
+            is => 'Refimp::Taxon',
             id_by => 'taxon_id',
             doc => 'The assembly taxon.',
         },
@@ -20,7 +20,7 @@ class RefImp::Assembly {
     has_optional => {
         directory => { is => 'Text', doc => 'File system location.', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => Refimp::Config::get('ds_mysql'),
 };
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }

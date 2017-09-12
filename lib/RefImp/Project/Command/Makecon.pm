@@ -1,4 +1,4 @@
-package RefImp::Project::Command::Makecon;
+package Refimp::Project::Command::Makecon;
 
 use strict;
 use warnings;
@@ -8,11 +8,11 @@ use Bio::SeqIO;
 use File::Basename;
 use File::Spec;
 use IO::File;
-use RefImp::Ace::Directory;
-use RefImp::Ace::Reader;
+use Refimp::Ace::Directory;
+use Refimp::Ace::Reader;
 
-class RefImp::Project::Command::Makecon {
-    is => 'RefImp::Project::Command::Base',
+class Refimp::Project::Command::Makecon {
+    is => 'Refimp::Project::Command::Base',
     has_input => {
         finished_region_only => {
             is => 'Boolean',
@@ -99,7 +99,7 @@ sub _get_sequence_from_most_recent_ace_file {
         return;
     }
 
-    my $ace_dir = RefImp::Ace::Directory->create(project => $self->project);
+    my $ace_dir = Refimp::Ace::Directory->create(project => $self->project);
     $self->fatal_message("Failed to get ace directory object!") unless $ace_dir;
 
     my $acefile = $ace_dir->recent_acefile;
@@ -110,7 +110,7 @@ sub _get_sequence_from_most_recent_ace_file {
 
     my $fh = IO::File->new($acefile, 'r');
     $self->fatal_message("Failed to open ace file: %s", $acefile) if not $fh;
-    my $reader = RefImp::Ace::Reader->new($fh);
+    my $reader = Refimp::Ace::Reader->new($fh);
     $self->fatal_message("Failed to create ace reader for ace file: %s", $acefile) if not $reader;
 
     my $prefix = $self->{prefix};

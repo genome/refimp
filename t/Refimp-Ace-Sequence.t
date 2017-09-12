@@ -8,7 +8,7 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 5;
 
-my $pkg = 'RefImp::Ace::Sequence';
+my $pkg = 'Refimp::Ace::Sequence';
 
 subtest 'setup' => sub{
     plan tests => 1;

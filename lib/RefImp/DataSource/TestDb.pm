@@ -1,15 +1,15 @@
-package RefImp::DataSource::TestDb;
+package Refimp::DataSource::TestDb;
 
 use strict;
 use warnings;
 
 use UR;
 
-class RefImp::DataSource::TestDb {
+class Refimp::DataSource::TestDb {
     is => 'UR::DataSource::SQLite',
     has_constant => {
         server => {
-            value => RefImp::Config::get('ds_testdb_server'),
+            value => Refimp::Config::get('ds_testdb_server'),
         },
     },
 };

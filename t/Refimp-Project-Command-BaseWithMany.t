@@ -13,13 +13,13 @@ my @projects;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    use_ok('RefImp::Project::Command::BaseWithMany') or die;
+    use_ok('Refimp::Project::Command::BaseWithMany') or die;
 
     class BaseWithManyTest {
-        is => 'RefImp::Project::Command::BaseWithMany',
+        is => 'Refimp::Project::Command::BaseWithMany',
     };
 
-    push @projects, RefImp::Project->get(1);
+    push @projects, Refimp::Project->get(1);
     is(@projects, 1, 'got projects');
 
 };
