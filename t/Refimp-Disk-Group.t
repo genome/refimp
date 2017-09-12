@@ -10,12 +10,12 @@ use Test::More tests => 1;
 subtest 'group' => sub{
     plan tests => 4;
 
-    use_ok('RefImp::Disk::Group') or die;
+    use_ok('Refimp::Disk::Group') or die;
 
     my %params = (
         disk_group_name => 'refimp',
     );
-    my $group = RefImp::Disk::Group->create(%params);
+    my $group = Refimp::Disk::Group->create(%params);
     ok($group, 'create group');
 
     for my $attr ( keys %params ) {

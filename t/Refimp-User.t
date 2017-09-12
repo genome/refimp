@@ -7,7 +7,7 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 4;
 
-my $pkg = 'RefImp::User';
+my $pkg = 'Refimp::User';
 use_ok($pkg) or die;
 
 my $user;

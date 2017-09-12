@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 use Test::More tests => 2;
 
-my $pkg = 'RefImp::Project::Command::Status';
+my $pkg = 'Refimp::Project::Command::Status';
 use_ok($pkg) or die;
 
 subtest 'execute' => sub {
@@ -14,7 +14,7 @@ subtest 'execute' => sub {
 
     my $output;
     open local(*STDOUT), '>', \$output or die $!;
-    ok($pkg->execute(projects => [ RefImp::Project->get(1) ]), 'execute');
+    ok($pkg->execute(projects => [ Refimp::Project->get(1) ]), 'execute');
     like($output, qr/NAME\s+STATUS\s+ACCESSIONS\s+[-\s]+/, 'output matches');
 
 };

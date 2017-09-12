@@ -11,32 +11,32 @@ my %setup;
 subtest 'setup' => sub{
     plan tests => 1;
 
-    $setup{pkg} = 'RefImp::Project::Command::Submission::Report';
+    $setup{pkg} = 'Refimp::Project::Command::Submission::Report';
     use_ok($setup{pkg}) or die;
 
 
-    my $project = RefImp::Project->get(1);
-    my $user = RefImp::User->get(1);
-    RefImp::Project::User->create(
+    my $project = Refimp::Project->get(1);
+    my $user = Refimp::User->get(1);
+    Refimp::Project::User->create(
         project => $project,
         user => $user,
         purpose => 'finisher',
     );
-    push @{$setup{submissions}}, RefImp::Project::Submission->create(
+    push @{$setup{submissions}}, Refimp::Project::Submission->create(
         project => $project,
         directory => '/tmp',
         submitted_on => '2017-01-01',
         project_size => 101000,
     );
 
-    $project = RefImp::Project->create(name => 'TESTER_22');
-    $user = RefImp::User->create(name => 'gwbush');
-    RefImp::Project::User->create(
+    $project = Refimp::Project->create(name => 'TESTER_22');
+    $user = Refimp::User->create(name => 'gwbush');
+    Refimp::Project::User->create(
         project => $project,
         user => $user,
         purpose => 'finisher',
     );
-    push @{$setup{submissions}}, RefImp::Project::Submission->create(
+    push @{$setup{submissions}}, Refimp::Project::Submission->create(
         project => $project,
         directory => '/tmp',
         submitted_on => '2016-01-01',

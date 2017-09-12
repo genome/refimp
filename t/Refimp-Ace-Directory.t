@@ -15,13 +15,13 @@ my %setup;
 subtest 'setup' => sub{
     plan tests => 4;
 
-    my $pkg = 'RefImp::Ace::Directory';
+    my $pkg = 'Refimp::Ace::Directory';
     use_ok($pkg) or die;
 
     throws_ok(sub{ $pkg->create; }, qr/No path given/, 'create fails w/o path');
     throws_ok(sub{ $pkg->create(path => 'blah'); }, qr/Path does not exist/, 'create fails w/ invalid path');
 
-    my $project = RefImp::Project->get(1);
+    my $project = Refimp::Project->get(1);
     my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
     $project->directory($tmpdir);
     my $path = $project->edit_directory;
@@ -81,7 +81,7 @@ subtest 'ace0 and ace0_path' => sub{
 subtest 'no acefiles' => sub {
     plan tests => 5;
 
-    my $ad = RefImp::Ace::Directory->create(path => '.');
+    my $ad = Refimp::Ace::Directory->create(path => '.');
     ok($ad, 'create ace directory w/o aces');
     ok(!$ad->acefiles, 'no acefiles');
     ok(!$ad->aces, 'no aces');

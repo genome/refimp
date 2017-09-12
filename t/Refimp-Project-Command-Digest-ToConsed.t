@@ -9,13 +9,13 @@ use File::Temp;
 use TestEnv;
 use Test::More tests => 2;
 
-my $pkg = 'RefImp::Project::Command::Digest::ToConsed';
+my $pkg = 'Refimp::Project::Command::Digest::ToConsed';
 use_ok($pkg) or die;
 
 subtest 'execute' => sub{
     plan tests => 7;
 
-    my $project = RefImp::Project->create(name => 'TEST-AAD13A05');
+    my $project = Refimp::Project->create(name => 'TEST-AAD13A05');
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     $project->directory($tempdir);
 

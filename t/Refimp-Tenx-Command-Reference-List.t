@@ -6,5 +6,5 @@ use warnings;
 use TestEnv;
 use Test::More tests => 1;
 
-use_ok('RefImp::Tenx::Command::Reference::List') or die;
+use_ok('Refimp::Tenx::Command::Reference::List') or die;
 done_testing();

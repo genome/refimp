@@ -10,17 +10,17 @@ use File::Spec;
 use File::Temp;
 use Test::More tests => 2;
 
-my $pkg = 'RefImp::Project::Command::Notes::Create';
+my $pkg = 'Refimp::Project::Command::Notes::Create';
 use_ok($pkg) or die;
 
 subtest 'execute' => sub {
     plan tests => 3;
 
-    my $project = RefImp::Project->create(name => 'H_PROJECT');
+    my $project = Refimp::Project->create(name => 'H_PROJECT');
     ok($project, 'create project');
 
     my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
-    RefImp::Config::set('seqmgr', $tmpdir);
+    Refimp::Config::set('seqmgr', $tmpdir);
     mkdir File::Spec->join($tmpdir, $project->name);
 
     my $notes_file_path = $project->notes_file_path;
@@ -28,7 +28,7 @@ subtest 'execute' => sub {
     $fh->print("PREVIOUS CONTENT!\n");
     $fh->close;
 
-    my $cmd = RefImp::Project::Command::Notes::Create->execute(
+    my $cmd = Refimp::Project::Command::Notes::Create->execute(
         projects => [ $project ],
         prefinisher => 'bobama',
     );

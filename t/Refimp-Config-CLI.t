@@ -11,7 +11,7 @@ use File::Spec;
 use Test::Exception;
 use Test::More tests => 6;
 
-my $pkg = 'RefImp::Config::CLI';
+my $pkg = 'Refimp::Config::CLI';
 use_ok($pkg) or die;
 
 subtest 'failures' => sub{

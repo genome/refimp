@@ -8,14 +8,14 @@ use TestEnv;
 use File::Temp;
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Assembly::Command::Submission::TblToAsn';
+my $pkg = 'Refimp::Assembly::Command::Submission::TblToAsn';
 my $cmd;
 subtest 'setup' => sub {
     plan tests => 3;
 
     use_ok($pkg) or die;
 
-    my $submission_yml = File::Spec->join(TestEnv::test_data_directory_for_package('RefImp::Assembly::Submission'), 'submission.yml');
+    my $submission_yml = File::Spec->join(TestEnv::test_data_directory_for_package('Refimp::Assembly::Submission'), 'submission.yml');
     ok(-s $submission_yml, 'submission yml exists');
 
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);

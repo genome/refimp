@@ -9,7 +9,7 @@ use File::Spec;
 use Test::Exception;
 use Test::More tests => 6;
 
-my $pkg_name = 'RefImp::Role::PropertyValuesFromFile';
+my $pkg_name = 'Refimp::Role::PropertyValuesFromFile';
 use_ok($pkg_name) or die;
 
 class Person {
@@ -33,20 +33,20 @@ subtest 'errors' => sub{
     plan tests => 3;
 
     throws_ok(
-        sub{ RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'blah'); },
+        sub{ Refimp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'blah'); },
         qr/No property meta for blah/,
         'class_properties_can_load_from_file fails with unknown property',
     );
 
     class ClassIsNotcommandV2 { is => 'UR::Object', has => { things => {}, }};
     throws_ok(
-        sub{  RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('ClassIsNotcommandV2', 'things'); },
+        sub{  Refimp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('ClassIsNotcommandV2', 'things'); },
         qr/It is not a 'Command::V2'/,
         'fails when class is not Command::V2',
     );
 
     throws_ok(
-        sub{  RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'happiness'); },
+        sub{  Refimp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'happiness'); },
         qr/is not is_many/,
         'fails when property is not is_many',
     );
@@ -55,7 +55,7 @@ subtest 'errors' => sub{
 subtest 'class_properties_can_load_from_file' => sub{
     plan tests => 3;
 
-    RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'names');
+    Refimp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'names');
     my $property = FromFileTest->__meta__->property_meta_for_name('names');
     ok($property->{can_load_from_file}, 'set can_load_from_file for names');
     like($property->{doc}, qr/Optionally, pass a single columned file to load values/, 'appended doc for names');
@@ -98,7 +98,7 @@ subtest 'execute with file' => sub{
 subtest 'execute with file getting objects' => sub{
     plan tests => 4;
 
-    RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'people');
+    Refimp::Role::PropertyValuesFromFile::class_properties_can_load_from_file('FromFileTest', 'people');
 
     my $names_file = File::Spec->join(TestEnv::test_data_directory_for_package($pkg_name), 'names.txt');
     my @people;

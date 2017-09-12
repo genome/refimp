@@ -9,7 +9,7 @@ use Test::More tests => 1;
 subtest 'connect' => sub{
     plan tests => 2;
 
-    my $pkg = 'RefImp::Resources::NcbiFtp';
+    my $pkg = 'Refimp::Resources::NcbiFtp';
     use_ok($pkg) or die;
 
     my $test_ftp = TestEnv::NcbiFtp->setup;

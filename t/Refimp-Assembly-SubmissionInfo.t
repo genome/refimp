@@ -8,7 +8,7 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 5;
 
-my $pkg = 'RefImp::Assembly::SubmissionInfo';
+my $pkg = 'Refimp::Assembly::SubmissionInfo';
 use_ok($pkg) or die;
 
 subtest 'submission_info' => sub{

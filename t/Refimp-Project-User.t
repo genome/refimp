@@ -8,7 +8,7 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 2;
 
-my $pkg = 'RefImp::Project::User';
+my $pkg = 'Refimp::Project::User';
 my ($project, $user);
 
 subtest 'setup' => sub{
@@ -16,9 +16,9 @@ subtest 'setup' => sub{
 
     use_ok($pkg) or die;
 
-    $project = RefImp::Project->get(1);
+    $project = Refimp::Project->get(1);
     ok($project, 'got project');
-    $user = RefImp::User->get(1);
+    $user = Refimp::User->get(1);
     ok($user, 'got user');
 
 };

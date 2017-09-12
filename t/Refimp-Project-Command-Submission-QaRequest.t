@@ -13,15 +13,15 @@ my %setup;
 subtest 'setup' => sub{
     plan tests => 1;
 
-    $setup{pkg} = 'RefImp::Project::Command::Submission::QaRequest';
+    $setup{pkg} = 'Refimp::Project::Command::Submission::QaRequest';
     use_ok($setup{pkg}) or die;
 
-    $setup{project} = RefImp::Project->get(1);
+    $setup{project} = Refimp::Project->get(1);
     $setup{test_data_dir} = TestEnv::test_data_directory_for_package($setup{pkg});
 
-    $setup{finisher} = RefImp::User->get(1);
+    $setup{finisher} = Refimp::User->get(1);
 
-    RefImp::Project::User->create(
+    Refimp::Project::User->create(
         project => $setup{project},
         user => $setup{finisher},
         purpose => 'finisher',
@@ -39,7 +39,7 @@ subtest 'setup' => sub{
     Sub::Install::reinstall_sub({
             code => sub{ undef },
             as => 'mail_for_unix_login',
-            into => 'RefImp::Resources::LDAP',
+            into => 'Refimp::Resources::LDAP',
         });
 
 };

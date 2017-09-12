@@ -14,7 +14,7 @@ subtest 'setup' => sub{
     plan tests => 1;
 
     %test = (
-        pkg => 'RefImp::Tenx::Command::Reads::CreateFromMkfastq',
+        pkg => 'Refimp::Tenx::Command::Reads::CreateFromMkfastq',
         sample_name => 'TESTSAMPLE',
     );
     use_ok($test{pkg}) or die;
@@ -28,7 +28,7 @@ subtest 'setup' => sub{
 subtest 'create' => sub{
     plan tests => 5;
 
-    my @reads = RefImp::Tenx::Reads->get(sample_name => $test{expected_sample_names});
+    my @reads = Refimp::Tenx::Reads->get(sample_name => $test{expected_sample_names});
     ok(!@reads, 'reads do not exist');
 
     my $cmd;
@@ -40,7 +40,7 @@ subtest 'create' => sub{
     );
     ok($cmd->result, 'execute successful');
 
-    @reads = RefImp::Tenx::Reads->get(sample_name => $test{expected_sample_names});
+    @reads = Refimp::Tenx::Reads->get(sample_name => $test{expected_sample_names});
     is_deeply([map { $_->sample_name } @reads], $test{expected_sample_names}, 'reads objects created');
 
     ok(UR::Context->commit, 'commit');

@@ -13,10 +13,10 @@ my %test;
 subtest 'setup' => sub{
     plan tests => 1;
 
-    $test{pkg} = 'RefImp::Tenx::Reads::MkfastqRun';
+    $test{pkg} = 'Refimp::Tenx::Reads::MkfastqRun';
     use_ok($test{pkg}) or die;
 
-    $test{data_dir} = dir( TestEnv::test_data_directory_for_package('RefImp::Tenx::Reads') );
+    $test{data_dir} = dir( TestEnv::test_data_directory_for_package('Refimp::Tenx::Reads') );
     $test{expected_sample_names} = [qw/ M_FA-1CNTRL-Control_10x M_FA-2PD1-aPD1_10x M_FA-3CTLA4-aCTLA4_10x M_FA-4PDCTLA-aPD1-aCTLA4_10x /];
 
 };

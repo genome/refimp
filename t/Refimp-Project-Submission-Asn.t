@@ -10,7 +10,7 @@ use File::Temp;
 use Test::More tests => 2;
 use YAML 'LoadFile';
 
-my $pkg = 'RefImp::Project::Submission::Asn';
+my $pkg = 'Refimp::Project::Submission::Asn';
 use_ok($pkg) or die;
 
 subtest 'create' => sub{
@@ -19,15 +19,15 @@ subtest 'create' => sub{
     my $data_dir = TestEnv::test_data_directory_for_package($pkg);
     TestEnv::LimsRestApi::setup;
 
-    my $project = RefImp::Project->get(1);
+    my $project = Refimp::Project->get(1);
     my $project_name = $project->name;
     my $submit_info = LoadFile( File::Spec->join($data_dir, 'HMPB-AAD13A05.yml') );
 
     my $working_directory = File::Temp::tempdir(CLEANUP => 1);
     symlink File::Spec->join($data_dir, "$project_name.seq"), File::Spec->join($working_directory, "$project_name.seq");
 
-    RefImp::User->create(name => 'bobama', first_name => 'barack', last_name => 'obama');
-    RefImp::User->create(name => 'jbiden', first_name => 'joe', last_name => 'biden');
+    Refimp::User->create(name => 'bobama', first_name => 'barack', last_name => 'obama');
+    Refimp::User->create(name => 'jbiden', first_name => 'joe', last_name => 'biden');
 
     my $asn = $pkg->create(
         project => $project,

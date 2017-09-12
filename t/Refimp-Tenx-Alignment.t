@@ -10,15 +10,15 @@ use Test::More tests => 1;
 subtest "create" => sub{
     plan tests => 10;
 
-    my $pkg = 'RefImp::Tenx::Alignment';
+    my $pkg = 'Refimp::Tenx::Alignment';
     use_ok($pkg) or die;
-    use_ok('RefImp::Tenx::Reads') or die;
-    use_ok('RefImp::Tenx::Reference') or die;
+    use_ok('Refimp::Tenx::Reads') or die;
+    use_ok('Refimp::Tenx::Reference') or die;
 
     my $alignment = $pkg->create(
         directory => '/tmp',
-        reads => RefImp::Tenx::Reads->__define__(directory => '/tmp/', sample_name => 'TEST-TESTY-MCTESTERSON'),
-        reference => RefImp::Tenx::Reference->__define__(directory => '/tmp', name => 'REF'),
+        reads => Refimp::Tenx::Reads->__define__(directory => '/tmp/', sample_name => 'TEST-TESTY-MCTESTERSON'),
+        reference => Refimp::Tenx::Reference->__define__(directory => '/tmp', name => 'REF'),
         status => 'running',
     );
     ok($alignment, 'create tenx alignment');

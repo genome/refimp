@@ -13,17 +13,17 @@ my %test;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    $test{pkg} = 'RefImp::Tenx::Command::Alignment::Status';
+    $test{pkg} = 'Refimp::Tenx::Command::Alignment::Status';
     use_ok($test{pkg}) or die;
 
-    $test{alignment} = RefImp::Tenx::Alignment->__define__(
+    $test{alignment} = Refimp::Tenx::Alignment->__define__(
         directory => '/tmp',
-        reads => RefImp::Tenx::Reads->__define__(directory => '/tmp', sample_name => 'TESTY'),
-        reference => RefImp::Tenx::Reference->__define__(directory => '/tmp', name => 'TESTY'),
+        reads => Refimp::Tenx::Reads->__define__(directory => '/tmp', sample_name => 'TESTY'),
+        reference => Refimp::Tenx::Reference->__define__(directory => '/tmp', name => 'TESTY'),
     );
     ok($test{alignment}, 'define alignment') or die;
 
-    $test{data_dir} = dir( TestEnv::test_data_directory_for_package('RefImp::Tenx::Alignment') );
+    $test{data_dir} = dir( TestEnv::test_data_directory_for_package('Refimp::Tenx::Alignment') );
 
 };
 

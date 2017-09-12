@@ -14,26 +14,26 @@ my %setup;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    $setup{pkg} = 'RefImp::Project::Command::Submission::Submit';
+    $setup{pkg} = 'Refimp::Project::Command::Submission::Submit';
     use_ok($setup{pkg}) or die;
-    use_ok('RefImp::Project::Submission') or die;
+    use_ok('Refimp::Project::Submission') or die;
 
-    $setup{project} = RefImp::Project->get(1);
+    $setup{project} = Refimp::Project->get(1);
 
     Sub::Install::reinstall_sub({
-            code => sub { File::Spec->join(RefImp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
+            code => sub { File::Spec->join(Refimp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
             as => 'raw_sqn_template_for_taxon',
-            into => 'RefImp::Project::Submission',
+            into => 'Refimp::Project::Submission',
         });
 
    $setup{ftp} = TestEnv::NcbiFtp->setup;
 
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
-    RefImp::Config::set('analysis_directory', $tempdir);
+    Refimp::Config::set('analysis_directory', $tempdir);
 
-    RefImp::Config::set('ncbi_ftp_host', 'ftp-host');
-    RefImp::Config::set('ncbi_ftp_user', 'ftp-user');
-    RefImp::Config::set('ncbi_ftp_password', 'ftp-password');
+    Refimp::Config::set('ncbi_ftp_host', 'ftp-host');
+    Refimp::Config::set('ncbi_ftp_user', 'ftp-user');
+    Refimp::Config::set('ncbi_ftp_password', 'ftp-password');
 
     TestEnv::LimsRestApi::setup;
 

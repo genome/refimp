@@ -11,15 +11,15 @@ use Test::More tests => 1;
 subtest 'update taxonomy' => sub{
     plan tests => 10;
 
-    my $pkg = 'RefImp::Project::Command::Update::Taxonomy';
+    my $pkg = 'Refimp::Project::Command::Update::Taxonomy';
     use_ok($pkg) or die;
 
-    my $project = RefImp::Project->get(1);
+    my $project = Refimp::Project->get(1);
     ok($project, 'got project');
     my $current_taxonomy = $project->taxonomy;
     ok($current_taxonomy, 'got project taxonomy');
 
-    my $new_taxon = RefImp::Taxon->create(name => 'the foo', species_name => 'foo bar');
+    my $new_taxon = Refimp::Taxon->create(name => 'the foo', species_name => 'foo bar');
     ok($new_taxon, 'create new taxon');
 
     my $cmd;

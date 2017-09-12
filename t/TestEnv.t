@@ -18,14 +18,14 @@ subtest 'resolve_repo_path' => sub{
 
 };
 
-subtest 'RefImp' => sub {
+subtest 'Refimp' => sub {
     plan tests => 2;
 
-    my ($refimp_in_inc) = grep { /RefImp\.pm/ } keys %INC;
-    ok($refimp_in_inc, 'RefImp is in INC');
+    my ($refimp_in_inc) = grep { /Refimp\.pm/ } keys %INC;
+    ok($refimp_in_inc, 'Refimp is in INC');
 
     my $repo_path = TestEnv::resolve_repo_path(__FILE__);
-    is($INC{$refimp_in_inc}, File::Spec->join($repo_path, 'lib', 'RefImp.pm'), 'RefImp path is correct');
+    is($INC{$refimp_in_inc}, File::Spec->join($repo_path, 'lib', 'Refimp.pm'), 'Refimp path is correct');
 
 };
 
@@ -43,15 +43,15 @@ subtest 'config' => sub{
     my $repo_path = TestEnv::current_repo_path();
     my %expected_configs = (
         analysis_directory => File::Spec->join($repo_path, 't', 'data', 'analysis'),
-        ds_mysql => 'RefImp::DataSource::TestDb',
-        ds_oltp => 'RefImp::DataSource::TestDb',
+        ds_mysql => 'Refimp::DataSource::TestDb',
+        ds_oltp => 'Refimp::DataSource::TestDb',
         ds_testdb_server => File::Spec->join($repo_path, 't', 'data', 'test.db'),
         environment => 'test',
         seqmgr => File::Spec->join($repo_path, 't', 'data', 'seqmgr'),
         test_data_path => File::Spec->join($repo_path, 't', 'data'),
     );
     for my $config_key ( sort keys %expected_configs ) {
-        is(RefImp::Config::get($config_key), $expected_configs{$config_key}, $config_key);
+        is(Refimp::Config::get($config_key), $expected_configs{$config_key}, $config_key);
     }
 
 };
@@ -69,7 +69,7 @@ subtest "ncbi ftp" => sub{
 
     my $ftp = TestEnv::NcbiFtp->setup;
     ok($ftp, 'setup test ncbi ftp');
-    is(RefImp::Resources::NcbiFtp->connect, $ftp, 'correctly redefined Net::FTP new');
+    is(Refimp::Resources::NcbiFtp->connect, $ftp, 'correctly redefined Net::FTP new');
 
 };
 

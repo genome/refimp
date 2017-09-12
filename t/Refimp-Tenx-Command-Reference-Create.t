@@ -8,20 +8,20 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Tenx::Command::Reference::Create';
+my $pkg = 'Refimp::Tenx::Command::Reference::Create';
 use_ok($pkg) or die;
-my $taxon = RefImp::Taxon->get(1);
+my $taxon = Refimp::Taxon->get(1);
 
 subtest 'create' => sub{
     plan tests => 8;
 
     my $name = "TESTREF";
-    my $ref = RefImp::Tenx::Reference->get(name => $name);
+    my $ref = Refimp::Tenx::Reference->get(name => $name);
     ok(!$ref, 'reference does not exist');
 
     my $cmd;
     lives_ok(
-        sub{ $cmd = RefImp::Tenx::Command::Reference::Create->execute(
+        sub{ $cmd = Refimp::Tenx::Command::Reference::Create->execute(
                 name => $name,
                 directory => '/tmp',
                 taxon => $taxon,
@@ -30,7 +30,7 @@ subtest 'create' => sub{
     );
     ok($cmd->result, 'execute successful');
 
-    $ref = RefImp::Tenx::Reference->get(name => $name);
+    $ref = Refimp::Tenx::Reference->get(name => $name);
     ok($ref, 'reference created');
     is($ref->name, $name, 'name set');
     is($ref->directory, '/tmp', 'directory set');
@@ -44,7 +44,7 @@ subtest 'create fails' => sub{
     plan tests => 1;
 
     throws_ok(
-        sub{ RefImp::Tenx::Command::Reference::Create->execute(
+        sub{ Refimp::Tenx::Command::Reference::Create->execute(
                 name => 'BLAH',
                 directory => '/blah',
                 taxon => $taxon,

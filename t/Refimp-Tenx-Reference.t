@@ -8,7 +8,7 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 3;
 
-my $pkg = 'RefImp::Tenx::Reference';
+my $pkg = 'Refimp::Tenx::Reference';
 use_ok($pkg) or die;
 
 subtest "create" => sub{

@@ -11,7 +11,7 @@ use File::Temp;
 use Test::Exception;
 use Test::More tests => 6;
 
-my $pkg = 'RefImp::Project::Submission';
+my $pkg = 'Refimp::Project::Submission';
 my $test_data_directory = TestEnv::test_data_directory_for_package($pkg);
 my $submission;
 
@@ -21,9 +21,9 @@ subtest 'create' => sub {
     use_ok($pkg) or die;
 
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
-    RefImp::Config::set('analysis_directory', $tempdir);
+    Refimp::Config::set('analysis_directory', $tempdir);
 
-    my $project = RefImp::Project->get(1);
+    my $project = Refimp::Project->get(1);
     $submission = $pkg->create(
         accession_id => 'AC1111',
         phase => '3',
@@ -52,7 +52,7 @@ subtest 'create_from_directory' => sub{
     my $directory = File::Spec->join($test_data_directory, '20010101');
     throws_ok(sub{ $pkg->create_from_directory($directory); }, qr/Failed to get project for/, 'create_from_directory fails w/o project');
 
-    my $project = RefImp::Project->create(name => 'H_NH0094P19');
+    my $project = Refimp::Project->create(name => 'H_NH0094P19');
 
     lives_ok(sub{ $pkg->create_from_directory($directory); }, 'create_from_directory w/ legacy submit info');
     my @submissions = $project->submissions;
@@ -80,7 +80,7 @@ subtest 'create_from_directory' => sub{
 subtest 'project' => sub{
     plan tests => 3;
 
-    my $project = RefImp::Project->get(1);
+    my $project = Refimp::Project->get(1);
     my @submissions = $project->submissions;
     is_deeply(\@submissions, [$submission], 'project submissions');
 
@@ -106,7 +106,7 @@ subtest 'files' => sub{
     is($submission->submit_info_stor_file_name, join('.', $submission->project->name, 'serialized', 'dat'), 'submit_info_stor_file_name');
     is($submission->submit_info_yml_file_name, join('.', $submission->project->name, 'submit', 'yml'), 'submit_form_file_name');
 
-    my $analysis_directory = RefImp::Config::get('analysis_directory');
+    my $analysis_directory = Refimp::Config::get('analysis_directory');
     is(
         $submission->raw_sqn_template_for_taxon($submission->project->taxon),
         File::Spec->join($analysis_directory, 'templates', 'raw_'.$submission->project->taxon->species_short_name.'_template.sqn'),
@@ -121,7 +121,7 @@ subtest 'files' => sub{
 subtest 'dump stor to yml' => sub{
     plan tests => 7;
 
-    my $project = RefImp::Project->get(1);
+    my $project = Refimp::Project->get(1);
     my $submission = $pkg->create(
         accession_id => 'AC22222',
         phase => '3',

@@ -12,16 +12,16 @@ my %setup;
 subtest "setup" => sub{
     plan tests => 3;
 
-    my $pkg = "RefImp::Resources::Ncbi::SubmissionReport";
+    my $pkg = "Refimp::Resources::Ncbi::SubmissionReport";
     use_ok($pkg) or die;
     $setup{file} = File::Spec->join(
         TestEnv::test_data_directory_for_package($pkg),
         "wugsc20160707.HMPB-AAD13A05.phase3.fa2htgs.asn.ac4htgs",
     );
 
-    $setup{project} = RefImp::Project->get(1);
+    $setup{project} = Refimp::Project->get(1);
     ok($setup{project}, 'get project');
-    $setup{submission} = RefImp::Project::Submission->create(
+    $setup{submission} = Refimp::Project::Submission->create(
         project => $setup{project},
         phase => 3,
         directory => '/tmp',
@@ -67,7 +67,7 @@ subtest "setup" => sub{
 subtest "from_file with no project" => sub{
     plan tests => 5;
 
-    my $report = RefImp::Resources::Ncbi::SubmissionReport->from_file($setup{file_without_submission});
+    my $report = Refimp::Resources::Ncbi::SubmissionReport->from_file($setup{file_without_submission});
     ok($report, 'loaded report from file');
     is_deeply($report->data, $setup{expected_data_without_submission}, 'data matches');
     is($report->project_name, $setup{expected_data_without_submission}->{localseqname}, 'report project_name');
@@ -79,7 +79,7 @@ subtest "from_file with no project" => sub{
 subtest "from_file" => sub{
     plan tests => 5;
 
-    $setup{report} = RefImp::Resources::Ncbi::SubmissionReport->from_file($setup{file});
+    $setup{report} = Refimp::Resources::Ncbi::SubmissionReport->from_file($setup{file});
     ok($setup{report}, 'loaded report from file');
     is_deeply($setup{report}->data, $setup{expected_data}, 'data matches');
     is($setup{report}->project_name, $setup{report}->data->{localseqname}, 'report project_name');

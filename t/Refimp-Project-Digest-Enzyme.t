@@ -6,7 +6,7 @@ use warnings;
 use TestEnv;
 use Test::More tests => 2;
 
-my $pkg = 'RefImp::Project::Digest::Enzymes';
+my $pkg = 'Refimp::Project::Digest::Enzymes';
 use_ok($pkg) or die;
 
 subtest 'enzyme for code' => sub {
