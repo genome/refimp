@@ -52,7 +52,7 @@ sub resolve_repo_path {
 sub test_data_directory_for_package {
     my $pkg = shift;
     die 'No package given to get test data directory' if not $pkg;
-    File::Spec->join( RefImp::Config::get('test_data_path'), join('-', split('::', $pkg)) );
+    File::Spec->join( RefImp::Config::get('test_data_path'), join('-', map { s/RefImp/Refimp/; $_ } split('::', $pkg)) );
 }
 
 package TestEnv::LimsRestApi;
