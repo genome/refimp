@@ -1,4 +1,4 @@
-#!/usr/bin/env refimp-perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings 'FATAL';
