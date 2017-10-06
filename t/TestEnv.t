@@ -1,7 +1,10 @@
 #!/usr/bin/env perl
 
 use strict;
-use warnings;
+use warnings 'FATAL';
+
+use lib '.';
+
 
 use File::Spec;
 use Test::Exception;
