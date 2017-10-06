@@ -1,5 +1,3 @@
-requires 'perl', 'v5.10.1';
-
 requires 'Bio::Seq';
 requires 'Bio::SeqIO';
 requires 'Class::Accessor';
