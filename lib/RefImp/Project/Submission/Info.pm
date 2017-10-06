@@ -486,7 +486,7 @@ sub set_comment
 
     my $comment = $tag->{data};
     $comment =~ s/^COMMENT\{\n//;
-    $comment =~ s/\C\}$//;
+    $comment =~ s/.\}$//;
 
     $temp->{ $type . 'Text' } = $comment;
 
@@ -499,7 +499,7 @@ sub set_transposon_comment
 
     my $comment = $tag->{data};
     $comment =~ s/^COMMENT\{\n//;
-    $comment =~ s/\C\}$//;
+    $comment =~ s/.\}$//;
 
     $temp->{$type.'TextComment'} = $comment;
     $temp->{$type.'TextCommentToggle'} = 1;

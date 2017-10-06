@@ -90,6 +90,12 @@ sub _from_yml {
     $params{directory} = "$directory";
     $params{submission_info} = $info;
     $params{submission_yml} = YAML::Dump($info);
+    if ( $params{biosample} and $params{bioproject} ) {
+        $params{ncbi_biosample} = RefImp::Resources::Ncbi::Biosample->create(
+            bioproject => $params{bioproject},
+            biosample => $params{biosample},
+        );
+    }
 
     $class->$instantiation_method(%params);
 }

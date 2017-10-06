@@ -11,13 +11,17 @@ sub new {
 
     my $self = bless \%params, $class;
 
-    if ( not $self->{file} and not -s $self->{file} ) {
-        die "ERROR No sizes file given to reader!";
+    if ( not exists $self->{file} ) {
+        die "No sizes file given to reader!";
+    }
+
+    if ( not -s $self->{file} ) {
+        die "Invalid sizes file ($self->{file}) given to reader!";
     }
 
     $self->{fh} = IO::File->new($self->{file}, 'r');
     if ( not $self->{fh} ) {
-        die "ERROR Failed to open $self->{file}: $!";
+        die "Failed to open $self->{file}: $!";
     }
 
     return $self;
