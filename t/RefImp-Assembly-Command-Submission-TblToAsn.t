@@ -1,7 +1,9 @@
 #!/usr/bin/env perl
 
 use strict;
-use warnings 'FATAL';
+use warnings;
+
+use lib '.';
 
 use TestEnv;
 

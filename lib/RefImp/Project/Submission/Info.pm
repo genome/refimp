@@ -219,7 +219,7 @@ sub _add_tag {
 
         my $comment = $tag->{data};
         $comment =~ s/^COMMENT\{\n\s*digest\s+comments\s*\n//;
-        $comment =~ s/\C\}$//;
+        $comment =~ s/.\}$//;
 
         $submit->{GENINFO}->{$type . 'Toggle'} = 1;
         $submit->{GENINFO}->{$type . 'Text'} = $comment;
@@ -486,7 +486,7 @@ sub set_comment
 
     my $comment = $tag->{data};
     $comment =~ s/^COMMENT\{\n//;
-    $comment =~ s/\C\}$//;
+    $comment =~ s/.\}$//;
 
     $temp->{ $type . 'Text' } = $comment;
 
@@ -499,7 +499,7 @@ sub set_transposon_comment
 
     my $comment = $tag->{data};
     $comment =~ s/^COMMENT\{\n//;
-    $comment =~ s/\C\}$//;
+    $comment =~ s/.\}$//;
 
     $temp->{$type.'TextComment'} = $comment;
     $temp->{$type.'TextCommentToggle'} = 1;

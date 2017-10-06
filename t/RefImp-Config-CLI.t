@@ -1,7 +1,9 @@
 #!/usr/bin/env perl
 
 use strict;
-use warnings;
+use warnings 'FATAL';
+
+use lib '.';
 
 use TestEnv;
 
@@ -25,7 +27,7 @@ subtest 'failures' => sub{
 subtest 'help' => sub{
     plan tests => 2;
 
-    run_ok([qw/ help /], qr/^\[USAGE\] refimp-config get/); 
+    run_ok([qw/ help /], qr/^\[USAGE\] refimp-config list/);
 };
 
 subtest 'get' => sub{

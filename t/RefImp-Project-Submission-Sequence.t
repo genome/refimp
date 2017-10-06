@@ -1,7 +1,10 @@
 #!/usr/bin/env perl
 
 use strict;
-use warnings;
+use warnings 'FATAL';
+
+use lib '.';
+
 
 use TestEnv;
 
@@ -18,7 +21,7 @@ my $project_name = 'HMPB-AAD13A05';
 subtest 'fails' => sub{
     plan tests => 8;
 
-    throws_ok(sub{ $pkg->create; }, qr/Mandatory parameters 'contig_data', 'project_name', 'ace' missing/, 'create w/o params fails');
+    throws_ok(sub{ $pkg->create; }, qr/Mandatory parameters/, 'create w/o params fails');
     throws_ok(sub{ $pkg->create(ace => $ace, project_name => 'HMPB-AAD13A05'); }, qr/Mandatory parameter 'contig_data' missing/, 'create w/o contig_data fails');
     throws_ok(sub{ $pkg->create(ace => $ace, contig_data => [{}],); }, qr/Mandatory parameter 'project_name' missing/, 'create w/o contig_data fails');
     throws_ok(sub{ $pkg->create(contig_data => [{}], project_name => 'HMPB-AAD13A05'); }, qr/Mandatory parameter 'ace' missing/, 'create w/o ace fails');

@@ -80,6 +80,7 @@ sub _resolve_status_from_log {
     }
     elsif ( List::MoreUtils::any { $_ =~ /Pipestance failed/ } @log_tail ) {
         $status = 'failed';
+        chomp $log_tail[-2];
         my $error_file = $self->_directory->parent->file($log_tail[-2]);
         if ( -e "$error_file" ) {
             my $error_content = $error_file->slurp($error_file);

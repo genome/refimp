@@ -3,6 +3,9 @@
 use strict;
 use warnings 'FATAL';
 
+use lib '.';
+
+
 use TestEnv;
 
 use File::Compare 'compare';

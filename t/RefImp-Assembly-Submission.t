@@ -1,7 +1,10 @@
 #!/usr/bin/env perl
 
 use strict;
-use warnings;
+use warnings 'FATAL';
+
+use lib '.';
+
 
 use TestEnv;
 
@@ -49,7 +52,7 @@ subtest 'setup' => sub{
 };
 
 subtest 'create_from_yml' => sub{
-    plan tests => 15;
+    plan tests => 16;
 
     throws_ok(sub{ $setup{pkg}->create_from_yml(); }, qr/No submission YAML given/, 'create_from_yml fails w/o submission yml');
     throws_ok(sub{ $setup{pkg}->create_from_yml('/blah'); }, qr/Submission YAML does not exist/, 'create_from_yml fails w/ non existing submission yml');
@@ -78,6 +81,7 @@ subtest 'create_from_yml' => sub{
     ok($submission->assembly, 'create assemby');
     is($submission->biosample, $submission_params->{biosample}, 'set biosample');
     is($submission->bioproject, $submission_params->{bioproject}, 'set bioproject');
+    ok($submission->ncbi_biosample, 'set ncbi_bioproject');
     like($submission->submitted_on, qr/^\d{4}\-\d{2}\-\d{2}/, 'set submitted_on');
     ok($submission->taxon, 'taxon via assemby');
     is($submission->version, $submission_params->{version}, 'set version');
