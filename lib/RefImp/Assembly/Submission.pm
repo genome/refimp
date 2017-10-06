@@ -49,7 +49,7 @@ class RefImp::Assembly::Submission {
    doc => 'Assembly submission record',
 };
 
-sub __display_name__ { sprintf('%s %s submitted on %s part of %s %s', $_[0]->id, $_[0]->version, $_[0]->submitted_on, $_[0]->bioproject, $_[0]->biosample) }
+sub __display_name__ { sprintf('%s %s submitted on %s part of %s %s', map { defined($_) ? $_ : 'NA' } ($_[0]->id, $_[0]->version, $_[0]->submitted_on, $_[0]->bioproject, $_[0]->biosample)) }
 
 sub create_from_yml {
     my $class = shift;

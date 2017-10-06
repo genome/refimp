@@ -219,7 +219,7 @@ sub _add_tag {
 
         my $comment = $tag->{data};
         $comment =~ s/^COMMENT\{\n\s*digest\s+comments\s*\n//;
-        $comment =~ s/\C\}$//;
+        $comment =~ s/.\}$//;
 
         $submit->{GENINFO}->{$type . 'Toggle'} = 1;
         $submit->{GENINFO}->{$type . 'Text'} = $comment;

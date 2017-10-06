@@ -162,7 +162,6 @@ sub _send_mail {
     );
     $self->status_message("Subject: %s", $subject);
 
-    my $biosample = $self->submission->biosample;
     my $strain_name = $submission->taxon->strain_name || 'NA';
     my $release_date = $self->submission->info_for('release_date');
     my $tar_file = $self->tar_file->basename;
