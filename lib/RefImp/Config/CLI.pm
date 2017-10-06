@@ -11,7 +11,7 @@ my %functions_and_usages = (
     ds    => "[USAGE] refimp-config ds \$DATASOURCE",
     list  => "[USAGE] refimp-config list",
 );
-$functions_and_usages{help} = join("\n", values %functions_and_usages);
+$functions_and_usages{help} = join("\n", map { $functions_and_usages{$_} } (qw/ list get ds/));
 
 sub run {
     my $class = shift;
