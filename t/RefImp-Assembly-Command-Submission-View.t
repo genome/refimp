@@ -14,10 +14,12 @@ use Test::More tests => 2;
 
 my %setup;
 subtest 'setup'=> sub{
-    plan tests => 2;
+    plan tests => 3;
 
     $setup{pkg} = 'RefImp::Assembly::Command::Submission::View';
     use_ok($setup{pkg}) or die;
+
+    ok(TestEnv::NcbiBiosample->setup, 'biosample setup');
 
     my $submission_yml = File::Spec->join(TestEnv::test_data_directory_for_package('RefImp::Assembly::Submission'), 'submission.yml');
     $setup{submission} = RefImp::Assembly::Submission->create_from_yml($submission_yml);

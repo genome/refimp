@@ -17,7 +17,7 @@ use Test::More tests => 3;
 
 my %setup;
 subtest 'setup' => sub{
-    plan tests => 1;
+    plan tests => 2;
 
     $setup{pkg} = 'RefImp::Assembly::Command::Submit';
     use_ok($setup{pkg}) or die;
@@ -33,6 +33,7 @@ subtest 'setup' => sub{
         });
 
     $setup{ftp} = TestEnv::NcbiFtp->setup;
+    ok(TestEnv::NcbiBiosample->setup, 'biosample setup');
 
     my $msg = Test::MockObject->new;
     Sub::Install::reinstall_sub({

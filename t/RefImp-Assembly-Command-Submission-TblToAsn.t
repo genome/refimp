@@ -13,7 +13,7 @@ use Test::More tests => 3;
 my $pkg = 'RefImp::Assembly::Command::Submission::TblToAsn';
 my $cmd;
 subtest 'setup' => sub {
-    plan tests => 3;
+    plan tests => 4;
 
     use_ok($pkg) or die;
 
@@ -26,6 +26,8 @@ subtest 'setup' => sub {
         output_directory => $tempdir,
     );
     ok($cmd, 'create command');
+
+    ok(TestEnv::NcbiBiosample->setup, 'biosample setup');
 
 };
 

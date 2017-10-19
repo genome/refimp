@@ -30,26 +30,7 @@ subtest 'setup' => sub{
     $setup{tempdir} = tempdir(CLEANUP => 1);
     $setup{invalid_submission_yml} = File::Spec->join($setup{tempdir}, 'invalid_submission.yml');
 
-    $setup{ua} = Test::MockObject->new();
-    $setup{ua}->set_true('timeout');
-    $setup{ua}->set_true('env_proxy');
-
-    Sub::Install::reinstall_sub({
-        code => sub{ $setup{ua} },
-        into => 'LWP::UserAgent',
-        as => 'new',
-        });
-
-    # Load XML, set as decoded content
-    my $xml_file = File::Spec->join($data_dir, 'elink.xml');
-    #my $xml_file = File::Spec->join($data_dir, 'esummary.xml');
-    my $xml_content = slurp($xml_file);
-    ok($xml_content, 'loaded xml');
-
-    $setup{response} = Test::MockObject->new();
-    $setup{response}->set_true('is_success');
-    $setup{response}->set_always('decoded_content', $xml_content);
-    $setup{ua}->set_always('get', $setup{response});
+    ok(TestEnv::NcbiBiosample->setup, 'biosample setup');
 
 };
 
