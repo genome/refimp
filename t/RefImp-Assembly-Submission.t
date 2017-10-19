@@ -11,6 +11,7 @@ use TestEnv;
 use File::Slurp 'slurp';
 use File::Spec;
 use File::Temp 'tempdir';
+use LWP::UserAgent;
 use Test::Exception;
 use Test::MockObject;
 use Test::More tests => 10;
@@ -40,7 +41,8 @@ subtest 'setup' => sub{
         });
 
     # Load XML, set as decoded content
-    my $xml_file = File::Spec->join($data_dir, 'esummary.xml');
+    my $xml_file = File::Spec->join($data_dir, 'elink.xml');
+    #my $xml_file = File::Spec->join($data_dir, 'esummary.xml');
     my $xml_content = slurp($xml_file);
     ok($xml_content, 'loaded xml');
 
