@@ -122,4 +122,55 @@ sub setup {
     return $ftp;
 }
 
+package TestEnv::NcbiBiosample;
+
+use strict;
+use warnings 'FATAL';
+
+use File::Slurp 'slurp';
+use List::MoreUtils;
+use LWP::UserAgent;
+use Path::Class qw/ dir file/ ;
+use Sub::Install;
+use Test::MockObject;
+
+sub setup {
+
+	my $ua = Test::MockObject->new();
+	$ua->set_true('timeout');
+	$ua->set_true('env_proxy');
+
+	Sub::Install::reinstall_sub({
+			code => sub{ $ua },
+			into => 'LWP::UserAgent',
+			as => 'new',
+		});
+
+	my %responses;
+    my @request_types = (qw/ elink esummary /);
+    my $data_dir = dir( TestEnv::test_data_directory_for_package('RefImp::Resources::Ncbi::Biosample') );
+	for my $request_type ( @request_types ) {
+		my $xml_file = $data_dir->file($request_type.'.xml');
+        die "XML $request_type file does not exist! $xml_file" if not -s "$xml_file";
+		my $xml_content = slurp($xml_file);
+        die "Failed to load $request_type XML file!" if not $xml_content;
+
+		my $response = Test::MockObject->new();
+        $response->set_true('is_success');
+		$response->set_always('decoded_content', $xml_content);
+        $responses{$request_type} = $response;
+	}
+
+	$ua->mock(
+        'get',
+		sub{
+			my ($ua, $url) = @_;
+            my $requested_type = List::MoreUtils::firstval { $url =~ /$_/ } @request_types;
+            return $responses{$requested_type};
+		},
+	);
+
+	return $ua;
+}
+
 1;

@@ -22,33 +22,11 @@ subtest 'setup' => sub{
     $setup{pkg} = 'RefImp::Resources::Ncbi::Biosample';
     use_ok($setup{pkg}) or die;
 
-    # Bioproject/sample
     $setup{biosample} = 'SAMN06349363';
     $setup{bioproject} = 'PRJNA376014';
 
-    # User Agent
-    $setup{ua} = Test::MockObject->new();
-    $setup{ua}->set_true('timeout');
-    $setup{ua}->set_true('env_proxy');
-
-    Sub::Install::reinstall_sub({
-        code => sub{ $setup{ua} },
-        into => 'LWP::UserAgent',
-        as => 'new',
-        });
-
-    # Load XML, set as decoded content
-    my $type = 'elink';
-    my $xml_file = File::Spec->join(TestEnv::test_data_directory_for_package($setup{pkg}), join('.', $type, 'xml'));
-    my $xml = File::Slurp::slurp($xml_file);
-    ok($xml, "loaded $type xml");
-
-    my $response = Test::MockObject->new();
-    $response->set_always('decoded_content', $xml);
-    $setup{ join('_', 'response', $type) } = $response;
-
-    # Return response based on URL
-    $setup{ua}->mock('get', sub{ $setup{response_elink}; });
+    $setup{ua} = TestEnv::NcbiBiosample->setup;
+    ok($setup{ua}, 'biosample setup');
 
 };
 
@@ -58,9 +36,10 @@ subtest 'create fails' => sub{
     throws_ok(sub{ $setup{pkg}->create(); }, qr/No bioproject/, 'fails w/o bioproject');
     throws_ok(sub{ $setup{pkg}->create(bioproject => $setup{bioproject}); }, qr/No biosample/, 'fails w/o biosample');
 
-    $setup{response_elink}->set_false('is_success');
+    my $response_elink = $setup{ua}->get('elink');
+    $response_elink->set_false('is_success');
     throws_ok(sub{ $setup{pkg}->create(bioproject => $setup{bioproject}, biosample => $setup{biosample}); }, qr/Failed to GET.+elink/, 'fails when elink response is not success');
-    $setup{response_elink}->set_true('is_success');
+    $response_elink->set_true('is_success');
 
 };
 

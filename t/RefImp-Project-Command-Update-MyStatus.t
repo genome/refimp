@@ -3,9 +3,6 @@
 use strict;
 use warnings 'FATAL';
 
-use lib '.';
-
-
 use TestEnv;
 
 use Test::Exception;
@@ -38,7 +35,10 @@ subtest 'execute fails' => sub{
         throws_ok(sub{ $test{pkg}->execute(%params); }, qr/No ENV user set/, 'execute fails when user not given and no env user');
     };
 
-    throws_ok(sub{ $test{pkg}->execute(%params); }, qr/No user found for/, 'execute fails when user not given and no db user for env user');
+    {
+        local $ENV{USER} = 'bobama';
+        throws_ok(sub{ $test{pkg}->execute(%params); }, qr/No user found for/, 'execute fails when user not given and no db user for env user');
+    }
 
     $params{user} = $test{user};
     throws_ok(sub{ $test{pkg}->execute(%params); }, qr/No project finisher found/, 'execute fails w/o finisher');
