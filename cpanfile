@@ -4,6 +4,7 @@ requires 'Class::Accessor';
 requires 'DBD::mysql';
 requires 'Devel::Cover';
 requires 'Devel::Cover::Report::Coveralls';
+requires 'File::Copy::Recursive';
 requires 'File::Slurp';
 requires 'Filesys::Df';
 requires 'FindBin';
