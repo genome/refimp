@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use lib '.';
+
 
 use TestEnv;
 
