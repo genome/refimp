@@ -4,6 +4,7 @@ BEGIN;
 
 DROP TABLE IF EXISTS disk_group;
 DROP TABLE IF EXISTS disk_volume;
+DROP TABLE IF EXISTS disk_volume_group;
 DROP TABLE IF EXISTS disk_assignment;
 
 COMMIT;

@@ -30,7 +30,7 @@ class RefImp::Project::Submission {
         directory => { is => 'Text', },
         project_size => { is => 'Number', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => RefImp::Config::get('refimp_ds'),
 };
 
 sub __display_name__ {

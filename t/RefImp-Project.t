@@ -3,9 +3,6 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
 use File::Spec qw();
@@ -24,26 +21,23 @@ subtest "basics" => sub{
     ok($project->name, 'project has a name');
     is($project->status('new'), 'new', 'status');
     is($project->clone_type, 'bac', 'clone_type');
+    $project->directory( File::Spec->join(RefImp::Config::get('test_data_path'), 'seqmgr', $project->name) );
 
 };
 
-subtest "directory" => sub{
-    plan tests => 7;
+subtest 'create_project_directory_structure' => sub{
+    plan tests => 4;
 
-    my $expected_directory = File::Spec->join( RefImp::Config::get('seqmgr'), $project->name);
-    is($project->directory, $expected_directory, 'When no directory set, default to seqmgr directory');
+    my $directory = $project->directory;
+    my $new_directory = File::Temp::tempdir(CLEANUP => 1);
+    $project->directory($new_directory);
 
-    throws_ok(sub{ $project->directory('/doesnotexist'); }, qr/Directory to set does not exist/, 'cannot set non existing directory');
-
-    $expected_directory = File::Temp::tempdir(CLEANUP => 1);
-    $project->directory($expected_directory);
-    is($project->directory, $expected_directory, 'set/get directory');
-
+    $project->create_project_directory_structure;
     for my $sub_dir_name ( RefImp::Project->sub_directory_names ) {
-        ok(-d File::Spec->join($expected_directory, $sub_dir_name), "created $sub_dir_name");
+        ok(-d File::Spec->join($new_directory, $sub_dir_name), "created $sub_dir_name");
     }
 
-    $project->__directory(undef);
+    $project->directory($directory);
 
 };
 

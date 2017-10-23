@@ -101,7 +101,7 @@ class RefImp::Project {
             reverse_as => 'project',
         }
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => RefImp::Config::get('refimp_ds'),
 };
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }
@@ -114,17 +114,6 @@ sub phd_directory { $_[0]->subdir_for('phd_dir'); }
 sub subdir_for {
     my ($self, $subdir) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
     return File::Spec->join($self->directory, $subdir);
-}
-
-sub directory {
-    my ($self, $value) = @_;
-    if ( not defined $value ) {
-        return $self->__directory if $self->__directory;
-        return File::Spec->join( RefImp::Config::get('seqmgr'), $self->name );
-    }
-    $self->fatal_message('Directory to set does not exist! %s', $value) if not -d $value;
-    $self->__directory($value);
-    $self->create_project_directory_structure;
 }
 
 sub create_project_directory_structure {

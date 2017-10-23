@@ -20,7 +20,7 @@ class RefImp::Taxon {
     has_transient => {
         species_short_name => { is => 'Text', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => RefImp::Config::get('refimp_ds'),
 };
 
 my %species_short_names = (

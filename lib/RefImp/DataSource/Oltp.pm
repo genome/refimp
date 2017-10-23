@@ -6,10 +6,10 @@ use warnings;
 class RefImp::DataSource::Oltp {
     is => [qw/ UR::DataSource::Pg UR::DataSource::RDBMSRetriableOperations /],
     has_classwide_constant => [
-        server  => { default_value => RefImp::Config::get('ds_oltp_server') },
-        login   => { default_value => RefImp::Config::get('ds_oltp_login') },
-        auth    => { default_value => RefImp::Config::get('ds_oltp_auth') },
-        owner   => { default_value => RefImp::Config::get('ds_oltp_owner') },
+        server  => { default_value => RefImp::Config::get('refimp_ds_oltp_server') },
+        login   => { default_value => RefImp::Config::get('refimp_ds_oltp_login') },
+        auth    => { default_value => RefImp::Config::get('refimp_ds_oltp_auth') },
+        owner   => { default_value => RefImp::Config::get('refimp_ds_oltp_owner') },
     ],
 };
 

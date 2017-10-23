@@ -20,7 +20,7 @@ class RefImp::Assembly {
     has_optional => {
         directory => { is => 'Text', doc => 'File system location.', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => RefImp::Config::get('refimp_ds'),
 };
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }

@@ -11,7 +11,7 @@ use Set::Scalar;
 use YAML;
 
 class RefImp::Assembly::Submission {
-   data_source => RefImp::Config::get('ds_mysql'),
+   data_source => RefImp::Config::get('refimp_ds'),
    table_name => 'assemblies_submissions',
    id_generator => '-uuid',
    id_by => {

@@ -16,8 +16,8 @@ UR::Object::Type->define(
     english_name => 'reference improvement',
 );
 
-if ( $ENV{REFIMP_CONFIG_FILE} ) {
-    RefImp::Config::load_config_from_file( $ENV{REFIMP_CONFIG_FILE} );
+if ( $ENV{MYCONFIG_FILE} ) {
+    RefImp::Config::load_config_from_file( $ENV{MYCONFIG_FILE} );
 }
 
 # Account for a perl bug in pre-5.10 by applying a runtime patch to Carp::Heavy

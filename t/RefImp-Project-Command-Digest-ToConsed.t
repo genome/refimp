@@ -21,6 +21,7 @@ subtest 'execute' => sub{
     my $project = RefImp::Project->create(name => 'TEST-AAD13A05');
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     $project->directory($tempdir);
+    $project->create_project_directory_structure;
 
     my $data_directory = TestEnv::test_data_directory_for_package($pkg);
     my @digest_dates = (qw/ 150421a 160421 /);

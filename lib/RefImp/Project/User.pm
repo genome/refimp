@@ -17,7 +17,7 @@ class RefImp::Project::User {
     has_optional => {
         status => { is => 'Text', len => 264, },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => RefImp::Config::get('refimp_ds'),
 };
 
 sub valid_purposes { @{$_[0]->__meta__->property_meta_for_name('purpose')->valid_values} }

@@ -22,7 +22,7 @@ class RefImp::User {
     has_optional => {
         email => { is => 'Text', doc => 'Email address for the user.', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => RefImp::Config::get('refimp_ds'),
 };
 
 sub first_initial { uc substr($_[0]->first_name, 0, 1); }

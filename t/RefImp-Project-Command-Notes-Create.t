@@ -23,8 +23,8 @@ subtest 'execute' => sub {
     ok($project, 'create project');
 
     my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
-    RefImp::Config::set('seqmgr', $tmpdir);
     mkdir File::Spec->join($tmpdir, $project->name);
+    $project->directory($tmpdir);
 
     my $notes_file_path = $project->notes_file_path;
     my $fh = IO::File->new($notes_file_path, 'w');

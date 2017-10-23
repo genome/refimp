@@ -40,6 +40,7 @@ sub _execute_with_project {
         $self->fatal_message('Failed to make project directory: %s', $directory) if not -d $directory;
     }
     $project->directory($directory);
+    $project->create_project_directory_structure;
 }
 
 sub _after_execute {

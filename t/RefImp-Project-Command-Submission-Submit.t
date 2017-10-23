@@ -3,9 +3,6 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
 use File::Compare;
@@ -22,6 +19,8 @@ subtest 'setup' => sub{
     use_ok('RefImp::Project::Submission') or die;
 
     $setup{project} = RefImp::Project->get(1);
+    $setup{project}->directory( File::Spec->join(RefImp::Config::get('test_data_path'), 'seqmgr', $setup{project}->name) );
+    $setup{project}->create_project_directory_structure;
 
     Sub::Install::reinstall_sub({
             code => sub { File::Spec->join(RefImp::Config::get('test_data_path'), 'analysis', 'templates', 'raw_human_template.sqn') },
