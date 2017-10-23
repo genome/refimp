@@ -16,6 +16,13 @@ CREATE TABLE IF NOT EXISTS disk_volume (
 	CONSTRAINT dv_pk PRIMARY KEY(dv_id)
 );
 
+CREATE TABLE IF NOT EXISTS disk_volume_group (
+	dg_id VARCHAR(32),
+	dv_id VARCHAR(32),
+
+	CONSTRAINT dvg_dg_fk FOREIGN KEY(dg_id) REFERENCES disk_group(dg_id),
+	CONSTRAINT dvg_dv_fk FOREIGN KEY(dv_id) REFERENCES disk_volume(dv_id)
+);
 
 CREATE TABLE IF NOT EXISTS disk_assignment (
       	dg_id VARCHAR(32),
