@@ -19,6 +19,8 @@ use_ok($pkg_name) or die;
 
 my $tempdir = File::Temp::tempdir(CLEANUP => 1);
 my $project = RefImp::Project->get(1);
+$project->directory( File::Spec->join(RefImp::Config::get('test_data_path'), 'seqmgr', $project->name) );
+$project->create_project_directory_structure;
 $project->status('finish_start');
 TestEnv::LimsRestApi::setup;
 

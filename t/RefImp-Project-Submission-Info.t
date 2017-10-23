@@ -3,9 +3,6 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
 use File::Spec;
@@ -22,6 +19,9 @@ subtest 'generate' => sub{
     plan tests => 1;
 
     my $project = RefImp::Project->get(1);
+    $project->directory( File::Spec->join(RefImp::Config::get('test_data_path'), 'seqmgr', $project->name) );
+    $project->create_project_directory_structure;
+
     my $hash = $pkg->generate($project);
     is_deeply($hash, $expected_hash, 'hash matches');
 

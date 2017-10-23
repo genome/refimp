@@ -3,9 +3,6 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
 use Sub::Install;
@@ -20,6 +17,8 @@ subtest 'setup' => sub{
     use_ok($setup{pkg}) or die;
 
     $setup{project} = RefImp::Project->get(1);
+    $setup{project}->directory( File::Spec->join(RefImp::Config::get('test_data_path'), 'seqmgr', $setup{project}->name) );
+    $setup{project}->create_project_directory_structure;
     $setup{test_data_dir} = TestEnv::test_data_directory_for_package($setup{pkg});
 
     $setup{finisher} = RefImp::User->get(1);

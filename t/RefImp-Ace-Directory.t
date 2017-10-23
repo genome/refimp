@@ -3,9 +3,6 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
 use File::Temp;
@@ -27,6 +24,7 @@ subtest 'setup' => sub{
     my $project = RefImp::Project->get(1);
     my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
     $project->directory($tmpdir);
+    $project->create_project_directory_structure;
     my $path = $project->edit_directory;
 
     $setup{ace_dir} = $pkg->create(project => $project);

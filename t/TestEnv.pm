@@ -32,7 +32,6 @@ USE
     RefImp::Config::set('refimp_ds_oltp', 'RefImp::DataSource::TestDb');
     RefImp::Config::set('ds_testdb_server', File::Spec->join($test_data_path, 'test.db'));
     RefImp::Config::set('net_ldap_url', 'ipa.refimp.org');
-    RefImp::Config::set('seqmgr', File::Spec->join($test_data_path, 'seqmgr'));
     RefImp::Config::set('test_data_path', $test_data_path);
 
     printf(STDERR "***** TEST ENV on %s *****\n", Sys::Hostname::hostname);
