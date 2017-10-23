@@ -28,8 +28,8 @@ USE
 
     RefImp::Config::set('analysis_directory', File::Spec->join($test_data_path, 'analysis'));
     RefImp::Config::set('environment', 'test');
-    RefImp::Config::set('ds_mysql', 'RefImp::DataSource::TestDb');
-    RefImp::Config::set('ds_oltp', 'RefImp::DataSource::TestDb');
+    RefImp::Config::set('refimp_ds', 'RefImp::DataSource::TestDb');
+    RefImp::Config::set('refimp_ds_oltp', 'RefImp::DataSource::TestDb');
     RefImp::Config::set('ds_testdb_server', File::Spec->join($test_data_path, 'test.db'));
     RefImp::Config::set('net_ldap_url', 'ipa.refimp.org');
     RefImp::Config::set('seqmgr', File::Spec->join($test_data_path, 'seqmgr'));

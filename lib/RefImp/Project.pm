@@ -101,7 +101,7 @@ class RefImp::Project {
             reverse_as => 'project',
         }
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => RefImp::Config::get('refimp_ds'),
 };
 
 sub __display_name__ { sprintf('%s (%s)', $_[0]->name, $_[0]->id) }

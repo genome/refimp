@@ -19,7 +19,7 @@ class RefImp::Disk::Assignment {
             id_by => 'dv_id',
         },
     },
-    data_source => RefImp::Config::get('ds_oltp'),
+    data_source => RefImp::Config::get('refimp_ds_oltp'),
     doc => 'disk group volume bridge',
 };
 

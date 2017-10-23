@@ -14,7 +14,7 @@ class RefImp::Project::Taxonomy {
         species_name => {via => 'taxon', to => 'species_name', },
         chromosome => { is => 'Text', },
     },
-    data_source => RefImp::Config::get('ds_mysql'),
+    data_source => RefImp::Config::get('refimp_ds'),
 };
 
 sub __display_name__ {

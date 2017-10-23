@@ -22,7 +22,7 @@ class RefImp::Disk::Volume {
             to =>  'group',
         },
     },
-    data_source => RefImp::Config::get('ds_oltp'),
+    data_source => RefImp::Config::get('refimp_ds_oltp'),
     doc => 'disk volume',
 };
 
