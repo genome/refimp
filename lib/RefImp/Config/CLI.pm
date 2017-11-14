@@ -23,7 +23,9 @@ sub run {
     print "$functions_and_usages{help}\n" and return 0 if $function eq 'help';
 
     my $self = bless { function => $function }, $class;
-    RefImp::Config::load_refimp_config_file() if ! RefImp::Config::is_loaded();
+    if ( ! RefImp::Config::is_loaded() ) {
+        RefImp::Config::load_config_from_file( $ENV{REFIMP_CONFIG_FILE} ) if -s $ENV{REFIMP_CONFIG_FILE};
+    }
     $self->$function(@_);
 
     return 0;
