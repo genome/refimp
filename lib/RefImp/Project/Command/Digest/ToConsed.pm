@@ -32,7 +32,6 @@ sub execute {
     $self->fatal_message('No project diest directory!') if not -d $digest_directory;
 
     my $dh = IO::Dir->new($digest_directory);
-    for (1..2) { $dh->read }
     my %digests;
     while ( my $file_name = $dh->read ) {
         next if $file_name !~ /\.sizes$/;
