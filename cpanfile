@@ -10,6 +10,7 @@ requires 'Filesys::Df';
 requires 'FindBin';
 requires 'JSON';
 requires 'LWP::UserAgent';
+requires 'LWP::Protocol::https';
 requires 'MIME::Lite';
 requires 'Net::LDAP';
 requires 'Params::Validate';
