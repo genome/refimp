@@ -344,13 +344,7 @@ sub _create_asn_file {
     my $template_path = $self->template_path;
     my $working_directory = $self->working_directory;
 
-    my $pkg_path = File::Spec->join( split('::', __PACKAGE__) );
-    $pkg_path .= '.pm';
-    my $bin = $INC{$pkg_path};
-    $bin =~ s#$pkg_path##;
-    $bin =~ s#lib#bin#;
-    my $tbl2asn = File::Spec->join($bin, "tbl2asn.linux64");
-
+    my $tbl2asn = "tbl2asn.linux64";
     my $cmd = "$tbl2asn -t $template_path  -p $working_directory -j '[organism=$species_name]'";
     $self->status_message('Running: %s', $cmd);
     my $rv = system $cmd;

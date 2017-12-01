@@ -77,7 +77,8 @@ sub fetch_xml_dom {
     my $url = $self->$url_method;
     my $response = $self->ua->get($url);
     if ( not $response->is_success ) {
-        $self->fatal_message('Failed to GET %s', $url);
+        $self->warning_message($response->status_line);
+        $self->fatal_message("Failed to GET %s", $url);
     }
 
     my $content = $response->decoded_content;
