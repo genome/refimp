@@ -264,14 +264,7 @@ sub run_tbl2asn {
 sub tbl2asn_command {
     my $self = shift;
 
-    # TODO move to common place!
-    my $pkg_path = File::Spec->join( split('::', __PACKAGE__) );
-    $pkg_path .= '.pm';
-    my $bin = $INC{$pkg_path};
-    $bin =~ s#$pkg_path##;
-    $bin =~ s#lib#bin#;
-    my $tbl2asn = File::Spec->join($bin, "tbl2asn.linux64");
-
+    my $tbl2asn = "tbl2asn.linux64";
     return (
         # Command
         $tbl2asn,
