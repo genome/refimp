@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+[ -z "${1}" ] && { echo "No IP fiven to set display"; exit 1; }
+display="${1}:0.0"
+echo DISPLAY is "${display}"
+DISPLAY="${display}" consed
