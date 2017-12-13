@@ -2,6 +2,7 @@ requires 'Bio::Seq';
 requires 'Bio::SeqIO';
 requires 'Class::Accessor';
 requires 'DBD::mysql';
+requires 'DBD::Pg';
 requires 'Devel::Cover';
 requires 'Devel::Cover::Report::Coveralls';
 requires 'File::Copy::Recursive';
