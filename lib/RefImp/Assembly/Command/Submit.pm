@@ -146,8 +146,8 @@ sub _send_mail {
     my $self = shift;
     $self->status_message("Send mail to NCBI...");
 
-    my @to = ( 'genomes@ncbi.nlm.nih.gov' );
-    $self->status_message("To: %s", join(',', @to));
+	my $to ='genomes@ncbi.nlm.nih.gov';
+	my $submission_email = 'mgi-submission@gowustl.onmicrosoft.com';
 
     my $submission = $self->submission;
     my $bioproject = $self->submission->bioproject;
@@ -160,7 +160,6 @@ sub _send_mail {
         $bioproject,
         $biosample,
     );
-    $self->status_message("Subject: %s", $subject);
 
     my $strain_name = $submission->taxon->strain_name || 'NA';
     my $release_date = $self->submission->info_for('release_date');
@@ -179,25 +178,18 @@ from the BioSample $biosample of BioProject $bioproject to GenBank.
 Please find $tar_file on ftp-private.ncbi.nlm.nih.gov
 
 Sincerely,
-MGI Submissions <gen_improv\@gowustl.onmicrosoft.com>
+MGI Submissions <$submission_email>
 MSG
-    $self->status_message("Message:\n%s\n", $msg);
-
-    my $mimelite = MIME::Lite->new(
-        To => \@to,
-        Cc => [qw/ mgi-submission@gowustl.onmicrosoft.com /],
-        From => 'mgi-submission@gowustl.onmicrosoft.com',
-        Subject => $subject,
-        Type => 'multipart/mixed'
-    );
-
-    $mimelite->attach(
-        Type => 'TEXT',
-        Data => $msg,
-    );
-    $mimelite->send or $self->warning_message('Failed to send email!');
-
-    $self->status_message("Send mail to NCBI...OK");
+	
+	$self->status_message("#########################################################\n");
+    $self->status_message("          Please send the below message to NCBI\n");
+    $self->status_message("#########################################################\n");
+    $self->status_message("To:        %s", $to);
+	$self->status_message('Cc:        %s', $submission_email);
+	$self->status_message('From:      %s', $submission_email);
+    $self->status_message("Message:");
+    $self->status_message($msg);
+    $self->status_message("#########################################################\n");
 }
 
 1;
