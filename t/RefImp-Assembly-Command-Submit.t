@@ -3,9 +3,6 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
 use Date::Format;
@@ -35,29 +32,6 @@ subtest 'setup' => sub{
     $setup{ftp} = TestEnv::NcbiFtp->setup;
     ok(TestEnv::NcbiBiosample->setup, 'biosample setup');
 
-    my $msg = Test::MockObject->new;
-    Sub::Install::reinstall_sub({
-        code => sub{
-            my ($class, %p) = @_;
-            is_deeply($p{To}, ['genomes@ncbi.nlm.nih.gov'], 'email To');
-            is_deeply($p{Cc}, ['mgi-submission@gowustl.onmicrosoft.com'], 'email Cc');
-            is($p{From}, 'mgi-submission@gowustl.onmicrosoft.com', 'email From');
-            like($p{Subject}, qr/Assembly Submission/, 'email Subject');
-            ok($p{Type}, 'Type defined');
-            $msg;
-        },
-        as => 'new',
-        into => 'MIME::Lite',    
-        });
-
-    $msg->mock('attach', sub{
-            my ($class, %p) = @_;
-            like($p{Data}, qr/The McDonnell Genome Institute has submitted a new assembly\nfrom the BioSample SAMN06349363 of BioProject PRJNA376014 to GenBank/, 'email msg attached');
-            ok($p{Type}, 'Data defined');
-        }
-    );
-    $msg->mock('send', sub{ 1 });
-
 };
 
 subtest 'execute fails' => sub{
@@ -68,7 +42,7 @@ subtest 'execute fails' => sub{
 };
 
 subtest 'execute' => sub{
-    plan tests => 14;
+    plan tests => 7;
 
     my $cmd = $setup{pkg}->create(submission_yml => $setup{submission_yml});
 
