@@ -35,6 +35,23 @@ sub format {
 
     # Join
     join("\n", map({ join(' ', @$_) } @formatted_rows), '');
+
+}
+
+sub as_html {
+    my ($class, $rows) = @_;
+
+    die 'No rows given to tablize!' if not $rows;
+    return '' if not @$rows;
+
+    #my $header = shift @$lines;
+	my $table = '<table><tbody>';
+    #$table .= '<tr><th>' . join('</th><th>', split('\t', $header)) . '</th></tr>';
+    for my $row (@$rows) {
+        $table .= '<tr><td>' . join('</td><td>', @$row) . '</td></tr>';
+    }
+	$table .= '</tbody></table>';
+	$table;
 }
 
 1;
