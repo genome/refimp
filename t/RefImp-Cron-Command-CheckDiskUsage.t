@@ -29,26 +29,26 @@ subtest setup => sub{
 
     is_deeply([$test{group}->volumes], [$test{volume}], 'disk group volumes');
 
-    my $expected_output = join("\\s+", (qw/ PATH GROUP SIZE USED STATUS /))."\n/tmp\\s+";
-    $test{expected_output} = qr/$expected_output/;
-
 };
 
-subtest 'execute' => sub{
+subtest 'execute to stdout as html' => sub{
     plan tests => 3,
 
     my $output;
     open local(*STDOUT), '>', \$output or die $!;
-    my $cmd = $test{pkg}->create(groups => [$test{group}]);
+    my $cmd = $test{pkg}->create(
+        groups => [$test{group}],
+        html => 1,
+    );
     ok($cmd, 'create command');
     ok($cmd->execute, 'execute');
-    like($output, $test{expected_output}, 'output matches');
 
-    $test{stdout} = $output;
+    my $expected_output = "<table><tbody><tr><td>PATH</td><td>";
+    like($output, qr/$expected_output/, 'output matches');
 
 };
 
-subtest 'execute output to file' => sub{
+subtest 'execute to output file' => sub{
     plan tests => 3;
 
     my $tmpdir = Path::Class::dir( File::Temp::tempdir(CLEANUP => 1) );
@@ -59,6 +59,9 @@ subtest 'execute output to file' => sub{
     );
     ok($cmd, 'create command');
     ok($cmd->execute, 'execute');
+
+    my $expected_output = join("\\s+", (qw/ PATH GROUP SIZE USED STATUS /))."\n/tmp\\s+";
+    $test{expected_output} = qr/$expected_output/;
 
     my $output = File::Slurp::slurp($file);
     like($output, $test{expected_output}, 'output matches');

@@ -18,6 +18,10 @@ class RefImp::Cron::Command::CheckDiskUsage {
         },
     },
     has_optional_input => {
+        html => {
+            is => 'Boolean',
+            doc => 'Output as html table.',
+        },
         threshold => {
             is => 'Number',
             value => 95,
@@ -62,7 +66,20 @@ sub execute {
         }
     }
     
-    my $output = RefImp::Util::Tablizer->format(\@data);
+    $self->_output(\@data);
+}
+
+sub _output {
+    my ($self, $data) = @_;
+
+    my $output;
+    if ( $self->html ) {
+        $output = RefImp::Util::Tablizer->as_html($data);
+    }
+    else {
+        $output = RefImp::Util::Tablizer->format($data);
+    }
+
     if ( $self->output_file ) {
         my $fh = IO::File->new($self->output_file, 'w');
         $fh->print($output);
