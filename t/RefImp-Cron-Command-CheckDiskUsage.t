@@ -3,13 +3,13 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
+use Path::Class;
+use File::Slurp;
+use File::Temp;
 use Test::Exception;
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 my %test;
 subtest setup => sub{
@@ -29,6 +29,9 @@ subtest setup => sub{
 
     is_deeply([$test{group}->volumes], [$test{volume}], 'disk group volumes');
 
+    my $expected_output = join("\\s+", (qw/ PATH GROUP SIZE USED STATUS /))."\n/tmp\\s+";
+    $test{expected_output} = qr/$expected_output/;
+
 };
 
 subtest 'execute' => sub{
@@ -39,8 +42,26 @@ subtest 'execute' => sub{
     my $cmd = $test{pkg}->create(groups => [$test{group}]);
     ok($cmd, 'create command');
     ok($cmd->execute, 'execute');
-    my $expected_output = join("\\s+", (qw/ PATH GROUP SIZE USED STATUS /))."\n/tmp\\s+";
-    like($output, qr/$expected_output/, 'output matches');
+    like($output, $test{expected_output}, 'output matches');
+
+    $test{stdout} = $output;
+
+};
+
+subtest 'execute output to file' => sub{
+    plan tests => 3;
+
+    my $tmpdir = Path::Class::dir( File::Temp::tempdir(CLEANUP => 1) );
+    my $file = $tmpdir->file('disk_check')->stringify;
+    my $cmd = $test{pkg}->create(
+        groups => [$test{group}],
+        output_file => $file,
+    );
+    ok($cmd, 'create command');
+    ok($cmd->execute, 'execute');
+
+    my $output = File::Slurp::slurp($file);
+    like($output, $test{expected_output}, 'output matches');
 
 };
 

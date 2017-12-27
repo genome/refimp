@@ -4,6 +4,7 @@ use strict;
 use warnings 'FATAL';
 
 use Filesys::Df 'df';
+use IO::File;
 use RefImp::Util::Tablizer;
 
 class RefImp::Cron::Command::CheckDiskUsage {
@@ -21,6 +22,12 @@ class RefImp::Cron::Command::CheckDiskUsage {
             is => 'Number',
             value => 95,
             doc => 'Threshold percentage to decide if a volume passes or not',
+        },
+    },
+    has_optional_output => {
+        output_file => {
+            is => 'Text',
+            doc => 'Send output to this file instead of to STDOUT.',
         },
     },
     doc => 'check percent used for disks by group',
@@ -55,7 +62,15 @@ sub execute {
         }
     }
     
-    print RefImp::Util::Tablizer->format(\@data);
+    my $output = RefImp::Util::Tablizer->format(\@data);
+    if ( $self->output_file ) {
+        my $fh = IO::File->new($self->output_file, 'w');
+        $fh->print($output);
+        $fh->close;
+    }
+    else {
+        print STDOUT $output;
+    }
 }
 
 1;
