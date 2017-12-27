@@ -12,6 +12,7 @@ class RefImp::Cron::Command::CheckDiskUsage {
         groups => {
             is => 'RefImp::Disk::Group',
             is_many => 1,
+            require_user_verify => 0,
             doc => 'Disk groups to gather volumes',
         },
     },
