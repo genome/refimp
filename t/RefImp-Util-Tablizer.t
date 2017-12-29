@@ -9,6 +9,7 @@ use Test::Exception;
 use Test::More tests => 3;
 
 my %test = (
+    headers => [qw/ h1 h2 h3 /],
     rows => [
         [qw| aaa AAA-1    /gscmnt/gc0001/info/projects/aaa |],
         [qw| bbb BBB-23   /gscmnt/gc0001/info/projects/bbb |],
@@ -43,6 +44,11 @@ subtest 'as html' => sub {
     is($table, '', 'formated nothing into nothing');
 
     my $expected_table = "<table><tbody>";
+    $expected_table .= '<tr>';
+    for my $header ( @{$test{headers}} ) {
+        $expected_table .= "<th>$header</th>";
+    }
+    $expected_table .= '</tr>';
     for my $row ( @{$test{rows}} ) {
         $expected_table .= '<tr>';
         for my $field ( @$row ) {
@@ -52,7 +58,7 @@ subtest 'as html' => sub {
     }
     $expected_table .= "</tbody></table>";
 
-    $table = RefImp::Util::Tablizer->as_html($test{rows});
+    $table = RefImp::Util::Tablizer->as_html(\%test);
     is($table, $expected_table, 'table matches');
 
 };

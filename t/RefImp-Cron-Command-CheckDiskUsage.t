@@ -43,7 +43,7 @@ subtest 'execute to stdout as html' => sub{
     ok($cmd, 'create command');
     ok($cmd->execute, 'execute');
 
-    my $expected_output = "<table><tbody><tr><td>PATH</td><td>";
+    my $expected_output = "<table><tbody><tr><th>PATH</th><th>";
     like($output, qr/$expected_output/, 'output matches');
 
 };

@@ -39,15 +39,17 @@ sub format {
 }
 
 sub as_html {
-    my ($class, $rows) = @_;
+    my ($class, $params) = @_;
 
-    die 'No rows given to tablize!' if not $rows;
-    return '' if not @$rows;
+    die 'No params given to tablize!' if not $params;
+    die 'No rows given to tablize!' if not $params->{rows};
+    return '' if not @{$params->{rows}};
 
-    #my $header = shift @$lines;
 	my $table = '<table><tbody>';
-    #$table .= '<tr><th>' . join('</th><th>', split('\t', $header)) . '</th></tr>';
-    for my $row (@$rows) {
+    if ( $params->{headers} ) {
+        $table .= '<tr><th>' . join('</th><th>', @{$params->{headers}}) . '</th></tr>';
+    }
+    for my $row ( @{$params->{rows}} ) {
         $table .= '<tr><td>' . join('</td><td>', @$row) . '</td></tr>';
     }
 	$table .= '</tbody></table>';

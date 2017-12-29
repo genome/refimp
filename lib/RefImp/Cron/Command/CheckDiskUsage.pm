@@ -49,7 +49,7 @@ sub execute {
     my $threshold = $self->threshold;
     $self->status_message('Threshold: %s', $threshold);
 
-    my @data = [qw/ PATH GROUP SIZE USED STATUS /];
+    my @data;
     for my $group ( $self->groups ) {
         VOLUME: for my $volume ( $group->volumes ) {
             my $mount_path = $volume->mount_path;
@@ -72,12 +72,14 @@ sub execute {
 sub _output {
     my ($self, $data) = @_;
 
+    my $headers = [qw/ PATH GROUP SIZE USED STATUS /];
+
     my $output;
     if ( $self->html ) {
-        $output = RefImp::Util::Tablizer->as_html($data);
+        $output = RefImp::Util::Tablizer->as_html({headers => $headers, rows => $data});
     }
     else {
-        $output = RefImp::Util::Tablizer->format($data);
+        $output = RefImp::Util::Tablizer->format([$headers, @$data]);
     }
 
     if ( $self->output_file ) {
