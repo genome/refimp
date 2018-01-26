@@ -41,6 +41,14 @@ class RefImp::Assembly::Submission {
                 join('_', ucfirst($species_name_tokens[0]), @species_name_tokens[1..$#species_name_tokens], $version);
             |,
         },
+		tar_basename => {
+            is => 'Text',
+            calculate_from => [qw/ ncbi_version submitted_on /],
+            calculate => q|
+                my ($date) = split(' ', $submitted_on);
+                $ncbi_version.'_'.$date.'.tar';
+            |,
+        },
    },
    has_optional_transient => {
         submission_info => { is => 'HASH', },

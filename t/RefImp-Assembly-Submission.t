@@ -3,9 +3,6 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
 use File::Slurp 'slurp';
@@ -14,7 +11,7 @@ use File::Temp 'tempdir';
 use LWP::UserAgent;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 10;
+use Test::More tests => 11;
 
 my %setup;
 subtest 'setup' => sub{
@@ -240,6 +237,14 @@ subtest 'accession_id' => sub{
     my $submission = $setup{submission};
     ok(!$submission->accession_id, 'submission does not have an accession_id');
     is($submission->accession_id('HNH00000001'), 'HNH00000001', 'submission accession_id');
+
+};
+
+subtest 'tar_basename' => sub{
+    plan tests => 1;
+
+    my $submission = $setup{submission};
+    like($submission->tar_basename, qr/Crassostrea_virginica_2\.0_\d\d\d\d\-\d\d\-\d\d\.tar/, 'submission tar_basename');
 
 };
 

@@ -54,8 +54,7 @@ subtest 'execute' => sub{
     ok($cmd->result, 'cmd result');
 
     ok($cmd->submission, 'created submission');
-    my $tar_file_basename = join('.', 'Crassostrea_virginica_2.0', Date::Format::time2str('%Y-%m-%d', time()), 'tar');
-    like($cmd->tar_file, qr/$tar_file_basename$/, 'tar_file name');
+    like($cmd->tar_file, qr/Crassostrea_virginica_2\.0_\d\d\d\d\-\d\d\-\d\d\.tar/, 'tar_file');
 
     ok(-s $cmd->tar_file, 'created tar file');
 

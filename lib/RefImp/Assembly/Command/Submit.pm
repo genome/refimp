@@ -24,9 +24,9 @@ class RefImp::Assembly::Command::Submit {
     },
     has_optional_calculated => {
         tar_file => {
-            is => 'Path::Class',
+            is => 'Path::Class::dir',
             calculate_from => [qw/ tempdir submission /],
-            calculate => q| $tempdir->file( $submission->ncbi_version.'_'.Date::Format::time2str('%Y-%m-%d', time()).'.tar' ); |,
+            calculate => q| $tempdir->file($submission->tar_basename) |,
         },
     },
     doc => 'submit a assembly to NCBI',
