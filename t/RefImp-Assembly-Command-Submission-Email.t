@@ -7,7 +7,7 @@ use TestEnv;
 
 use File::Spec;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 3;
 
 my %setup;
 subtest 'setup'=> sub{
@@ -23,20 +23,10 @@ subtest 'setup'=> sub{
 
 };
 
-subtest 'execute with submission yml' => sub{
+subtest 'execute fails' => sub{
     plan tests => 1;
 
-    throws_ok(sub{ $setup{pkg}->execute(); }, qr/No submission or submission_yml given/, 'execute fails w/o submission or submission yml');
-
-};
-
-subtest 'execute with submission yml' => sub{
-    plan tests => 2;
-
-    my $output;
-    open local(*STDOUT), '>', \$output or die $!;
-    lives_ok(sub{ $setup{pkg}->execute(submission_yml => $setup{submission_yml}); }, 'execute with submission_yml');
-    like($output, qr/To: genomes/, 'correct output');
+    throws_ok(sub{ $setup{pkg}->execute(); }, qr/No submission given/, 'execute fails w/o submission');
 
 };
 
