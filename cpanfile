@@ -20,7 +20,7 @@ requires 'Test::More';
 requires 'Test::Exception';
 requires 'Test::MockObject';
 requires 'Text::CSV';
-requires 'UR', '0.46';
+requires 'UR', '>= 0.46';
 requires 'WWW::Mechanize';
 requires 'XML::LibXML';
 requires 'YAML';
