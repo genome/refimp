@@ -9,7 +9,7 @@ class RefImp::Assembly::Command::Submission::Create {
     is => 'Command::V2',
     has_input => {
         submission_yml => {
-            is => 'RefImp::Assembly::Submission',
+            is => 'File',
             doc => 'YAML file with submission info. It must be in the assembly submission directory. Use the "refimp assembly submission yaml" command for a template or help (--h).',
         },
     },
