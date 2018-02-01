@@ -6,7 +6,6 @@ use warnings 'FATAL';
 use TestEnv;
 
 use Date::Format;
-use MIME::Lite;
 use Sub::Install;
 use Test::Exception;
 use Test::MockObject;

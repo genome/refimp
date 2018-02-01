@@ -3,7 +3,6 @@ package RefImp::Project::Command::Submission::QaRequest;
 use strict;
 use warnings;
 
-use MIME::Lite;
 use RefImp::Project::Submission::Info;
 use RefImp::Project::Submission::Form;
 
@@ -55,43 +54,7 @@ sub _display_submit_form {
 
 sub _send_email {
     my $self = shift;
-
-    # Finisher/Checkers
-    my ($finisher) = $self->project->finishers; # FIXME multiple finishers??
-    $self->fatal_message('No finisher assgined to project: %s', $self->project->__display_name__) if not $finisher;
-
-    my @checker_unix_logins = $self->checker_unix_logins;
-    my @checkers = RefImp::User->get(name => \@checker_unix_logins);
-    if ( @checkers != @checker_unix_logins ) {
-        $self->fatal_message('Failed to get all checkers for unix logins: %s', join(' ', $self->checker_unix_logins));
-    }
-
-    # Email
-    my $msg = MIME::Lite->new(
-        To => [ $finisher->email ],
-        Cc => [ map { $_->email } @checkers ],
-        From => 'no-reply@wustl.edu',
-        Subject => sprintf('Presubmit %s', $self->project->__display_name__),
-        Type     => 'multipart/mixed'
-    ) or die "Can't create Mail::Sender";
-
-    $msg->attach(
-        Type =>'TEXT',
-        Data => sprintf(
-"Project %s has been successfully presubmitted!
-
-Checkers (CC'd), can someone please review this project? When done, submit the project to NCBI with the below command.
-
-\$ refimp project submit %s
-
-Sincerely,
-The RefImp Team",
-            $self->project->__display_name__, 
-            $self->project->name,
-        ),
-    );
-
-    $msg->send;
+    $self->warning_message('Not sending email for QA request currently. Please contact reviewer.');
 }
 
 1;

@@ -29,12 +29,6 @@ subtest 'setup' => sub{
         purpose => 'finisher',
     );
 
-    Sub::Install::reinstall_sub({
-            code => sub{ diag $_[0]->as_string },
-            into => 'MIME::Lite',
-            as => 'send',
-        });
-
     TestEnv::LimsRestApi::setup;
 
     # Do not check LDAP for mail
