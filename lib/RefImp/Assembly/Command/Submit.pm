@@ -5,7 +5,6 @@ use warnings 'FATAL';
 
 use Date::Format;
 use File::Temp;
-use MIME::Lite;
 use Path::Class qw/ dir file /;
 use RefImp::Resources::NcbiFtp;
 
@@ -25,9 +24,9 @@ class RefImp::Assembly::Command::Submit {
     },
     has_optional_calculated => {
         tar_file => {
-            is => 'Path::Class',
+            is => 'Path::Class::dir',
             calculate_from => [qw/ tempdir submission /],
-            calculate => q| $tempdir->file( $submission->ncbi_version.'_'.Date::Format::time2str('%Y-%m-%d', time()).'.tar' ); |,
+            calculate => q| $tempdir->file($submission->tar_basename) |,
         },
     },
     doc => 'submit a assembly to NCBI',
@@ -45,7 +44,7 @@ sub execute {
     $self->_create_sqn_files;
     $self->_create_submission_tar;
     $self->_ftp_to_ncbi;
-    $self->_send_mail;
+    $self->_print_mail;
 
     $self->status_message('Submit assembly...OK');
     1;
@@ -142,53 +141,12 @@ sub _ftp_to_ncbi {
     $self->status_message('FTP to NCBI...OK');
 }
 
-sub _send_mail {
+sub _print_mail {
     my $self = shift;
-    $self->status_message("Send mail to NCBI...");
-
-	my $to ='genomes@ncbi.nlm.nih.gov';
-	my $submission_email = 'mgi-submission@gowustl.onmicrosoft.com';
-
-    my $submission = $self->submission;
-    my $bioproject = $self->submission->bioproject;
-    my $biosample = $self->submission->biosample;
-    my $species_name = ucfirst $submission->taxon->species_name;
-
-    my $subject = sprintf(
-        "New '%s' [%s %s] Assembly Submission",
-        $species_name,
-        $bioproject,
-        $biosample,
-    );
-
-    my $strain_name = $submission->taxon->strain_name || 'NA';
-    my $release_date = $self->submission->info_for('release_date');
-    my $tar_file = $self->tar_file->basename;
-
-    my $msg = <<MSG;
-Greetings!
-
-The McDonnell Genome Institute has submitted a new assembly
-from the BioSample $biosample of BioProject $bioproject to GenBank.
-
-  Organism Name: $species_name
-  Strain: $strain_name
-  Release Date: $release_date
-
-Please find $tar_file on ftp-private.ncbi.nlm.nih.gov
-
-Sincerely,
-MGI Submissions <$submission_email>
-MSG
-	
 	$self->status_message("#########################################################\n");
     $self->status_message("          Please send the below message to NCBI\n");
     $self->status_message("#########################################################\n");
-    $self->status_message("To:        %s", $to);
-	$self->status_message('Cc:        %s', $submission_email);
-	$self->status_message('From:      %s', $submission_email);
-    $self->status_message("Message:");
-    $self->status_message($msg);
+    RefImp::Assembly::Command::Submission::Email->execute(submission => $self->submission);
     $self->status_message("#########################################################\n");
 }
 
