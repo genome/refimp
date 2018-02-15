@@ -147,7 +147,7 @@ sub help_doc_for_attribute {
 
 sub help_doc_for_attributes {
     my $class = shift;
-    my $help;
+    my $help = "Submission Info Field Docs\n\n";
     for my $key ( submission_info_keys() ) {
         $help .= $class->help_doc_for_attribute($key);
     }
