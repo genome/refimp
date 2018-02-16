@@ -46,9 +46,12 @@ subtest 'authors, qualifiers, and comments' => sub{
     plan tests => 3;
 
     my @expected_authors = (
-        'name name { last "Warren" , first "Wesley" , initials "W.C." }',
-        'name name { last "Gomez-Chiarri" , first "Marta" , initials "M." }',
-        'name name { last "Tomlinson" , first "Chad" , initials "C." }',
+        #'name name { last "Warren" , first "Wesley" , initials "W.C." }',
+        #'name name { last "Gomez-Chiarri" , first "Marta" , initials "M." }',
+        #'name name { last "Tomlinson" , first "Chad" , initials "C." }',
+        'name name { last "Wesley C. Warren" }',
+        'name name { last "Marta Gomez-Chiarri" }',
+        'name name { last "Chad Tomlinson" }',
     );
     is_deeply([$cmd->format_names( $cmd->submission->info_for('authors') )], \@expected_authors, 'formatted_submission_authors');
 
