@@ -68,6 +68,7 @@ my %submission_info = (
     },
     release_date => {
         required => 1,
+        structured_comment => 1,
         value => 'immediately after processing',
         doc => "There are 2 NCBI standard, or set your own.",
         example => join(" or ", valid_release_dates()),
