@@ -108,6 +108,14 @@ sub _from_yml {
     $class->$instantiation_method(%params);
 }
 
+sub add_info_for {
+    my ($self, $key, $value) = @_;
+    $self->fatal_message('No submission info set!') if not $self->submission_info;
+    $self->fatal_message('No key given to add submission info!') if not $key;
+    $self->fatal_message('No value given to add submission info!') if not defined $value;
+    $self->submission_info->{$key} = $value
+}
+
 sub info_for {
     my ($self, $key) = @_;
     $self->fatal_message('No submission info set!') if not $self->submission_info;

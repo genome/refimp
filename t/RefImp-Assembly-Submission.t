@@ -11,7 +11,7 @@ use File::Temp 'tempdir';
 use LWP::UserAgent;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 11;
+use Test::More tests => 12;
 
 my %setup;
 subtest 'setup' => sub{
@@ -245,6 +245,24 @@ subtest 'tar_basename' => sub{
 
     my $submission = $setup{submission};
     like($submission->tar_basename, qr/Crassostrea_virginica_2\.0_\d\d\d\d\-\d\d\-\d\d\.tar/, 'submission tar_basename');
+
+};
+
+subtest 'add_info_for' =>sub{
+    plan tests => 5;
+
+    my $submission = $setup{submission};
+
+    my $info = $submission->submission_info;
+    $submission->submission_info({});
+    throws_ok(sub{ $submission->add_info_for(); }, qr//, 'add_info_for fails w/o submission_info');
+    $submission->submission_info($info);
+
+    throws_ok(sub{ $submission->add_info_for(); }, qr//, 'add_info_for fails w/o key');
+    throws_ok(sub{ $submission->add_info_for('tbl2asn_params'); }, qr//, 'add_info_for fails w/o value');
+    my $params = '-a z -l paired_reads';
+    lives_ok(sub{ $submission->add_info_for('tbl2asn_params', $params); }, 'add_info_for');
+    is($submission->info_for('tbl2asn_params'), $params, 'info_for tbl2asn_params');
 
 };
 
