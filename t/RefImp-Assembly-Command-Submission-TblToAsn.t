@@ -3,12 +3,10 @@
 use strict;
 use warnings;
 
-
-
 use TestEnv;
 
 use File::Temp;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my $pkg = 'RefImp::Assembly::Command::Submission::TblToAsn';
 my $cmd;
@@ -60,6 +58,32 @@ subtest 'authors, qualifiers, and comments' => sub{
 
     my $expected_structured_comments = "StructuredCommentPrefix	##Genome-Assembly-Data-START##\nAssembly Method	Falcon v. January 2017\nGenome Coverage	20x\nPolishing Method	Quiver; Pilon\nRelease Date	immediately after processing\nSequencing Technology	PacBio_RSII\n";
     is($cmd->structured_comments, $expected_structured_comments, 'structured_comments');
+
+};
+
+subtest 'tbl2asn_cmd' => sub{
+    plan tests => 2;
+
+    my @tbl2asn_cmd = $cmd->tbl2asn_command;
+    my @expected_tbl2asn_cmd = (
+		"tbl2asn",
+		'-p', $cmd->_output_directory->stringify,
+        '-r', $cmd->results_path->stringify,
+        '-t', $cmd->template_file->stringify,
+        '-s',
+        '-V', 'vb',
+		'-Z', $cmd->discrepancy_report_path,
+		'-X', 'AC',
+		'-j', $cmd->source_qualifiers,
+		'-Y', $cmd->comment_file,
+	);
+	is_deeply(\@tbl2asn_cmd, \@expected_tbl2asn_cmd, 'tbl2asn command');
+
+	my @tbl2asn_params = (qw/ -a r -l paired_reads /);
+	$cmd->submission->add_info_for('tbl2asn_params', join(' ', @tbl2asn_params));
+	@tbl2asn_cmd = $cmd->tbl2asn_command;
+	push @expected_tbl2asn_cmd, @tbl2asn_params;
+    is_deeply(\@tbl2asn_cmd, \@expected_tbl2asn_cmd, 'tbl2asn command w/ additional params');
 
 };
 

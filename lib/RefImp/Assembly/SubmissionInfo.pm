@@ -92,6 +92,11 @@ my %submission_info = (
         doc => "The NCBI taxon species name. It must exist in our DB. Create with 'ref-imp taxon create'.",
         example => 'Crassostrea virginica'
     },
+    tbl2asn_params => {
+        requried => 0,
+        doc => 'Addition parameters to pass into the tbl2asn command. Typically, this will be to decribe how gaps were confirmed, but any parameter can be added. The example show gaps were determined by read pairs and FASTA with Gap Lines. See "tbl2asn --help for more options.',
+        example => '-a z -l paired-ends',
+    },
     version => {
         required => 1,
         doc => 'The version of the assembly. This will be combined with the taxon to make the NCBI version.',
