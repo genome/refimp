@@ -267,7 +267,7 @@ sub run_tbl2asn {
 sub tbl2asn_command {
     my $self = shift;
 
-    my $tbl2asn = "tbl2asn.linux64";
+    my $tbl2asn = "tbl2asn";
     return (
         # Command
         $tbl2asn,
