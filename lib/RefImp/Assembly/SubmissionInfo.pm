@@ -97,6 +97,12 @@ my %submission_info = (
         doc => 'Addition parameters to pass into the tbl2asn command. Typically, this will be to decribe how gaps were confirmed, but any parameter can be added. The example show gaps were determined by read pairs and FASTA with Gap Lines. See "tbl2asn --help for more options.',
         example => '-a z -l paired-ends',
     },
+    unique_id => {
+        required => 1,
+        structured_comment => 1,
+        doc => 'A unique id for the submission. Used in the DB and sent to NCBI.',
+        value => UR::Object::Type->autogenerate_new_object_id_uuid,
+    },
     version => {
         required => 1,
         doc => 'The version of the assembly. This will be combined with the taxon to make the NCBI version.',
