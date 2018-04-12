@@ -7,7 +7,9 @@ class RefImp::Assembly::Command::Submission::Email {
     is => 'Command::V2',
     has_optional_input => {
         submission => {
-                is => 'RefImp::Assembly::Submission',
+            is => 'RefImp::Assembly::Submission',
+            doc => 'Submission record to generate email.',
+            shell_args_position => 1,
         },
     },
     doc => 'show the email for an assembly submission',
