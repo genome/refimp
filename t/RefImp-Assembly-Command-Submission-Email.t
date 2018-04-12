@@ -26,7 +26,7 @@ subtest 'setup'=> sub{
 subtest 'execute fails' => sub{
     plan tests => 1;
 
-    throws_ok(sub{ $setup{pkg}->execute(); }, qr/No submission given/, 'execute fails w/o submission');
+    throws_ok(sub{ $setup{pkg}->execute(); }, qr/'submission': No value/, 'execute fails w/o submission');
 
 };
 

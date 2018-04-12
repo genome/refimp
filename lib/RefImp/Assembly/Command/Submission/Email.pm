@@ -17,12 +17,22 @@ class RefImp::Assembly::Command::Submission::Email {
 
 sub help_detail { __PACKAGE__->__meta__->doc }
 
+sub __errors__ {
+    my $self = shift;
+
+    my @errors = $self->SUPER::__errors__;
+
+    if ( @errors ) {
+        $self->fatal_message( join("\n", map { $_->__display_name__ } @errors) );
+    }
+
+    @errors;
+}
+
 sub execute {
     my $self = shift;
 
     my $submission = $self->submission;
-    $self->fatal_message('No submission given!') if not $submission;
-
     my $bioproject = $submission->bioproject;
     my $biosample = $submission->biosample;
     my $species_name = ucfirst $submission->taxon->species_name;
