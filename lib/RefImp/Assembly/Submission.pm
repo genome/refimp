@@ -59,6 +59,21 @@ class RefImp::Assembly::Submission {
 
 sub __display_name__ { sprintf('%s %s submitted on %s part of %s %s', map { defined($_) ? $_ : 'NA' } ($_[0]->id, $_[0]->version, $_[0]->submitted_on, $_[0]->bioproject, $_[0]->biosample)) }
 
+sub get {
+    my $class = shift;
+
+    my $self = $class->SUPER::get(@_);
+    return if not $self;
+
+    if ( $self->submission_yml ) {
+        my $info = YAML::Load($self->submission_yml);
+        $self->fatal_message('Failed to parse submission YAML!') if not $info;
+        $self->submission_info($info);
+    }
+
+    $self;
+}
+
 sub create_from_yml {
     my $class = shift;
     $class->_from_yml(@_);
