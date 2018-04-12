@@ -5,7 +5,7 @@ use warnings 'FATAL';
 
 class RefImp::Assembly::Command::Submission::Email {
     is => 'Command::V2',
-    has_optional_input => {
+    has_input => {
         submission => {
             is => 'RefImp::Assembly::Submission',
             doc => 'Submission record to generate email.',
