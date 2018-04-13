@@ -68,6 +68,7 @@ my %submission_info = (
     },
     release_date => {
         required => 1,
+        structured_comment => 1,
         value => 'immediately after processing',
         doc => "There are 2 NCBI standard, or set your own.",
         example => join(" or ", valid_release_dates()),
@@ -90,6 +91,17 @@ my %submission_info = (
         required => 1,
         doc => "The NCBI taxon species name. It must exist in our DB. Create with 'ref-imp taxon create'.",
         example => 'Crassostrea virginica'
+    },
+    tbl2asn_params => {
+        requried => 0,
+        doc => 'Addition parameters to pass into the tbl2asn command. Typically, this will be to decribe how gaps were confirmed, but any parameter can be added. The example show gaps were determined by read pairs and FASTA with Gap Lines. See "tbl2asn --help for more options.',
+        example => '-a z -l paired-ends',
+    },
+    unique_id => {
+        required => 1,
+        structured_comment => 1,
+        doc => 'A unique id for the submission. Used in the DB and sent to NCBI.',
+        value => UR::Object::Type->autogenerate_new_object_id_uuid,
     },
     version => {
         required => 1,
@@ -147,7 +159,7 @@ sub help_doc_for_attribute {
 
 sub help_doc_for_attributes {
     my $class = shift;
-    my $help;
+    my $help = "Submission Info Field Docs\n\n";
     for my $key ( submission_info_keys() ) {
         $help .= $class->help_doc_for_attribute($key);
     }

@@ -264,10 +264,9 @@ sub run_tbl2asn {
 sub tbl2asn_command {
     my $self = shift;
 
-    my $tbl2asn = "tbl2asn.linux64";
-    return (
+    my @cmd = (
         # Command
-        $tbl2asn,
+        "tbl2asn",
 
         # Path to Files [String]  Optional
         '-p', $self->_output_directory->stringify,
@@ -304,6 +303,13 @@ sub tbl2asn_command {
         # Comment File [File In]  Optional
         '-Y', $self->comment_file,
     );
+
+    my $additional_params = $self->submission->info_for('tbl2asn_params');
+    if ( $additional_params ) {
+        push @cmd, split(/\s+/, $additional_params);
+    }
+
+    @cmd;
 }
 
 sub source_qualifiers {

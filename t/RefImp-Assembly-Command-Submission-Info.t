@@ -8,16 +8,16 @@ use TestEnv;
 use Test::Exception;
 use Test::More tests => 1;
 
-subtest 'print YAML' => sub {
+subtest 'execute' => sub {
     plan tests => 3;
 
-    my $pkg = 'RefImp::Assembly::Command::Submission::Yaml';
+    my $pkg = 'RefImp::Assembly::Command::Submission::Info';
     use_ok($pkg) or die;
 
     my $output;
     open local(*STDOUT), '>', \$output or die $!;
-    lives_ok(sub{ $pkg->execute; }, 'print submission yaml');
-    like($output, qr/---\n/, 'yaml printed');
+    lives_ok(sub{ $pkg->execute; }, 'execute');
+    like($output, qr/Submission Info Field Docs\n/, 'info printed');
 
 };
 

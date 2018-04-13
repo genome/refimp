@@ -6,9 +6,9 @@ use warnings 'FATAL';
 use File::Spec;
 use File::Slurp;
 use Path::Class;
-use RefImp::Assembly::SubmissionInfo;
 use Set::Scalar;
 use YAML;
+use RefImp::Assembly::SubmissionInfo;
 
 class RefImp::Assembly::Submission {
    data_source => RefImp::Config::get('refimp_ds'),
@@ -95,15 +95,20 @@ sub _from_yml {
     my $info = YAML::LoadFile($yml);
     $class->fatal_message('Failed to open submission YAML!') if not $info;
 
+    $class->fatal_message('No unique_id in submission yml! Please add this attribute!') if not $info->{unique_id};
+    my $id = $info->{unique_id};
+    my $self = $class->get($id);
+    return $self if $self;
+
     $class->fatal_message('No taxon in submission YAML! %s', $yml) if not $info->{taxon};
     my $taxon = RefImp::Taxon->get(species_name => lc $info->{taxon});
     $class->fatal_message('Taxon not found for "%s"!', $info->{taxon}) if not $taxon;
 
     my $directory = $yml->dir->absolute;
-    my $id = UR::Object::Type->autogenerate_new_object_id_uuid;
+    my $assembly_id = UR::Object::Type->autogenerate_new_object_id_uuid;
     my $assembly = RefImp::Assembly->$instantiation_method( # for now, just create a new assembly for each submission
-        id => $id,
-        name => $id, # gotta be unique
+        id => $assembly_id,
+        name => $assembly_id, # gotta be unique
         taxon => $taxon, # only thing we really know
         directory => "$directory", # submission dir, assembly is somewhere nearby
     );
@@ -121,6 +126,14 @@ sub _from_yml {
     }
 
     $class->$instantiation_method(%params);
+}
+
+sub add_info_for {
+    my ($self, $key, $value) = @_;
+    $self->fatal_message('No submission info set!') if not $self->submission_info;
+    $self->fatal_message('No key given to add submission info!') if not $key;
+    $self->fatal_message('No value given to add submission info!') if not defined $value;
+    $self->submission_info->{$key} = $value
 }
 
 sub info_for {

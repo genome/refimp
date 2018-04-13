@@ -11,4 +11,5 @@ release_date: immediately after processing
 release_notes_file: RELEASE_NOTES
 sequencing_technology: PacBio_RSII
 taxon: Crassostrea virginica
+unique_id: 1D7164A0176B11E8B37223742AE876E6
 version: 2.0
