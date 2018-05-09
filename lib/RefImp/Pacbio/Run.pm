@@ -14,6 +14,9 @@ use RefImp::Pacbio::RunMetadata;
 sub new {
     my ($class, $directory) = @_;
 
+    die "No directory given!" if not $directory;
+    die "Directory given does not exist: $directory" if not -d "$directory";
+
     my %self = (
         directory => $directory,
     );

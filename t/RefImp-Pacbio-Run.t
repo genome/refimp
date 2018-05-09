@@ -11,7 +11,7 @@ use Test::Exception;
 
 my %test = ( class => 'RefImp::Pacbio::Run', );
 subtest 'new' => sub{
-    plan tests => 4;
+    plan tests => 6;
 
     use_ok($test{class}) or die;
 
@@ -23,6 +23,9 @@ subtest 'new' => sub{
     ok($run->directory, 'directory');
 
     $test{run} = $run;
+
+    throws_ok(sub{ $test{class}->new; }, qr/No directory given/, 'fails w/o directory');
+    throws_ok(sub{ $test{class}->new('blah'); }, qr/Directory given does not exist/, 'fails w/ invalid directory');
 
 };
 
