@@ -20,8 +20,7 @@ sub new {
         xml_file => $xml_file,
     };
     bless $self, $class;
-    return if not $self->_load_xml;
-    print Dumper $self;
+    $self->_load_xml;
     $self;
 }
 
