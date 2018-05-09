@@ -7,12 +7,7 @@ use base 'Class::Accessor';
 RefImp::Pacbio::Run->mk_accessors(qw/ directory /);
 
 use Data::Dumper 'Dumper';
-use List::Util;
-use XML::LibXML;
-
-#use RefImp::Pacbio::RunXml;
-
-#sub directory { $_[0]->{directory} }
+use RefImp::Pacbio::RunMetadata;
 
 sub new {
     my ($class, $directory) = @_;
