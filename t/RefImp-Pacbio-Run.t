@@ -29,18 +29,20 @@ subtest 'new' => sub{
 
 };
 
-subtest 'analysis_files' => sub{
-    plan tests => 3;
+subtest 'analyses' => sub{
+    plan tests => 4;
 
-	my $files = $test{run}->samples_and_analysis_files;
-	my $expected_files = _expected_analysis_files();
-    is_deeply($files, $expected_files, 'samples_and_analysis_files');
+    my $run = $test{run};
+	my $analyses = $run->analyses;
+    ok($analyses, 'run analyses');
+    is(@$analyses, 10, 'correct number of analyses');
+    #my $expected_files = _expected_analysis_files();
+    #is_deeply($files, $expected_files, 'samples_and_analysis_files');
 
-	my $sample_files = $test{run}->analysis_files_for_sample(qr/^NA19434_4808o3_lib1_50pM/);
-	my @expected_sample_files = map { @{$files->{$_}} } grep { $_ =~ /^NA19434/ } sort keys %$files;
-	is_deeply($sample_files, \@expected_sample_files, 'analysis_files_for_sample');
+	my $sample_analyses = $run->analyses_for_sample(qr/^NA19434_4808o3_lib1_50pM/);
+    is_deeply($sample_analyses, $analyses, 'analyses_for_sample');
 
-    throws_ok(sub{ $test{run}->analysis_files_for_sample; }, qr/No sample name regex given/, 'analysis_files_for_sample fails w/o sdample name regex');
+    throws_ok(sub{ $test{run}->analyses_for_sample; }, qr/No sample name regex given/, 'analyses_for_sample fails w/o sample name regex');
 
 };
 

@@ -9,7 +9,7 @@ RefImp::Pacbio::Run->mk_accessors(qw/ directory /);
 use Data::Dumper 'Dumper';
 use File::Find;
 use Path::Class;
-use RefImp::Pacbio::RunMetadata;
+use RefImp::Pacbio::RunMetadataFactory;
 
 sub new {
     my ($class, $directory) = @_;
@@ -24,46 +24,42 @@ sub new {
     bless \%self, $class;
 }
 
-sub analysis_files_for_sample {
+sub analyses_for_sample {
     my ($self, $sample_name_regex) = @_;
     die "No sample name regex given!" if not $sample_name_regex;
 
-    my $files = $self->samples_and_analysis_files;
-
-    my @sample_files;
-    for my $sample_name ( sort keys %$files ) {
-        push @sample_files, @{$files->{$sample_name}} if $sample_name =~ $sample_name_regex;
+    my $analyses = $self->analyses;
+    my @sample_analyses;
+    for my $analysis ( @$analyses ) {
+        push @sample_analyses, $analysis if $analysis->sample_name =~ $sample_name_regex;
     }
 
-    return if not @sample_files;
-    \@sample_files;
+    return if not @sample_analyses;
+    \@sample_analyses;
 }
 
-sub samples_and_analysis_files {
+sub analyses {
     my ($self) = @_;
 
-    my %samples_and_analysis_files;
-    my ($well, $metadata, $sample_name);
+    my (@analyses, $meta);
     find(
         {
             wanted => sub{
                 if ( /metadata\.xml$/) {
-                    $metadata = RefImp::Pacbio::RunMetadata->new( file($File::Find::name) );
-                    die "Failed load metadata XML for $_" if not $metadata;
-                    $sample_name = $metadata->sample_name;
-                    die "Failed to get sample name from run metadata XML: $_" if not $sample_name;
+                    $meta = RefImp::Pacbio::RunMetadataFactory->build( file($File::Find::name) );
+                    push @analyses, $meta;
                 }
                 elsif ( $File::Find::dir =~ /Analysis_Results/ and /\.h5$/ ) {
-                    die "No sample name set!" if not $sample_name;
-                    push @{$samples_and_analysis_files{$sample_name}}, file($File::Find::name);
+                    die "No meta set!" if not $meta;
+                    $meta->add_analysis_file( file($File::Find::name) );
                 }
             },
         },
         glob($self->directory->file('*')->stringify),
     );
 
-    return if not %samples_and_analysis_files;
-    \%samples_and_analysis_files;
+    return if not @analyses;
+    \@analyses;
 }
 
 1;
