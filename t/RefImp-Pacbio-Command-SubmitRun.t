@@ -5,9 +5,11 @@ use warnings 'FATAL';
 
 use TestEnv;
 
+use Digest::MD5;
 use File::Compare;
 use File::Temp;
 use Path::Class;
+use Sub::Install;
 use Test::More tests => 1;
 use Test::Exception;
 
@@ -17,12 +19,17 @@ subtest 'execute' => sub{
 
     use_ok($test{class}) or die;
 
+    Sub::Install::reinstall_sub({
+            code => sub{ 'md5sum' },
+            into => 'Digest::MD5',
+            as => 'hexdigest',
+        });
+
     my $directory = dir( TestEnv::test_data_directory_for_package('RefImp::Pacbio::Run') );
     ok(-d "$directory", "example run directory exists");
 
     my $run_id = '6U00E3';
-    #my $tempdir = dir( File::Temp::tempdir(CLEANUP => 1) );
-    my $tempdir = dir( File::Temp::tempdir() );
+    my $tempdir = dir( File::Temp::tempdir(CLEANUP => 1) );
     my %params = (
         bioproject => 'BIOPROJECT',
         biosample => 'BIOSAMPLE',

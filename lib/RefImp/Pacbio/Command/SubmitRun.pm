@@ -5,6 +5,7 @@ use warnings 'FATAL';
 
 use Digest::MD5;
 use File::Path;
+use IO::File;
 use List::Util;
 use Path::Class;
 use RefImp::DataAdapter::SRAXML::PrimaryAnalysis;
@@ -121,12 +122,11 @@ sub render_xml {
     # H_IJ-HG02818-HG02818_1-lib2 VS 4808lj_HG02818_Lib2_50pM_A1
     my $analyses = $self->analyses;
     my $meta = {
-        library_name => $self->sample_name, #FIXME?
+        library_name => $self->sample_name,
         bioproject => $self->bioproject,
         biosample => $self->biosample,
         instrument => 'PacBio RS II',
         version => ( sort( List::Util::uniq( map { $_->version } @$analyses ) ) )[0],
-        #version => ( Sort::Naturally::nsort( List::Util::uniq( map { $_>version } @analyses ) ) )[0],
         library_strategy => 'WGS',
         library_source => 'GENOMIC',
         library_selection => 'unspecified',
@@ -145,11 +145,11 @@ sub render_xml {
         push @{$meta->{run_data}}, $data_block;
 
         for my $file ( @{$analysis->analysis_files}, $analysis->metadata_xml_file ) {
-            my $sum = 'md5sum';
-            #my $sum = $proto->get_checksum_for_file($file);
+            my $ctx = Digest::MD5->new;
+            $ctx->addfile( IO::File->new("$file", 'r') );
             push @{$data_block->{files}}, {
-                checksum => $sum,
-                file => $file->basename
+                checksum => $ctx->hexdigest,
+                file => $file->basename,
             };
          }
     }
@@ -167,30 +167,6 @@ sub render_xml {
     );
 
     $self->status_message("Rendering submission XML...DONE");
-}
-
-sub get_checksum_for_file {
-    my ($self,$file) = @_;
-    $file or die 'must pass a file name';
-    ( -f $file ) or die "not a file $file";
-    my $ctx = Digest::MD5->new;
-    $ctx->addfile( new IO::File "$file" );
-    return $ctx->hexdigest;
-    my $md5_dir = $self->get_md5_dir_for_file(file => $file);
-
-    my $md5_fh = file($md5_dir,$file->basename .'.md5');
-    my $fname = $file->stringify;
-    if (!-s $md5_fh) {
-        return $self->local_md5($file);
-    }
-
-    my @ret = $md5_fh->slurp;
-
-    for my $line (@ret) {
-        next unless ($line =~ /$fname/);
-        my ($checksum) = $line =~ m/^(\w{32}) /;
-        return $checksum if ($checksum);
-    }
 }
 
 1;
