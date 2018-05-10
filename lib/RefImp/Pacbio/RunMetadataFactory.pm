@@ -5,6 +5,7 @@ use warnings 'FATAL';
 
 use Data::Dumper 'Dumper';
 use List::Util;
+use RefImp::Pacbio::RunMeta;
 use XML::LibXML;
 
 sub build {
@@ -30,8 +31,10 @@ sub _load_xml {
     }
 
     my $sample_name = _load_sample_info($metadata_node);
+    my $version = _load_software_version($metadata_node);
     {
         sample_name => $sample_name,
+        version => $version,
     };
 }
 
@@ -55,4 +58,18 @@ sub _load_sample_info {
     $sample_name;
 }
 
+sub _load_software_version {
+    my ($metadata_node) = @_;
+
+    my $node = List::Util::first { $_->nodeName eq 'InstCtrlVer' } $metadata_node->childNodes;
+    if ( not $node ) {
+        die "No in node found!";
+    }
+
+    my $version = $node->to_literal;
+    if ( not $version ) {
+        die "No version found in InstCtrlVer node!";
+    }
+    $version;
+}
 1;

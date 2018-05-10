@@ -9,17 +9,18 @@ use Test::More tests => 2;
 
 my %test = ( class => 'RefImp::Pacbio::RunMeta', );
 subtest 'new' => sub{
-    plan tests => 6;
+    plan tests => 7;
 
     use_ok($test{class}) or die;
 
-    my %params = ( metadata_xml_file => 'xml', sample_name => 'sample', well => 'well', analysis_files => [],);
+    my %params = ( metadata_xml_file => 'xml', sample_name => 'sample', version => 'version', well => 'well', analysis_files => [],);
     my $meta = $test{class}->new(%params);
     ok($meta, 'create run');
     $test{meta} = $meta;
 
     ok($meta->metadata_xml_file, 'xml_file');
     ok($meta->sample_name, 'sample_name');
+    ok($meta->version, 'version');
     ok($meta->well, 'well');
     ok($meta->analysis_files, 'analysis_files');
 
