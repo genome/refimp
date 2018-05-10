@@ -4,7 +4,7 @@ use strict;
 use warnings 'FATAL';
 
 use base 'Class::Accessor';
-__PACKAGE__->mk_accessors(qw/ metadata_xml_file sample_name version well analysis_files /);
+__PACKAGE__->mk_accessors(qw/ metadata_xml_file sample_name plate_id version well analysis_files /);
 
 #library_name      => $name,
 #bioproject        => $params{bioproject_id},
@@ -28,6 +28,13 @@ sub add_analysis_file {
     my $analysis_files = $self->analysis_files;
     push @$analysis_files, $file;
     $self->analysis_files;
+}
+
+sub alias { # PLATE_WELL was: 6U00E3_1020_A01_1
+	my $self = shift;
+    my $alias = join('_', $self->plate_id, $self->well);
+    $alias =~ s/ /_/g;
+	$alias;
 }
 
 1;

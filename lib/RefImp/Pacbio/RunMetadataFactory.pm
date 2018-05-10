@@ -37,6 +37,7 @@ sub _load_xml {
 
     {
         sample_name => _load_from_parent_node($sample_node, 'Name'),
+        plate_id => _load_from_parent_node($sample_node, 'PlateId'),
         version => _load_from_parent_node($metadata_node, 'InstCtrlVer'),
         well => _load_from_parent_node($sample_node, 'WellName'),
     };
