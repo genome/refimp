@@ -144,7 +144,7 @@ sub render_xml {
         };
         push @{$meta->{run_data}}, $data_block;
 
-        for my $file ( @{$analysis->analysis_files}, $analysis->metadata_xml_file ) {
+        for my $file ( sort(@{$analysis->analysis_files}), $analysis->metadata_xml_file ) {
             my $ctx = Digest::MD5->new;
             $ctx->addfile( IO::File->new("$file", 'r') );
             push @{$data_block->{files}}, {
