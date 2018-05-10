@@ -1,0 +1,172 @@
+package RefImp::Pacbio::Command::SubmitRun;
+
+use strict;
+use warnings 'FATAL';
+
+use Digest::MD5;
+use File::Path;
+use IO::File;
+use List::Util;
+use Path::Class;
+use RefImp::DataAdapter::SRAXML::PrimaryAnalysis;
+use RefImp::Pacbio::Run;
+
+class RefImp::Pacbio::Command::SubmitRun {
+    class => 'Command::V2',
+    has => {
+        biosample => {
+            is => 'Text',
+            doc => 'Biosample for the submission.',
+        },
+        bioproject  => {
+            is => 'Text',
+            doc => 'Bioproject for the submission.',
+        },
+        output_path  => {
+            is => 'Text',
+            doc => 'Directory for run file links and XMLs.'
+        },
+        sample_name => {
+            is => 'Text',
+            doc => "The sample name to use in submission XMLs.",
+        },
+        library_name => {
+            is => 'Text',
+            doc => "The library name to match when collecting a run's analysis files.",
+        },
+        run_directories => {
+            is => 'Text',
+            is_many => 1,
+            doc => "The file paths containing the analysis files.",
+        },
+        submission_alias  => {
+            is => 'Text',
+            doc => 'An alias for the submission.'
+        },
+    },
+    has_transient_optional => {
+        runs => { is => 'ARRAY', },
+        analyses => { is => 'ARRAY', },
+    },
+    doc => 'bundle pacbio runs for submit',
+};
+
+sub execute {
+    my $self = shift;
+    $self->status_message("Pac Bio Run Submission...");
+    File::Path::make_path($self->output_path) if not -d $self->output_path;
+    $self->get_pacbio_runs;
+    $self->get_analyses_from_runs;
+    $self->link_analysis_files_to_output_path;
+    $self->render_xml;
+    $self->status_message("Pac Bio Run Submission...DONE");
+    1;
+}
+
+sub get_pacbio_runs {
+    my ($self) = @_;
+
+    my @runs;
+    for my $directory ( $self->run_directories ) {
+        push @runs, RefImp::Pacbio::Run->new( dir($directory) );
+    }
+    $self->fatal_message('No runs to submit!') if not @runs;
+
+    $self->runs(\@runs);
+}
+
+sub get_analyses_from_runs {
+    my ($self) = @_;
+    $self->status_message('Gathering analyses from runs...');
+
+    my $library_name = $self->library_name;
+    my $regex = qr/$library_name/;
+
+    my @analyses;
+    for my $run ( @{$self->runs} ) {
+        my $sample_analyses = $run->analyses_for_sample($regex);
+        if ( not $sample_analyses ) {
+            $self->fatal_message('Did not find analyses for %s on run %s!', $library_name, $run->directory);
+        }
+        push @analyses, @$sample_analyses;
+    }
+    $self->fatal_message('No analyses found for any pac bio runs!') if not @analyses;
+
+    $self->status_message('Found %d analyses for %s', @analyses, $library_name);
+    #my $max = List::Util::max( map { -s $_ } @analyses);
+    #$self->status_message('Largest file [Kb]: %.0d', ($max/1024));
+
+    $self->status_message('Gathering analyses from runs...DONE');
+    $self->analyses(\@analyses);
+}
+
+sub link_analysis_files_to_output_path {
+    my ($self) = @_;
+    $self->status_message('Linking analysis files...');
+
+    my $output_path = dir( $self->output_path );
+    for my $file ( map { @{$_->analysis_files} } @{$self->analyses} ) {
+        my $link = $output_path->file( $file->basename );
+        symlink("$file", "$link")
+            or $self->fatal_message('Failed to link %s to %s', $file, $link);
+    }
+
+    $self->status_message('Linking analysis files...DONE');
+}
+
+sub render_xml {
+    my $self = shift;
+    $self->status_message("Rendering submission XML...");
+
+    # name is library_name from the LIMS DB and does not match the metadata xml
+    # H_IJ-HG02818-HG02818_1-lib2 VS 4808lj_HG02818_Lib2_50pM_A1
+    my $analyses = $self->analyses;
+    my $meta = {
+        library_name => $self->sample_name,
+        bioproject => $self->bioproject,
+        biosample => $self->biosample,
+        instrument => 'PacBio RS II',
+        version => ( sort( List::Util::uniq( map { $_->version } @$analyses ) ) )[0],
+        library_strategy => 'WGS',
+        library_source => 'GENOMIC',
+        library_selection => 'unspecified',
+        library_layout => 'single',
+        run_data => [], # data_blocks below
+    };
+
+    my @v;
+    for my $analysis ( @$analyses ) {
+
+        my $data_block = {
+            alias => $analysis->alias,
+            file_type => 'PacBio_HDF5',
+            files => [],
+        };
+        push @{$meta->{run_data}}, $data_block;
+
+        for my $file ( @{$analysis->analysis_files}, $analysis->metadata_xml_file ) {
+            my $ctx = Digest::MD5->new;
+            $ctx->addfile( IO::File->new("$file", 'r') );
+            push @{$data_block->{files}}, {
+                checksum => $ctx->hexdigest,
+                file => $file->basename,
+            };
+         }
+    }
+
+    my $da = RefImp::DataAdapter::SRAXML::PrimaryAnalysis->new(
+        data => [$meta],#$struct,
+        submission_alias  => $self->submission_alias,
+    );
+
+    my @xml = $da->render_sra_xml();
+    RefImp::DataAdapter::SRAXML->write_tar_file_to_dir(
+        dir  => $self->output_path,
+        name => $self->submission_alias,
+        xml  => \@xml,
+    );
+
+    $self->status_message("Rendering submission XML...DONE");
+}
+
+1;
