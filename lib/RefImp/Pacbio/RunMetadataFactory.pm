@@ -30,45 +30,31 @@ sub _load_xml {
         die "No metadata node found in $xml_file";
     }
 
-    my $sample_name = _load_sample_info($metadata_node);
-    my $version = _load_software_version($metadata_node);
-    {
-        sample_name => $sample_name,
-        version => $version,
-    };
-}
-
-sub _load_sample_info {
-    my ($metadata_node) = @_;
-
     my $sample_node = List::Util::first { $_->nodeName eq 'Sample' } $metadata_node->childNodes;
     if ( not $sample_node ) {
         die "No sample node found!";
     }
 
-    my $sample_name_node = List::Util::first { $_->nodeName eq 'Name' } $sample_node->childNodes;
-    if ( not $metadata_node ) {
-        die "No sample name node found!";
-    }
-
-    my $sample_name = $sample_name_node->to_literal;
-    if ( not $sample_name ) {
-        die "No sample name found in sample name node!";
-    }
-    $sample_name;
+    {
+        sample_name => _load_from_parent_node($sample_node, 'Name'),
+        version => _load_from_parent_node($metadata_node, 'InstCtrlVer'),
+        well => _load_from_parent_node($sample_node, 'WellName'),
+    };
 }
 
-sub _load_software_version {
-    my ($metadata_node) = @_;
+sub _load_from_parent_node {
+    my ($parent_node, $node_name) = @_;
+    die "No parent node given!" if not $parent_node;
+    die "No node name node given!" if not $node_name;
 
-    my $node = List::Util::first { $_->nodeName eq 'InstCtrlVer' } $metadata_node->childNodes;
+    my $node = List::Util::first { $_->nodeName eq $node_name } $parent_node->childNodes;
     if ( not $node ) {
-        die "No in node found!";
+        die "No $node_name node found!";
     }
 
     my $version = $node->to_literal;
     if ( not $version ) {
-        die "No version found in InstCtrlVer node!";
+        die "No info found in $node_name node!";
     }
     $version;
 }
