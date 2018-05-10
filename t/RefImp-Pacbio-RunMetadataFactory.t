@@ -11,7 +11,7 @@ use Test::Exception;
 
 my %setup = ( class => 'RefImp::Pacbio::RunMetadataFactory', );
 subtest 'new' => sub{
-    plan tests => 11;
+    plan tests => 12;
 
     use_ok($setup{class}) or die;
     use_ok('RefImp::Pacbio::RunMeta') or die;
@@ -25,8 +25,9 @@ subtest 'new' => sub{
     my $meta = $setup{class}->build($xml_file);
     ok($meta, 'create run');
     is($meta->metadata_xml_file->stringify, "$xml_file", 'metadata_xml_file');
-    is($meta->sample_name, 'NA19434_4808o3_lib1_50pM_A1', 'sample_name');
-    is($meta->plate_id, '6U00E3', 'plate_id');
+    is($meta->sample_name, 'NA19434_4808o3_lib1_50pM', 'sample_name');
+    is($meta->library_name, 'NA19434_4808o3_lib1_50pM_A1', 'library_name');
+    is($meta->plate_id, '6U00FA', 'plate_id');
     is($meta->version, '2.3.0.3.154799', 'version');
     is($meta->well, 'A01', 'well');
 
