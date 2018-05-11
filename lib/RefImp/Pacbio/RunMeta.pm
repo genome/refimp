@@ -6,6 +6,8 @@ use warnings 'FATAL';
 use base 'Class::Accessor';
 __PACKAGE__->mk_accessors(qw/ metadata_xml_file sample_name library_name plate_id version well analysis_files /);
 
+sub __name__ { join(' ', map { $_[0]->$_ } (qw/ plate_id well library_name /)); }
+
 sub new {
     my ($class, %params) = @_;
     $params{analysis_files} = [] if not $params{analysis_files};

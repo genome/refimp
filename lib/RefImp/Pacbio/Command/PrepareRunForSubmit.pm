@@ -51,15 +51,17 @@ class RefImp::Pacbio::Command::PrepareRunForSubmit {
     doc => 'bundle pacbio runs for submit',
 };
 
+sub help_detail { $_[0]->__meta__->doc }
+
 sub execute {
     my $self = shift;
-    $self->status_message("Pac Bio Run Submission...");
+    $self->status_message("Pac Bio Prepare Run for Submit...");
     File::Path::make_path($self->output_path) if not -d $self->output_path;
     $self->get_pacbio_runs;
     $self->get_analyses_from_runs;
     $self->link_analysis_files_to_output_path;
     $self->render_xml;
-    $self->status_message("Pac Bio Run Submission...DONE");
+    $self->status_message("Pac Bio Prepare Run for Submit...DONE");
     1;
 }
 
@@ -136,6 +138,7 @@ sub render_xml {
 
     my @v;
     for my $analysis ( @$analyses ) {
+        $self->status_message('Preparing analysis: %s', $analysis->__name__);
 
         my $data_block = {
             alias => $analysis->alias,

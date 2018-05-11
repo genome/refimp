@@ -41,9 +41,10 @@ subtest 'add_analysis_file' => sub{
 
 };
 
-subtest 'alias' => sub{
-    plan tests => 1;
+subtest 'name and alias' => sub{
+    plan tests => 2;
 
+    is($test{meta}->__name__, 'PLATE WELL LIBRARY', 'correct __name__');
     is($test{meta}->alias, 'PLATE_WELL', 'correct alias');
 
 };
