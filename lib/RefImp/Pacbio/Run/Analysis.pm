@@ -1,4 +1,4 @@
-package RefImp::Pacbio::RunMeta;
+package RefImp::Pacbio::Run::Analysis;
 
 use strict;
 use warnings 'FATAL';

@@ -9,12 +9,11 @@ use Path::Class;
 use Test::More tests => 1;
 use Test::Exception;
 
-my %setup = ( class => 'RefImp::Pacbio::RunMetadataFactory', );
+my %setup = ( class => 'RefImp::Pacbio::Run::AnalysisFactory', );
 subtest 'new' => sub{
-    plan tests => 12;
+    plan tests => 11;
 
     use_ok($setup{class}) or die;
-    use_ok('RefImp::Pacbio::RunMeta') or die;
 
     throws_ok(sub{ $setup{class}->build; }, qr/No metadata XML file given/, 'new fails w/o xml_file');
     throws_ok(sub{ $setup{class}->build(xml_file => file('blah')); }, qr/Metadata XML file does not exist/, 'new fails w/ non existing xml_file');

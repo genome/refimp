@@ -1,11 +1,11 @@
-package RefImp::Pacbio::RunMetadataFactory;
+package RefImp::Pacbio::Run::AnalysisFactory;
 
 use strict;
 use warnings 'FATAL';
 
 use Data::Dumper 'Dumper';
 use List::Util;
-use RefImp::Pacbio::RunMeta;
+use RefImp::Pacbio::Run::Analysis;
 use XML::LibXML;
 
 sub build {
@@ -15,7 +15,7 @@ sub build {
     die "Metadata XML file does not exist: $xml_file" if not -s "$xml_file";
 
     my $xml_info = _load_xml($xml_file);
-    RefImp::Pacbio::RunMeta->new(
+    RefImp::Pacbio::Run::Analysis->new(
         metadata_xml_file => $xml_file,
         %$xml_info,
     );

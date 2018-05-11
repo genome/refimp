@@ -7,7 +7,7 @@ use TestEnv;
 
 use Test::More tests => 3;
 
-my %test = ( class => 'RefImp::Pacbio::RunMeta', );
+my %test = ( class => 'RefImp::Pacbio::Run::Analysis', );
 subtest 'new' => sub{
     plan tests => 9;
 

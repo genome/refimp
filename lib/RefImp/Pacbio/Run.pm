@@ -9,7 +9,7 @@ RefImp::Pacbio::Run->mk_accessors(qw/ directory /);
 use Data::Dumper 'Dumper';
 use File::Find;
 use Path::Class;
-use RefImp::Pacbio::RunMetadataFactory;
+use RefImp::Pacbio::Run::AnalysisFactory;
 
 sub new {
     my ($class, $directory) = @_;
@@ -46,7 +46,7 @@ sub analyses {
         {
             wanted => sub{
                 if ( /metadata\.xml$/) {
-                    $meta = RefImp::Pacbio::RunMetadataFactory->build( file($File::Find::name) );
+                    $meta = RefImp::Pacbio::Run::AnalysisFactory->build( file($File::Find::name) );
                     push @analyses, $meta;
                 }
                 elsif ( $File::Find::dir =~ /Analysis_Results/ and /\.h5$/ ) {
