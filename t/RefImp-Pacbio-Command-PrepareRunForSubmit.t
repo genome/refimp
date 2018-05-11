@@ -13,7 +13,7 @@ use Sub::Install;
 use Test::More tests => 1;
 use Test::Exception;
 
-my %test = ( class => 'RefImp::Pacbio::Command::SubmitRun', );
+my %test = ( class => 'RefImp::Pacbio::Command::PrepareRunForSubmit', );
 subtest 'execute' => sub{
     plan tests => 22;
 
