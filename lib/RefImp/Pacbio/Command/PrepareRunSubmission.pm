@@ -1,4 +1,4 @@
-package RefImp::Pacbio::Command::PrepareRunForSubmit;
+package RefImp::Pacbio::Command::PrepareRunSubmission;
 
 use strict;
 use warnings 'FATAL';
@@ -11,7 +11,7 @@ use Path::Class;
 use RefImp::DataAdapter::SRAXML::PrimaryAnalysis;
 use RefImp::Pacbio::Run;
 
-class RefImp::Pacbio::Command::PrepareRunForSubmit {
+class RefImp::Pacbio::Command::PrepareRunSubmission {
     is => 'Command::V2',
     has => {
         biosample => {
