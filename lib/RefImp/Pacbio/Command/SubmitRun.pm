@@ -12,7 +12,7 @@ use RefImp::DataAdapter::SRAXML::PrimaryAnalysis;
 use RefImp::Pacbio::Run;
 
 class RefImp::Pacbio::Command::SubmitRun {
-    class => 'Command::V2',
+    is => 'Command::V2',
     has => {
         biosample => {
             is => 'Text',
