@@ -4,21 +4,25 @@ use strict;
 use warnings 'FATAL';
 
 use base 'Class::Accessor';
-RefImp::Pacbio::Run->mk_accessors(qw/ directory /);
+__PACKAGE__->mk_accessors(qw/ directory machine_type /);
+
+use List::MoreUtils;
 
 use RefImp::Pacbio::Run::AnalysisFactory;
 
+sub valid_machine_types { (qw/ rsii sequel /) }
+
 sub new {
-    my ($class, $directory) = @_;
+    my ($class, %params) = @_;
 
-    die "No directory given!" if not $directory;
-    die "Directory given does not exist: $directory" if not -d "$directory";
+    my $self = bless \%params, $class;
 
-    my %self = (
-        directory => $directory,
-    );
+    die "No directory given!" if not $self->directory;
+    die "Directory given does not exist: ".$self->directory if not -d $self->directory->stringify;
+    die "No machine_type given!" if not $self->machine_type;
+    die "Invalid machine_type given: ".$self->machine_type if not List::MoreUtils::any { $self->machine_type eq $_ } $self->valid_machine_types;
 
-    bless \%self, $class;
+    $self;
 }
 
 sub analyses_for_sample {

@@ -11,21 +11,24 @@ use Test::Exception;
 
 my %test = ( class => 'RefImp::Pacbio::Run', );
 subtest 'new' => sub{
-    plan tests => 6;
+    plan tests => 8;
 
     use_ok($test{class}) or die;
 
     my $directory = dir( TestEnv::test_data_directory_for_package($test{class}) )->subdir('6U00E3');
     ok(-d "$directory", "example run directory exists");
 
-    my $run = $test{class}->new($directory);
+    my $run = $test{class}->new(directory => $directory, machine_type => 'rsii');
+
     ok($run, 'create run');
     ok($run->directory, 'directory');
 
     $test{run} = $run;
 
     throws_ok(sub{ $test{class}->new; }, qr/No directory given/, 'fails w/o directory');
-    throws_ok(sub{ $test{class}->new('blah'); }, qr/Directory given does not exist/, 'fails w/ invalid directory');
+    throws_ok(sub{ $test{class}->new(directory => dir('blah')); }, qr/Directory given does not exist/, 'fails w/ invalid directory');
+    throws_ok(sub{ $test{class}->new(directory => $directory); }, qr/No machine_type given/, 'fails w/o machine_type');
+    throws_ok(sub{ $test{class}->new(directory => $directory, machine_type => 'blah'); }, qr/Invalid machine_type given/, 'fails w/ invalid machine_type');
 
 };
 
