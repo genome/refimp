@@ -107,7 +107,8 @@ sub link_analysis_files_to_output_path {
     $self->status_message('Linking analysis files...');
 
     my $output_path = dir( $self->output_path );
-    for my $file ( map { @{$_->analysis_files} } @{$self->analyses} ) {
+    for my $analysis ( @{$self->analyses} ) {
+    for my $file ( @{$analysis->analysis_files}, $analysis->metadata_xml_file ) {
         my $link = $output_path->file( $file->basename );
         symlink("$file", "$link")
             or $self->fatal_message('Failed to link %s to %s', $file, $link);
