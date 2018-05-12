@@ -6,9 +6,6 @@ use warnings 'FATAL';
 use base 'Class::Accessor';
 RefImp::Pacbio::Run->mk_accessors(qw/ directory /);
 
-use Data::Dumper 'Dumper';
-use File::Find;
-use Path::Class;
 use RefImp::Pacbio::Run::AnalysisFactory;
 
 sub new {
@@ -40,26 +37,7 @@ sub analyses_for_sample {
 
 sub analyses {
     my ($self) = @_;
-
-    my (@analyses, $meta);
-    find(
-        {
-            wanted => sub{
-                if ( /metadata\.xml$/) {
-                    $meta = RefImp::Pacbio::Run::AnalysisFactory->build( file($File::Find::name) );
-                    push @analyses, $meta;
-                }
-                elsif ( $File::Find::dir =~ /Analysis_Results/ and /\.h5$/ ) {
-                    die "No meta set!" if not $meta;
-                    $meta->add_analysis_file( file($File::Find::name) );
-                }
-            },
-        },
-        glob($self->directory->file('*')->stringify),
-    );
-
-    return if not @analyses;
-    \@analyses;
+    RefImp::Pacbio::Run::AnalysisFactory->build($self->directory)
 }
 
 1;
