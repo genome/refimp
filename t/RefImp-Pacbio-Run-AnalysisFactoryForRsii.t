@@ -9,7 +9,7 @@ use Path::Class;
 use Test::More tests => 1;
 use Test::Exception;
 
-my %setup = ( class => 'RefImp::Pacbio::Run::AnalysisFactory', );
+my %setup = ( class => 'RefImp::Pacbio::Run::AnalysisFactoryForRsii', );
 subtest 'new' => sub{
     plan tests => 11;
 

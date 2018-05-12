@@ -8,7 +8,7 @@ __PACKAGE__->mk_accessors(qw/ directory machine_type /);
 
 use List::MoreUtils;
 
-use RefImp::Pacbio::Run::AnalysisFactory;
+use RefImp::Pacbio::Run::AnalysisFactoryForRsii;
 
 sub valid_machine_types { (qw/ rsii sequel /) }
 
@@ -41,7 +41,12 @@ sub analyses_for_sample {
 
 sub analyses {
     my ($self) = @_;
-    RefImp::Pacbio::Run::AnalysisFactory->build($self->directory)
+    if ( $self->machine_type eq 'rsii' ) {
+        RefImp::Pacbio::Run::AnalysisFactoryForRsii->build($self->directory)
+    }
+    else {
+        die "Can not get analyses for sequel runs yet";
+    }
 }
 
 1;

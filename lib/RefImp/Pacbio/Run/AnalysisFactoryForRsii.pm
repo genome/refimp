@@ -1,4 +1,4 @@
-package RefImp::Pacbio::Run::AnalysisFactory;
+package RefImp::Pacbio::Run::AnalysisFactoryForRsii;
 
 use strict;
 use warnings 'FATAL';
