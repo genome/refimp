@@ -10,6 +10,11 @@ use YAML;
 class RefImp::Pacbio::Command::ViewRun {
     is => 'Command::V2',
     has => {
+        machine_type => {
+            is => 'Text',
+            valid_values => [ RefImp::Pacbio::Run->valid_machine_types ],
+            doc => 'Machine type for run: '.join(' ', RefImp::Pacbio::Run->valid_machine_types),
+        },
         run_directory => {
             is => 'Text',
             shell_args_position => 1,
@@ -24,7 +29,10 @@ sub help_detail { $_[0]->__meta__->doc }
 sub execute {
     my $self = shift;
 
-    my $run = RefImp::Pacbio::Run->new( dir($self->run_directory) );
+    my $run = RefImp::Pacbio::Run->new(
+        directory => dir($self->run_directory),
+        machine_type => $self->machine_type,
+    );
     my $analyses = $run->analyses;
     $self->fatal_message('No analyses found for run!') if not $analyses;
     for my $analysis ( @$analyses ) {

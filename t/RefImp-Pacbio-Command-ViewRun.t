@@ -18,7 +18,10 @@ subtest 'execute' => sub{
     my $directory = dir( TestEnv::test_data_directory_for_package('RefImp::Pacbio::Run') )->subdir('6U00E3');
     ok(-d "$directory", "example run directory exists");
 
-    my $cmd = $test{class}->create(run_directory => "$directory");
+    my $cmd = $test{class}->create(
+        machine_type => 'rsii',
+        run_directory => "$directory",
+    );
     ok($cmd, 'create command');
     lives_ok(sub{ $cmd->execute; }, 'execute');
 
