@@ -4,24 +4,26 @@ use strict;
 use warnings 'FATAL';
 
 use base 'Class::Accessor';
-RefImp::Pacbio::Run->mk_accessors(qw/ directory /);
+__PACKAGE__->mk_accessors(qw/ directory machine_type /);
 
-use Data::Dumper 'Dumper';
-use File::Find;
-use Path::Class;
-use RefImp::Pacbio::RunMetadataFactory;
+use List::MoreUtils;
+
+use RefImp::Pacbio::Run::AnalysisFactoryForRsii;
+use RefImp::Pacbio::Run::AnalysisFactoryForSequel;
+
+sub valid_machine_types { (qw/ rsii sequel /) }
 
 sub new {
-    my ($class, $directory) = @_;
+    my ($class, %params) = @_;
 
-    die "No directory given!" if not $directory;
-    die "Directory given does not exist: $directory" if not -d "$directory";
+    my $self = bless \%params, $class;
 
-    my %self = (
-        directory => $directory,
-    );
+    die "No directory given!" if not $self->directory;
+    die "Directory given does not exist: ".$self->directory if not -d $self->directory->stringify;
+    die "No machine_type given!" if not $self->machine_type;
+    die "Invalid machine_type given: ".$self->machine_type if not List::MoreUtils::any { $self->machine_type eq $_ } $self->valid_machine_types;
 
-    bless \%self, $class;
+    $self;
 }
 
 sub analyses_for_sample {
@@ -40,26 +42,12 @@ sub analyses_for_sample {
 
 sub analyses {
     my ($self) = @_;
-
-    my (@analyses, $meta);
-    find(
-        {
-            wanted => sub{
-                if ( /metadata\.xml$/) {
-                    $meta = RefImp::Pacbio::RunMetadataFactory->build( file($File::Find::name) );
-                    push @analyses, $meta;
-                }
-                elsif ( $File::Find::dir =~ /Analysis_Results/ and /\.h5$/ ) {
-                    die "No meta set!" if not $meta;
-                    $meta->add_analysis_file( file($File::Find::name) );
-                }
-            },
-        },
-        glob($self->directory->file('*')->stringify),
-    );
-
-    return if not @analyses;
-    \@analyses;
+    if ( $self->machine_type eq 'rsii' ) {
+        RefImp::Pacbio::Run::AnalysisFactoryForRsii->build($self->directory)
+    }
+    else {
+        RefImp::Pacbio::Run::AnalysisFactoryForSequel->build($self->directory)
+    }
 }
 
 1;

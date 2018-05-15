@@ -1,4 +1,4 @@
-package RefImp::Pacbio::Command::SubmitRun;
+package RefImp::Pacbio::Command::PrepareRunSubmission;
 
 use strict;
 use warnings 'FATAL';
@@ -11,7 +11,7 @@ use Path::Class;
 use RefImp::DataAdapter::SRAXML::PrimaryAnalysis;
 use RefImp::Pacbio::Run;
 
-class RefImp::Pacbio::Command::SubmitRun {
+class RefImp::Pacbio::Command::PrepareRunSubmission {
     is => 'Command::V2',
     has => {
         biosample => {
@@ -21,6 +21,11 @@ class RefImp::Pacbio::Command::SubmitRun {
         bioproject  => {
             is => 'Text',
             doc => 'Bioproject for the submission.',
+        },
+        machine_type => {
+            is => 'Text',
+            valid_values => [ RefImp::Pacbio::Run->valid_machine_types ],
+            doc => 'Machine type for run: '.join(' ', RefImp::Pacbio::Run->valid_machine_types),
         },
         output_path  => {
             is => 'Text',
@@ -51,15 +56,17 @@ class RefImp::Pacbio::Command::SubmitRun {
     doc => 'bundle pacbio runs for submit',
 };
 
+sub help_detail { $_[0]->__meta__->doc }
+
 sub execute {
     my $self = shift;
-    $self->status_message("Pac Bio Run Submission...");
+    $self->status_message("Pac Bio Prepare Run for Submit...");
     File::Path::make_path($self->output_path) if not -d $self->output_path;
     $self->get_pacbio_runs;
     $self->get_analyses_from_runs;
     $self->link_analysis_files_to_output_path;
     $self->render_xml;
-    $self->status_message("Pac Bio Run Submission...DONE");
+    $self->status_message("Pac Bio Prepare Run for Submit...DONE");
     1;
 }
 
@@ -68,7 +75,11 @@ sub get_pacbio_runs {
 
     my @runs;
     for my $directory ( $self->run_directories ) {
-        push @runs, RefImp::Pacbio::Run->new( dir($directory) );
+        push @runs, RefImp::Pacbio::Run->new(
+            directory => dir($directory),
+            machine_type => $self->machine_type,
+        );
+
     }
     $self->fatal_message('No runs to submit!') if not @runs;
 
@@ -105,10 +116,12 @@ sub link_analysis_files_to_output_path {
     $self->status_message('Linking analysis files...');
 
     my $output_path = dir( $self->output_path );
-    for my $file ( map { @{$_->analysis_files} } @{$self->analyses} ) {
-        my $link = $output_path->file( $file->basename );
-        symlink("$file", "$link")
-            or $self->fatal_message('Failed to link %s to %s', $file, $link);
+    for my $analysis ( @{$self->analyses} ) {
+        for my $file ( @{$analysis->analysis_files}, $analysis->metadata_xml_file ) {
+            my $link = $output_path->file( $file->basename );
+            symlink("$file", "$link")
+                or $self->fatal_message('Failed to link %s to %s', $file, $link);
+        }
     }
 
     $self->status_message('Linking analysis files...DONE');
@@ -136,6 +149,7 @@ sub render_xml {
 
     my @v;
     for my $analysis ( @$analyses ) {
+        $self->status_message('Preparing analysis: %s', $analysis->__name__);
 
         my $data_block = {
             alias => $analysis->alias,

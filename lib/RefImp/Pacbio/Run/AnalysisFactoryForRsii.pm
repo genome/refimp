@@ -1,24 +1,44 @@
-package RefImp::Pacbio::RunMetadataFactory;
+package RefImp::Pacbio::Run::AnalysisFactoryForRsii;
 
 use strict;
 use warnings 'FATAL';
 
 use Data::Dumper 'Dumper';
+use File::Find 'find';
 use List::Util;
-use RefImp::Pacbio::RunMeta;
+use Path::Class;
+use RefImp::Pacbio::Run::Analysis;
 use XML::LibXML;
 
 sub build {
-    my ($class, $xml_file) = @_;
+    my ($class, $directory) = @_;
 
-    die "No metadata XML file given!" if not $xml_file;
-    die "Metadata XML file does not exist: $xml_file" if not -s "$xml_file";
+    die "No run directory given." if not $directory;
+    die "Run directory given does not exist!" if not -d "$directory";
 
-    my $xml_info = _load_xml($xml_file);
-    RefImp::Pacbio::RunMeta->new(
-        metadata_xml_file => $xml_file,
-        %$xml_info,
+    my (@analyses);
+    find(
+        {
+            wanted => sub{
+                if ( /metadata\.xml$/) {
+                    my $xml_info = _load_xml( $File::Find::name );
+                    my $analysis = RefImp::Pacbio::Run::Analysis->new(
+                        metadata_xml_file => file( $File::Find::name ),
+                        %$xml_info,
+                    );
+                    push @analyses, $analysis;
+                }
+                elsif ( $File::Find::dir =~ /Analysis_Results/ and /\.h5$/ ) {
+                    die "No analyses created to add analysis files!" if not @analyses;
+                    $analyses[$#analyses]->add_analysis_file( file($File::Find::name) );
+                }
+            },
+        },
+        glob($directory->file('*')->stringify),
     );
+
+    return if not @analyses;
+    \@analyses;
 }
 
 sub _load_xml {
@@ -68,4 +88,5 @@ sub _load_from_parent_node {
     }
     $version;
 }
+
 1;
