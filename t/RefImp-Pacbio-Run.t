@@ -33,7 +33,7 @@ subtest 'new' => sub{
 };
 
 subtest 'analyses' => sub{
-    plan tests => 6;
+    plan tests => 5;
 
     my $run = $test{run};
 	my $analyses = $run->analyses;
@@ -46,12 +46,6 @@ subtest 'analyses' => sub{
     is_deeply($sample_analyses, $expected_sample_analyses, 'analyses_for_sample');
 
     throws_ok(sub{ $test{run}->analyses_for_sample; }, qr/No sample name regex given/, 'analyses_for_sample fails w/o sample name regex');
-
-    throws_ok(
-        sub{ $test{class}->new(directory => $test{run}->directory, machine_type => 'sequel')->analyses; },
-        qr/Can not get analyses for sequel/,
-        'fails for sequel machine for now',
-    );
 
 };
 
