@@ -70,7 +70,11 @@ sub get_pacbio_runs {
 
     my @runs;
     for my $directory ( $self->run_directories ) {
-        push @runs, RefImp::Pacbio::Run->new( dir($directory) );
+        push @runs, RefImp::Pacbio::Run->new(
+            directory => dir($directory),
+            machine_type => 'rsii',
+        );
+
     }
     $self->fatal_message('No runs to submit!') if not @runs;
 
@@ -108,10 +112,11 @@ sub link_analysis_files_to_output_path {
 
     my $output_path = dir( $self->output_path );
     for my $analysis ( @{$self->analyses} ) {
-    for my $file ( @{$analysis->analysis_files}, $analysis->metadata_xml_file ) {
-        my $link = $output_path->file( $file->basename );
-        symlink("$file", "$link")
-            or $self->fatal_message('Failed to link %s to %s', $file, $link);
+        for my $file ( @{$analysis->analysis_files}, $analysis->metadata_xml_file ) {
+            my $link = $output_path->file( $file->basename );
+            symlink("$file", "$link")
+                or $self->fatal_message('Failed to link %s to %s', $file, $link);
+        }
     }
 
     $self->status_message('Linking analysis files...DONE');
