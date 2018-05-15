@@ -23,7 +23,7 @@ sub build {
                 if ( /metadata\.xml$/ and ! /run/ ) {
                     my $xml_info = _load_xml( $File::Find::name );
                     my $analysis = RefImp::Pacbio::Run::Analysis->new(
-                        metadata_xml_file => $File::Find::name,
+                        metadata_xml_file => file( $File::Find::name ),
                         %$xml_info,
                     );
                     push @analyses, $analysis;

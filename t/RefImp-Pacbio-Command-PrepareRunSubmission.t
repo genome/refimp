@@ -10,7 +10,7 @@ use File::Compare;
 use File::Temp;
 use Path::Class;
 use Sub::Install;
-use Test::More tests => 2;
+use Test::More tests => 3;
 use Test::Exception;
 
 my %test;
@@ -41,10 +41,12 @@ subtest 'execute rsii' => sub{
     plan tests => 20;
 
     my $run_id = '6U00E3';
-    my $output_path = $test{tempdir}->subdir('rsii');
+    my $machine_type = 'rsii';
+    my $output_path = $test{tempdir}->subdir($machine_type);
     my %params = (
         bioproject => 'BIOPROJECT',
         biosample => 'BIOSAMPLE',
+        machine_type => $machine_type,
         output_path => "$output_path",
         sample_name => 'H_IJ-HG02818-HG02818_1-lib2',
         library_name => 'HG02818',
@@ -74,16 +76,18 @@ subtest 'execute rsii' => sub{
 };
 
 subtest 'execute sequel' => sub{
-    plan tests => 20;
+    plan tests => 11;
 
-    my $run_id = '6U00E3';
-    my $output_path = $test{tempdir}->subdir('rsii');
+    my $run_id = '6U00I7';
+    my $machine_type = 'sequel';
+    my $output_path = $test{tempdir}->subdir($machine_type);
     my %params = (
         bioproject => 'BIOPROJECT',
         biosample => 'BIOSAMPLE',
+        machine_type => 'sequel',
         output_path => "$output_path",
-        sample_name => 'H_IJ-HG02818-HG02818_1-lib2',
-        library_name => 'HG02818',
+        sample_name => 'HG03486_Mende_4808Ll',
+        library_name => 'HG03486',
         submission_alias => $run_id,
         run_directories => [ $test{data_directory}->subdir($run_id)->stringify ],
     );

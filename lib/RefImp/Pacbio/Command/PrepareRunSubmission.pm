@@ -22,6 +22,11 @@ class RefImp::Pacbio::Command::PrepareRunSubmission {
             is => 'Text',
             doc => 'Bioproject for the submission.',
         },
+        machine_type => {
+            is => 'Text',
+            valid_values => [ RefImp::Pacbio::Run->valid_machine_types ],
+            doc => 'Machine type for run: '.join(' ', RefImp::Pacbio::Run->valid_machine_types),
+        },
         output_path  => {
             is => 'Text',
             doc => 'Directory for run file links and XMLs.'
@@ -72,7 +77,7 @@ sub get_pacbio_runs {
     for my $directory ( $self->run_directories ) {
         push @runs, RefImp::Pacbio::Run->new(
             directory => dir($directory),
-            machine_type => 'rsii',
+            machine_type => $self->machine_type,
         );
 
     }
