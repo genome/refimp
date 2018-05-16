@@ -4,7 +4,7 @@ use strict;
 use warnings 'FATAL';
 
 use base 'Class::Accessor';
-__PACKAGE__->mk_accessors(qw/ directory machine_type /);
+__PACKAGE__->mk_accessors(qw/ _analyses directory machine_type /);
 
 use List::MoreUtils;
 
@@ -40,14 +40,24 @@ sub analyses_for_sample {
     \@sample_analyses;
 }
 
+sub analyses_count {
+    my ($self) = @_;
+    my $analyses = $self->analyses;
+    ( $analyses ? scalar(@$analyses) : 0 );
+}
+
 sub analyses {
     my ($self) = @_;
+    return $self->_analyses if $self->_analyses;
+    my $analyses;
     if ( $self->machine_type eq 'rsii' ) {
-        RefImp::Pacbio::Run::AnalysisFactoryForRsii->build($self->directory)
+        $analyses = RefImp::Pacbio::Run::AnalysisFactoryForRsii->build($self->directory)
     }
     else {
-        RefImp::Pacbio::Run::AnalysisFactoryForSequel->build($self->directory)
+        $analyses = RefImp::Pacbio::Run::AnalysisFactoryForSequel->build($self->directory)
     }
+    return if not $analyses;
+    $self->_analyses($analyses);
 }
 
 1;

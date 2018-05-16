@@ -33,12 +33,13 @@ subtest 'new' => sub{
 };
 
 subtest 'analyses' => sub{
-    plan tests => 5;
+    plan tests => 6;
 
     my $run = $test{run};
 	my $analyses = $run->analyses;
     ok($analyses, 'run analyses');
     is(@$analyses, 16, 'correct number of analyses');
+    is($run->analyses_count, 16, 'analyses_count');
 
 	my $sample_analyses = $run->analyses_for_sample(qr/HG02818/);
     is(@$sample_analyses, 14, 'correct number of sample analyses');
