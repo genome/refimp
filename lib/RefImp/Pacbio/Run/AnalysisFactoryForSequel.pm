@@ -16,26 +16,34 @@ sub build {
     die "No run directory given." if not $directory;
     die "Run directory given does not exist!" if not -d "$directory";
 
-    my (@analyses);
+    my (%well_meta_xml_files, %well_analysis_files);
     find(
         {
             wanted => sub{
                 if ( /metadata\.xml$/ and ! /run/ ) {
-                    my $xml_info = _load_xml( $File::Find::name );
-                    my $analysis = RefImp::Pacbio::Run::Analysis->new(
-                        metadata_xml_file => file( $File::Find::name ),
-                        %$xml_info,
-                    );
-                    push @analyses, $analysis;
+                    $well_meta_xml_files{ $File::Find::dir } = file( $File::Find::name );
                 }
                 elsif ( /\.subreads\.bam$/ ) {
-                    die "No analyses created to add analysis files!" if not @analyses;
-                    $analyses[$#analyses]->add_analysis_file( file($File::Find::name) );
+                    push @{$well_analysis_files{ $File::Find::dir }}, file($File::Find::name);
                 }
             },
         },
         glob($directory->file('*')->stringify),
     );
+
+    die "No meata data xml files found in $directory" if not %well_meta_xml_files;
+
+    my (@analyses);
+    for my $well_dir ( sort keys %well_meta_xml_files ) {
+        die "No analysis files for $well_dir" if not exists $well_analysis_files{$well_dir};
+        my $xml_info = _load_xml( $well_meta_xml_files{$well_dir} );
+        my $analysis = RefImp::Pacbio::Run::Analysis->new(
+            metadata_xml_file => $well_meta_xml_files{$well_dir},
+            %$xml_info,
+        );
+        $analysis->add_analysis_files(sort @{$well_analysis_files{$well_dir}});
+        push @analyses, $analysis;
+    }
 
     return if not @analyses;
     \@analyses;
