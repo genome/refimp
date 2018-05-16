@@ -14,11 +14,11 @@ sub new {
     bless \%params, $class;
 }
 
-sub add_analysis_file {
-    my ($self, $file) = @_;
-    die "No analysis file given!" if not $file;
+sub add_analysis_files {
+    my ($self, @files) = @_;
+    die "No analysis file given!" if not @files;
     my $analysis_files = $self->analysis_files;
-    push @$analysis_files, $file;
+    push @$analysis_files, @files;
     $self->analysis_files;
 }
 

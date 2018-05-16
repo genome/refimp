@@ -31,12 +31,12 @@ subtest 'new' => sub{
 
 };
 
-subtest 'add_analysis_file' => sub{
+subtest 'add_analysis_files' => sub{
     plan tests => 3;
 
     my $meta = $test{meta};
     is_deeply($meta->analysis_files, [], 'no analysis_files');
-    ok($meta->add_analysis_file('FILE'), 'add_analysis_file');
+    ok($meta->add_analysis_files('FILE'), 'add_analysis_files');
     is_deeply($meta->analysis_files, ['FILE'], 'correct analysis_files');
 
 };

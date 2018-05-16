@@ -30,7 +30,7 @@ sub build {
                 }
                 elsif ( $File::Find::dir =~ /Analysis_Results/ and /\.h5$/ ) {
                     die "No analyses created to add analysis files!" if not @analyses;
-                    $analyses[$#analyses]->add_analysis_file( file($File::Find::name) );
+                    $analyses[$#analyses]->add_analysis_files( file($File::Find::name) );
                 }
             },
         },
