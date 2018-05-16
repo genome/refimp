@@ -103,7 +103,7 @@ sub get_analyses_from_runs {
     }
     $self->fatal_message('No analyses found for any pac bio runs!') if not @analyses;
 
-    $self->status_message('Found %d analyses for %s', @analyses, $library_name);
+    $self->status_message('Found %s analyses for %s', scalar(@analyses), $library_name);
     #my $max = List::Util::max( map { -s $_ } @analyses);
     #$self->status_message('Largest file [Kb]: %.0d', ($max/1024));
 
