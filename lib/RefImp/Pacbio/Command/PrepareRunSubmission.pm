@@ -9,6 +9,7 @@ use IO::File;
 use List::Util;
 use Path::Class;
 use RefImp::DataAdapter::SRAXML::PrimaryAnalysis;
+use RefImp::Util::Tablizer;
 use RefImp::Pacbio::Run;
 
 class RefImp::Pacbio::Command::PrepareRunSubmission {
@@ -94,16 +95,21 @@ sub get_analyses_from_runs {
     my $regex = qr/$library_name/;
 
     my @analyses;
+    my @rows = ( [ 'Run', 'Total', "$library_name", ] );
     for my $run ( @{$self->runs} ) {
         my $sample_analyses = $run->analyses_for_sample($regex);
         if ( not $sample_analyses ) {
             $self->fatal_message('Did not find analyses for %s on run %s!', $library_name, $run->directory);
         }
+        push @rows, [ $run->directory, $run->analyses_count, scalar(@$sample_analyses) ];
         push @analyses, @$sample_analyses;
     }
     $self->fatal_message('No analyses found for any pac bio runs!') if not @analyses;
 
-    $self->status_message('Found %s analyses for %s', scalar(@analyses), $library_name);
+    $self->status_message('Run analyses and sample anaylese counts');
+    $self->status_message( RefImp::Util::Tablizer->format(\@rows) );
+
+    $self->status_message('Found %s total analyses for %s', scalar(@analyses), $library_name);
     #my $max = List::Util::max( map { -s $_ } @analyses);
     #$self->status_message('Largest file [Kb]: %.0d', ($max/1024));
 
