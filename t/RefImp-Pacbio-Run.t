@@ -11,7 +11,7 @@ use Test::Exception;
 
 my %test = ( class => 'RefImp::Pacbio::Run', );
 subtest 'new' => sub{
-    plan tests => 8;
+    plan tests => 9;
 
     use_ok($test{class}) or die;
 
@@ -22,6 +22,7 @@ subtest 'new' => sub{
 
     ok($run, 'create run');
     ok($run->directory, 'directory');
+    is($run->__name__, join(' ', $run->directory, $run->machine_type), '__name__');
 
     $test{run} = $run;
 

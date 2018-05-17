@@ -13,6 +13,8 @@ use RefImp::Pacbio::Run::AnalysisFactoryForSequel;
 
 sub valid_machine_types { (qw/ rsii sequel /) }
 
+sub __name__ { join(' ', map { $_[0]->$_ } (qw/ directory machine_type /)) }
+
 sub new {
     my ($class, %params) = @_;
 
