@@ -30,7 +30,7 @@ subtest 'execute' => sub{
     lives_ok(sub{ $cmd->execute; }, 'execute');
     like($err, qr#WARNING\: These run directories do not exist\:\n /gscmnt/gc13036/production/smrtlink_data_root/r54111_20170512_144944#, 'stderr with non existing dirs');
     like($err, qr#Found these#, 'stderr with found dir message');
-    like($out, qr#/home/ebelter/dev/refimp/t/data/RefImp-Pacbio-Run/6U00I7#, 'stdout');
+    like($out, qr#6U00I7#, 'stdout');
 
 };
 
