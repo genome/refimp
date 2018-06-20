@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use TestEnv;
 
 use Path::Class;
-use Test::More tests => 2;
+use Test::More tests => 3;
 use Test::Exception;
 
 my %test = ( class => 'RefImp::Pacbio::Run::AnalysisFactoryForSequel', );
@@ -19,7 +19,7 @@ subtest 'setup and fails' => sub{
     throws_ok(sub{ $test{class}->build('blah'); }, qr/Run directory given does not exist/, 'new fails w/ non existing directory');
 };
 
-subtest 'new' => sub{
+subtest 'new version 4.0.0' => sub{
     plan tests => 9;
 
     my $run_id= '6U00I7';
@@ -35,6 +35,25 @@ subtest 'new' => sub{
     is($analyses->[0]->version, '4.0.0.189873', 'version');
     is($analyses->[0]->well, 'A01', 'well');
     is_deeply($analyses->[0]->analysis_files, [ $directory->subdir('1_A01')->file('m54111_170804_145334.subreads.bam') ], 'analysis_files');
+
+};
+
+subtest 'new version 4.0.1' => sub{
+    plan tests => 9;
+
+    my $run_id= '6U00IG';
+    my $directory = dir( TestEnv::test_data_directory_for_package('RefImp::Pacbio::Run') )->subdir($run_id);
+    ok(-d "$directory", "example run directory exists");
+
+    my $analyses = $test{class}->build($directory);
+    is(@$analyses, 2, 'built the correct number of analyses');
+    is($analyses->[1]->metadata_xml_file, $directory->subdir('2_B01')->file('.m54111_170830_013202.metadata.xml'), 'metadata_xml_file');
+    is($analyses->[1]->sample_name, 'X.couchianus_4808Lu', 'sample_name');
+    is($analyses->[1]->library_name, 'X.couchianus_4808Lu_18pM', 'library_name');
+    is($analyses->[1]->plate_id, $run_id, 'plate_id');
+    is($analyses->[1]->version, '5.0.0.6235', 'version');
+    is($analyses->[1]->well, 'B01', 'well');
+    is_deeply($analyses->[1]->analysis_files, [ $directory->subdir('2_B01')->file('m54111_170830_013202.subreads.bam') ], 'analysis_files');
 
 };
 

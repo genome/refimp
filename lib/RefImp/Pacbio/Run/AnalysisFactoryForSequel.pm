@@ -54,34 +54,47 @@ sub _load_xml {
 
     my $dom = XML::LibXML->load_xml(location => "$xml_file");
 
+    my ($data_model) = $dom->getElementsByTagName('pbdm:PacBioDataModel');
+    if ( not $data_model ) {
+        ($data_model) = $dom->getElementsByTagName('PacBioDataModel');
+    }
+
+    if ( not $data_model ) {
+        die "Could not find PacBioDataModel node!"
+    }
+
+    my $version = $data_model->getAttribute('Version');
+    die "No version found in PacBioDataModel node!" if not $version;
+    my $node_names = _node_names_for_version($version);
+
     my %info;
-    my ($collection) = $dom->getElementsByTagName('pbmeta:Collections');
+    my ($collection) = $dom->getElementsByTagName( $node_names->{collections} );
     if ( not $collection ) {
         die "No collection node found in $xml_file";
     }
 
-    my ($collection_metadata) = $collection->getElementsByTagName('pbmeta:CollectionMetadata');
+    my ($collection_metadata) = $collection->getElementsByTagName( $node_names->{collection_metadata} );
     if ( not $collection_metadata ) {
         die "No collection metadata node found in $xml_file";
     }
 
-    my ($run_details_node) = $collection_metadata->getElementsByTagName('pbmeta:RunDetails');
+    my ($run_details_node) = $collection_metadata->getElementsByTagName( $node_names->{run_details} );
     if ( not $run_details_node ) {
         die "No run details node found in $xml_file";
     }
-    my ($run_name_node) = $collection_metadata->getElementsByTagName('pbmeta:Name');
+    my ($run_name_node) = $collection_metadata->getElementsByTagName( $node_names->{run_name} );
     if ( not $run_name_node ) {
         die "No run name node found in $xml_file";
     }
     $info{plate_id} = $run_name_node->to_literal;
 
-    my ($version_node) = $collection_metadata->getElementsByTagName('pbmeta:InstCtrlVer');
+    my ($version_node) = $collection_metadata->getElementsByTagName( $node_names->{instrument_control_version} );
     if ( not $version_node ) {
         die "No sample node found in $xml_file";
     }
     $info{version} = $version_node->to_literal;
 
-    my ($sample_node) = $collection_metadata->getElementsByTagName('pbmeta:WellSample');
+    my ($sample_node) = $collection_metadata->getElementsByTagName( $node_names->{well_sample} );
     if ( not $sample_node ) {
         die "No sample node found in $xml_file";
     }
@@ -90,13 +103,43 @@ sub _load_xml {
     pop @tokens;
     $info{sample_name} = join('_', @tokens);
 
-    my ($well_name_node) = $collection_metadata->getElementsByTagName('pbmeta:WellName');
+    my ($well_name_node) = $collection_metadata->getElementsByTagName( $node_names->{well_name} );
     if ( not $well_name_node ) {
         die "No well name node found in $xml_file";
     }
     $info{well} = $well_name_node->to_literal;
 
     \%info;
+}
+
+sub _node_names_for_version {
+    my ($version) = @_;
+
+    if ( $version eq '4.0.0' ) {
+        return {
+            collections => 'pbmeta:Collections',
+            collection_metadata => 'pbmeta:CollectionMetadata',
+            run_details => 'pbmeta:RunDetails',
+            run_name => 'pbmeta:Name',
+            instrument_control_version => 'pbmeta:InstCtrlVer',
+            well_sample => 'pbmeta:WellSample',
+            well_name => 'pbmeta:WellName',
+        }
+    }
+    elsif ( $version eq '4.0.1' ) {
+        return {
+            collections => 'Collections',
+            collection_metadata => 'CollectionMetadata',
+            run_details => 'RunDetails',
+            run_name => 'Name',
+            instrument_control_version => 'InstCtrlVer',
+            well_sample => 'WellSample',
+            well_name => 'WellName',
+        }
+    }
+    else {
+        die "Unknown PacBio Data Model version: $version!";
+    }
 }
 
 1;
