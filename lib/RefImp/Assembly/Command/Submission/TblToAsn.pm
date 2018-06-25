@@ -158,13 +158,13 @@ sub structured_comments {
     my $submission = $self->submission;
     my @comments;
     for my $attr ( RefImp::Assembly::SubmissionInfo->required_attributes_for_structured_comments ) {
-        push @comments, join("\t", join(' ', map { ucfirst } split('_', $attr)), $submission->info_for($attr));
+        push @comments, join("\t", $attr, $submission->info_for($attr));
     }
 
     for my $attr ( RefImp::Assembly::SubmissionInfo->optional_attributes_for_structured_comments ) {
         my $val = $submission->info_for($attr);
         next if not defined $val;
-        push @comments, join("\t", join(' ', map { ucfirst } split('_', $attr)), $val);
+        push @comments, join("\t", $attr, $val);
      }
 
      join("\n", join("\t", 'StructuredCommentPrefix', '##Genome-Assembly-Data-START##'), sort @comments)."\n";

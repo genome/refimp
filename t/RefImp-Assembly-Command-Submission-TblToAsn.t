@@ -53,7 +53,7 @@ subtest 'authors, qualifiers, and comments' => sub{
     my $expected_source_qualifiers = "'[organism=Crassostrea virginica] [tech=wgs]'";
     is($cmd->source_qualifiers, $expected_source_qualifiers, 'source_qualifiers');
 
-    my $expected_structured_comments = "StructuredCommentPrefix	##Genome-Assembly-Data-START##\nAssembly Method	Falcon v. January 2017\nGenome Coverage	20x\nPolishing Method	Quiver; Pilon\nRelease Date	immediately after processing\nSequencing Technology	PacBio_RSII\nUnique Id\t1D7164A0176B11E8B37223742AE876E6\n";
+    my $expected_structured_comments = "StructuredCommentPrefix	##Genome-Assembly-Data-START##\nassembly_method	Falcon v. January 2017\ngenome_coverage	20x\npolishing_method	Quiver; Pilon\nrelease_date	immediately after processing\nsequencing_technology	PacBio_RSII\nunique_id\t1D7164A0176B11E8B37223742AE876E6\n";
     is($cmd->structured_comments, $expected_structured_comments, 'structured_comments');
 
 };
