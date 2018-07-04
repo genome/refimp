@@ -13,7 +13,7 @@ class RefImp::Project::Command::Update::Status {
             doc => 'Status to set on the given projects.',
         },
     },
-    has_optional => {
+    has_transient_optional => {
         old_values => { is => 'ARRAY', default_value => [], },
     },
     doc => 'update the status of projects',
