@@ -1,12 +1,18 @@
 package RefImp::Project::Command;
 
 use strict;
-use warnings;
+use warnings 'FATAL';
 
-class RefImp::Project::Command {
-    is => 'Command::Tree',
-    doc => 'command to work with projects',
-};
+use UR::Object::Command::Crud;
+
+UR::Object::Command::Crud->create_command_subclasses(
+    target_class => 'RefImp::Project',
+    target_name => 'project',
+    namespace => 'RefImp::Project::Command',
+    sub_command_configs => {
+        copy => { skip => 1, },
+		update => { exclude => [qw/ mystatus name status /], },
+    },
+);
 
 1;
-

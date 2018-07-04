@@ -16,7 +16,7 @@ class RefImp::Project::Command::Update::Directory {
             doc => 'Base directory to use in combination with the project name to resolve and as the project directory.',
         },
     },
-    has_optional => {
+    has_transient_optional => {
         old_values => { is => 'ARRAY', default_value => [], },
     },
     doc => 'update the file system location of projects',
