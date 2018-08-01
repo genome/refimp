@@ -69,8 +69,9 @@ subtest 'execute rsii' => sub{
     }
 
     for my $analysis ( @{$cmd->analyses} ) {
-        my $links = grep { -l $output_path->file( $_->basename )->stringify } @{$analysis->{analysis_files}};
-        ok($links, "links analysis files for ".$analysis->well);
+        my @expected = map { my $bn = $_->basename; $bn =~ s/^\.//; $output_path->file($bn)->stringify; } ($analysis->metadata_xml_file, @{$analysis->{analysis_files}});
+        my @linked = grep { -l "$_" } @expected;
+        is_deeply(\@linked, \@expected, "linked analysis files for ".$analysis->well);
     }
 
 };
@@ -107,8 +108,9 @@ subtest 'execute sequel' => sub{
     }
 
     for my $analysis ( @{$cmd->analyses} ) {
-        my $links = grep { -l $output_path->file( $_->basename )->stringify } @{$analysis->{analysis_files}};
-        ok($links, "links analysis files for ".$analysis->well);
+        my @expected = map { my $bn = $_->basename; $bn =~ s/^\.//; $output_path->file($bn)->stringify; } ($analysis->metadata_xml_file, @{$analysis->{analysis_files}});
+        my @linked = grep { -l "$_" } @expected;
+        is_deeply(\@linked, \@expected, "linked analysis files for ".$analysis->well);
     }
 
 };

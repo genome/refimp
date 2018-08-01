@@ -124,7 +124,9 @@ sub link_analysis_files_to_output_path {
     my $output_path = dir( $self->output_path );
     for my $analysis ( @{$self->analyses} ) {
         for my $file ( @{$analysis->analysis_files}, $analysis->metadata_xml_file ) {
-            my $link = $output_path->file( $file->basename );
+            my $dest_basename = $file->basename;
+            $dest_basename =~ s/^\.//;
+            my $link = $output_path->file($dest_basename);
             symlink("$file", "$link")
                 or $self->fatal_message('Failed to link %s to %s', $file, $link);
         }
