@@ -10,8 +10,8 @@ use File::Compare;
 use File::Temp;
 use Path::Class;
 use Sub::Install;
-use Test::More tests => 3;
 use Test::Exception;
+use Test::More tests => 4;
 
 my %test;
 subtest 'setup' => sub{
@@ -111,6 +111,14 @@ subtest 'execute sequel' => sub{
         ok($links, "links analysis files for ".$analysis->well);
     }
 
+};
+
+subtest 'type_for_file' => sub{
+    plan tests => 3;
+
+    throws_ok(sub{ $test{class}->type_for_file; }, qr/No file given/, 'fails w/o file');
+    is($test{class}->type_for_file( $test{tempdir}->file('foo.bar.bam') ), 'bam', 'type for bam');
+    is($test{class}->type_for_file( $test{tempdir}->file('foo.h5') ), 'PacBio_HDF5', 'type for hd5');
 };
 
 done_testing();

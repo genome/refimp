@@ -8,6 +8,11 @@
   <!-- STRING ENUMERATIONS BEGIN -->
   <xs:simpleType name="run_filetype_Type">
     <xs:restriction base="xs:string">
+      <xs:enumeration value="xml">
+        <xs:annotation>
+          <xs:documentation>XML file containing run metadata.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
       <xs:enumeration value="sra">
         <xs:annotation>
           <xs:documentation>Sequence Read Archives native format in serialized (single file) form.</xs:documentation>

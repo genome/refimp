@@ -8,7 +8,7 @@
         <FILE filename="m160610_215437_00116_c100976122550000001823226708101630_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160610_215437_00116_c100976122550000001823226708101630_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160610_215437_00116_c100976122550000001823226708101630_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160610_215437_00116_c100976122550000001823226708101630_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160610_215437_00116_c100976122550000001823226708101630_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -20,7 +20,7 @@
         <FILE filename="m160613_024817_00116_c100976392550000001823226708101600_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_024817_00116_c100976392550000001823226708101600_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_024817_00116_c100976392550000001823226708101600_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160613_024817_00116_c100976392550000001823226708101600_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160613_024817_00116_c100976392550000001823226708101600_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -32,7 +32,7 @@
         <FILE filename="m160611_041253_00116_c100976122550000001823226708101631_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160611_041253_00116_c100976122550000001823226708101631_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160611_041253_00116_c100976122550000001823226708101631_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160611_041253_00116_c100976122550000001823226708101631_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160611_041253_00116_c100976122550000001823226708101631_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -44,7 +44,7 @@
         <FILE filename="m160613_070741_00116_c100976392550000001823226708101601_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_070741_00116_c100976392550000001823226708101601_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_070741_00116_c100976392550000001823226708101601_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160613_070741_00116_c100976392550000001823226708101601_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160613_070741_00116_c100976392550000001823226708101601_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -56,7 +56,7 @@
         <FILE filename="m160611_103201_00116_c100976122550000001823226708101632_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160611_103201_00116_c100976122550000001823226708101632_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160611_103201_00116_c100976122550000001823226708101632_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160611_103201_00116_c100976122550000001823226708101632_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160611_103201_00116_c100976122550000001823226708101632_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -68,7 +68,7 @@
         <FILE filename="m160613_112823_00116_c100976392550000001823226708101602_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_112823_00116_c100976392550000001823226708101602_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_112823_00116_c100976392550000001823226708101602_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160613_112823_00116_c100976392550000001823226708101602_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160613_112823_00116_c100976392550000001823226708101602_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -80,7 +80,7 @@
         <FILE filename="m160611_165410_00116_c100976122550000001823226708101633_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160611_165410_00116_c100976122550000001823226708101633_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160611_165410_00116_c100976122550000001823226708101633_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160611_165410_00116_c100976122550000001823226708101633_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160611_165410_00116_c100976122550000001823226708101633_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -92,7 +92,7 @@
         <FILE filename="m160613_154904_00116_c100976392550000001823226708101603_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_154904_00116_c100976392550000001823226708101603_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_154904_00116_c100976392550000001823226708101603_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160613_154904_00116_c100976392550000001823226708101603_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160613_154904_00116_c100976392550000001823226708101603_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -104,7 +104,7 @@
         <FILE filename="m160611_231419_00116_c100976122550000001823226708101634_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160611_231419_00116_c100976122550000001823226708101634_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160611_231419_00116_c100976122550000001823226708101634_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160611_231419_00116_c100976122550000001823226708101634_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160611_231419_00116_c100976122550000001823226708101634_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -116,7 +116,7 @@
         <FILE filename="m160613_200939_00116_c100976392550000001823226708101604_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_200939_00116_c100976392550000001823226708101604_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160613_200939_00116_c100976392550000001823226708101604_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160613_200939_00116_c100976392550000001823226708101604_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160613_200939_00116_c100976392550000001823226708101604_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -128,7 +128,7 @@
         <FILE filename="m160612_053356_00116_c100976122550000001823226708101635_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160612_053356_00116_c100976122550000001823226708101635_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160612_053356_00116_c100976122550000001823226708101635_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160612_053356_00116_c100976122550000001823226708101635_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160612_053356_00116_c100976122550000001823226708101635_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -140,7 +140,7 @@
         <FILE filename="m160614_003005_00116_c100976392550000001823226708101605_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160614_003005_00116_c100976392550000001823226708101605_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160614_003005_00116_c100976392550000001823226708101605_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160614_003005_00116_c100976392550000001823226708101605_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160614_003005_00116_c100976392550000001823226708101605_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -152,7 +152,7 @@
         <FILE filename="m160614_045352_00116_c100976392550000001823226708101606_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160614_045352_00116_c100976392550000001823226708101606_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160614_045352_00116_c100976392550000001823226708101606_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160614_045352_00116_c100976392550000001823226708101606_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160614_045352_00116_c100976392550000001823226708101606_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -164,7 +164,7 @@
         <FILE filename="m160614_091421_00116_c100976392550000001823226708101607_s1_p0.2.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160614_091421_00116_c100976392550000001823226708101607_s1_p0.3.bax.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
         <FILE filename="m160614_091421_00116_c100976392550000001823226708101607_s1_p0.bas.h5" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename="m160614_091421_00116_c100976392550000001823226708101607_s1_p0.metadata.xml" filetype="PacBio_HDF5" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m160614_091421_00116_c100976392550000001823226708101607_s1_p0.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>

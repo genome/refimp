@@ -9,19 +9,16 @@ use Moose;
 has 'files'        => (is => 'ro',required => 1,isa => 'ArrayRef');
 has 'alias'        => (is => 'ro',required => 1,isa => 'Str');
 has 'library_name' => (is => 'ro',required => 1,isa => 'Str');
-has 'file_type'    => (is => 'ro',required => 1,isa => 'Str');
 has 'checksum_method' => (is => 'ro',required => 1,isa => 'Str',default => 'MD5');
 
 sub data_struct {
     my $self = shift;
 
     my $alias = $self->alias;
-    my $file_type = $self->file_type;
-
     my $file_block;
     for my $file (@{$self->files}) {
         push(@{$file_block},{'checksum' => $file->{checksum},
-                             'filetype' => $file_type, #"PacBio_HDF5",
+                             'filetype' => $file->{type},
                              'filename' => file($file->{file})->basename,
                              'checksum_method' => $self->checksum_method});
     }
