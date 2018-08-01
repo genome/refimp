@@ -5,6 +5,7 @@ use warnings 'FATAL';
 
 use TestEnv;
 
+use File::Copy::Recursive;
 use Path::Class;
 use Test::More tests => 1;
 use Test::Exception;
@@ -14,6 +15,11 @@ subtest 'execute' => sub{
     plan tests => 7;
 
     use_ok($test{class}) or die;
+
+    my $temp_run_dir = File::Temp::tempdir(CLEANUP => 1);
+    mkdir '/tmp/pacbio-run-6U00I7';
+    my $run_dir = dir( TestEnv::test_data_directory_for_package('RefImp::PacBio::Run') )->subdir('6U00I7');
+    File::Copy::Recursive::dircopy("$run_dir", "$temp_run_dir");
 
     my $xml_file = dir( TestEnv::test_data_directory_for_package($test{class}) )->file('merged.dataset.xml');
     ok(-s "$xml_file", "example xml file exists");
