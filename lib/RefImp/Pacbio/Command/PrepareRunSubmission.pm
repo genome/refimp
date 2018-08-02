@@ -124,7 +124,9 @@ sub link_analysis_files_to_output_path {
     my $output_path = dir( $self->output_path );
     for my $analysis ( @{$self->analyses} ) {
         for my $file ( @{$analysis->analysis_files}, $analysis->metadata_xml_file ) {
-            my $link = $output_path->file( $file->basename );
+            my $dest_basename = $file->basename;
+            $dest_basename =~ s/^\.//;
+            my $link = $output_path->file($dest_basename);
             symlink("$file", "$link")
                 or $self->fatal_message('Failed to link %s to %s', $file, $link);
         }
@@ -159,7 +161,6 @@ sub render_xml {
 
         my $data_block = {
             alias => $analysis->alias,
-            file_type => 'PacBio_HDF5',
             files => [],
         };
         push @{$meta->{run_data}}, $data_block;
@@ -167,8 +168,10 @@ sub render_xml {
         for my $file ( sort(@{$analysis->analysis_files}), $analysis->metadata_xml_file ) {
             my $ctx = Digest::MD5->new;
             $ctx->addfile( IO::File->new("$file", 'r') );
+
             push @{$data_block->{files}}, {
                 checksum => $ctx->hexdigest,
+                type => $self->type_for_file($file),
                 file => $file->basename,
             };
          }
@@ -187,6 +190,15 @@ sub render_xml {
     );
 
     $self->status_message("Rendering submission XML...DONE");
+}
+
+sub type_for_file {
+    my ($self, $file) = @_;
+    $self->fatal_message('No file given to get type!') if not $file;
+
+    my @tokens = split(/\./, $file->basename);
+    return 'PacBio_HDF5' if $tokens[$#tokens] eq 'h5';
+    $tokens[$#tokens];
 }
 
 1;

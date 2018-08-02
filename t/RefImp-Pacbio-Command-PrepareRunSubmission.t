@@ -10,8 +10,8 @@ use File::Compare;
 use File::Temp;
 use Path::Class;
 use Sub::Install;
-use Test::More tests => 3;
 use Test::Exception;
+use Test::More tests => 4;
 
 my %test;
 subtest 'setup' => sub{
@@ -69,8 +69,9 @@ subtest 'execute rsii' => sub{
     }
 
     for my $analysis ( @{$cmd->analyses} ) {
-        my $links = grep { -l $output_path->file( $_->basename )->stringify } @{$analysis->{analysis_files}};
-        ok($links, "links analysis files for ".$analysis->well);
+        my @expected = map { my $bn = $_->basename; $bn =~ s/^\.//; $output_path->file($bn)->stringify; } ($analysis->metadata_xml_file, @{$analysis->{analysis_files}});
+        my @linked = grep { -l "$_" } @expected;
+        is_deeply(\@linked, \@expected, "linked analysis files for ".$analysis->well);
     }
 
 };
@@ -107,10 +108,19 @@ subtest 'execute sequel' => sub{
     }
 
     for my $analysis ( @{$cmd->analyses} ) {
-        my $links = grep { -l $output_path->file( $_->basename )->stringify } @{$analysis->{analysis_files}};
-        ok($links, "links analysis files for ".$analysis->well);
+        my @expected = map { my $bn = $_->basename; $bn =~ s/^\.//; $output_path->file($bn)->stringify; } ($analysis->metadata_xml_file, @{$analysis->{analysis_files}});
+        my @linked = grep { -l "$_" } @expected;
+        is_deeply(\@linked, \@expected, "linked analysis files for ".$analysis->well);
     }
 
+};
+
+subtest 'type_for_file' => sub{
+    plan tests => 3;
+
+    throws_ok(sub{ $test{class}->type_for_file; }, qr/No file given/, 'fails w/o file');
+    is($test{class}->type_for_file( $test{tempdir}->file('foo.bar.bam') ), 'bam', 'type for bam');
+    is($test{class}->type_for_file( $test{tempdir}->file('foo.h5') ), 'PacBio_HDF5', 'type for hd5');
 };
 
 done_testing();
