@@ -5,7 +5,7 @@
     <DATA_BLOCK>
       <FILES>
         <FILE filename="m54111_170804_145334.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename=".m54111_170804_145334.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170804_145334.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -14,7 +14,7 @@
     <DATA_BLOCK>
       <FILES>
         <FILE filename="m54111_170805_005230.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename=".m54111_170805_005230.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170805_005230.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -23,7 +23,7 @@
     <DATA_BLOCK>
       <FILES>
         <FILE filename="m54111_170805_110221.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename=".m54111_170805_110221.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170805_110221.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -32,7 +32,7 @@
     <DATA_BLOCK>
       <FILES>
         <FILE filename="m54111_170805_211205.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename=".m54111_170805_211205.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170805_211205.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>
@@ -41,7 +41,7 @@
     <DATA_BLOCK>
       <FILES>
         <FILE filename="m54111_170806_072207.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
-        <FILE filename=".m54111_170806_072207.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170806_072207.metadata.xml" filetype="xml" checksum_method="MD5" checksum="md5sum"/>
       </FILES>
     </DATA_BLOCK>
   </RUN>

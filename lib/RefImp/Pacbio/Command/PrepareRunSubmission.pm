@@ -169,10 +169,12 @@ sub render_xml {
             my $ctx = Digest::MD5->new;
             $ctx->addfile( IO::File->new("$file", 'r') );
 
+            my $basename = $file->basename;
+            $basename =~ s/^\.//;
             push @{$data_block->{files}}, {
                 checksum => $ctx->hexdigest,
                 type => $self->type_for_file($file),
-                file => $file->basename,
+                file => $basename,
             };
          }
     }
