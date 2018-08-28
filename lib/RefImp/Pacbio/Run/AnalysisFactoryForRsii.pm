@@ -58,13 +58,7 @@ sub _load_xml {
     my $library_name = _load_from_parent_node($sample_node, 'Name');
     my $well = _load_from_parent_node($sample_node, 'WellName');
 
-    my $sample_name = $library_name;
-    my $well_without_zeros = $well;
-    $well_without_zeros =~ s/0//g;
-    $sample_name =~ s/_$well_without_zeros$//;
-
     {
-        sample_name => $sample_name,
         library_name => $library_name,
         plate_id => _load_from_parent_node($sample_node, 'PlateId'),
         version => _load_from_parent_node($metadata_node, 'InstCtrlVer'),
