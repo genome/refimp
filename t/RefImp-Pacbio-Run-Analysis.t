@@ -9,12 +9,12 @@ use Test::More tests => 3;
 
 my %test = ( class => 'RefImp::Pacbio::Run::Analysis', );
 subtest 'new' => sub{
-    plan tests => 9;
+    plan tests => 8;
 
     use_ok($test{class}) or die;
 
     my %params = (
-        metadata_xml_file => 'xml', sample_name => 'SAMPLE', library_name => 'LIBRARY',
+        metadata_xml_file => 'xml', library_name => 'LIBRARY',
         plate_id => 'PLATE', version => 'VERSION', well => 'WELL', analysis_files => [],
     );
     my $meta = $test{class}->new(%params);
@@ -22,7 +22,6 @@ subtest 'new' => sub{
     $test{meta} = $meta;
 
     ok($meta->metadata_xml_file, 'xml_file');
-    ok($meta->sample_name, 'sample_name');
     ok($meta->library_name, 'library_name');
     ok($meta->plate_id, 'plate_id');
     ok($meta->version, 'version');

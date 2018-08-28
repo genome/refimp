@@ -50,11 +50,11 @@ sub execute {
     my @rows = ( [qw/ well sample_name matches? /] );
     for my $analysis ( @$analyses ) {
         my $match = 'no';
-        if ( $analysis->sample_name =~ $library_name_qr ) {
+        if ( $analysis->library_name =~ $library_name_qr ) {
             $match = 'yes';
             $match_count++;
         }
-        push @rows, [$analysis->well, $analysis->sample_name, $match ];
+        push @rows, [$analysis->well, $analysis->library_name, $match ];
     }
 
     $self->status_message('Run: %s', $run->__name__);

@@ -11,7 +11,7 @@ use Test::Exception;
 
 my %setup = ( class => 'RefImp::Pacbio::Run::AnalysisFactoryForRsii', );
 subtest 'new' => sub{
-    plan tests => 11;
+    plan tests => 10;
 
     use_ok($setup{class}) or die;
 
@@ -24,7 +24,6 @@ subtest 'new' => sub{
     my $analyses = $setup{class}->build($directory);
     is(@$analyses, 10, 'built the correct number of analyses');
     is($analyses->[0]->metadata_xml_file, $directory->subdir('A01_1')->file('m160819_231415_00116_c101036512550000001823251411171640_s1_p0.metadata.xml'), 'metadata_xml_file');
-    is($analyses->[0]->sample_name, 'NA19434_4808o3_lib1_50pM', 'sample_name');
     is($analyses->[0]->library_name, 'NA19434_4808o3_lib1_50pM_A1', 'library_name');
     is($analyses->[0]->plate_id, '6U00FA', 'plate_id');
     is($analyses->[0]->version, '2.3.0.3.154799', 'version');

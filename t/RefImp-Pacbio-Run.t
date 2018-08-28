@@ -44,7 +44,7 @@ subtest 'analyses' => sub{
 
 	my $sample_analyses = $run->analyses_for_sample(qr/HG02818/);
     is(@$sample_analyses, 14, 'correct number of sample analyses');
-    my $expected_sample_analyses = [ grep { $_->sample_name =~ /HG02818/ } @$analyses ];
+    my $expected_sample_analyses = [ grep { $_->library_name =~ /HG02818/ } @$analyses ];
     is_deeply($sample_analyses, $expected_sample_analyses, 'analyses_for_sample');
 
     throws_ok(sub{ $test{run}->analyses_for_sample; }, qr/No sample name regex given/, 'analyses_for_sample fails w/o sample name regex');

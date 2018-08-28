@@ -99,9 +99,6 @@ sub _load_xml {
         die "No sample node found in $xml_file";
     }
     $info{library_name} = $sample_node->getAttribute('Name');
-    my @tokens = split(/_/, $info{library_name});
-    pop @tokens;
-    $info{sample_name} = join('_', @tokens);
 
     my ($well_name_node) = $collection_metadata->getElementsByTagName( $node_names->{well_name} );
     if ( not $well_name_node ) {

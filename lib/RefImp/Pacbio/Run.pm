@@ -35,7 +35,7 @@ sub analyses_for_sample {
     my $analyses = $self->analyses;
     my @sample_analyses;
     for my $analysis ( @$analyses ) {
-        push @sample_analyses, $analysis if $analysis->sample_name =~ $sample_name_regex;
+        push @sample_analyses, $analysis if $analysis->library_name =~ $sample_name_regex;
     }
 
     return if not @sample_analyses;
