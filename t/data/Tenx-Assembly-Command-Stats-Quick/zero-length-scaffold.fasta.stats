@@ -1,0 +1,28 @@
+SCAFFOLDS
+  COUNT     1              
+  LENGTH    0              
+  AVG       0              
+  N50       0              
+  LARGEST   0              
+ (ID: NothingToSeeHere, BASES_ONLY_LENGTH: 0)
+  Scaffolds > 1M: 0 ( 0 bp )
+  Scaffolds 250K--1M: 0 ( 0 bp )
+  Scaffolds 100K--250K: 0 ( 0 bp )
+  Scaffolds 10K--100K: 0 ( 0 bp )
+  Scaffolds 5K--10K: 0 ( 0 bp )
+  Scaffolds 2K--5K: 0 ( 0 bp )
+  Scaffolds 0--2K: 1 ( 0 bp )
+
+CONTIGS
+  COUNT     1              
+  LENGTH    0              
+  AVG       0              
+  N50       0              
+  LARGEST   0              
+  Contigs > 1M: 0 ( 0 bp )
+  Contigs 250K--1M: 0 ( 0 bp )
+  Contigs 100K--250K: 0 ( 0 bp )
+  Contigs 10K--100K: 0 ( 0 bp )
+  Contigs 5K--10K: 0 ( 0 bp )
+  Contigs 2K--5K: 0 ( 0 bp )
+  Contigs 0--2K: 1 ( 0 bp )

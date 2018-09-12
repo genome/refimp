@@ -1,0 +1,20 @@
+2017-06-03 15:57:48 [runtime] (join_complete)   ID.MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf.PHASER_SVCALLER_EXOME_CS.PHASER_SVCALLER_EXOME.LOUPE_PREPROCESS
+2017-06-03 18:30:31 [runtime] VDR killed 31402 files, 189GB.
+
+Outputs:
+- Run summary:               /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/summary.csv
+- BAM barcoded:              /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/phased_possorted_bam.bam
+- BAM index:                 /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/phased_possorted_bam.bam.bai
+- VCF phased:                /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/phased_variants.vcf.gz
+- VCF index:                 /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/phased_variants.vcf.gz.tbi
+- Large-scale SV calls:      /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/large_sv_calls.bedpe
+- Large-scale SV candidates: /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/large_sv_candidates.bedpe
+- Large-scale SVs:           /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/large_svs.vcf.gz
+- Large-scale SVs index:     /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/large_svs.vcf.gz.tbi
+- Mid-scale deletions:       /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/dels.vcf.gz
+- Mid-scale deletions index: /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/dels.vcf.gz.tbi
+- Loupe file:                /vol/aggr3/backup/gc2745/graveslab/alignments/MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-targeted-lsf/outs/loupe.loupe
+
+2017-06-03 18:31:45 [perform] Serializing pipestance performance data.
+Pipestance completed successfully!
+

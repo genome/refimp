@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RUN_SET xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.ncbi.nlm.nih.gov/viewvc/v1/trunk/sra/doc/SRA_1-5/SRA.run.xsd?view=co">
+  <RUN alias="6U00I7_A01" center_name="WUGSC">
+    <EXPERIMENT_REF refname="HG03486_Mende_4808Ll" refcenter="WUGSC"/>
+    <DATA_BLOCK>
+      <FILES>
+        <FILE filename="m54111_170804_145334.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170804_145334.metadata.xml" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+      </FILES>
+    </DATA_BLOCK>
+  </RUN>
+  <RUN alias="6U00I7_B01" center_name="WUGSC">
+    <EXPERIMENT_REF refname="HG03486_Mende_4808Ll" refcenter="WUGSC"/>
+    <DATA_BLOCK>
+      <FILES>
+        <FILE filename="m54111_170805_005230.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170805_005230.metadata.xml" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+      </FILES>
+    </DATA_BLOCK>
+  </RUN>
+  <RUN alias="6U00I7_C01" center_name="WUGSC">
+    <EXPERIMENT_REF refname="HG03486_Mende_4808Ll" refcenter="WUGSC"/>
+    <DATA_BLOCK>
+      <FILES>
+        <FILE filename="m54111_170805_110221.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170805_110221.metadata.xml" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+      </FILES>
+    </DATA_BLOCK>
+  </RUN>
+  <RUN alias="6U00I7_D01" center_name="WUGSC">
+    <EXPERIMENT_REF refname="HG03486_Mende_4808Ll" refcenter="WUGSC"/>
+    <DATA_BLOCK>
+      <FILES>
+        <FILE filename="m54111_170805_211205.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170805_211205.metadata.xml" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+      </FILES>
+    </DATA_BLOCK>
+  </RUN>
+  <RUN alias="6U00I7_E01" center_name="WUGSC">
+    <EXPERIMENT_REF refname="HG03486_Mende_4808Ll" refcenter="WUGSC"/>
+    <DATA_BLOCK>
+      <FILES>
+        <FILE filename="m54111_170806_072207.subreads.bam" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+        <FILE filename="m54111_170806_072207.metadata.xml" filetype="bam" checksum_method="MD5" checksum="md5sum"/>
+      </FILES>
+    </DATA_BLOCK>
+  </RUN>
+</RUN_SET>

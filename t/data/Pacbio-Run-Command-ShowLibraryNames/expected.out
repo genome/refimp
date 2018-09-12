@@ -1,0 +1,22 @@
+Run: %TDD/Pacbio-Run/6U00E3 rsii
+Library Name: HG
+Analyses:
+well sample_name                     matches?
+A01  4808lj_HG02818_Lib2_50pM_A1     yes     
+A02  4808lj_HG02818_Lib2_50pM_A2     yes     
+B01  4808lj_HG02818_Lib2_75pM_B1     yes     
+B02  4808lj_HG02818_Lib2_75pM_B2     yes     
+C01  4808lj_HG02818_Lib2_100pM_C1    yes     
+C02  4808lj_HG02818_Lib2_100pM_C2    yes     
+D01  4808lj_HG02818_Lib2_50pM_D1     yes     
+D02  4808lj_HG02818_Lib2_50pM_D2     yes     
+E01  4808lj_HG02818_Lib2_75pM_E1     yes     
+E02  4808lj_HG02818_Lib2_75pM_E2     yes     
+F01  4808lj_HG02818_Lib2_50pM_F1     yes     
+F02  4808lj_HG02818_Lib2_50pM_F2     yes     
+G01  4808lh_EEAI_H10407_Lib1_75pM_G1 no      
+G02  4808lj_HG02818_Lib2_75pM_G2     yes     
+H01  4808li_EEAI_jf1390_Lib1_75pM_H1 no      
+H02  4808lj_HG02818_Lib2_50pM_H2     yes     
+Analyses Total: 16
+Matched Analyses: 14
