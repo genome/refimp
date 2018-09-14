@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pbdm:PacBioDataModel xmlns:pbbase="http://pacificbiosciences.com/PacBioBaseDataModel.xsd" xmlns:pbrk="http://pacificbiosciences.com/PacBioReagentKit.xsd" xmlns:pbdm="http://pacificbiosciences.com/PacBioDataModel.xsd" xmlns:pbmeta="http://pacificbiosciences.com/PacBioCollectionMetadata.xsd" xmlns:pbds="http://pacificbiosciences.com/PacBioDatasets.xsd" xmlns:pbsample="http://pacificbiosciences.com/PacBioSampleInfo.xsd" xmlns:pbpn="http://pacificbiosciences.com/PacBioPartNumbers.xsd" Version="4.0.0">
+    <pbdm:ExperimentContainer CreatedAt="2017-08-04T19:58:19.431Z" ModifiedAt="0001-01-01T00:00:00">
+        <pbdm:InvestigatorName>Default</pbdm:InvestigatorName>
+        <pbdm:CreatedDate>0001-01-01</pbdm:CreatedDate>
+        <pbdm:Runs>
+            <pbdm:Run Status="Starting" CreatedBy="unknown" WhenStarted="2017-08-04T14:53:33.357294Z" UniqueId="589c6d5a-7bee-478a-ab35-497a2c17c64a" MetaType="Run" TimeStampedName="r54111_20170804_144420" Name="6U00I7" CreatedAt="2017-08-04T19:58:19.431Z" ModifiedAt="0001-01-01T00:00:00">
+                <pbdm:Outputs>
+                    <pbdm:SubreadSets>
+                        <pbds:SubreadSet UniqueId="5f2c7e7d-0f56-49ae-8c2c-afef6af5a047" MetaType="SubreadSetCollection" TimeStampedName="54111-SubreadSetCollection-2017-44-04T14:44:20.775Z" Name="HG03486_Mende_4808Ll_30pM-Cell3" CreatedAt="2017-08-04T19:58:19.431Z">
+                            <pbbase:ExternalResources>
+<pbbase:ExternalResource UniqueId="e1bd301f-3232-4d10-b515-eac47cfcb58a" MetaType="ExternalResource" TimeStampedName="54111-ExternalResource-2017-44-04T14:44:20.775Z"/>
+                            </pbbase:ExternalResources>
+                            <pbds:DataSetMetadata>
+<pbds:TotalLength>0</pbds:TotalLength>
+<pbds:NumRecords>0</pbds:NumRecords>
+<pbmeta:Collections>
+    <pbmeta:CollectionMetadata Context="m54111_170805_110221" Status="Ready" InstrumentId="54111" InstrumentName="54111" UniqueId="5f2c7e7d-0f56-49ae-8c2c-afef6af5a047" MetaType="CollectionMetadata" TimeStampedName="54111-CollectionMetadata-2017-44-04T14:44:20.775Z" CreatedAt="2017-08-04T19:58:19.431Z" ModifiedAt="0001-01-01T00:00:00">
+        <pbmeta:InstCtrlVer>4.0.0.189873</pbmeta:InstCtrlVer>
+        <pbmeta:SigProcVer>4.0.0-189308</pbmeta:SigProcVer>
+        <pbmeta:RunDetails>
+            <pbmeta:TimeStampedName>r54111_20170804_144420</pbmeta:TimeStampedName>
+            <pbmeta:Name>6U00I7</pbmeta:Name>
+            <pbmeta:WhenCreated>2017-08-04T19:58:19.431Z</pbmeta:WhenCreated>
+            <pbmeta:WhenStarted>2017-08-04T14:53:33.357294Z</pbmeta:WhenStarted>
+        </pbmeta:RunDetails>
+        <pbmeta:WellSample Name="HG03486_Mende_4808Ll_30pM" CreatedAt="2017-08-04T19:58:19.431Z" ModifiedAt="0001-01-01T00:00:00">
+            <pbmeta:WellName>C01</pbmeta:WellName>
+            <pbmeta:Concentration>0.0</pbmeta:Concentration>
+            <pbmeta:InsertSize>20000</pbmeta:InsertSize>
+            <pbmeta:SampleReuseEnabled>false</pbmeta:SampleReuseEnabled>
+            <pbmeta:StageHotstartEnabled>false</pbmeta:StageHotstartEnabled>
+            <pbmeta:SizeSelectionEnabled>false</pbmeta:SizeSelectionEnabled>
+            <pbmeta:UseCount>0</pbmeta:UseCount>
+        </pbmeta:WellSample>
+        <pbmeta:Automation Name="Workflow_Magbead.py">
+            <pbbase:AutomationParameters>
+                <pbbase:AutomationParameter ValueDataType="Double" SimpleValue="600" Name="MovieLength" CreatedAt="2017-08-04T19:58:19.431Z" ModifiedAt="0001-01-01T00:00:00"/>
+                <pbbase:AutomationParameter ValueDataType="String" SimpleValue="False" Name="ReuseSample" CreatedAt="2017-08-04T19:58:19.431Z" ModifiedAt="0001-01-01T00:00:00"/>
+                <pbbase:AutomationParameter ValueDataType="Double" SimpleValue="0" Name="ExtensionTime" CreatedAt="2017-08-04T19:58:19.431Z" ModifiedAt="0001-01-01T00:00:00"/>
+                <pbbase:AutomationParameter ValueDataType="Boolean" SimpleValue="False" Name="ExtendFirst" CreatedAt="2017-08-04T19:58:19.431Z" ModifiedAt="0001-01-01T00:00:00"/>
+                <pbbase:AutomationParameter ValueDataType="Boolean" SimpleValue="True" Name="GentleWash"/>
+                <pbbase:AutomationParameter ValueDataType="Int32" SimpleValue="1" Name="CellNFCIndex"/>
+                <pbbase:AutomationParameter ValueDataType="Int32" SimpleValue="2" Name="CollectionNumber"/>
+                <pbbase:AutomationParameter ValueDataType="String" SimpleValue="False" Name="UseStageHotStart"/>
+                <pbbase:AutomationParameter ValueDataType="Int32" SimpleValue="20000" Name="InsertSize"/>
+                <pbbase:AutomationParameter ValueDataType="Boolean" SimpleValue="False" Name="HasN2Switch"/>
+                <pbbase:AutomationParameter ValueDataType="Double" SimpleValue="4" Name="SNRCut"/>
+            </pbbase:AutomationParameters>
+            <pbbase:Defaults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+        </pbmeta:Automation>
+        <pbmeta:CollectionNumber>2</pbmeta:CollectionNumber>
+        <pbmeta:CellIndex>2</pbmeta:CellIndex>
+        <pbmeta:CellPac PartNumber="101-008-000" LotNumber="320801" Barcode="BA050219636375277412518650" ExpirationDate="2017-08-30">
+            <pbbase:Defaults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+        </pbmeta:CellPac>
+        <pbmeta:TemplatePrepKit MinInsertSize="500" MaxInsertSize="20000" PartNumber="100-259-100" LotNumber="008939" Barcode="008939100259100100717" ExpirationDate="2017-10-07" Name="SMRTbell™ Template Prep Kit">
+            <pbbase:Defaults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <pbbase:LeftAdaptorSequence>ATCTCTCTCAACAACAACAACGGAGGAGGAGGAAAAGAGAGAGAT</pbbase:LeftAdaptorSequence>
+            <pbbase:RightAdaptorSequence>ATCTCTCTCAACAACAACAACGGAGGAGGAGGAAAAGAGAGAGAT</pbbase:RightAdaptorSequence>
+        </pbmeta:TemplatePrepKit>
+        <pbmeta:BindingKit PartNumber="100-862-200" LotNumber="161221" Barcode="161221100862200111017" ExpirationDate="2017-11-10" Name="Sequel™ Binding Kit 2.0">
+            <pbbase:Defaults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+        </pbmeta:BindingKit>
+        <pbmeta:SequencingKitPlate PartNumber="100-861-800" LotNumber="010353" Barcode="010353100861800102817" ExpirationDate="2017-10-28" Name="Sequel™ Sequencing Plate 2.0">
+            <pbbase:Defaults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <pbrk:ReagentTubes PartNumber="100-619-700" LotNumber="010025" ExpirationDate="2019-08-16">
+                <pbbase:Defaults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </pbrk:ReagentTubes>
+            <pbrk:ReagentTubes PartNumber="100-619-600" LotNumber="008604" ExpirationDate="2020-11-30">
+                <pbbase:Defaults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </pbrk:ReagentTubes>
+        </pbmeta:SequencingKitPlate>
+        <pbmeta:Primary>
+            <pbmeta:AutomationName>SequelAlpha</pbmeta:AutomationName>
+            <pbmeta:ConfigFileName>SqlPoC_SubCrf_2C2A-t2.xml</pbmeta:ConfigFileName>
+            <pbmeta:SequencingCondition>DefaultPrimarySequencingCondition</pbmeta:SequencingCondition>
+            <pbmeta:OutputOptions>
+                <pbmeta:ResultsFolder>r54111_20170804_144420/3_C01/</pbmeta:ResultsFolder>
+                <pbmeta:CollectionPathUri>/gscmnt/gc13036/production/smrtlink_data_root/r54111_20170804_144420/3_C01/</pbmeta:CollectionPathUri>
+                <pbmeta:CopyFiles>
+                    <pbmeta:CollectionFileCopy>Fasta</pbmeta:CollectionFileCopy>
+                    <pbmeta:CollectionFileCopy>Bam</pbmeta:CollectionFileCopy>
+                </pbmeta:CopyFiles>
+                <pbmeta:Readout>Bases_Without_QVs</pbmeta:Readout>
+                <pbmeta:MetricsVerbosity>Minimal</pbmeta:MetricsVerbosity>
+                <pbmeta:TransferResource>
+                    <pbmeta:Id>wustl_srs</pbmeta:Id>
+                    <pbmeta:TransferScheme>SRS</pbmeta:TransferScheme>
+                    <pbmeta:Name>WUSTL SRS</pbmeta:Name>
+                    <pbmeta:Description>Transfer Scheme for WUSTL SRS</pbmeta:Description>
+                    <pbmeta:DestPath>/gscmnt/gc13036/production/smrtlink_data_root</pbmeta:DestPath>
+                </pbmeta:TransferResource>
+            </pbmeta:OutputOptions>
+        </pbmeta:Primary>
+        <pbmeta:Secondary>
+            <pbmeta:AutomationName>DefaultSecondaryAutomationName</pbmeta:AutomationName>
+            <pbmeta:AutomationParameters>
+                <pbmeta:AutomationParameter ValueDataType="String" SimpleValue="DefaultSecondaryAnalysisReferenceName" Name="Reference" CreatedAt="0001-01-01T00:00:00" ModifiedAt="0001-01-01T00:00:00"/>
+            </pbmeta:AutomationParameters>
+            <pbmeta:CellCountInJob>0</pbmeta:CellCountInJob>
+        </pbmeta:Secondary>
+        <pbmeta:UserDefinedFields>
+            <pbbase:DataEntities ValueDataType="String" SimpleValue="DefaultUserDefinedFieldLIMS" Name=" LIMS_IMPORT "/>
+        </pbmeta:UserDefinedFields>
+        <pbmeta:ComponentVersions>
+            <pbmeta:VersionInfo Name="ics" Version="4.0.0.189873"/>
+            <pbmeta:VersionInfo Name="iui" Version="4.0.0.189891"/>
+            <pbmeta:VersionInfo Name="pa" Version="4.0.0-189308"/>
+            <pbmeta:VersionInfo Name="paws" Version="4.0.0-189805"/>
+            <pbmeta:VersionInfo Name="ppa" Version="4.0.0-189308"/>
+            <pbmeta:VersionInfo Name="realtime" Version="4.0.0-189308"/>
+            <pbmeta:VersionInfo Name="transfer" Version="4.0.0-189805"/>
+            <pbmeta:VersionInfo Name="smrtlink-analysisservices-gui" Version="4.0.0.190159"/>
+            <pbmeta:VersionInfo Name="smrtinub" Version="4.0.0.189856"/>
+            <pbmeta:VersionInfo Name="smrtlink" Version="4.0.0.190159"/>
+            <pbmeta:VersionInfo Name="smrtimisc" Version="4.0.0.189856"/>
+            <pbmeta:VersionInfo Name="smrttools" Version="4.0.0.190159"/>
+            <pbmeta:VersionInfo Name="smrtview" Version="4.0.0.189856"/>
+        </pbmeta:ComponentVersions>
+    </pbmeta:CollectionMetadata>
+</pbmeta:Collections>
+                            </pbds:DataSetMetadata>
+                        </pbds:SubreadSet>
+                    </pbdm:SubreadSets>
+                </pbdm:Outputs>
+                <pbdm:RecordedEvents>
+                    <pbdm:RecordedEvent Context="589c6d5a-7bee-478a-ab35-497a2c17c64a" SimpleValue="Starting" Name="RunStateChange" CreatedAt="2017-08-04T14:46:17.480663Z"/>
+                    <pbdm:RecordedEvent Context="589c6d5a-7bee-478a-ab35-497a2c17c64a" SimpleValue="{&quot;Id&quot;:150064,&quot;Name&quot;:&quot;ActiveUseExceeded&quot;,&quot;Owner&quot;:&quot;svc:/i/runcontrol/&quot;,&quot;Severity&quot;:&quot;WARNING&quot;,&quot;Message&quot;:&quot;Reagents exceed active use:  | ReagentPlate-1.  Tubes exceed active use:  | Tube-1-2.&quot;,&quot;When&quot;:&quot;2017-08-04T14:44:54.543902Z&quot;}" Name="Alarm" CreatedAt="2017-08-04T14:46:17.486471Z"/>
+                </pbdm:RecordedEvents>
+            </pbdm:Run>
+        </pbdm:Runs>
+    </pbdm:ExperimentContainer>
+</pbdm:PacBioDataModel>

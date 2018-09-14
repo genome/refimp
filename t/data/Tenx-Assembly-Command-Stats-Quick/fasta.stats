@@ -1,0 +1,28 @@
+SCAFFOLDS
+  COUNT     100            
+  LENGTH    17441833       
+  AVG       174418         
+  N50       321231 (311614) 306579
+  LARGEST   1407846        
+ (ID: 000000F_100|arrow, BASES_ONLY_LENGTH: 1407846)
+  Scaffolds > 1M: 2 ( 2723557 bp )
+  Scaffolds 250K--1M: 18 ( 7857118 bp )
+  Scaffolds 100K--250K: 27 ( 4470270 bp )
+  Scaffolds 10K--100K: 53 ( 2390888 bp )
+  Scaffolds 5K--10K: 0 ( 0 bp )
+  Scaffolds 2K--5K: 0 ( 0 bp )
+  Scaffolds 0--2K: 0 ( 0 bp )
+
+CONTIGS
+  COUNT     100            
+  LENGTH    17441833       
+  AVG       174418         
+  N50       321231 (311614) 306579
+  LARGEST   1407846        
+  Contigs > 1M: 2 ( 2723557 bp )
+  Contigs 250K--1M: 18 ( 7857118 bp )
+  Contigs 100K--250K: 27 ( 4470270 bp )
+  Contigs 10K--100K: 53 ( 2390888 bp )
+  Contigs 5K--10K: 0 ( 0 bp )
+  Contigs 2K--5K: 0 ( 0 bp )
+  Contigs 0--2K: 0 ( 0 bp )

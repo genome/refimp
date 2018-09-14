@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SUBMISSION_SET xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.ncbi.nlm.nih.gov/viewvc/v1/trunk/sra/doc/SRA_1-5/SRA.submission.xsd?view=co">
+  <SUBMISSION alias="6U00I7" center_name="WUGSC">
+    <CONTACTS>
+      <CONTACT name="LIMS" inform_on_status="mailto:mgi-submission@gowustl.onmicrosoft.com" inform_on_error="mailto:mgi-submission@gowustl.onmicrosoft.com"/>
+    </CONTACTS>
+    <ACTIONS>
+      <ACTION>
+        <RELEASE/>
+      </ACTION>
+      <ACTION>
+        <ADD source="6U00I7.experiment.xml" schema="experiment"/>
+      </ACTION>
+      <ACTION>
+        <ADD source="6U00I7.run.xml" schema="run"/>
+      </ACTION>
+    </ACTIONS>
+  </SUBMISSION>
+</SUBMISSION_SET>

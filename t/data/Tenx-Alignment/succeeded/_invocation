@@ -1,0 +1,29 @@
+@include "phaser_svcaller_exome_cs.mro"
+
+call PHASER_SVCALLER_EXOME_CS(
+    fastq_mode = "ILMN_BCL2FASTQ",
+    sample_id = "MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection-idt-lsf",
+    sample_def = [ 
+        {
+            "gem_group": null,
+            "lanes": null,
+            "read_path": "/reads",
+            "sample_indices": [ "any" ],
+            "sample_names": [ "MMY_H_QD-WUPAT005-V0DHN2_with_pippen_size_selection" ],
+            "library": "LibraryNotSpecified",
+            "bc_in_read": 1,
+            "bc_length": 16
+        }
+    ],
+    sample_desc = "",
+    reference_path = "/ref",
+    sex = null,
+    targets = "/tmp/94b23d66f667472690a7ee165e2037b6.bed",
+    vc_precalled = null,
+    vc_mode = "freebayes",
+    vc_ground_truth = null,
+    restrict_locus = null,
+    noloupe = false,
+    is_germline = true,
+    cnvfilter = null,
+)
