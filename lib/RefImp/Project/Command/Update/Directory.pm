@@ -6,7 +6,7 @@ use warnings;
 use Cwd 'abs_path';
 use File::Path;
 use File::Spec;
-use RefImp::Util::Tablizer;
+use Util::Tablizer;
 
 class RefImp::Project::Command::Update::Directory { 
     is => 'RefImp::Project::Command::BaseWithMany',
@@ -58,7 +58,7 @@ sub _after_execute {
         $i++;
     }
 
-    print RefImp::Util::Tablizer->format(\@rows);
+    print Util::Tablizer->format(\@rows);
 }
 
 1;

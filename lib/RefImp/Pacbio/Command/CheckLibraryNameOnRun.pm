@@ -5,7 +5,7 @@ use warnings 'FATAL';
 
 use Path::Class;
 use RefImp::Pacbio::Run;
-use RefImp::Util::Tablizer;
+use Util::Tablizer;
 use YAML;
 
 class RefImp::Pacbio::Command::CheckLibraryNameOnRun {
@@ -59,7 +59,7 @@ sub execute {
 
     $self->status_message('Run: %s', $run->__name__);
     $self->status_message('Library Name: %s', $library_name);
-    $self->status_message("Analyses:\n%s", RefImp::Util::Tablizer->format(\@rows));
+    $self->status_message("Analyses:\n%s", Util::Tablizer->format(\@rows));
     $self->status_message('Analyses Total: %s', scalar(@$analyses));
     $self->status_message('Matched Analyses: %s', $match_count);
 

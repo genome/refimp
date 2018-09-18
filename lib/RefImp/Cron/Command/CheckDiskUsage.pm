@@ -5,7 +5,7 @@ use warnings 'FATAL';
 
 use Filesys::Df 'df';
 use IO::File;
-use RefImp::Util::Tablizer;
+use Util::Tablizer;
 
 class RefImp::Cron::Command::CheckDiskUsage {
     is => 'Command::V2',
@@ -76,10 +76,10 @@ sub _output {
 
     my $output;
     if ( $self->html ) {
-        $output = RefImp::Util::Tablizer->as_html({headers => $headers, rows => $data});
+        $output = Util::Tablizer->as_html({headers => $headers, rows => $data});
     }
     else {
-        $output = RefImp::Util::Tablizer->format([$headers, @$data]);
+        $output = Util::Tablizer->format([$headers, @$data]);
     }
 
     if ( $self->output_file ) {

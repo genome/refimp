@@ -9,7 +9,7 @@ use IO::File;
 use List::Util;
 use Path::Class;
 use RefImp::DataAdapter::SRAXML::PrimaryAnalysis;
-use RefImp::Util::Tablizer;
+use Util::Tablizer;
 use RefImp::Pacbio::Run;
 
 class RefImp::Pacbio::Command::PrepareRunSubmission {
@@ -107,7 +107,7 @@ sub get_analyses_from_runs {
     $self->fatal_message('No analyses found for any pac bio runs!') if not @analyses;
 
     $self->status_message('Run analyses and sample anaylese counts');
-    $self->status_message( RefImp::Util::Tablizer->format(\@rows) );
+    $self->status_message( Util::Tablizer->format(\@rows) );
 
     $self->status_message('Found %s total analyses for %s', scalar(@analyses), $library_name);
     #my $max = List::Util::max( map { -s $_ } @analyses);
