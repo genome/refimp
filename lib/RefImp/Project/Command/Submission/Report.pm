@@ -3,7 +3,7 @@ package RefImp::Project::Command::Submission::Report;
 use strict;
 use warnings;
 
-use RefImp::Util::Tablizer;
+use Util::Tablizer;
 use YAML;
 
 class RefImp::Project::Command::Submission::Report { 
@@ -46,7 +46,7 @@ sub general {
         $metrics{'Total Size'} += $size;
         push @rows, [ $submission->project->name, (map { $_->name } $submission->project->finishers)[0], $submission->submitted_on, $size, ];
     }
-    print RefImp::Util::Tablizer->format(\@rows).YAML::Dump(\%metrics);
+    print Util::Tablizer->format(\@rows).YAML::Dump(\%metrics);
 }
 
 sub finisher {
@@ -68,7 +68,7 @@ sub finisher {
         unshift @$rows, $headers, [ map { '-' x length } @$headers ];
         my %metrics = %{$finishers{$finisher}->{metrics}};
         $metrics{Finisher} = $finisher;
-        push @output, RefImp::Util::Tablizer->format($finishers{$finisher}->{rows}).YAML::Dump(\%metrics);
+        push @output, Util::Tablizer->format($finishers{$finisher}->{rows}).YAML::Dump(\%metrics);
     }
     print join("\n", @output);
 }

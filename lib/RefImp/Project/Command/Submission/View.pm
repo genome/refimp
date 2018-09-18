@@ -3,7 +3,7 @@ package RefImp::Project::Command::Submission::View;
 use strict;
 use warnings;
 
-use RefImp::Util::Tablizer;
+use Util::Tablizer;
 
 class RefImp::Project::Command::Submission::View { 
     is => 'Command::V2',
@@ -26,7 +26,7 @@ sub execute {
 
 sub get_submission_table {
     my $self = shift;
-    RefImp::Util::Tablizer->format([
+    Util::Tablizer->format([
         map({ [ sprintf('%s:', uc('project '.$_)), $self->submission->project->$_ ] } (qw/ name id /)),
         map({ [ sprintf('%s:', uc($_)), ($self->submission->$_ // 'NaN') ] } (qw/ project_size phase submitted_on directory /)),
     ]);

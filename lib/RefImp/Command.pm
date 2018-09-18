@@ -12,7 +12,6 @@ class RefImp::Command {
 my %command_map = (
     assembly => 'RefImp::Assembly::Command',
     cron => 'RefImp::Cron::Command',
-    pacbio => 'RefImp::Pacbio::Command',
     project => 'RefImp::Project::Command',
     taxon => 'RefImp::Taxon::Command',
 );

@@ -3,7 +3,7 @@ package RefImp::Project::Command::Status;
 use strict;
 use warnings;
 
-use RefImp::Util::Tablizer;
+use Util::Tablizer;
 
 class RefImp::Project::Command::Status { 
     is => 'RefImp::Project::Command::BaseWithMany',
@@ -29,7 +29,7 @@ sub _after_execute {
         push @rows, \@row;
     }
 
-    print RefImp::Util::Tablizer->format(\@rows);
+    print Util::Tablizer->format(\@rows);
 }
 
 1;

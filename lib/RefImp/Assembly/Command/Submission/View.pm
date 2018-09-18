@@ -3,7 +3,7 @@ package RefImp::Assembly::Command::Submission::View;
 use strict;
 use warnings;
 
-use RefImp::Util::Tablizer;
+use Util::Tablizer;
 
 class RefImp::Assembly::Command::Submission::View { 
     is => 'Command::V2',
@@ -25,7 +25,7 @@ sub execute {
     print join(
         "\n",
         'ASSEMBLY SUBMISSION RECORD',
-        RefImp::Util::Tablizer->format([
+        Util::Tablizer->format([
             map({ [ sprintf('%s:', uc($_)), ( $submission->$_ // 'NaN' ) ] } (qw/ id ncbi_version accession_id bioproject biosample submitted_on directory /)),
             ]),
         "SUBMISSION YAML:",
