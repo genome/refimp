@@ -3,14 +3,9 @@ perl:
   - "5.26.0"
 sudo: false
 before_install:
-  - build-perl
-  - perl -V
-install:
-  - pwd -P
   - cpanm --quiet --notest Devel::Cover::Report::Coveralls
+install:
   - cpanm -nq 'DBD::mysql@4.046'
   - cpanm -n --installdeps .
-before_script:
-  - coverage-setup
 script:
   - perl Build.PL && ./Build build && cover -test -report coveralls
