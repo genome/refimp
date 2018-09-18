@@ -116,6 +116,7 @@ sub _from_yml {
     my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
     $params{assembly} = $assembly,
     $params{directory} = "$directory";
+    $params{id} = $id;
     $params{submission_info} = $info;
     $params{submission_yml} = YAML::Dump($info);
     if ( $params{biosample} and $params{bioproject} ) {

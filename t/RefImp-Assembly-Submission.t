@@ -11,7 +11,7 @@ use File::Temp 'tempdir';
 use LWP::UserAgent;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 12;
+use Test::More tests => 13;
 
 my %setup;
 subtest 'setup' => sub{
@@ -32,7 +32,7 @@ subtest 'setup' => sub{
 };
 
 subtest 'get_or_create_from_yml' => sub{
-    plan tests => 18;
+    plan tests => 19;
 
     throws_ok(sub{ $setup{pkg}->get_or_create_from_yml(); }, qr/No submission YAML given/, 'get_or_create_from_yml fails w/o submission yml');
     throws_ok(sub{ $setup{pkg}->get_or_create_from_yml('/blah'); }, qr/Submission YAML does not exist/, 'get_or_create_from_yml fails w/ non existing submission yml');
@@ -70,16 +70,31 @@ subtest 'get_or_create_from_yml' => sub{
     ok($submission->taxon, 'taxon via assemby');
     is($submission->version, $submission_params->{version}, 'set version');
     $setup{submission} = $submission;
+    is($submission->id, $submission_params->{unique_id}, 'id is unique_id');
 
     ok(UR::Context->commit, 'commit');
 
 };
 
 subtest 'get_or_define_from_yml' => sub{
+    plan tests => 3;
+
+    my %params = %{$setup{submission_params}};
+    $params{unique_id} = UR::Object::Type->autogenerate_new_object_id_uuid;
+    YAML::DumpFile($setup{invalid_submission_yml}, \%params);
+
+    my $submission = $setup{pkg}->get_or_define_from_yml($setup{invalid_submission_yml});
+    ok($submission, 'get_or_define_from_yml');
+    ok($submission->{__defined}, '__define__ submission');
+    isnt($submission->id, $setup{submission}->id, 'defined a new subimssion');
+
+};
+
+subtest 'get' => sub{
     plan tests => 1;
 
-    my $submission = $setup{pkg}->get_or_define_from_yml($setup{submission_yml});
-    ok($submission, '__define__ from yml ');
+    my $submission = $setup{pkg}->get($setup{submission_params}->{unique_id});
+    is($submission, $setup{submission}, 'get');
 
 };
 
