@@ -95,7 +95,8 @@ sub _from_yml {
     my $info = YAML::LoadFile($yml);
     $class->fatal_message('Failed to open submission YAML!') if not $info;
 
-    $class->fatal_message('No unique_id in submission yml! Please add this attribute!') if not $info->{unique_id};
+    $class->fatal_message('No unique_id in submission yml! ,Pleasese use \'refimp assembly submission add-unique-id\' to correct in YAML file.') if not $info->{unique_id};
+    $class->fatal_message('Invalid unique_id in YAML: %s. Please use \'refimp assembly submission add-unique-id\' to correct in YAML file.', $info->{unique_id}) if $info->{unique_id} !~ /[A-Z0-9]{32}/;
     my $id = $info->{unique_id};
     my $self = $class->get($id);
     return $self if $self;
