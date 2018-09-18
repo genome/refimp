@@ -9,6 +9,7 @@ before_install:
   - perl -V
 install:
   - pwd -P
+  - cpanm --quiet --notest Devel::Cover::Report::Coveralls
   - cpanm -nq 'DBD::mysql@4.046'
   - cpanm -n --installdeps .
 before_script:
@@ -18,5 +19,4 @@ script:
   - PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -I. -l -j$(test-jobs) .
   - cover
 after_success:
-  - coverage-report
   - cover -report coveralls
