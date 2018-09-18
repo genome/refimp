@@ -8,4 +8,4 @@ install:
   - cpanm -nq 'DBD::mysql@4.046'
   - cpanm -n --installdeps .
 script:
-  - perl Build.PL && ./Build build && cover -test -report coveralls
+  - perl Build.PL && ./Build build && PERL5LIB=t/ cover -test -report coveralls
