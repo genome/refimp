@@ -54,7 +54,7 @@ sub _create_submission_record {
     my $self = shift;
 
     use RefImp::Assembly::Submission;
-    my $submission = RefImp::Assembly::Submission->create_from_yml($self->submission_yml);
+    my $submission = RefImp::Assembly::Submission->get_or_create_from_yml($self->submission_yml);
     if ( my @errors = $submission->__errors__ ) {
         $self->fatal_message( join("\n", map { $_->__display_name__ } @errors) );
     }

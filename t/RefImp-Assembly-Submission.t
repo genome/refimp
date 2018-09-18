@@ -31,32 +31,36 @@ subtest 'setup' => sub{
 
 };
 
-subtest 'create_from_yml' => sub{
-    plan tests => 16;
+subtest 'get_or_create_from_yml' => sub{
+    plan tests => 18;
 
-    throws_ok(sub{ $setup{pkg}->create_from_yml(); }, qr/No submission YAML given/, 'create_from_yml fails w/o submission yml');
-    throws_ok(sub{ $setup{pkg}->create_from_yml('/blah'); }, qr/Submission YAML does not exist/, 'create_from_yml fails w/ non existing submission yml');
+    throws_ok(sub{ $setup{pkg}->get_or_create_from_yml(); }, qr/No submission YAML given/, 'get_or_create_from_yml fails w/o submission yml');
+    throws_ok(sub{ $setup{pkg}->get_or_create_from_yml('/blah'); }, qr/Submission YAML does not exist/, 'get_or_create_from_yml fails w/ non existing submission yml');
 
     my $submission_params = $setup{submission_params};
+    ok($submission_params->{unique_id}, 'subimssion params has unique_id');
+    my $submission = $setup{pkg}->get( $submission_params->{unique_id} );
+    ok(!$submission, 'submission does not exist');
+
     for my $k (qw/ biosample bioproject version /) {
         my $v = delete $submission_params->{$k};
         YAML::DumpFile($setup{invalid_submission_yml}, $submission_params);
-        my $submission = $setup{pkg}->create_from_yml($setup{invalid_submission_yml});
+        my $submission = $setup{pkg}->get_or_create_from_yml($setup{invalid_submission_yml});
         my @errors = $submission->__errors__;
-        like($errors[0]->__display_name__, qr/$k': No value specified/, "create_from_yml fails w/o $k");
+        like($errors[0]->__display_name__, qr/$k': No value specified/, "get_or_create_from_yml fails w/o $k");
         $submission_params->{$k} = $v;
         $submission->delete;
     }
 
     my $taxon = delete $submission_params->{taxon};
     YAML::DumpFile($setup{invalid_submission_yml}, $submission_params);
-    throws_ok(sub{ $setup{pkg}->create_from_yml($setup{invalid_submission_yml}); }, qr/No taxon in submission YAML/, 'fails w/o taxon');
+    throws_ok(sub{ $setup{pkg}->get_or_create_from_yml($setup{invalid_submission_yml}); }, qr/No taxon in submission YAML/, 'fails w/o taxon');
     $submission_params->{taxon} = 'i dunno';
     YAML::DumpFile($setup{invalid_submission_yml}, $submission_params);
-    throws_ok(sub{ $setup{pkg}->create_from_yml($setup{invalid_submission_yml}); }, qr/Taxon not found for "i dunno"/, 'fails when taxon not found');
+    throws_ok(sub{ $setup{pkg}->get_or_create_from_yml($setup{invalid_submission_yml}); }, qr/Taxon not found for "i dunno"/, 'fails when taxon not found');
     $submission_params->{taxon} = $taxon;
 
-    my $submission = $setup{pkg}->create_from_yml($setup{submission_yml});
+    $submission = $setup{pkg}->get_or_create_from_yml($setup{submission_yml});
     ok($submission, 'create from yml ');
     ok($submission->assembly, 'create assemby');
     is($submission->biosample, $submission_params->{biosample}, 'set biosample');
@@ -71,10 +75,10 @@ subtest 'create_from_yml' => sub{
 
 };
 
-subtest 'define_from_yml' => sub{
+subtest 'get_or_define_from_yml' => sub{
     plan tests => 1;
 
-    my $submission = $setup{pkg}->define_from_yml($setup{submission_yml});
+    my $submission = $setup{pkg}->get_or_define_from_yml($setup{submission_yml});
     ok($submission, '__define__ from yml ');
 
 };

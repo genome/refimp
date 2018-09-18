@@ -74,12 +74,12 @@ sub get {
     $self;
 }
 
-sub create_from_yml {
+sub get_or_create_from_yml {
     my $class = shift;
     $class->_from_yml(@_);
 }
 
-sub define_from_yml {
+sub get_or_define_from_yml {
     my $class = shift;
     $class->_from_yml(@_, '__define__');
 }
