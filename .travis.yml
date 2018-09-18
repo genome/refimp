@@ -3,8 +3,6 @@ perl:
   - "5.26.0"
 sudo: false
 before_install:
-  - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
-  - source ~/travis-perl-helpers/init
   - build-perl
   - perl -V
 install:
@@ -15,8 +13,4 @@ install:
 before_script:
   - coverage-setup
 script:
-  - cd t/
-  - PERL5OPT=-MDevel::Cover=-coverage,statement,branch,condition,path,subroutine prove -I. -l -j$(test-jobs) .
-  - cover
-after_success:
-  - cover -report coveralls
+  - perl Build.PL && ./Build build && cover -test -report coveralls
