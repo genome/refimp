@@ -8,7 +8,7 @@ use TestEnv;
 use File::Temp;
 use Test::More tests => 4;
 
-my $pkg = 'RefImp::Assembly::Command::Submission::TblToAsn';
+my $pkg = 'RefImp::Assembly::Command::Submission::CreateTar';
 my $cmd;
 subtest 'setup' => sub {
     plan tests => 4;
@@ -30,13 +30,16 @@ subtest 'setup' => sub {
 };
 
 subtest 'execute' => sub{
-    plan tests => 3;
+    plan tests => 5;
 
     ok($cmd->execute);
     ok($cmd->result, 'execute');
 
     my $results_path = $cmd->results_path;
     is_deeply([$cmd->sqn_files], [File::Spec->join($cmd->results_path, 'contigs.01.sqn')], 'sqn_files');
+    my $tar_file = $cmd->tar_file;
+    like("$tar_file", qr/Crassostrea_virginica_2\.0_\d\d\d\d\-\d\d\-\d\d\.tar/, 'tar_file');
+    ok(-s "$tar_file", 'created tar file');
 
 };
 

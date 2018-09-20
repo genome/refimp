@@ -208,8 +208,8 @@ sub validate_for_submit {
         $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
     }
 
-    RefImp::Assembly::Command::Submission::TblToAsn->format_names( $self->info_for('authors') );
-    my @formatted_contact = RefImp::Assembly::Command::Submission::TblToAsn->format_names( $self->info_for('contact') );
+    RefImp::Assembly::Command::Submission::CreateTar->format_names( $self->info_for('authors') );
+    my @formatted_contact = RefImp::Assembly::Command::Submission::CreateTar->format_names( $self->info_for('contact') );
     $self->fatal_message('More than one contact found in submission info!') if @formatted_contact > 1;
 
     1;

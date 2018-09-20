@@ -19,15 +19,8 @@ class RefImp::Assembly::Command::Submit {
     },
     has_optional_transient => {
         submission => { is => 'RefImp::Project::Submission', },
-        tbl2asn_cmd => { is => 'RefImp::Assembly::Command::Submission::TblToAsn', },
         tempdir => { is => 'Path::Class', },
-    },
-    has_optional_calculated => {
-        tar_file => {
-            is => 'Path::Class::dir',
-            calculate_from => [qw/ tempdir submission /],
-            calculate => q| $tempdir->file($submission->tar_basename) |,
-        },
+        tar_file => { is => 'Path::Class::file', },
     },
     doc => 'submit a assembly to NCBI',
 };
@@ -41,7 +34,6 @@ sub execute {
     my $tempdir = File::Temp::tempdir(CLEANUP => 1);
     $self->tempdir( Path::Class::dir($tempdir) );
     $self->_create_submission_record;
-    $self->_create_sqn_files;
     $self->_create_submission_tar;
     $self->_ftp_to_ncbi;
     $self->_print_mail;
@@ -67,44 +59,14 @@ sub _create_submission_record {
     $self->submission($submission);
 }
 
-sub _create_sqn_files {
+sub _create_submission_tar {
     my $self = shift;
-    $self->status_message('Create SQN files with TBL2ASN...');
-
-    my $tbl2asn = RefImp::Assembly::Command::Submission::TblToAsn->execute(
+    my $cmd = RefImp::Assembly::Command::Submission::CreateTar->create(
         submission_yml => $self->submission_yml,
         output_directory => $self->tempdir->stringify,
     );
-    $self->fatal_message("Failed to run TBL to ASN!") if not $tbl2asn->result;
-    $self->tbl2asn_cmd($tbl2asn);
-    $self->status_message('Create SQN files with TBL2ASN...OK');
-}
-
-sub _create_submission_tar {
-    my $self = shift;
-    $self->status_message('Create submission TAR...');
-
-    # Create w/ SQN files
-    my $tar_file = $self->tar_file;
-    $self->status_message('TAR file: %s', $tar_file);
-    my $results_path = $self->tbl2asn_cmd->results_path;
-    my @sqn_file_names = map { file($_)->basename } $self->tbl2asn_cmd->sqn_files;
-    my @tar_cmd = ( "tar", "--create", "--directory", $results_path, "--file", $tar_file, @sqn_file_names );
-    $self->status_message('Creating TAR with SQN files...');
-    $self->status_message('Running: %s', join(' ', @tar_cmd));
-    my $rv = system(@tar_cmd);
-    $self->fatal_message('Failed to run tbl2asn: %s', $!) if $rv != 0;
-
-    # Append AGP file
-    my $agp_file = $self->submission->info_for('agp_file');
-    if ( $agp_file ) {
-        my @tar_cmd = ( "tar", "--append", "--directory", $self->submission->directory, "--file", $tar_file, $agp_file );
-        $self->status_message('Running: %s', join(' ', @tar_cmd));
-        $rv = system(@tar_cmd);
-        $self->fatal_message('Failed to run tbl2asn: %s', $!) if $rv != 0;
-    }
-
-    $self->status_message('Create submission TAR...OK');
+    $self->fatal_message("Failed to create submission TAR!") if not $cmd->execute or not $cmd->result;
+    $self->tar_file($cmd->tar_file);
 }
 
 sub _ftp_to_ncbi {
