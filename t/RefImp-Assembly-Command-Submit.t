@@ -53,8 +53,7 @@ subtest 'execute' => sub{
     ok($cmd->result, 'cmd result');
 
     ok($cmd->submission, 'created submission');
-    like($cmd->tar_file, qr/Crassostrea_virginica_2\.0_\d\d\d\d\-\d\d\-\d\d\.tar/, 'tar_file');
-
+    like($cmd->tar_file, qr/Crassostrea_virginica_2\.0_\d\d\d\d\-\d\d\-\d\d\.tar/, 'tar_file name');
     ok(-s $cmd->tar_file, 'created tar file');
 
 };

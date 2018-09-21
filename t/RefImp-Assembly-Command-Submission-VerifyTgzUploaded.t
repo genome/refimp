@@ -20,7 +20,7 @@ subtest 'setup' => sub{
     my $data_dir = dir( TestEnv::test_data_directory_for_package('RefImp::Assembly::Submission') );
     my $assembly_dir = File::Spec->join($data_dir, 'assembly');
 
-    $test{submission} = RefImp::Assembly::Submission->define_from_yml( File::Spec->join($data_dir, 'submission.yml') );
+    $test{submission} = RefImp::Assembly::Submission->get_or_define_from_yml( File::Spec->join($data_dir, 'submission.yml') );
     ok($test{submission}, 'create submission');
 
     $test{ftp} = TestEnv::NcbiFtp->setup;

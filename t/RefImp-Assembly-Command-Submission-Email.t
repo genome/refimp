@@ -33,7 +33,7 @@ subtest 'execute fails' => sub{
 subtest 'execute with submission' => sub{
     plan tests => 3;
 
-    my $submission = RefImp::Assembly::Submission->define_from_yml($setup{submission_yml});
+    my $submission = RefImp::Assembly::Submission->get_or_define_from_yml($setup{submission_yml});
     ok($submission, 'create submission');
 
     my $output;

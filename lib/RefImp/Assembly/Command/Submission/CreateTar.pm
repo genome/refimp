@@ -1,4 +1,4 @@
-package RefImp::Assembly::Command::Submission::TblToAsn;
+package RefImp::Assembly::Command::Submission::CreateTar;
 
 use strict;
 use warnings 'FATAL';
@@ -6,9 +6,9 @@ use warnings 'FATAL';
 use File::Spec;
 use File::Temp;
 use IO::File;
-use Path::Class 'dir';
+use Path::Class;
 
-class RefImp::Assembly::Command::Submission::TblToAsn {
+class RefImp::Assembly::Command::Submission::CreateTar {
     is => 'Command::V2',
     has => {
         submission_yml => { is => 'Text', doc => 'Assembly submission object' },
@@ -25,6 +25,7 @@ class RefImp::Assembly::Command::Submission::TblToAsn {
         discrepancy_report_path => { calculate_from => [qw/ results_path /], calculate => q| $results_path->file('discrepancy_report'); |, },
         results_path => { calculate_from => [qw/ _output_directory /], calculate => q| $_output_directory->subdir('RESULTS'); |, },
         template_file => { calculate_from => [qw/ _output_directory /], calculate => q| $_output_directory->file('template.sbt'); |, },
+        tar_file => { calculate_from => [qw/ _output_directory submission /], calculate => q| $_output_directory->file($submission->tar_basename) |, },
     },
     doc => 'run tbl2asn on a submission',
 };
@@ -33,9 +34,9 @@ sub help_detail { $_[0]->__meta__->doc }
 
 sub execute {
     my $self = shift;
+    $self->status_message('Create submission TAR...');
 
-    $self->status_message('TBL TO ASN...');
-    $self->submission( RefImp::Assembly::Submission->define_from_yml($self->submission_yml) );
+    $self->submission( RefImp::Assembly::Submission->get_or_define_from_yml($self->submission_yml) );
     $self->status_message('Submission: %s', $self->submission->__display_name__);
     $self->_output_directory( dir( $self->output_directory) );
     $self->status_message('Output directory: %s', $self->_output_directory);
@@ -45,8 +46,9 @@ sub execute {
     $self->split_fasta_files;
     $self->write_cmt_files;
     $self->run_tbl2asn;
+    $self->create_tar;
 
-    $self->status_message('TBL TO ASN...OK');
+    $self->status_message('Create submission TAR...OK');
     1;
 }
 
@@ -325,6 +327,33 @@ sub source_qualifiers {
     # Potential other qualifiers: [host=Homo sapiens] [isolation-source=Stool sample of individual with bacteremia] [country=USA: MO]
 
     "'".join(' ', @source_qualifiers)."'";
+}
+
+sub create_tar {
+    my $self = shift;
+    $self->status_message('Create TAR...');
+
+    # Create w/ SQN files
+    my $tar_file = $self->tar_file;
+    $self->status_message('TAR file: %s', $tar_file);
+    my $results_path = $self->results_path;
+    my @sqn_file_names = map { Path::Class::file($_)->basename } $self->sqn_files;
+    my @tar_cmd = ( "tar", "--create", "--directory", $results_path, "--file", $tar_file, @sqn_file_names );
+    $self->status_message('Creating TAR with SQN files...');
+    $self->status_message('Running: %s', join(' ', @tar_cmd));
+    my $rv = system(@tar_cmd);
+    $self->fatal_message('Failed to run tbl2asn: %s', $!) if $rv != 0;
+
+    # Append AGP file
+    my $agp_file = $self->submission->info_for('agp_file');
+    if ( $agp_file ) {
+        my @tar_cmd = ( "tar", "--append", "--directory", $self->submission->directory, "--file", $tar_file, $agp_file );
+        $self->status_message('Running: %s', join(' ', @tar_cmd));
+        $rv = system(@tar_cmd);
+        $self->fatal_message('Failed to run tbl2asn: %s', $!) if $rv != 0;
+    }
+
+    $self->status_message('Create TAR...OK');
 }
 
 1;

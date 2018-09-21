@@ -22,7 +22,7 @@ subtest 'setup'=> sub{
     ok(TestEnv::NcbiBiosample->setup, 'biosample setup');
 
     my $submission_yml = File::Spec->join(TestEnv::test_data_directory_for_package('RefImp::Assembly::Submission'), 'submission.yml');
-    $setup{submission} = RefImp::Assembly::Submission->create_from_yml($submission_yml);
+    $setup{submission} = RefImp::Assembly::Submission->get_or_create_from_yml($submission_yml);
     ok($setup{submission}, 'create submission');
 
 };

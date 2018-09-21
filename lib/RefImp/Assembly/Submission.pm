@@ -74,12 +74,12 @@ sub get {
     $self;
 }
 
-sub create_from_yml {
+sub get_or_create_from_yml {
     my $class = shift;
     $class->_from_yml(@_);
 }
 
-sub define_from_yml {
+sub get_or_define_from_yml {
     my $class = shift;
     $class->_from_yml(@_, '__define__');
 }
@@ -95,7 +95,8 @@ sub _from_yml {
     my $info = YAML::LoadFile($yml);
     $class->fatal_message('Failed to open submission YAML!') if not $info;
 
-    $class->fatal_message('No unique_id in submission yml! Please add this attribute!') if not $info->{unique_id};
+    $class->fatal_message('No unique_id in submission yml! ,Pleasese use \'refimp assembly submission add-unique-id\' to correct in YAML file.') if not $info->{unique_id};
+    $class->fatal_message('Invalid unique_id in YAML: %s. Please use \'refimp assembly submission add-unique-id\' to correct in YAML file.', $info->{unique_id}) if $info->{unique_id} !~ /[A-Z0-9]{32}/;
     my $id = $info->{unique_id};
     my $self = $class->get($id);
     return $self if $self;
@@ -116,6 +117,7 @@ sub _from_yml {
     my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);
     $params{assembly} = $assembly,
     $params{directory} = "$directory";
+    $params{id} = $id;
     $params{submission_info} = $info;
     $params{submission_yml} = YAML::Dump($info);
     if ( $params{biosample} and $params{bioproject} ) {
@@ -206,8 +208,8 @@ sub validate_for_submit {
         $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
     }
 
-    RefImp::Assembly::Command::Submission::TblToAsn->format_names( $self->info_for('authors') );
-    my @formatted_contact = RefImp::Assembly::Command::Submission::TblToAsn->format_names( $self->info_for('contact') );
+    RefImp::Assembly::Command::Submission::CreateTar->format_names( $self->info_for('authors') );
+    my @formatted_contact = RefImp::Assembly::Command::Submission::CreateTar->format_names( $self->info_for('contact') );
     $self->fatal_message('More than one contact found in submission info!') if @formatted_contact > 1;
 
     1;

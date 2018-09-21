@@ -11,7 +11,7 @@ use File::Temp 'tempdir';
 use LWP::UserAgent;
 use Test::Exception;
 use Test::MockObject;
-use Test::More tests => 12;
+use Test::More tests => 14;
 
 my %setup;
 subtest 'setup' => sub{
@@ -31,51 +31,81 @@ subtest 'setup' => sub{
 
 };
 
-subtest 'create_from_yml' => sub{
-    plan tests => 16;
+subtest '_from_yml fails' => sub{
+    plan tests => 8;
 
-    throws_ok(sub{ $setup{pkg}->create_from_yml(); }, qr/No submission YAML given/, 'create_from_yml fails w/o submission yml');
-    throws_ok(sub{ $setup{pkg}->create_from_yml('/blah'); }, qr/Submission YAML does not exist/, 'create_from_yml fails w/ non existing submission yml');
+    throws_ok(sub{ $setup{pkg}->_from_yml(); }, qr/No submission YAML given/, 'get_or_create_from_yml fails w/o submission yml');
+    throws_ok(sub{ $setup{pkg}->_from_yml('/blah'); }, qr/Submission YAML does not exist/, 'get_or_create_from_yml fails w/ non existing submission yml');
 
-    my $submission_params = $setup{submission_params};
+    my %params = %{$setup{submission_params}};
+    $params{unique_id} = 'GGG';
+    YAML::DumpFile($setup{invalid_submission_yml}, \%params);
+    throws_ok(sub{ $setup{pkg}->_from_yml($setup{invalid_submission_yml}); }, qr/Invalid unique_id in YAML: GGG. Please use \'refimp assembly submission add-unique-id\'/, 'fails w/ invalid unique_id');
+
+    %params = %{$setup{submission_params}};
     for my $k (qw/ biosample bioproject version /) {
-        my $v = delete $submission_params->{$k};
-        YAML::DumpFile($setup{invalid_submission_yml}, $submission_params);
-        my $submission = $setup{pkg}->create_from_yml($setup{invalid_submission_yml});
+        my $v = delete $params{$k};
+        YAML::DumpFile($setup{invalid_submission_yml}, \%params);
+        my $submission = $setup{pkg}->_from_yml($setup{invalid_submission_yml});
         my @errors = $submission->__errors__;
-        like($errors[0]->__display_name__, qr/$k': No value specified/, "create_from_yml fails w/o $k");
-        $submission_params->{$k} = $v;
+        like($errors[0]->__display_name__, qr/$k': No value specified/, "get_or_create_from_yml fails w/o $k");
+        $params{$k} = $v;
         $submission->delete;
     }
 
-    my $taxon = delete $submission_params->{taxon};
-    YAML::DumpFile($setup{invalid_submission_yml}, $submission_params);
-    throws_ok(sub{ $setup{pkg}->create_from_yml($setup{invalid_submission_yml}); }, qr/No taxon in submission YAML/, 'fails w/o taxon');
-    $submission_params->{taxon} = 'i dunno';
-    YAML::DumpFile($setup{invalid_submission_yml}, $submission_params);
-    throws_ok(sub{ $setup{pkg}->create_from_yml($setup{invalid_submission_yml}); }, qr/Taxon not found for "i dunno"/, 'fails when taxon not found');
-    $submission_params->{taxon} = $taxon;
+    %params = %{$setup{submission_params}};
+    my $taxon = delete $params{taxon};
+    YAML::DumpFile($setup{invalid_submission_yml}, \%params);
+    throws_ok(sub{ $setup{pkg}->_from_yml($setup{invalid_submission_yml}); }, qr/No taxon in submission YAML/, 'fails w/o taxon');
+    $params{taxon} = 'i dunno';
+    YAML::DumpFile($setup{invalid_submission_yml}, \%params);
+    throws_ok(sub{ $setup{pkg}->_from_yml($setup{invalid_submission_yml}); }, qr/Taxon not found for "i dunno"/, 'fails when taxon not found');
 
-    my $submission = $setup{pkg}->create_from_yml($setup{submission_yml});
+};
+
+subtest 'get_or_create_from_yml' => sub{
+    plan tests => 12;
+
+    my %params = %{$setup{submission_params}};
+    ok($params{unique_id}, 'subimssion params has unique_id');
+    my $submission = $setup{pkg}->get($params{unique_id});
+    ok(!$submission, 'submission does not exist');
+
+    $submission = $setup{pkg}->get_or_create_from_yml($setup{submission_yml});
     ok($submission, 'create from yml ');
     ok($submission->assembly, 'create assemby');
-    is($submission->biosample, $submission_params->{biosample}, 'set biosample');
-    is($submission->bioproject, $submission_params->{bioproject}, 'set bioproject');
+    is($submission->biosample, $params{biosample}, 'set biosample');
+    is($submission->bioproject, $params{bioproject}, 'set bioproject');
     ok($submission->ncbi_biosample, 'set ncbi_bioproject');
     like($submission->submitted_on, qr/^\d{4}\-\d{2}\-\d{2}/, 'set submitted_on');
     ok($submission->taxon, 'taxon via assemby');
-    is($submission->version, $submission_params->{version}, 'set version');
+    is($submission->version, $params{version}, 'set version');
     $setup{submission} = $submission;
+    is($submission->id, $params{unique_id}, 'id is unique_id');
 
     ok(UR::Context->commit, 'commit');
 
 };
 
-subtest 'define_from_yml' => sub{
+subtest 'get_or_define_from_yml' => sub{
+    plan tests => 3;
+
+    my %params = %{$setup{submission_params}};
+    $params{unique_id} = UR::Object::Type->autogenerate_new_object_id_uuid;
+    YAML::DumpFile($setup{invalid_submission_yml}, \%params);
+
+    my $submission = $setup{pkg}->get_or_define_from_yml($setup{invalid_submission_yml});
+    ok($submission, 'get_or_define_from_yml');
+    ok($submission->{__defined}, '__define__ submission');
+    isnt($submission->id, $setup{submission}->id, 'defined a new subimssion');
+
+};
+
+subtest 'get' => sub{
     plan tests => 1;
 
-    my $submission = $setup{pkg}->define_from_yml($setup{submission_yml});
-    ok($submission, '__define__ from yml ');
+    my $submission = $setup{pkg}->get($setup{submission_params}->{unique_id});
+    is($submission, $setup{submission}, 'get');
 
 };
 

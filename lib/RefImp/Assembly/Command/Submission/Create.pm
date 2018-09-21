@@ -37,7 +37,7 @@ sub execute {
     if ( $submitted_on ) {
         $self->fatal_message('Invalid submitted_on date given! %s', $submitted_on) if $submitted_on !~ /^\d{4}\-\d{2}\-\d{2}$/;
     }
-    my $submission = RefImp::Assembly::Submission->create_from_yml($self->submission_yml);
+    my $submission = RefImp::Assembly::Submission->get_or_create_from_yml($self->submission_yml);
     if ( my @errors = $submission->__errors__ ) {
         $self->fatal_message( join("\n", map { $_->__display_name__ } @errors) );
     }
