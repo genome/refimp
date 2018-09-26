@@ -16,7 +16,7 @@ sub system_mock {
     $system_rv;
 }
 
-my %test = ( class => 'Util::GCP::Rsync' );
+my %test = ( class => 'Util::GCP' );
 use_ok($test{class}) or die;
 
 subtest 'rsync' => sub {

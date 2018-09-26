@@ -4,7 +4,7 @@ use strict;
 use warnings 'FATAL';
 
 use Path::Class;
-use Util::GCP::Rsync;
+use Util::GCP;
 
 class Tenx::Reads::Command::UploadToCloud {
     is => 'Command::V2',
@@ -49,7 +49,7 @@ sub execute {
         $self->status_message('Uploading %s ...', $sample_name);
         my $sample_directory = $samplesheet->fastq_directory_for_sample_name($sample_name);
         my $destination_sample_dir = $self->destination.'/'.$sample_name;
-        Util::GCP::Rsync->rsync("$sample_directory", "$destination_sample_dir");
+        Util::GCP->rsync("$sample_directory", "$destination_sample_dir");
     }
 
     $self->status_message('Upload to cloud...OK');
