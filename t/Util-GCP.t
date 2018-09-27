@@ -8,9 +8,6 @@ use TenxTestEnv;
 use Test::Exception;
 use Test::More tests => 3;
 
-#our $system_mock = sub{ die "No system sub set" };
-#use Test::Mock::Cmd 'system' => sub{ $system_mock->(@_) };
-
 use IPC::Cmd;
 use Sub::Install;
 our %test = (
