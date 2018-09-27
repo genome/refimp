@@ -23,7 +23,7 @@ requires 'Test::Exception';
 requires 'Test::MockObject';
 requires 'Test::More';
 requires 'Text::CSV';
-requires 'UR';
+requires 'UR', 0.46;
 requires 'UR::Object::Command::Crud';
 requires 'WWW::Mechanize';
 requires 'XML::Compile::Schema';
