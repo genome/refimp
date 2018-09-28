@@ -1,4 +1,4 @@
-package Pacbio::Command::Assembly::BaxToBam::GenerateCommands;
+package Pacbio::Assembly::Command::GenerateBaxToBamCommands;
 
 use strict;
 use warnings 'FATAL';
@@ -9,7 +9,7 @@ use Pacbio::Run;
 use Pacbio::Run::AnalysisFactoryForRsii;
 use Path::Class;
 
-class Pacbio::Command::Assembly::BaxToBam::GenerateCommands {
+class Pacbio::Assembly::Command::GenerateBaxToBamCommands {
     is => 'Command::V2',
     has_input => {
         bam_to_bax_command => {

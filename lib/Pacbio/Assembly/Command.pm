@@ -1,9 +1,9 @@
-package Pacbio::Command::Assembly;
+package Pacbio::Assembly::Command;
 
 use strict;
 use warnings 'FATAL';
 
-class Pacbio::Command::Assembly {
+class Pacbio::Assembly::Command {
     is => 'Command::Tree',
     doc => 'work with assemblies',
 };
