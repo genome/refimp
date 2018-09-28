@@ -9,7 +9,7 @@ before_install:
   - perl -V
 install:
   - pwd -P
-  - cpanm -nq 'DBD::mysql@4.046'
+  - cpanm -nq 'DBD::mysql@4.046' 'Devel::Cover@1.29' 'UR@0.46'
   - cpanm -n --installdeps .
 before_script:
   - coverage-setup
