@@ -11,6 +11,7 @@ class Tenx::Command {
 # set commands and classes instead of using the directory structure
 my %command_map = (
     alignment => 'Tenx::Alignment::Command',
+    assembly => 'Tenx::Assembly::Command',
     reads => 'Tenx::Reads::Command',
     reference => 'Tenx::Reference::Command',
 );
