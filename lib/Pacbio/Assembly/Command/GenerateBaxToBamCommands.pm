@@ -45,7 +45,7 @@ class Pacbio::Assembly::Command::GenerateBaxToBamCommands {
         _commands_fh => { },
         _bam_output_directory => { is => 'Text', },
     },
-    doc => 'insert missing primary contigs from haplotigs',
+    doc => 'create bax2bam commands',
 };
 
 sub __init__ {

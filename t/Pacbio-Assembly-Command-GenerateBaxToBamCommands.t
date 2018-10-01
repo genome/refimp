@@ -10,7 +10,7 @@ use File::Slurp;
 use Test::Exception;
 use Test::More tests => 6;
 
-my %test = ( class => 'Pacbio::Command::Assembly::BaxToBam::GenerateCommands', );
+my %test = ( class => 'Pacbio::Assembly::Command::GenerateBaxToBamCommands', );
 subtest 'setup' => sub{
     plan tests => 3;
 
