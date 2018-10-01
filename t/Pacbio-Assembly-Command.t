@@ -6,5 +6,5 @@ use warnings 'FATAL';
 use TenxTestEnv;
 use Test::More tests => 1;
 
-use_ok('Pacbio::Command::Assembly') or die;
+use_ok('Pacbio::Assembly::Command') or die;
 done_testing();

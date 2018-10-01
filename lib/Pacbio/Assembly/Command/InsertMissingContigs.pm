@@ -1,4 +1,4 @@
-package Pacbio::Command::Assembly::InsertMissingContigs;
+package Pacbio::Assembly::Command::InsertMissingContigs;
 
 use strict;
 use warnings 'FATAL';
@@ -9,7 +9,7 @@ use List::MoreUtils;
 use Set::Scalar;
 use Sx::Index::Fai;
 
-class Pacbio::Command::Assembly::InsertMissingContigs {
+class Pacbio::Assembly::Command::InsertMissingContigs {
     is => 'Command::V2',
     has_input => {
         primary_fasta => {

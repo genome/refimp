@@ -12,7 +12,7 @@ use Path::Class;
 use Test::Exception;
 use Test::More tests => 3;
 
-my %test = ( class => 'Pacbio::Command::Assembly::InsertMissingContigs', );
+my %test = ( class => 'Pacbio::Assembly::Command::InsertMissingContigs', );
 subtest 'setup' => sub{
     plan tests => 2;
 
