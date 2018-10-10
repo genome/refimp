@@ -37,6 +37,7 @@ sub execute {
     $self->status_message('Upload to cloud...');
 
     my $destination = $self->destination;
+    $destination =~ s#/$##;
     $self->fatal_message('Unknown destination: %s', $self->destination) if $destination !~ m#^gs://#;
 
     my $samplesheet = Tenx::Reads::MkfastqRun->create( $self->directory );
@@ -48,7 +49,7 @@ sub execute {
         }
         $self->status_message('Uploading %s ...', $sample_name);
         my $sample_directory = $samplesheet->fastq_directory_for_sample_name($sample_name);
-        my $destination_sample_dir = $self->destination.'/'.$sample_name;
+        my $destination_sample_dir = $destination.'/'.$sample_name;
         Util::GCP->rsync("$sample_directory", "$destination_sample_dir");
     }
 
