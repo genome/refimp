@@ -30,7 +30,7 @@ class Tenx::Reads::Command::UploadToCloud {
     doc => 'send reads to the cloud',
 };
 
-sub help_detail { __PACKAGE__->__meta__->doc }
+sub help_detail { "Send reads from mkfastq run to the cloud. You must first authorize your GCP account with 'gcloud init' or 'gcloud auth'." }
 
 sub execute {
     my $self = shift; 
