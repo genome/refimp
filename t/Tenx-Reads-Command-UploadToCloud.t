@@ -99,7 +99,7 @@ subtest 'fails' => sub{
         samples => [qw/ M_FA-1CNTRL-Control_10x M_FA-2PD1-aPD1_10x M_FA-4PDCTLA-aPD1-aCTLA4_10x /],
     );
     ok($cmd, 'create cmd');
-    throws_ok(sub{ $cmd->execute }, qr/gsutil not found/, 'fails when gsutil fails');
+    throws_ok(sub{ $cmd->execute }, qr/Failed to run gsutil/, 'fails when gsutil fails');
 
 };
 
