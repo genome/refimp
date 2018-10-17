@@ -42,7 +42,6 @@ sub execute {
 
     my $samplesheet = Tenx::Reads::MkfastqRun->create( $self->directory );
     for my $sample_name ( $samplesheet->sample_names ) {
-        $self->status_message('Upload to cloud...');
         if ( $self->samples && ! List::Util::any { $sample_name eq $_ } $self->samples ) {
             $self->status_message('Skipping %s not in given samples white list.', $sample_name);
             next;
