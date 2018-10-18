@@ -17,7 +17,7 @@ sub _run_command {
     $class->status_message('RUN: %s', join (' ', @$cmd));
     my($success, $error_message, $buffer, $stdout, $stderr) = IPC::Cmd::run(command => $cmd, verbose => 0);
     return $stdout if $success;
-    $class->status_message($stderr);
+    $class->status_message(@$stderr);
     $class->status_message($error_message);
     $class->fatal_message("Failed to run gsutil!");
 
