@@ -5,6 +5,8 @@ use warnings 'FATAL';
 
 use TenxTestEnv;
 
+use File::Compare;
+use File::Temp;
 use File::Slurp 'slurp';
 use Test::Exception;
 use Test::More tests => 4;
@@ -21,7 +23,7 @@ subtest 'setup' => sub{
 
 };
 
-subtest 'success' => sub{
+subtest 'success print to STDOUT' => sub{
     plan tests => 3;
 
     my $output;
@@ -34,17 +36,14 @@ subtest 'success' => sub{
 
 };
 
-subtest 'success zero length scaffold' => sub{
-    plan tests => 3;
+subtest 'success zero length scaffold print to stats_file' => sub{
+    plan tests => 2;
 
-    my $output;
-    open local(*STDOUT), '>', \$output or die $!;
-    lives_ok(sub{ $test{class}->execute(fasta_file => $test{data_dir}->file('zero-length-scaffold.fasta')->stringify); }, 'execute'); 
+    my ($fh, $stats_file) = File::Temp::tempfile();
+    $fh->close;
+    lives_ok(sub{ $test{class}->execute(fasta_file => $test{data_dir}->file('zero-length-scaffold.fasta')->stringify, stats_file => $stats_file); }, 'execute');
+    is(File::Compare::compare($stats_file, $test{data_dir}->file('zero-length-scaffold.fasta.stats')->stringify), 0, 'stats file matches');
     
-    my $expected_output = slurp($test{data_dir}->file('zero-length-scaffold.fasta.stats')->stringify);
-    ok($expected_output, 'loaded expected output');
-    is($output, $expected_output, 'output matches');
-
 };
 
 subtest 'fails' => sub{
