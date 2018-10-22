@@ -28,7 +28,10 @@ class Tenx::Assembly::Command::Stats::Quick {
             doc => 'File to output stats. Deafults to STDOUT.',
         },
     },
+    doc => 'produce "quick" stats for assemblies',
 };
+
+sub help_detail { __PACKAGE__->__meta__->doc }
 
 sub execute {
     my ($self) = @_;
