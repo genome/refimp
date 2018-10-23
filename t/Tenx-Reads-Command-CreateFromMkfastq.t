@@ -19,7 +19,7 @@ subtest 'setup' => sub{
     );
     use_ok($test{pkg}) or die;
 
-    $test{data_dir} = dir( TenxTestEnv::test_data_directory_for_class($test{pkg}) );
+    $test{data_dir} = dir( TenxTestEnv::test_data_directory_for_class('Tenx::Reads') );
     $test{mkfastq_directory} = $test{data_dir}->subdir('sample-sheet');
     $test{expected_sample_names} = [qw/ M_FA-1CNTRL-Control_10x M_FA-2PD1-aPD1_10x M_FA-3CTLA4-aCTLA4_10x M_FA-4PDCTLA-aPD1-aCTLA4_10x /];
 
