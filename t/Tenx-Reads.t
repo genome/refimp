@@ -48,17 +48,7 @@ subtest 'type' => sub{
 };
 
 subtest 'create fails' => sub{
-    plan tests => 3;
-
-    throws_ok(
-        sub{ $test{pkg}->create(
-                sample_name => $test{sample_name},
-                directory => '/blah',
-                targets_path => '/tmp'
-            ); },
-        qr/Reads directory does not exist/,
-        'fails with invalid directory',
-    );
+    plan tests => 2;
 
     throws_ok(
         sub{ $test{pkg}->create(

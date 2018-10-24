@@ -37,7 +37,6 @@ USE
     RefImp::Config::set('net_ldap_url', 'ipa.refimp.org');
     RefImp::Config::set('test_data_path', $test_data_path);
 
-    printf(STDERR "***** TEST ENV on %s *****\n", Sys::Hostname::hostname);
 }
 
 sub current_repo_path { $current_repo_path };

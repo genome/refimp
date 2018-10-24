@@ -20,14 +20,14 @@ class Tenx::Reads::Command::CreateFromMkfastq {
             doc => 'Bed file of targets if reads are exome.',
         },
     },
-    doc => 'create longranger reads db entries from mkfastq',
+    doc => 'create reads db entries from mkfastq output',
 };
 
 sub help_detail { __PACKAGE__->__meta__->doc }
 
 sub execute {
     my $self = shift; 
-    $self->status_message('Create longranger reads from mkfastq...');
+    $self->status_message('Create reads from mkfastq...');
 
     $self->fatal_message('Given targets path does not exist: %s', $self->targets_path) if $self->targets_path and !-s $self->targets_path;
 
@@ -42,7 +42,7 @@ sub execute {
         $self->status_message('Created reads: %s', $reads->__display_name__);
     }
 
-    $self->status_message('Create longranger reads from mkfastq...OK');
+    $self->status_message('Create reads from mkfastq...OK');
     1;
 }
 
