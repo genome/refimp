@@ -14,6 +14,7 @@ my %command_map = (
     assembly => 'Tenx::Assembly::Command',
     reads => 'Tenx::Reads::Command',
     reference => 'Tenx::Reference::Command',
+    util => 'Tenx::Util::Command',
 );
 $Tenx::Command::SUB_COMMAND_MAPPING = \%command_map;
 

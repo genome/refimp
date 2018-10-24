@@ -17,11 +17,6 @@ sub new {
     bless { location => $location }, $class;
 }
 
-sub status {
-    my ($self) = @_;
-
-}
-
 sub log_file {
     $_[0]->location->file('_log');
 }

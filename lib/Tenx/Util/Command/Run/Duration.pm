@@ -1,18 +1,33 @@
-package Tenx::Util::Run::Report::Log;
+package Tenx::Util::Command::Run::Duration;
 
 use strict;
 use warnings 'FATAL';
 
 use DateTime;
+use Path::Class;
+use Tenx::Util::Run;
+
+class Tenx::Util::Command::Run::Duration {
+    is => 'Command::V2',
+    has => {
+        directory => {
+            is => 'Text',
+            shell_args_position => 1,
+            doc => 'TenX Run directory for longranger, supernova, or cellranger',
+        },
+    },
+};
+
+sub execute {
+    my $self = shift;
+    print $self->generate_stage_status( Tenx::Util::Run->new( dir( $self->directory ) ) );
+}
 
 sub generate_stage_status {
-    my ($infos, $run) = @_;
+    my ($self, $run) = @_;
 
     my $log = $run->log;
     my $report = sprintf("STATUS:   %s\n", $log->run_status);
-    #my $last = $#{$infos};
-    #printf("LAST LOG: %s %s\n", $infos->[$last]->{date}, $infos->[$last]->{time});
-
     my $stages = $log->stages;
     for my $stage ( @$stages ) {
         my $duration = 1;
