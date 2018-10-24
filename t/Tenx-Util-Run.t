@@ -4,7 +4,7 @@ use strict;
 use warnings 'FATAL';
 
 use Test::Exception;
-use Test::More tests => 5;
+use Test::More tests => 4;
 
 use TenxTestEnv;
 
@@ -40,14 +40,6 @@ subtest 'summary csv' => sub{
     plan tests => 1;
 
     is($test{object}->summary_csv, $test{object}->location->subdir('outs')->file('summary.csv'), 'summary_csv');
-
-};
-
-subtest 'journal_status' => sub{
-    plan tests => 2;
-
-    is($test{class}->new($test{data_dir}->subdir('supernova-zombie'))->journal_status, 'zombie', 'journal status zombie');
-    is($test{class}->new($test{data_dir}->subdir('supernova-success'))->journal_status, 'unknown', 'journal status unknown');
 
 };
 

@@ -25,7 +25,7 @@ sub log {
     Tenx::Util::Run::Log->create(log_file => $_[0]->log_file);
 }
 
-sub journal_status {
+sub Xjournal_status { # FIXME
     my ($self) = @_;
 
     my $journal_path = $self->location->subdir('journal');
