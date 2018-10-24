@@ -9,7 +9,7 @@ use Path::Class;
 use Tenx::Util::Reader::Factory;
 use Tenx::Util::Run;
 use Text::CSV;
-use UTIL::Tablizer;
+use Util::Tablizer;
 
 class Tenx::Util::Command::Run::Summary {
     is => 'Command::V2',
