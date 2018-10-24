@@ -36,13 +36,6 @@ sub __errors__ {
     my @errors = $self->SUPER::__errors__;
     return @errors if @errors;
 
-    push @errors, UR::Object::Tag->create(
-        type => 'error',
-        properties => [qw/ directory /],
-        desc => 'Reads directory does not exist: '.$self->directory,
-    ) if !-d $self->directory;
-
-
     my @existing_reads = grep { $_->id ne $self->id } __PACKAGE__->get(directory => $self->directory);
     push @errors, UR::Object::Tag->create(
         type => 'error',

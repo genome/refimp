@@ -21,7 +21,17 @@ class Tenx::Assembly::Command::Stats::Quick {
             doc => 'Minimum ',
         },
     },
+    has_output => {
+        stats_file => {
+            is => 'Text',
+            default_value => '-',
+            doc => 'File to output stats. Deafults to STDOUT.',
+        },
+    },
+    doc => 'produce "quick" stats for assemblies',
 };
+
+sub help_detail { __PACKAGE__->__meta__->doc }
 
 sub execute {
     my ($self) = @_;
@@ -98,21 +108,28 @@ sub execute {
         }
     }
 
-    print "SCAFFOLDS\n";
-    printf( "  %-10s%-15s\n", 'COUNT', $metrics{'SCAFFOLD_COUNT'} );
-    printf( "  %-10s%-15s\n", 'LENGTH', $metrics{'SCAFFOLD_LENGTHS'} );
-    printf( "  %-10s%-15s\n", 'AVG', int( $metrics{'SCAFFOLD_LENGTHS'} / $metrics{'SCAFFOLD_COUNT'} ) );
-    printf( "  %-10s%-15s\n", 'N50', $n50_length);
-    printf( "  %-10s%-15s\n", 'LARGEST', $metrics{'MAX_SCAFFOLD_LENGTH'} );
-    print ' (ID: '.$metrics{'MAX_SCAFFOLD_ID'}.', BASES_ONLY_LENGTH: '.$metrics{'MAX_SCAFFOLD_BASES_LENGTH'}.")\n";
-    print_length_bd( \%metrics, 'SCAF' );
-    print "\nCONTIGS\n";
-    printf( "  %-10s%-15s\n", 'COUNT', $metrics{'CONTIG_COUNT'} );
-    printf( "  %-10s%-15s\n", 'LENGTH', $metrics{'CONTIG_LENGTHS'} );
-    printf( "  %-10s%-15s\n", 'AVG', int( $metrics{'CONTIG_LENGTHS'} / $metrics{'CONTIG_COUNT'} ) );
-    printf( "  %-10s%-15s\n", 'N50', $n50_ctg_length);
-    printf( "  %-10s%-15s\n", 'LARGEST', $metrics{'MAX_CONTIG_LENGTH'} );
-    print_length_bd( \%metrics, 'CTG' );
+	# Open the output file
+	my $stats_file = $self->stats_file;
+	my $stats_fh = ( $stats_file eq '-' )
+	? 'STDOUT'
+	: IO::File->new($stats_file, 'w');
+    $self->fatal_message('Failed to open stats stats file: %s', $stats_file) if not $stats_fh;
+
+    $stats_fh->print("SCAFFOLDS\n");
+    $stats_fh->printf("  %-10s%-15s\n", 'COUNT', $metrics{'SCAFFOLD_COUNT'});
+    $stats_fh->printf("  %-10s%-15s\n", 'LENGTH', $metrics{'SCAFFOLD_LENGTHS'});
+    $stats_fh->printf("  %-10s%-15s\n", 'AVG', int( $metrics{'SCAFFOLD_LENGTHS'} / $metrics{'SCAFFOLD_COUNT'}));
+    $stats_fh->printf("  %-10s%-15s\n", 'N50', $n50_length);
+    $stats_fh->printf("  %-10s%-15s\n", 'LARGEST', $metrics{'MAX_SCAFFOLD_LENGTH'});
+    $stats_fh->printf(" (ID: %s, BASES_ONLY_LENGTH: %s)\n", $metrics{'MAX_SCAFFOLD_ID'}, $metrics{'MAX_SCAFFOLD_BASES_LENGTH'});
+    print_length_bd($stats_fh, \%metrics, 'SCAF');
+    $stats_fh->print("\nCONTIGS\n");
+    $stats_fh->printf("  %-10s%-15s\n", 'COUNT', $metrics{'CONTIG_COUNT'});
+    $stats_fh->printf("  %-10s%-15s\n", 'LENGTH', $metrics{'CONTIG_LENGTHS'});
+    $stats_fh->printf("  %-10s%-15s\n", 'AVG', int( $metrics{'CONTIG_LENGTHS'} / $metrics{'CONTIG_COUNT'}));
+    $stats_fh->printf("  %-10s%-15s\n", 'N50', $n50_ctg_length);
+    $stats_fh->printf("  %-10s%-15s\n", 'LARGEST', $metrics{'MAX_CONTIG_LENGTH'});
+    print_length_bd($stats_fh, \%metrics, 'CTG');
 }
 
 sub lengths_and_labels {
@@ -138,7 +155,7 @@ sub get_label_for_bd_length {
 }
 
 sub print_length_bd {
-    my ($metrics, $type) = @_;
+    my ($stats_fh, $metrics, $type) = @_;
     my $subject = ( $type eq 'SCAF' )
     ? 'Scaffolds'
     : 'Contigs' ;
@@ -149,7 +166,7 @@ sub print_length_bd {
        my $count = ( exists $metrics->{'BD'}{$type}{$bd_length}{'ct'} )
 	   ? $metrics->{'BD'}{$type}{$bd_length}{'ct'}
            : 0 ;
-       printf("  $subject %s: $count ( $length bp )\n", get_label_for_bd_length($bd_length));
+       $stats_fh->printf("  $subject %s: $count ( $length bp )\n", get_label_for_bd_length($bd_length));
     }
 }
 
