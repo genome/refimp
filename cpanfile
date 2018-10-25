@@ -10,6 +10,7 @@ requires 'File::Copy::Recursive';
 requires 'File::Slurp';
 requires 'Filesys::Df';
 requires 'FindBin';
+requires 'Hash::Merge';
 requires 'JSON';
 requires 'LWP::Protocol::https';
 requires 'LWP::UserAgent';
