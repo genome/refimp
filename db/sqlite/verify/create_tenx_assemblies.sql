@@ -3,7 +3,7 @@
 BEGIN;
 
 SELECT
-	id, directory, reads_id, status
+	id, url, reads_id, status
 FROM tenx_assemblies
 WHERE 0;
 

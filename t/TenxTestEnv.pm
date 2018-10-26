@@ -28,7 +28,7 @@ INIT { # runs after compilation, right before execution
     die "FATAL: $@" if $@;
 
     Tenx::Config::set('tenx_ds', 'Tenx::DataSource::SQLite');
-    Tenx::Config::set('tenx_ds_sqlite_server', $test_data_directory->subdir('tenx.test.db'));
+    Tenx::Config::set('tenx_ds_sqlite_server', $test_data_directory->subdir('test.db'));
     Tenx::Config::set('environment', 'test');
 
 }

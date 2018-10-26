@@ -1,11 +1,11 @@
--- Deploy tenx:create_tenx_assemblies to sqlite
+-- Deploy tenx:create_tenx_assemblies to mysql
 -- requires tenx_reads
 
 BEGIN;
 
 CREATE TABLE IF NOT EXISTS tenx_assemblies (
         id VARCHAR(32),
-	directory VARCHAR(256),
+	url VARCHAR(256),
 	reads_id VARCHAR(256),
 	status VARCHAR(16),
 

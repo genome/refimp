@@ -5,7 +5,7 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS tenx_assemblies (
         id VARCHAR(32),
-	directory VARCHAR(256),
+	url VARCHAR(256),
 	reads_id VARCHAR(256),
 	status VARCHAR(16),
 
