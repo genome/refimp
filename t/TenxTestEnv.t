@@ -32,7 +32,7 @@ subtest 'test config' => sub{
     my $test_data_directory = TenxTestEnv::test_data_directory();
     my %expected_configs = (
         tenx_ds => 'Tenx::DataSource::SQLite',
-        tenx_ds_sqlite_server => $test_data_directory->subdir('tenx.test.db'),
+        tenx_ds_sqlite_server => $test_data_directory->subdir('test.db'),
         environment => 'test',
     );
     for my $config_key ( sort keys %expected_configs ) {

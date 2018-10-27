@@ -1,4 +1,4 @@
--- Revert tenx:create_tenx_assemblies from sqlite
+-- Revert tenx:create_tenx_assemblies from mysql
 
 BEGIN;
 

@@ -10,7 +10,7 @@ class Tenx::Assembly {
         id => { is => 'Text', },
     },
     has => {
-        directory => { is => 'Text', doc => 'File system location.', },
+        url => { is => 'Text', doc => 'Assembly location: file system, cloud.', },
         reads => {
             is => 'Tenx::Reads',
             id_by => 'reads_id',
