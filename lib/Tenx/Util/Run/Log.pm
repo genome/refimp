@@ -21,10 +21,11 @@ class Tenx::Util::Run::Log {
         },
     },
     has_optional_transient => {
-        infos => { is => 'Array', },
+        infos => { is => 'ARRAY', },
         run_status => { is => 'Text', },
         stages => { is => 'Array', },
         reader => { is => 'Tenx::Util::Reader', },
+        outputs => { is => 'HASH', },
     },
 };
 
@@ -51,18 +52,27 @@ sub _parse_log {
 
     my @infos;
     while ( my $line = $self->reader->getline ) {
-        my $info = _parse_line($line);
-        next if not $info;
-        push @infos, $info;
+        chomp $line;
+        if ( $line =~ /^\d\d\d\d\-/ ) {
+            my $info = _parse_stage_line($line);
+            push @infos, $info if $info;
+        }
+        elsif ( $line =~ /^Outputs/  ) {
+            my @output_lines;
+            OUTOUT_LINE: while ( my $output_line = $self->reader->getline ) {
+                chomp $output_line;
+                last OUTOUT_LINE if $output_line !~ /^\-/;
+                push @output_lines, $output_line;
+            }
+            $self->outputs( $self->_parse_output_lines(@output_lines) );
+        }
     }
 
     $self->infos(\@infos);
 }
 
-sub _parse_line {
+sub _parse_stage_line {
     my ($line) = @_;
-
-    return if $line !~ /^\d\d\d\d\-/;
 
     my (%info, $rest);
     chomp $line;
@@ -88,6 +98,21 @@ sub _parse_line {
     }
 
     \%info;
+}
+
+sub _parse_output_lines {
+    my ($self, @output_lines) = @_;
+
+    #- Run QC metrics:        /gscmnt/gc6144/techd/10x_Genomics_IDT_Exome_Reagent_Capture_HJNMJBBXX/HJNMJBBXX/outs/qc_summary.json
+    my %outputs;
+    for my $line (@output_lines) {
+        my ($key, $val) = split(/:\s+/, $line);
+        $key =~ s/^\- //;
+        $key =~ s/\s+/_/g;
+        $outputs{ lc($key) } = $val;
+    }
+
+    \%outputs;
 }
 
 sub _process_log_info {
