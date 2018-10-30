@@ -19,7 +19,7 @@ subtest 'setup' => sub{
     );
     use_ok($test{pkg}) or die;
 
-    $test{old_dir} = '/data/XXXXXX';
+    $test{old_dir} = '/gscmnt/gc6144/techd/10x_Genomics_IDT_Exome_Reagent_Capture_HJNMJBBXX/HJNMJBBXX/';
     $test{reads} = [ map { Tenx::Reads->create(sample_name => $_, directory => $test{old_dir}.'/outs/fastqs/'.$_) } (qw/ M_FA-1CNTRL-Control_10x M_FA-2PD1-aPD1_10x M_FA-3CTLA4-aCTLA4_10x M_FA-4PDCTLA-aPD1-aCTLA4_10x /)];
     is(@{$test{reads}}, 4, 'created reads');
     ok($test{reads}->[2]->directory('/data/XXXXXA/outs/fastqs/'.$test{reads}->[2]->sample_name), 'change reads #3 directory');
@@ -36,7 +36,6 @@ subtest 'update' => sub{
     my $cmd;
     lives_ok(
         sub{ $cmd = $test{pkg}->execute(
-                old_directory => $test{old_dir},
                 directory => $test{mkfastq_directory}->stringify,
             ); },
         'execute',
