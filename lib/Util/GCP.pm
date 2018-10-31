@@ -32,6 +32,15 @@ sub rsync {
 
 }
 
+sub cp {
+    my ($class, $src, $dst) = @_;
+
+    $class->fatal_message('No source given to cp!') if not $src;
+    $class->fatal_message('No destination given to cp!') if not $dst;
+    $class->_run_command([ 'gsutil', 'cp', $src, $dst ]);
+
+}
+
 sub ls {
     my ($class, $src) = @_;
 

@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use TenxTestEnv;
 
 use Test::Exception;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 use IPC::Cmd;
 use Sub::Install;
@@ -25,6 +25,11 @@ subtest 'setup' => sub{
             as => 'run',
             into => 'IPC::Cmd',
         });
+
+    $test{cp_mock_cmd} = sub{
+        is_deeply(\@_, ['command', [qw/ gsutil cp src dest/], 'verbose', 0], 'correct command');
+        ( $test{success}, 'ERROR' );
+    };
 
     $test{rsync_mock_cmd} = sub{
         is_deeply(\@_, ['command', [qw/ gsutil rsync -r src dest/], 'verbose', 0], 'correct command');
@@ -73,6 +78,23 @@ OUT
 
 };
 
+subtest 'cp' => sub {
+    plan tests => 6;
+
+    my $err;
+    open local(*STDERR), '>', \$err or die $!;
+    local $test{mock_cmd} = $test{cp_mock_cmd};
+
+    throws_ok(sub{ $test{class}->cp(); }, qr/No source given to cp/, 'fails w/o source');
+    throws_ok(sub{ $test{class}->cp('src'); }, qr/No destination given to cp/, 'fails w/o destination');
+
+    lives_ok(sub{ $test{class}->cp('src', 'dest'); }, 'success');
+
+    local $test{success} = 0;
+    throws_ok( sub{ $test{class}->cp('src', 'dest'); }, qr/Failed to run gsutil/, 'handles run failure');
+
+};
+
 subtest 'rsync' => sub {
     plan tests => 6;
 
@@ -89,7 +111,6 @@ subtest 'rsync' => sub {
     throws_ok( sub{ $test{class}->rsync('src', 'dest'); }, qr/Failed to run gsutil/, 'handles run failure');
 
 };
-
 
 subtest 'ls' => sub {
     plan tests => 6;
