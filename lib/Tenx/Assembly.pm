@@ -10,6 +10,7 @@ class Tenx::Assembly {
         id => { is => 'Text', },
     },
     has => {
+        sample_name => { is => 'Text', is_transient => 1, }, # FIXME
         url => { is => 'Text', doc => 'Assembly location: file system, cloud.', },
         reads => {
             is => 'Tenx::Reads',

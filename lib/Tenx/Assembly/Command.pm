@@ -3,6 +3,7 @@ package Tenx::Assembly::Command;
 use strict;
 use warnings 'FATAL';
 
+use Path::Class 'dir';
 use Params::Validate qw/ :types validate_pos /;
 
 use UR::Object::Command::Crud;
@@ -25,7 +26,10 @@ sub get_assembly {
     my $assembly = Tenx::Assembly->get(url => $key); # get by url
     return $assembly if $assembly;
 
-    Tenx::Assembly->__define__(url => $key); # define by url
+    Tenx::Assembly->__define__(
+        sample_name => dir($key)->basename,
+        url => $key,
+    ); # define by url
 
 }
 
