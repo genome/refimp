@@ -10,7 +10,6 @@ class Tenx::Assembly {
         id => { is => 'Text', },
     },
     has => {
-        sample_name => { is => 'Text', is_transient => 1, }, # FIXME
         url => { is => 'Text', doc => 'Assembly location: file system, cloud.', },
         reads => {
             is => 'Tenx::Reads',
@@ -19,6 +18,7 @@ class Tenx::Assembly {
         },
     },
     has_optional => {
+        sample_name => { is => 'Text', is_transient => 1, }, # FIXME
         status => {
             is => 'Text',
             doc => 'The status of the assembly: running, succeeded, failed, etc.',
@@ -26,6 +26,8 @@ class Tenx::Assembly {
     },
     data_source => Tenx::Config::get('tenx_ds'),
 };
+
+sub __display_name__ { sprintf('%s (%s)', $_[0]->url, $_[0]->id) }
 
 sub __errors__ {
     my $self = shift;
