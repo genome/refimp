@@ -17,13 +17,11 @@ my %test = (
     success => 1,
 );
 subtest 'setup' => sub{
-    plan tests => 3;
+    plan tests => 2;
 
     use_ok($test{class}) or die;
     use_ok('Tenx::Assembly');
 
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class('Tenx::Assembly')->subdir('success');
-    ok(-d "$test{data_dir}", 'data dir exists');
     $test{tempdir} = dir( tempdir(CLEANUP => 1) );
 
 	my $cnt = 0;
