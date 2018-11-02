@@ -8,7 +8,7 @@ use TenxTestEnv;
 use Test::More tests => 1;
 
 subtest "create" => sub{
-    plan tests => 8;
+    plan tests => 9;
 
     my $pkg = 'Tenx::Assembly';
     use_ok($pkg) or die;
@@ -25,6 +25,8 @@ subtest "create" => sub{
     ok($assembly->url, 'assembly location');
     is($assembly->reads_id, $assembly->reads->id, 'assembly reads');
     ok($assembly->status, 'assembly status');
+
+    ok($assembly->__display_name__, 'display name');
 
     ok(UR::Context->commit, 'commit');
 
