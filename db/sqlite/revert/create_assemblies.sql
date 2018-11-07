@@ -1,4 +1,4 @@
--- Revert refimp:create_assemblies from sqlite
+-- Revert create_assemblies from sqlite
 
 BEGIN;
 
