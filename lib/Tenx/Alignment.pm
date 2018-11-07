@@ -17,7 +17,7 @@ class Tenx::Alignment {
             doc => 'The reads that are aligned.',
         },
         reference => {
-            is => 'Tenx::Reference',
+            is => 'RefImp::Refseq',
             id_by => 'reference_id',
             doc => 'The reference sequence the reads are aligned to.',
         },

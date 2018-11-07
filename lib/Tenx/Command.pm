@@ -13,7 +13,7 @@ my %command_map = (
     alignment => 'Tenx::Alignment::Command',
     assembly => 'Tenx::Assembly::Command',
     reads => 'Tenx::Reads::Command',
-    reference => 'Tenx::Reference::Command',
+    refseq => 'Tenx::Refseq::Command',
     util => 'Tenx::Util::Command',
 );
 $Tenx::Command::SUB_COMMAND_MAPPING = \%command_map;

@@ -13,6 +13,7 @@ my %command_map = (
     assembly => 'RefImp::Assembly::Command',
     cron => 'RefImp::Cron::Command',
     project => 'RefImp::Project::Command',
+    refseq => 'RefImp::Refseq::Command',
     taxon => 'RefImp::Taxon::Command',
 );
 
