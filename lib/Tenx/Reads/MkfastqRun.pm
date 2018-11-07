@@ -3,7 +3,9 @@ package Tenx::Reads::MkfastqRun;
 use strict;
 use warnings;
 
+use File::Slurp 'slurp';
 use IO::File;
+use JSON 'decode_json';
 use List::MoreUtils;
 use Path::Class;
 use Params::Validate qw/ :types validate_pos /;
@@ -95,6 +97,17 @@ sub fastq_directory_for_sample_name {
     }
 
     $self->fatal_message('Could not find fastqs for sample: %s', $sample_name);
+}
+
+sub qc_summary_file { $_[0]->directory->subdir('outs')->file('qc_summary.json') }
+sub qc_summary {
+    my ($self) = @_;
+
+    my $qc_summary_file = $self->qc_summary_file;
+    $self->fatal_message('QC summary file does not exist!') if not -s $qc_summary_file;
+    my $content = slurp($qc_summary_file);
+    decode_json($content);
+
 }
 
 1;

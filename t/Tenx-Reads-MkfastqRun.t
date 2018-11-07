@@ -7,7 +7,7 @@ use TenxTestEnv;
 
 use Path::Class;
 use Test::Exception;
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 my %test;
 subtest 'setup' => sub{
@@ -88,6 +88,19 @@ subtest "fastq_directory_for_sample_name" => sub{
         qr/Could not find fastqs for sample: $sample_name/,
         "no fastq directory for $sample_name",
     );
+
+};
+
+subtest 'qc summary' => sub{
+    plan tests => 3;
+
+    my $ss = $test{ss};
+    my $qc_summary_file = $ss->qc_summary_file;
+    is($qc_summary_file, $ss->directory->subdir('outs')->file('qc_summary.json'), 'qc_summary_file');
+
+    my $qc_summary = $ss->qc_summary;
+    ok($qc_summary, 'got qc summary');
+    ok(exists($qc_summary->{sample_qc}), 'sample_qc key exists');
 
 };
 
