@@ -12,7 +12,7 @@ class Tenx::Alignment {
     has => {
         directory => { is => 'Text', doc => 'File system location.', },
         reads => {
-            is => 'Tenx::Reads',
+            is => 'RefImp::Reads',
             id_by => 'reads_id',
             doc => 'The reads that are aligned.',
         },

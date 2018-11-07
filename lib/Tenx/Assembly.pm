@@ -12,7 +12,7 @@ class Tenx::Assembly {
     has => {
         url => { is => 'Text', doc => 'Assembly location: file system, cloud.', },
         reads => {
-            is => 'Tenx::Reads',
+            is => 'RefImp::Reads',
             id_by => 'reads_id',
             doc => 'The reads that are assembled.',
         },
