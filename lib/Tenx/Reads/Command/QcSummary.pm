@@ -14,10 +14,16 @@ class Tenx::Reads::Command::QcSummary {
             doc => 'Mkfastq output directory. Must include outs subdir with qc_summary.json file.',
         },
     },
+    has_optional_param => {
+        show_all => {
+            is => 'Boolean',
+            doc => 'Show all lanes, otherwise jsut show all lanes summarized.',
+        },
+    },
     doc => 'show samples qc',
 };
 
-sub help_detail { __PACKAGE__->__meta__->doc }
+sub help_detail { 'Show sample QC from the outs/qc_summary.json file for a mkfastq run.' }
 
 sub execute {
     my $self = shift; 
@@ -34,11 +40,17 @@ sub execute {
             next;
         }
         my $sample_qc = $qcs->{$sample_name};
-        push @headers, keys %{$sample_qc->{all}};
-        push @rows, [ $sample_name, map { sprintf('%0.2f', $_) } map { $sample_qc->{all}->{$_} } sort {$a cmp $b } keys %{$sample_qc->{all}} ];
+        for my $lane ( $self->show_all ? keys(%{$sample_qc}) : 'all' ) {
+            push @headers, keys %{$sample_qc->{$lane}};
+            my @row = ( map { sprintf('%0.2f', $_) } map { $sample_qc->{$lane}->{$_} } sort {$a cmp $b } keys %{$sample_qc->{$lane}} );
+            unshift @row, $lane if $self->show_all;
+            unshift @row, $sample_name;
+            push @rows, \@row;
+        }
     }
 
     @headers = map { uc } sort { $a cmp $b } List::Util::uniq(@headers);
+    unshift @headers, 'LANE' if $self->show_all;
     unshift @headers, 'SAMPLE';
     my @dashes = map { '-' x length($_) } @headers;
     unshift @rows, \@headers, \@dashes;
