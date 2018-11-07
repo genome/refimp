@@ -111,7 +111,7 @@ sub _from_yml {
         id => $assembly_id,
         name => $assembly_id, # gotta be unique
         taxon => $taxon, # only thing we really know
-        directory => "$directory", # submission dir, assembly is somewhere nearby
+        url => "$directory", # submission dir, assembly is somewhere nearby
     );
 
     my %params = map { $_ => $info->{$_} // undef } (qw/ biosample bioproject version /);

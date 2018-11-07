@@ -3,29 +3,33 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
 use Test::More tests => 1;
 
 subtest "create" => sub{
-    plan tests => 7;
+    plan tests => 10;
 
-    use_ok('RefImp::Assembly') or die;
+    my $pkg = 'RefImp::Assembly';
+    use_ok($pkg) or die;
+    use_ok('RefImp::Reads') or die;
 
-    my $assembly = RefImp::Assembly->create(
-        name => 'TESTY MCTESTERSON',
-        directory => '/tmp',
-        taxon_id => 1,
+    my $assembly = $pkg->create(
+        name => 'SAMPLE1',
+        url => '/tmp',
+        status => 'running',
+        reads => RefImp::Reads->__define__(url => '/tmp/', sample_name => 'TEST-TESTY-MCTESTERSON'),
+        taxon => RefImp::Taxon->get(1),
     );
     ok($assembly, 'create assembly');
 
     ok($assembly->id, 'assembly id');
-    ok($assembly->name, 'assembly name');
-    ok($assembly->directory, 'assembly directory');
-    ok($assembly->taxon, 'assembly taxon');
+    ok($assembly->url, 'assembly location');
+    ok($assembly->status, 'assembly status');
+    is($assembly->taxon_id, 1, 'assembly taxon_id');
+    is($assembly->reads_id, $assembly->reads->id, 'assembly reads_id');
+
+    ok($assembly->__display_name__, 'display name');
 
     ok(UR::Context->commit, 'commit');
 
