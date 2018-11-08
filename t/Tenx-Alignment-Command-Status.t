@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use TenxTestEnv;
+use TestEnv;
 
 use Path::Class;
 use Test::Exception;
@@ -16,14 +16,14 @@ subtest 'setup' => sub{
     $test{pkg} = 'Tenx::Alignment::Command::Status';
     use_ok($test{pkg}) or die;
 
-    $test{alignment} = Tenx::Alignment->__define__(
-        directory => '/tmp',
-        reads => Tenx::Reads->__define__(directory => '/tmp', sample_name => 'TESTY'),
-        reference => Tenx::Reference->__define__(directory => '/tmp', name => 'TESTY'),
+    $test{alignment} = RefImp::Alignment->__define__(
+        url => '/tmp',
+        reads => RefImp::Reads->__define__(url => '/tmp', sample_name => 'TESTY'),
+        refseq => RefImp::Refseq->__define__(url => '/tmp', name => 'TESTY'),
     );
     ok($test{alignment}, 'define alignment') or die;
 
-    $test{data_dir} = dir( TenxTestEnv::test_data_directory_for_class('Tenx::Alignment') );
+    $test{data_dir} = TestEnv::test_data_directory_for_class('RefImp::Alignment');
 
 };
 
@@ -32,7 +32,7 @@ subtest 'succeded determined by log' => sub{
 
     my $succeeded_dir = $test{data_dir}->subdir('succeeded');
     ok(-d $succeeded_dir, 'succeeded dir exists');
-    $test{alignment}->directory( $succeeded_dir->stringify );
+    $test{alignment}->url( $succeeded_dir->stringify );
     
     my $output;
     open local(*STDERR), '>', \$output or die $!;
@@ -47,7 +47,7 @@ subtest 'failed determined by log' => sub{
 
     my $failed_dir = $test{data_dir}->subdir('failed');
     ok(-d $failed_dir->stringify, 'failed dir exists');
-    $test{alignment}->directory( $failed_dir->stringify );
+    $test{alignment}->url( $failed_dir->stringify );
 
     my $output;
     open local(*STDERR), '>', \$output or die $!;
@@ -62,7 +62,7 @@ subtest 'running determined by journal' => sub{
 
     my $running_dir = $test{data_dir}->subdir('running');
     ok(-d $running_dir->stringify, 'running dir exists');
-    $test{alignment}->directory( $running_dir->stringify);
+    $test{alignment}->url( $running_dir->stringify);
 
     my $journal = $running_dir->subdir('journal');
     system('touch', $journal->stringify);
@@ -80,7 +80,7 @@ subtest 'died determined by journal' => sub{
 
     my $running_dir = $test{data_dir}->subdir('running');
     ok(-d $running_dir->stringify, 'running dir exists');
-    $test{alignment}->directory( $running_dir->stringify );
+    $test{alignment}->url( $running_dir->stringify );
     my $journal = $running_dir->subdir('journal');
     system('touch', '-m', '-d', '1 Jan 2001 00:00', $journal->stringify);
 

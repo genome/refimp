@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use Test::More tests => 5;
 use Test::Exception;
 
-use TenxTestEnv;
+use TestEnv;
 
 my %test;
 subtest 'setup' => sub{
@@ -16,7 +16,7 @@ subtest 'setup' => sub{
 
     use_ok($test{class}) or die;
 
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class('Tenx::Util::Run');
+    $test{data_dir} = TestEnv::test_data_directory_for_class('Tenx::Util::Run');
     ok(-d $test{data_dir}, 'data dir exists');
 
 };

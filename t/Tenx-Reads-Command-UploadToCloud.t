@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use IPC::Cmd;
 use Path::Class;
@@ -21,7 +21,7 @@ subtest 'setup' => sub{
 
     use_ok($test{class}) or die;
 
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class('Tenx::Reads')->subdir('sample-sheet');
+    $test{data_dir} = TestEnv::test_data_directory_for_class('RefImp::Reads')->subdir('sample-sheet');
     ok(-d "$test{data_dir}", 'data dir exists');
 
     $test{sample_sheet} = Tenx::Reads::MkfastqRun->create($test{data_dir});

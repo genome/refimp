@@ -13,7 +13,7 @@ class Tenx::Alignment::Command::Status {
     is => 'Command::V2',
     has_input => {
         alignment => {
-            is => 'Tenx::Alignment',
+            is => 'RefImp::Alignment',
             shell_args_position => 1,
             doc => 'Longranger alignment to check status.',
         },
@@ -25,7 +25,7 @@ class Tenx::Alignment::Command::Status {
         },
     },
     has_calculated_constant_optional => {
-        _directory => { calculate_from => [qw/ alignment /], calculate => q| Path::Class::dir($alignment->directory) |, },
+        _directory => { calculate_from => [qw/ alignment /], calculate => q| Path::Class::dir($alignment->url) |, },
     },
     has_constant => {
         datetime_format => { value => '%Y-%m-%d %H:%M:%S', },

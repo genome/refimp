@@ -3,30 +3,30 @@
 use strict;
 use warnings;
 
-use TenxTestEnv;
+use TestEnv;
 
 use Test::More tests => 1;
 
 subtest "create" => sub{
     plan tests => 10;
 
-    my $pkg = 'Tenx::Alignment';
+    my $pkg = 'RefImp::Alignment';
     use_ok($pkg) or die;
-    use_ok('Tenx::Reads') or die;
-    use_ok('Tenx::Reference') or die;
+    use_ok('RefImp::Reads') or die;
+    use_ok('RefImp::Refseq') or die;
 
     my $alignment = $pkg->create(
-        directory => '/tmp',
-        reads => Tenx::Reads->__define__(directory => '/tmp/', sample_name => 'TEST-TESTY-MCTESTERSON'),
-        reference => Tenx::Reference->__define__(directory => '/tmp', name => 'REF'),
+        url => '/tmp',
+        reads => RefImp::Reads->__define__(url => '/tmp/', sample_name => 'TEST-TESTY-MCTESTERSON'),
+        refseq => RefImp::Refseq->__define__(url => '/tmp', name => 'REF'),
         status => 'running',
     );
     ok($alignment, 'create tenx alignment');
 
     ok($alignment->id, 'alignment id');
-    ok($alignment->directory, 'alignment directory');
+    ok($alignment->url, 'alignment url');
     is($alignment->reads_id, $alignment->reads->id, 'alignment reads');
-    is($alignment->reference_id, $alignment->reference->id, 'alignment reference');
+    is($alignment->refseq_id, $alignment->refseq->id, 'alignment refseq');
     ok($alignment->status, 'alignment status');
 
     ok(UR::Context->commit, 'commit');

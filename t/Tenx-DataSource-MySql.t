@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use TenxTestEnv;
+use TestEnv;
 use Test::More tests => 1;
 
 Tenx::Config::set('tenx_ds_server', 'server');

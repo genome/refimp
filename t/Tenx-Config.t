@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use Path::Class;
 use Test::Exception;
@@ -15,7 +15,7 @@ use_ok($test{class}) or die;
 subtest 'load_config_from_file' =>  sub{
     plan tests => 4;
 
-    my $test_directory = TenxTestEnv::test_data_directory_for_class($test{class});
+    my $test_directory = TestEnv::test_data_directory_for_class($test{class});
     my $invalid_yml = File::Spec->join($test_directory, 'config.invalid.yml');
     throws_ok(sub{ Tenx::Config::load_config_from_file($invalid_yml); }, qr/YAML Error/, 'load_config fails w/ invalid yml');
 

@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use Test::More tests => 3;
 use Test::Exception;
 
-use TenxTestEnv;
+use TestEnv;
 
 my %test;
 subtest 'setup' => sub{

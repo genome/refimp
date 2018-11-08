@@ -27,7 +27,7 @@ sub execute {
     $self->status_message('Update reads from mkfastq...');
 
     my $old_directory = $self->_determine_old_directory;
-    my %reads = map { $_->sample_name => $_ } Tenx::Reads->get('directory like' => $old_directory.'%');
+    my %reads = map { $_->sample_name => $_ } RefImp::Reads->get('url like' => $old_directory.'%');
     $self->fatal_message('Failed to find reads for OLD mkfastq directory: %s', $old_directory) if not %reads;
 
     my $samplesheet = Tenx::Reads::MkfastqRun->create( $self->directory );
@@ -37,7 +37,7 @@ sub execute {
         if ( $sample_reads ) {
             push @rows, [ 'OK', $sample_name, 'NA', 'NA' ];
             my $sample_directory = $samplesheet->fastq_directory_for_sample_name($sample_name);
-            $sample_reads->directory("$sample_directory");
+            $sample_reads->url("$sample_directory");
         }
         else {
             push @rows, [ 'NOT_IN_DB', $sample_name, 'NA', 'NA' ];

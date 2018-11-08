@@ -1,24 +1,24 @@
-package Tenx::Alignment;
+package RefImp::Alignment;
 
 use strict;
-use warnings;
+use warnings 'FATAL';
 
-class Tenx::Alignment {
-    table_name => 'tenx_alignments',
+class RefImp::Alignment {
+    table_name => 'alignments',
     id_generator => '-uuid',
     id_by => {
         id => { is => 'Text', },
     },
     has => {
-        directory => { is => 'Text', doc => 'File system location.', },
+        url => { is => 'Text', doc => 'File system location.', },
         reads => {
             is => 'RefImp::Reads',
             id_by => 'reads_id',
             doc => 'The reads that are aligned.',
         },
-        reference => {
+        refseq => {
             is => 'RefImp::Refseq',
-            id_by => 'reference_id',
+            id_by => 'refseq_id',
             doc => 'The reference sequence the reads are aligned to.',
         },
     },
@@ -28,7 +28,7 @@ class Tenx::Alignment {
             doc => 'The status of the alignment: running, succeeded, failed, etc.',
         },
     },
-    data_source => Tenx::Config::get('tenx_ds'),
+    data_source => RefImp::Config::get('refimp_ds'),
 };
 
 1;

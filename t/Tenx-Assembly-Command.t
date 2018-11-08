@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 use Test::Exception;
 use Test::More tests => 2;
 
@@ -27,7 +27,7 @@ subtest 'get_assembly' => sub{
 
     my $id = UR::Object::Type->autogenerate_new_object_id_uuid;
     my $expected_url = '/data/assembly/SAMPLE1';
-    my $expected_assembly = Tenx::Assembly->__define__(sample_name => 'SAMPLE1', url => $expected_url);
+    my $expected_assembly = RefImp::Assembly->__define__(name => 'SAMPLE1', url => $expected_url);
 
     my $assembly;
     lives_ok(sub{ $assembly = $test{class}->get_assembly(('A' x 32)); }, 'try to get no existing assembly by id');
@@ -41,7 +41,7 @@ subtest 'get_assembly' => sub{
     lives_ok(sub{ $assembly = $test{class}->get_assembly('/data/assembly/SAMPLE2'); }, 'get non existing aassembly by url');
     ok($assembly, 'got assembly');
     isnt($assembly->id, $expected_assembly->id, 'correct assembly');
-    is($assembly->sample_name, 'SAMPLE2', 'set assembly sample name');
+    is($assembly->name, 'SAMPLE2', 'set assembly sample name');
 
 };
 

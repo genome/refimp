@@ -8,7 +8,7 @@ use Params::Validate qw/ :types validate_pos /;
 
 use UR::Object::Command::Crud;
 UR::Object::Command::Crud->create_command_subclasses(
-    target_class => 'Tenx::Assembly',
+    target_class => 'RefImp::Assembly',
     target_name => 'assembly',
     namespace => 'Tenx::Assembly::Command',
     sub_command_configs => {
@@ -20,14 +20,14 @@ sub get_assembly {
     my ($class, $key) = validate_pos(@_, {isa => __PACKAGE__}, {type => SCALAR});
 
     if ( $key =~ /^[\w\d]{32}$/ ) { # id
-        return Tenx::Assembly->get($key);
+        return RefImp::Assembly->get($key);
     }
 
-    my $assembly = Tenx::Assembly->get(url => $key); # get by url
+    my $assembly = RefImp::Assembly->get(url => $key); # get by url
     return $assembly if $assembly;
 
-    Tenx::Assembly->__define__(
-        sample_name => dir($key)->basename,
+    RefImp::Assembly->__define__(
+        name => dir($key)->basename,
         url => $key,
     ); # define by url
 

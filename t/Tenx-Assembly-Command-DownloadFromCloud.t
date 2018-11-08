@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use File::Temp 'tempdir';
 use IPC::Cmd;
@@ -20,12 +20,12 @@ subtest 'setup' => sub{
     plan tests => 2;
 
     use_ok($test{class}) or die;
-    use_ok('Tenx::Assembly');
+    use_ok('RefImp::Assembly');
 
     $test{tempdir} = dir( tempdir(CLEANUP => 1) );
 
 	my $cnt = 0;
-    my @types = Tenx::Assembly->mkoutput_types;
+    my @types = RefImp::Assembly->mkoutput_types;
     $test{mock_gcp_cp} = sub{
         my %p = @_;
 		is_deeply(

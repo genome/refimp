@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use File::Compare;
 use File::Temp;
@@ -17,7 +17,7 @@ subtest 'setup' => sub{
 
     $test{class} = 'Tenx::Assembly::Command::Stats::Quick';
     use_ok($test{class}) or die;
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class($test{class});
+    $test{data_dir} = TestEnv::test_data_directory_for_class($test{class});
     ok(-d $test{data_dir}, 'data dir exists');
 
 
