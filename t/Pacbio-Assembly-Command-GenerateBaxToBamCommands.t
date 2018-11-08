@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use File::Temp;
 use File::Slurp;
@@ -16,11 +16,11 @@ subtest 'setup' => sub{
 
     use_ok($test{class});
 
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class($test{class});
+    $test{data_dir} = TestEnv::test_data_directory_for_class($test{class});
     ok(-d $test{data_dir}->stringify, 'data dir exists');
     $test{tempdir} = Path::Class::dir( File::Temp::tempdir(CLEANUP => 1) );
 
-    $test{run_directories} = TenxTestEnv::test_data_directory_for_class('Pacbio::Run');
+    $test{run_directories} = TestEnv::test_data_directory_for_class('Pacbio::Run');
     ok(-d $test{run_directories}->stringify, 'run dirs exists');
 
 };
@@ -40,7 +40,7 @@ subtest 'execute with runs' => sub{
     ok($cmd->result, 'command result');
 
     my $expected_output = File::Slurp::slurp( $test{data_dir}->file('expected.out')->stringify );
-    my $base_test_data_dir = TenxTestEnv::test_data_directory();
+    my $base_test_data_dir = TestEnv::test_data_directory();
     $expected_output =~ s/\%TDD/$base_test_data_dir/g;
     is($output, $expected_output, 'output commands matches');
 
@@ -64,7 +64,7 @@ subtest 'execute with runs and library name' => sub{
 
     my $output = File::Slurp::slurp("$output_file");
     my $expected_output = File::Slurp::slurp( $test{data_dir}->file( join('.', 'expected', $library_name, 'out') )->stringify );
-    my $base_test_data_dir = TenxTestEnv::test_data_directory();
+    my $base_test_data_dir = TestEnv::test_data_directory();
     $expected_output =~ s/\%TDD/$base_test_data_dir/g;
     is($output, $expected_output, 'output commands matches');
 
@@ -74,7 +74,7 @@ subtest 'execute with bax fof' => sub{
     plan tests => 4;
 
     my $bax_fof_contents = File::Slurp::slurp($test{data_dir}->file('bax.fof')->stringify);
-    my $base_test_data_dir = TenxTestEnv::test_data_directory();
+    my $base_test_data_dir = TestEnv::test_data_directory();
     $bax_fof_contents =~ s/\%TDD/$base_test_data_dir/g;
 
     my ($fh, $bax_fof) = File::Temp::tempfile();
@@ -93,7 +93,7 @@ subtest 'execute with bax fof' => sub{
     ok($cmd->result, 'command result');
 
     my $expected_output = File::Slurp::slurp( $test{data_dir}->file('expected.bax-fof.out')->stringify );
-    $base_test_data_dir = TenxTestEnv::test_data_directory();
+    $base_test_data_dir = TestEnv::test_data_directory();
     $expected_output =~ s/\%TDD/$base_test_data_dir/g;
     is($output, $expected_output, 'output commands matches');
 
@@ -115,7 +115,7 @@ subtest 'execute with some bams completed' => sub{
     ok($cmd->result, 'command result');
 
     my $expected_output = File::Slurp::slurp( $test{data_dir}->file('expected.some-done.out')->stringify );
-    my $base_test_data_dir = TenxTestEnv::test_data_directory();
+    my $base_test_data_dir = TestEnv::test_data_directory();
     $expected_output =~ s/\%TDD/$base_test_data_dir/g;
     is($output, $expected_output, 'output commands matches');
 

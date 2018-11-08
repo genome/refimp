@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use Test::Exception;
 use Test::More tests => 5;
@@ -13,7 +13,7 @@ subtest 'setup' => sub{
     plan tests => 2;
 
     use_ok($test{class}) or die;
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class('Sx::Index::Fai');
+    $test{data_dir} = TestEnv::test_data_directory_for_class('Sx::Index::Fai');
     ok(-d $test{data_dir}->stringify, 'data dir exists');
 
     $test{first_entry} = {

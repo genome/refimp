@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use File::Slurp;
 use File::Temp;
@@ -17,9 +17,9 @@ subtest 'execute' => sub{
 
     use_ok($test{class}) or die;
 
-    my $xml_content = File::Slurp::slurp( TenxTestEnv::test_data_directory_for_class($test{class})->file('merged.dataset.xml') );
+    my $xml_content = File::Slurp::slurp( TestEnv::test_data_directory_for_class($test{class})->file('merged.dataset.xml') );
     ok($xml_content, "found merged data set xml");
-    my $data_dir = TenxTestEnv::test_data_directory_for_class('Pacbio::Run');
+    my $data_dir = TestEnv::test_data_directory_for_class('Pacbio::Run');
     $xml_content =~ s/%TDD/$data_dir/g;
     my $tempdir = dir( File::Temp::tempdir(CLEANUP => 1) );
     my $xml_file = $tempdir->file('merged.dataset.xml');

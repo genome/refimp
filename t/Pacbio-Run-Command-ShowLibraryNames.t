@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use File::Slurp;
 use Path::Class;
@@ -16,9 +16,9 @@ subtest 'execute' => sub{
 
     use_ok($test{class}) or die;
 
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class( $test{class} );
+    $test{data_dir} = TestEnv::test_data_directory_for_class( $test{class} );
     ok(-d "$test{data_dir}", "data dir exists");
-    my $directory = TenxTestEnv::test_data_directory_for_class('Pacbio::Run')->subdir('6U00E3');
+    my $directory = TestEnv::test_data_directory_for_class('Pacbio::Run')->subdir('6U00E3');
     ok(-d "$directory", "example run directory exists");
 
     my $output;
@@ -33,7 +33,7 @@ subtest 'execute' => sub{
     lives_ok(sub{ $cmd->execute; }, 'execute');
 
     my $expected_output = File::Slurp::slurp( $test{data_dir}->file('expected.out') );
-    my $base_test_data_dir = TenxTestEnv::test_data_directory();
+    my $base_test_data_dir = TestEnv::test_data_directory();
     $expected_output =~ s/\%TDD/$base_test_data_dir/g;
     is($output, $expected_output, 'output matches');
     #File::Slurp::write_file($test{data_dir}->file('got'), $output);
