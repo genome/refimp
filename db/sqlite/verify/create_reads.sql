@@ -3,7 +3,7 @@
 BEGIN;
 
 SELECT
-	id, sample_name, url, targets_url
+	id, sample_name, url, tech, targets_url
 FROM reads
 WHERE 0;
 

@@ -8,7 +8,7 @@ use TestEnv;
 use Test::More tests => 1;
 
 subtest "create" => sub{
-    plan tests => 10;
+    plan tests => 11;
 
     my $pkg = 'RefImp::Alignment';
     use_ok($pkg) or die;
@@ -17,6 +17,7 @@ subtest "create" => sub{
 
     my $alignment = $pkg->create(
         url => '/tmp',
+        tech => 'tenx',
         reads => RefImp::Reads->__define__(url => '/tmp/', sample_name => 'TEST-TESTY-MCTESTERSON'),
         refseq => RefImp::Refseq->__define__(url => '/tmp', name => 'REF'),
         status => 'running',
@@ -28,6 +29,7 @@ subtest "create" => sub{
     is($alignment->reads_id, $alignment->reads->id, 'alignment reads');
     is($alignment->refseq_id, $alignment->refseq->id, 'alignment refseq');
     ok($alignment->status, 'alignment status');
+    is($alignment->tech, 'tenx', 'alignment tech');
 
     ok(UR::Context->commit, 'commit');
 

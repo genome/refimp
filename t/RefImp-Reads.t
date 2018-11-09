@@ -20,17 +20,19 @@ subtest 'setup' => sub{
 };
 
 subtest "create" => sub{
-    plan tests => 5;
+    plan tests => 6;
 
     my $reads = $test{pkg}->create(
-        url => '/tmp',
         sample_name => $test{sample_name},
+        tech => 'tenx',
+        url => '/tmp',
     );
     ok($reads, 'create refimp reads');
     $test{reads} = $reads;
 
     ok($reads->id, 'reads id');
     ok($reads->sample_name, 'reads sample_name');
+    ok($reads->tech, 'reads tech');
     ok($reads->url, 'reads url');
 
     ok(UR::Context->commit, 'commit');
@@ -53,8 +55,9 @@ subtest 'create fails' => sub{
     throws_ok(
         sub{ $test{pkg}->create(
                 sample_name => $test{sample_name},
+                targets_url => '/blah',
+                tech => 'tenx',
                 url => '/var',
-                targets_url => '/blah'
             ); },
         qr/Targets url does not exist/,
         'fails with invalid targets_url',
@@ -63,8 +66,9 @@ subtest 'create fails' => sub{
     throws_ok(
         sub{ $test{pkg}->create(
                 sample_name => $test{sample_name},
+                targets_url => '/tmp',
+                tech => 'tenx',
                 url => '/tmp',
-                targets_url => '/tmp'
             ); },
         qr/Found existing reads with url/,
         'fails when recreating w/ same url',

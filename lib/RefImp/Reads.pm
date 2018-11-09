@@ -12,8 +12,9 @@ class RefImp::Reads {
         id => { is => 'Text', },
     },
     has => {
-        url => { is => 'Text', doc => 'File system location of the read files', },
-        sample_name => { is => 'Text', doc => 'Teh unique sample name.', },
+      sample_name => { is => 'Text', doc => 'Teh unique sample name.', },
+      tech => { is => 'Text', doc => 'The technology that created reads. Ex: sequel, tenx, illumina.' },
+      url => { is => 'Text', doc => 'File system location of the read files', },
     },
     has_optional => {
         targets_url => { is => 'Text', doc => 'The targets file, if exome.', },

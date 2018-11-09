@@ -10,6 +10,7 @@ class RefImp::Alignment {
         id => { is => 'Text', },
     },
     has => {
+        tech => { is => 'Text', doc => 'The technology that created the alignment. Ex: pacbio, tenx, phrap, etc.' },
         url => { is => 'Text', doc => 'File system location.', },
         reads => {
             is => 'RefImp::Reads',

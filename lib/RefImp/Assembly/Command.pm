@@ -10,7 +10,7 @@ UR::Object::Command::Crud->create_command_subclasses(
     namespace => 'RefImp::Assembly::Command',
     sub_command_configs => {
         copy => { skip => 1, },
-        list => { show => 'id,name,taxon,directory', },
+        list => { show => 'id,name,taxon,tech,url', },
         update => { skip => 1, },
         delete => { skip => 1, },
     },

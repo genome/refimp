@@ -3,7 +3,7 @@
 BEGIN;
 
 SELECT
-	id, url, status, reads_id, refseq_id
+	id, url, tech, status, reads_id, refseq_id
 FROM alignments
 WHERE 0;
 

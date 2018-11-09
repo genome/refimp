@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS assemblies (
         id VARCHAR(32),
 	name VARCHAR(64),
 	url VARCHAR(256),
+	tech VARCHAR(16),
 	status VARCHAR(16),
 	taxon_id VARCHAR(32),
 	reads_id VARCHAR(32),

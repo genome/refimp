@@ -111,6 +111,7 @@ sub _from_yml {
         id => $assembly_id,
         name => $assembly_id, # gotta be unique
         taxon => $taxon, # only thing we really know
+        tech => 'unknown', # FIXME pass this in
         url => "$directory", # submission dir, assembly is somewhere nearby
     );
 

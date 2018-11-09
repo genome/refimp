@@ -3,7 +3,7 @@
 BEGIN;
 
 SELECT
-	id, name, url, taxon_id
+	id, name, url, tech, taxon_id
 FROM refseqs
 WHERE 0;
 

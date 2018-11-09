@@ -14,6 +14,7 @@ class RefImp::Assembly {
             is => 'Text',
             doc => 'Name for the assembly.',
         },
+        tech => { is => 'Text', doc => 'The technology that created the assembly. Ex: pacbio, tenx, phrap, etc.' },
         url => { is => 'Text', doc => 'Assembly location: file system, cloud.', },
     },
     has_optional => {

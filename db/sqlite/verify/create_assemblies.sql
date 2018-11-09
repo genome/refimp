@@ -3,7 +3,7 @@
 BEGIN;
 
 SELECT
-	id, name, url, status, taxon_id, reads_id
+	id, name, url, tech, status, taxon_id, reads_id
 FROM assemblies
 WHERE 0;
 

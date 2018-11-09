@@ -14,6 +14,7 @@ class RefImp::Refseq {
     has => {
         name => { is => 'Text', doc => 'Short name of the refseq.', },
         taxon => { is => 'RefImp::Taxon', id_by => 'taxon_id', doc => 'The refseq taxon.', },
+        tech => { is => 'Text', doc => 'The technology the refseq to be used with. Ex: bwa, tenx, etc.' },
         url => { is => 'Text', doc => 'File system location.', },
     },
     data_source => RefImp::Config::get('refimp_ds'),
