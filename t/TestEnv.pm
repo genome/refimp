@@ -43,10 +43,6 @@ INIT { # runs after compilation, right before execution
     RefImp::Config::set('net_ldap_url', 'ipa.refimp.org');
     RefImp::Config::set('test_data_path', $test_data_directory);
 
-    Tenx::Config::set('tenx_ds', 'Tenx::DataSource::SQLite');
-    Tenx::Config::set('tenx_ds_sqlite_server', $test_data_directory->subdir('test.db'));
-    Tenx::Config::set('environment', 'test');
-
 }
 
 sub test_data_directory_for_class {

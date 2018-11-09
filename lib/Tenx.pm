@@ -14,10 +14,8 @@ UR::Object::Type->define(
 );
 
 use RefImp;
-use Tenx::Config;
-if ( $ENV{TENX_CONFIG_FILE} ) {
-    Tenx::Config::load_config_from_file( $ENV{TENX_CONFIG_FILE} );
-    RefImp::Config::load_config_from_file( $ENV{TENX_CONFIG_FILE} );
+if ( $ENV{REFIMP_CONFIG_FILE} ) {
+    RefImp::Config::load_config_from_file( $ENV{REFIMP_CONFIG_FILE} );
 }
 
 1;
