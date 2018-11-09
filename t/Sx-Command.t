@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 use Test::More tests => 1;
 
 use_ok('Sx::Command') or die;

@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use TenxTestEnv;
+use TestEnv;
 
 use Path::Class;
 use Test::Exception;
@@ -16,7 +16,7 @@ subtest 'setup' => sub{
     $test{pkg} = 'Tenx::Reads::SampleSheet';
     use_ok($test{pkg}) or die;
 
-    $test{data_dir} = dir( TenxTestEnv::test_data_directory_for_class('Tenx::Reads') );
+    $test{data_dir} = dir( TestEnv::test_data_directory_for_class('RefImp::Reads') );
     $test{expected_sample_names} = [qw/ M_FA-1CNTRL-Control_10x M_FA-2PD1-aPD1_10x M_FA-3CTLA4-aCTLA4_10x M_FA-4PDCTLA-aPD1-aCTLA4_10x /];
 
 };

@@ -10,10 +10,9 @@ create_taxa 2016-11-21T23:05:32Z Eddie Belter <ebelter@mullis.local> # Create ta
 create_projects_taxa 2016-11-22T22:00:33Z Eddie Belter <ebelter@mullis.local> # Create project taxa!
 create_assemblies 2017-04-14T00:12:05Z Eddie Belter <ebelter@mullis.local> # Create assemblies!
 create_assemblies_submissions 2017-05-13T01:28:14Z Eddie Belter <ebelter@vpn-10-1-24-54.gsc.wustl.edu> # Add Submissions Assemblies
-create_tenx_references 2017-06-07T21:31:02Z Eddie Belter <ebelter@mullis.local> # Create TenX References!
-create_tenx_reads 2017-06-07T21:40:30Z Eddie Belter <ebelter@mullis.local> # Create TenX Reads!
-create_tenx_alignments 2017-06-07T21:42:54Z Eddie Belter <ebelter@mullis.local> # Add TenX Alignments!
+create_refseqs 2017-06-07T21:31:02Z Eddie Belter <ebelter@mullis.local> # Create References!
+create_reads 2017-06-07T21:40:30Z Eddie Belter <ebelter@mullis.local> # Create Reads!
+create_alignments 2017-06-07T21:42:54Z Eddie Belter <ebelter@mullis.local> # Add Alignments!
 add_status_to_projects_users 2017-06-26T21:37:40Z Eddie Belter <ebelter@mullis.local> # Add status to projects users aka my status
 add_submission_accession 2017-06-28T22:21:51Z Eddie Belter <ebelter@mullis.local> # Add Submission Accession!
 create_disk_assignments_groups_and_volumes 2017-08-14T23:01:48Z Eddie Belter <ebelter@mullis.local> # Create Disk Assignments, Groups, and Volumes!
-create_tenx_assemblies 2018-01-16T22:31:39Z ebelter <ebelter@dev-perl> # Create 10X Assemblies!

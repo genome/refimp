@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use Test::Exception;
 use Test::More tests => 1;
@@ -14,7 +14,7 @@ subtest 'execute' => sub{
 
     use_ok($test{class}) or die;
 
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class('Tenx::Reads')->subdir('sample-sheet');
+    $test{data_dir} = TestEnv::test_data_directory_for_class('RefImp::Reads')->subdir('sample-sheet');
     ok(-d "$test{data_dir}", 'data dir exists');
 
     my $cmd = $test{class}->create(

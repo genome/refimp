@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use Digest::MD5;
 use File::Compare;
@@ -26,7 +26,7 @@ subtest 'setup' => sub{
 
     use_ok($test{class}) or die;
 
-    $test{data_directory} = dir( TenxTestEnv::test_data_directory_for_class('Pacbio::Run') );
+    $test{data_directory} = dir( TestEnv::test_data_directory_for_class('Pacbio::Run') );
     ok(-d "$test{data_directory}", "data directory exists");
 
     Sub::Install::reinstall_sub({

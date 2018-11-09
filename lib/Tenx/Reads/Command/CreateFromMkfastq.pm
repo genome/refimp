@@ -15,7 +15,7 @@ class Tenx::Reads::Command::CreateFromMkfastq {
         },
     },
     has_optional_input => {
-        targets_path => {
+        targets_url => {
             is => 'Text',
             doc => 'Bed file of targets if reads are exome.',
         },
@@ -29,16 +29,17 @@ sub execute {
     my $self = shift; 
     $self->status_message('Create reads from mkfastq...');
 
-    $self->fatal_message('Given targets path does not exist: %s', $self->targets_path) if $self->targets_path and !-s $self->targets_path;
+    $self->fatal_message('Given targets path does not exist: %s', $self->targets_url) if $self->targets_url and !-s $self->targets_url;
 
     my $samplesheet = Tenx::Reads::MkfastqRun->create( $self->directory );
     for my $sample_name ( $samplesheet->sample_names ) {
         my $sample_directory = $samplesheet->fastq_directory_for_sample_name($sample_name);
-        my $reads = Tenx::Reads->create(
-            directory => $sample_directory->stringify,
+        my $reads = RefImp::Reads->create(
             sample_name => $sample_name,
+            tech => 'tenx',
+            url => $sample_directory->stringify,
         );
-        $reads->targets_path($self->targets_path) if $self->targets_path;
+        $reads->targets_url($self->targets_url) if $self->targets_url;
         $self->status_message('Created reads: %s', $reads->__display_name__);
     }
 

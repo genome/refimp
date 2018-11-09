@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use Test::Exception;
 use Test::More tests => 4;
 
-use TenxTestEnv;
+use TestEnv;
 
 my %test;
 subtest 'setup' => sub{
@@ -15,7 +15,7 @@ subtest 'setup' => sub{
     %test = ( class => 'Tenx::Util::Run' );
     use_ok($test{class});
 
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class($test{class});
+    $test{data_dir} = TestEnv::test_data_directory_for_class($test{class});
     ok(-d $test{data_dir}, 'data dir exists');
 
     $test{object} = $test{class}->new($test{data_dir}->subdir('supernova-success'));

@@ -21,8 +21,8 @@ class Tenx::Assembly::Command::DownloadFromCloud {
         types => {
             is => 'Text',
             is_many => 1,
-            default_value => [ Tenx::Assembly->mkoutput_types ],
-            valid_values => [ Tenx::Assembly->mkoutput_types ],
+            default_value => [ RefImp::Assembly->mkoutput_types ],
+            valid_values => [ RefImp::Assembly->mkoutput_types ],
             doc => 'Assembly outputs to download.',
         },
     },
@@ -46,11 +46,11 @@ sub execute {
     my $url = $assembly->url;
     $self->fatal_message('Unknown assembly cloud source: %s. Is the assembly on the cloud?', $url) if $url !~ m#^gs://#;
 
-    my $destination = dir($self->destination)->subdir($assembly->sample_name);
+    my $destination = dir($self->destination)->subdir($assembly->name);
     mkpath($destination) or $self->fatal_message('Failed to mkpath: %s', $destination);
 
     for my $type ( $self->types ) {
-        my $src_files = sprintf('%s/mkoutput/%s.%s.*fasta.gz', $assembly->url, $assembly->sample_name, $type);
+        my $src_files = sprintf('%s/mkoutput/%s.%s.*fasta.gz', $assembly->url, $assembly->name, $type);
         Util::GCP->cp($src_files, $destination);
     }
 

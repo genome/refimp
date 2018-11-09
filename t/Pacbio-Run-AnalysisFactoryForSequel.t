@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use Path::Class;
 use Test::More tests => 3;
@@ -23,7 +23,7 @@ subtest 'new version 4.0.0' => sub{
     plan tests => 8;
 
     my $run_id= '6U00I7';
-    my $directory = dir( TenxTestEnv::test_data_directory_for_class('Pacbio::Run') )->subdir($run_id);
+    my $directory = dir( TestEnv::test_data_directory_for_class('Pacbio::Run') )->subdir($run_id);
     ok(-d "$directory", "example run directory exists");
 
     my $analyses = $test{class}->build($directory);
@@ -41,7 +41,7 @@ subtest 'new version 4.0.1' => sub{
     plan tests => 8;
 
     my $run_id= '6U00IG';
-    my $directory = dir( TenxTestEnv::test_data_directory_for_class('Pacbio::Run') )->subdir($run_id);
+    my $directory = dir( TestEnv::test_data_directory_for_class('Pacbio::Run') )->subdir($run_id);
     ok(-d "$directory", "example run directory exists");
 
     my $analyses = $test{class}->build($directory);

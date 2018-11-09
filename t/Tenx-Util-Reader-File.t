@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use Test::More tests => 2;
 use Test::Exception;
 
-use TenxTestEnv;
+use TestEnv;
 
 my %test;
 subtest 'setup' => sub{
@@ -15,7 +15,7 @@ subtest 'setup' => sub{
     %test = ( class => 'Tenx::Util::Reader::File' );
     use_ok($test{class});
 
-    $test{data_dir} = TenxTestEnv::test_data_directory_for_class('Tenx::Util::Reader');
+    $test{data_dir} = TestEnv::test_data_directory_for_class('Tenx::Util::Reader');
     ok(-d $test{data_dir}, 'data dir exists');
 
     $test{log_file} = $test{data_dir}->file('_log');

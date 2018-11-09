@@ -13,65 +13,67 @@ use Test::Exception;
 use Test::MockObject;
 use Test::More tests => 14;
 
-my %setup;
-subtest 'setup' => sub{
+my %test;
+subtest 'test' => sub{
     plan tests => 3;
 
-    $setup{pkg} = 'RefImp::Assembly::Submission';
-    use_ok($setup{pkg}) or die;
+    $test{pkg} = 'RefImp::Assembly::Submission';
+    use_ok($test{pkg}) or die;
 
-    my $data_dir = TestEnv::test_data_directory_for_package($setup{pkg});
-    $setup{submission_yml} = File::Spec->join($data_dir, 'submission.yml');
-    ok(-s $setup{submission_yml}, 'submission_yml exists');
-    $setup{submission_params} = YAML::LoadFile($setup{submission_yml});
-    $setup{tempdir} = tempdir(CLEANUP => 1);
-    $setup{invalid_submission_yml} = File::Spec->join($setup{tempdir}, 'invalid_submission.yml');
+    my $data_dir = TestEnv::test_data_directory_for_package($test{pkg});
+    $test{submission_yml} = File::Spec->join($data_dir, 'submission.yml');
+    ok(-s $test{submission_yml}, 'submission_yml exists');
+    $test{submission_params} = YAML::LoadFile($test{submission_yml});
+    $test{tempdir} = tempdir(CLEANUP => 1);
+    $test{invalid_submission_yml} = File::Spec->join($test{tempdir}, 'invalid_submission.yml');
 
-    ok(TestEnv::NcbiBiosample->setup, 'biosample setup');
+    ok(TestEnv::NcbiBiosample->setup, 'biosample test');
 
 };
 
 subtest '_from_yml fails' => sub{
     plan tests => 8;
 
-    throws_ok(sub{ $setup{pkg}->_from_yml(); }, qr/No submission YAML given/, 'get_or_create_from_yml fails w/o submission yml');
-    throws_ok(sub{ $setup{pkg}->_from_yml('/blah'); }, qr/Submission YAML does not exist/, 'get_or_create_from_yml fails w/ non existing submission yml');
+    throws_ok(sub{ $test{pkg}->_from_yml(); }, qr/No submission YAML given/, 'get_or_create_from_yml fails w/o submission yml');
+    throws_ok(sub{ $test{pkg}->_from_yml('/blah'); }, qr/Submission YAML does not exist/, 'get_or_create_from_yml fails w/ non existing submission yml');
 
-    my %params = %{$setup{submission_params}};
+    my %params = %{$test{submission_params}};
     $params{unique_id} = 'GGG';
-    YAML::DumpFile($setup{invalid_submission_yml}, \%params);
-    throws_ok(sub{ $setup{pkg}->_from_yml($setup{invalid_submission_yml}); }, qr/Invalid unique_id in YAML: GGG. Please use \'refimp assembly submission add-unique-id\'/, 'fails w/ invalid unique_id');
+    YAML::DumpFile($test{invalid_submission_yml}, \%params);
+    throws_ok(sub{ $test{pkg}->_from_yml($test{invalid_submission_yml}); }, qr/Invalid unique_id in YAML: GGG. Please use \'refimp assembly submission add-unique-id\'/, 'fails w/ invalid unique_id');
 
-    %params = %{$setup{submission_params}};
+    %params = %{$test{submission_params}};
     for my $k (qw/ biosample bioproject version /) {
         my $v = delete $params{$k};
-        YAML::DumpFile($setup{invalid_submission_yml}, \%params);
-        my $submission = $setup{pkg}->_from_yml($setup{invalid_submission_yml});
+        YAML::DumpFile($test{invalid_submission_yml}, \%params);
+        my $submission = $test{pkg}->_from_yml($test{invalid_submission_yml});
         my @errors = $submission->__errors__;
         like($errors[0]->__display_name__, qr/$k': No value specified/, "get_or_create_from_yml fails w/o $k");
         $params{$k} = $v;
         $submission->delete;
     }
 
-    %params = %{$setup{submission_params}};
+    %params = %{$test{submission_params}};
     my $taxon = delete $params{taxon};
-    YAML::DumpFile($setup{invalid_submission_yml}, \%params);
-    throws_ok(sub{ $setup{pkg}->_from_yml($setup{invalid_submission_yml}); }, qr/No taxon in submission YAML/, 'fails w/o taxon');
+    YAML::DumpFile($test{invalid_submission_yml}, \%params);
+    throws_ok(sub{ $test{pkg}->_from_yml($test{invalid_submission_yml}); }, qr/No taxon in submission YAML/, 'fails w/o taxon');
     $params{taxon} = 'i dunno';
-    YAML::DumpFile($setup{invalid_submission_yml}, \%params);
-    throws_ok(sub{ $setup{pkg}->_from_yml($setup{invalid_submission_yml}); }, qr/Taxon not found for "i dunno"/, 'fails when taxon not found');
+    YAML::DumpFile($test{invalid_submission_yml}, \%params);
+    throws_ok(sub{ $test{pkg}->_from_yml($test{invalid_submission_yml}); }, qr/Taxon not found for "i dunno"/, 'fails when taxon not found');
+
+    for ( RefImp::Assembly->get(url => "$test{tempdir}") ) { $_->delete; }
 
 };
 
 subtest 'get_or_create_from_yml' => sub{
     plan tests => 12;
 
-    my %params = %{$setup{submission_params}};
+    my %params = %{$test{submission_params}};
     ok($params{unique_id}, 'subimssion params has unique_id');
-    my $submission = $setup{pkg}->get($params{unique_id});
+    my $submission = $test{pkg}->get($params{unique_id});
     ok(!$submission, 'submission does not exist');
 
-    $submission = $setup{pkg}->get_or_create_from_yml($setup{submission_yml});
+    $submission = $test{pkg}->get_or_create_from_yml($test{submission_yml});
     ok($submission, 'create from yml ');
     ok($submission->assembly, 'create assemby');
     is($submission->biosample, $params{biosample}, 'set biosample');
@@ -80,7 +82,7 @@ subtest 'get_or_create_from_yml' => sub{
     like($submission->submitted_on, qr/^\d{4}\-\d{2}\-\d{2}/, 'set submitted_on');
     ok($submission->taxon, 'taxon via assemby');
     is($submission->version, $params{version}, 'set version');
-    $setup{submission} = $submission;
+    $test{submission} = $submission;
     is($submission->id, $params{unique_id}, 'id is unique_id');
 
     ok(UR::Context->commit, 'commit');
@@ -90,35 +92,35 @@ subtest 'get_or_create_from_yml' => sub{
 subtest 'get_or_define_from_yml' => sub{
     plan tests => 3;
 
-    my %params = %{$setup{submission_params}};
+    my %params = %{$test{submission_params}};
     $params{unique_id} = UR::Object::Type->autogenerate_new_object_id_uuid;
-    YAML::DumpFile($setup{invalid_submission_yml}, \%params);
+    YAML::DumpFile($test{invalid_submission_yml}, \%params);
 
-    my $submission = $setup{pkg}->get_or_define_from_yml($setup{invalid_submission_yml});
+    my $submission = $test{pkg}->get_or_define_from_yml($test{invalid_submission_yml});
     ok($submission, 'get_or_define_from_yml');
     ok($submission->{__defined}, '__define__ submission');
-    isnt($submission->id, $setup{submission}->id, 'defined a new subimssion');
+    isnt($submission->id, $test{submission}->id, 'defined a new subimssion');
 
 };
 
 subtest 'get' => sub{
     plan tests => 1;
 
-    my $submission = $setup{pkg}->get($setup{submission_params}->{unique_id});
-    is($submission, $setup{submission}, 'get');
+    my $submission = $test{pkg}->get($test{submission_params}->{unique_id});
+    is($submission, $test{submission}, 'get');
 
 };
 
 subtest 'submission_info' => sub {
     plan tests => 7;
 
-    my $submission = $setup{submission};
+    my $submission = $test{submission};
     my $info = $submission->submission_info;
     $submission->submission_info(undef);
     throws_ok(sub{ $submission->info_for(); }, qr/No submission info set/, 'info_for fails w/o submission info');
     $submission->submission_info($info);
 
-    is_deeply($submission->submission_info, $setup{submission_params}, 'submission info hash');
+    is_deeply($submission->submission_info, $test{submission_params}, 'submission info hash');
     throws_ok(sub{ $submission->info_for; }, qr/No key given/, 'info_for fails w/o key');
     is($submission->info_for('genome_coverage'), '20x', 'info_for coverage');
 
@@ -133,7 +135,7 @@ subtest 'submission_info' => sub {
 subtest 'validate_for_submit' => sub{
     plan tests => 16;
 
-    my $submission = $setup{submission};
+    my $submission = $test{submission};
     my $info = $submission->submission_info();
 
     # Submission info requried
@@ -224,7 +226,7 @@ subtest 'validate_for_submit' => sub{
 subtest 'validate_for_submit authors and contact' => sub{
     plan tests => 3;
 
-    my $submission = $setup{submission};
+    my $submission = $test{submission};
     my $info = $submission->submission_info();
 
     my $authors = delete $info->{authors};
@@ -242,7 +244,7 @@ subtest 'validate_for_submit authors and contact' => sub{
 subtest 'ncbi_biosample' => sub{
     plan tests => 3;
 
-    my $submission = $setup{submission};
+    my $submission = $test{submission};
     ok($submission->ncbi_biosample, 'get ncbi_biosample');
     is($submission->bioproject_uid, '376014', 'bioproject_uid fom ncbi_biosample');
     is($submission->biosample_uid, '6349363', 'biosample_uid fom ncbi_biosample');
@@ -252,7 +254,7 @@ subtest 'ncbi_biosample' => sub{
 subtest 'release_notes' => sub{
     plan tests => 1;
 
-    my $submission = $setup{submission};
+    my $submission = $test{submission};
     my $release_notes = $submission->release_notes;
     like($release_notes, qr/^Crassostrea virginica sequence assembly release C_virginica-1\.0 notes/, 'release_notes');
 
@@ -261,7 +263,7 @@ subtest 'release_notes' => sub{
 subtest 'ncbi_version' => sub{
     plan tests => 1;
 
-    my $submission = $setup{submission};
+    my $submission = $test{submission};
     is($submission->ncbi_version, 'Crassostrea_virginica_2.0', 'ncbi_version');
 
 };
@@ -269,7 +271,7 @@ subtest 'ncbi_version' => sub{
 subtest 'accession_id' => sub{
     plan tests => 2;
 
-    my $submission = $setup{submission};
+    my $submission = $test{submission};
     ok(!$submission->accession_id, 'submission does not have an accession_id');
     is($submission->accession_id('HNH00000001'), 'HNH00000001', 'submission accession_id');
 
@@ -278,7 +280,7 @@ subtest 'accession_id' => sub{
 subtest 'tar_basename' => sub{
     plan tests => 1;
 
-    my $submission = $setup{submission};
+    my $submission = $test{submission};
     like($submission->tar_basename, qr/Crassostrea_virginica_2\.0_\d\d\d\d\-\d\d\-\d\d\.tar/, 'submission tar_basename');
 
 };
@@ -286,7 +288,7 @@ subtest 'tar_basename' => sub{
 subtest 'add_info_for' =>sub{
     plan tests => 5;
 
-    my $submission = $setup{submission};
+    my $submission = $test{submission};
 
     my $info = $submission->submission_info;
     $submission->submission_info({});

@@ -13,9 +13,9 @@ UR::Object::Type->define(
     english_name => 'tenx genomics',
 );
 
-use Tenx::Config;
-if ( $ENV{TENX_CONFIG_FILE} ) {
-    Tenx::Config::load_config_from_file( $ENV{TENX_CONFIG_FILE} );
+use RefImp;
+if ( $ENV{REFIMP_CONFIG_FILE} ) {
+    RefImp::Config::load_config_from_file( $ENV{REFIMP_CONFIG_FILE} );
 }
 
 1;

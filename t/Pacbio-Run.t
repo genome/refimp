@@ -3,7 +3,7 @@
 use strict;
 use warnings 'FATAL';
 
-use TenxTestEnv;
+use TestEnv;
 
 use Path::Class;
 use Test::More tests => 2;
@@ -15,7 +15,7 @@ subtest 'new' => sub{
 
     use_ok($test{class}) or die;
 
-    my $directory = dir( TenxTestEnv::test_data_directory_for_class($test{class}) )->subdir('6U00E3');
+    my $directory = dir( TestEnv::test_data_directory_for_class($test{class}) )->subdir('6U00E3');
     ok(-d "$directory", "example run directory exists");
 
     my $run = $test{class}->new(directory => $directory, machine_type => 'rsii');
