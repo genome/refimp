@@ -13,4 +13,14 @@ UR::Object::Command::Crud->create_command_subclasses(
     },
 );
 
+use Sub::Install;
+Sub::Install::reinstall_sub({
+        code => sub{ 'tech=tenx' },
+        into => 'Tenx::Alignment::Command::List',
+        as => '_base_filter',
+    });
+
+my $meta = UR::Object::Type->get('Tenx::Alignment::Command::Create');
+$meta->property_meta_for_name('tech')->default_value('tenx');
+
 1;
