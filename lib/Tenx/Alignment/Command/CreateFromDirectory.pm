@@ -71,7 +71,7 @@ sub _resolve_params_from_url {
     my $ref = RefImp::Refseq->get(url => "$ref_directory");
     $self->fatal_message('No reference found for directory! %s', $ref_directory) if not $ref;
 
-    { reads => $reads, refseq => $ref, };
+    { reads => $reads, refseq => $ref, tech => 'tenx', };
 }
 
 1;

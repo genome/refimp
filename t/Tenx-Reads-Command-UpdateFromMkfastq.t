@@ -19,7 +19,7 @@ subtest 'setup' => sub{
     use_ok($test{pkg}) or die;
 
     $test{old_dir} = '/gscmnt/gc6144/techd/10x_Genomics_IDT_Exome_Reagent_Capture_HJNMJBBXX/HJNMJBBXX/';
-    $test{reads} = [ map { RefImp::Reads->create(sample_name => $_, url => $test{old_dir}.'/outs/fastqs/'.$_) } (qw/ M_FA-1CNTRL-Control_10x M_FA-2PD1-aPD1_10x M_FA-3CTLA4-aCTLA4_10x M_FA-4PDCTLA-aPD1-aCTLA4_10x /)];
+    $test{reads} = [ map { RefImp::Reads->create(sample_name => $_, tech => 'tenx', url => $test{old_dir}.'/outs/fastqs/'.$_) } (qw/ M_FA-1CNTRL-Control_10x M_FA-2PD1-aPD1_10x M_FA-3CTLA4-aCTLA4_10x M_FA-4PDCTLA-aPD1-aCTLA4_10x /)];
     is(@{$test{reads}}, 4, 'created reads');
     ok($test{reads}->[2]->url('/data/XXXXXA/outs/fastqs/'.$test{reads}->[2]->sample_name), 'change reads #3 url');
     $test{data_dir} = TestEnv::test_data_directory_for_class('RefImp::Reads');

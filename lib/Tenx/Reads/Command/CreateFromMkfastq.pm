@@ -36,6 +36,7 @@ sub execute {
         my $sample_directory = $samplesheet->fastq_directory_for_sample_name($sample_name);
         my $reads = RefImp::Reads->create(
             sample_name => $sample_name,
+            tech => 'tenx',
             url => $sample_directory->stringify,
         );
         $reads->targets_url($self->targets_url) if $self->targets_url;
