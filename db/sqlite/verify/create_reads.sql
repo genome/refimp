@@ -4,7 +4,7 @@ BEGIN;
 
 SELECT
 	id, sample_name, url, tech, targets_url
-FROM reads
+FROM sequence_reads
 WHERE 0;
 
 COMMIT;

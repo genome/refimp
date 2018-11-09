@@ -2,7 +2,7 @@
 
 BEGIN;
 
-CREATE TABLE IF NOT EXISTS reads (
+CREATE TABLE IF NOT EXISTS sequence_reads (
         id VARCHAR(32),
 	sample_name VARCHAR(64),
 	url VARCHAR(256),

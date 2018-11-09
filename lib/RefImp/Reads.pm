@@ -6,18 +6,18 @@ use warnings 'FATAL';
 use Path::Class;
 
 class RefImp::Reads {
-    table_name => 'reads',
+    table_name => 'sequence_reads',
     id_generator => '-uuid',
     id_by => {
         id => { is => 'Text', },
     },
     has => {
-      sample_name => { is => 'Text', doc => 'Teh unique sample name.', },
+      sample_name => { is => 'Text', doc => 'The unique sample name.', },
       tech => { is => 'Text', doc => 'The technology that created reads. Ex: sequel, tenx, illumina.' },
       url => { is => 'Text', doc => 'File system location of the read files', },
     },
     has_optional => {
-        targets_url => { is => 'Text', doc => 'The targets file, if exome.', },
+        targets_url => { is => 'Text', doc => 'The targets URL, if exome.', },
     },
     has_optional_calculated => {
         type => {

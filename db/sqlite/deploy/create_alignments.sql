@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS alignments (
 
 	CONSTRAINT aln_pk PRIMARY KEY(id),
 	CONSTRAINT alnref_fk FOREIGN KEY(refseq_id) REFERENCES refseqs(id)
-	CONSTRAINT alnrds_fk FOREIGN KEY(reads_id) REFERENCES reads(id)
+	CONSTRAINT alnrds_fk FOREIGN KEY(reads_id) REFERENCES sequence_reads(id)
 );
 
 COMMIT;
