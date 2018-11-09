@@ -43,6 +43,9 @@ INIT { # runs after compilation, right before execution
     RefImp::Config::set('net_ldap_url', 'ipa.refimp.org');
     RefImp::Config::set('test_data_path', $test_data_directory);
 
+    my $bin = File::Spec->join($repo_path, 'bin');
+    $ENV{PATH} = "$bin:$ENV{PATH}";
+
 }
 
 sub test_data_directory_for_class {
