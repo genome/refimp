@@ -26,6 +26,7 @@ class RefImp::Project {
             valid_values => [
                 "bac", "chromosome", "cosmid", "fosmid", "fosmid library", "genome", "pac", "unknown", "yac",
             ],
+            default_value => 'bac',
             doc => 'Clone type: bac, cosmid, etc.',
         },
         my_status => {

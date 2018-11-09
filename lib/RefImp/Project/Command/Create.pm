@@ -3,7 +3,8 @@ package RefImp::Project::Command::Create;
 use strict;
 use warnings;
 
-use RefImp::Role::PropertyValuesFromFile;
+my $clone_type_property_meta = UR::Object::Type->get('RefImp::Project')->property_meta_for_name('clone_type');
+my %clone_type_property = map { $_ => $clone_type_property_meta->$_ } (qw/ data_type default_value valid_values doc /);
 
 class RefImp::Project::Command::Create { 
     is => 'Command::V2',
@@ -20,6 +21,7 @@ class RefImp::Project::Command::Create {
             default_value => 'unknown',
             doc => 'The chromosome to assign to the project\'s taxonomy.',
         },
+        clone_type => \%clone_type_property,
         directory => {
             is => 'Text',
             doc => 'Base directory to create project structure in.',
@@ -36,6 +38,8 @@ class RefImp::Project::Command::Create {
     },
     doc => 'create a project',
 };
+
+use RefImp::Role::PropertyValuesFromFile;
 RefImp::Role::PropertyValuesFromFile::class_properties_can_load_from_file(__PACKAGE__, 'names');
 
 sub help_detail { __PACKAGE__->__meta__->doc }
@@ -89,6 +93,7 @@ sub _get_or_create_project {
 
     my %params = (
         name => $name,
+        clone_type => $self->clone_type,
     );
     $project = RefImp::Project->create(%params);
     $self->fatal_message('Failed to create project!') if !$project;
