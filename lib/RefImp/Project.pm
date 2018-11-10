@@ -137,4 +137,13 @@ sub create_project_directory_structure {
 sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); }
 sub notes_file { RefImp::Project::NotesFile->new($_[0]->notes_file_path); }
 
+sub delete {
+	my ($self) = @_;
+
+	my $taxonomy = $self->taxonomy;
+	$taxonomy->delete if $taxonomy;
+
+	$self->SUPER::delete;
+}
+
 1;

@@ -8,7 +8,7 @@ use TestEnv;
 use File::Spec qw();
 use File::Temp;
 use Test::Exception;
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 my $project;
 subtest "basics" => sub{
@@ -104,6 +104,16 @@ subtest 'my_status' => sub{
     my $my_status = 'Good to presubmit';
     $project_finisher->status($my_status);
     is($project->my_status, $my_status, 'got my_status');
+
+};
+
+subtest 'delete' => sub{
+    plan tests => 3;
+
+    my $taxonomy = $project->taxonomy;
+    ok($project->delete, 'delete project');
+    isa_ok($taxonomy, 'UR::DeletedRef', 'deleted taxonomy');
+    ok(UR::Context->commit, 'commit');
 
 };
 
