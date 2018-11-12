@@ -26,6 +26,7 @@ class RefImp::Project {
             valid_values => [
                 "bac", "chromosome", "cosmid", "fosmid", "fosmid library", "genome", "pac", "unknown", "yac",
             ],
+            default_value => 'bac',
             doc => 'Clone type: bac, cosmid, etc.',
         },
         my_status => {
@@ -135,5 +136,14 @@ sub create_project_directory_structure {
 
 sub notes_file_path { File::Spec->join($_[0]->directory, $_[0]->name.'.notes'); }
 sub notes_file { RefImp::Project::NotesFile->new($_[0]->notes_file_path); }
+
+sub delete {
+	my ($self) = @_;
+
+	my $taxonomy = $self->taxonomy;
+	$taxonomy->delete if $taxonomy;
+
+	$self->SUPER::delete;
+}
 
 1;
