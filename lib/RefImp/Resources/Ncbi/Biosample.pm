@@ -25,6 +25,7 @@ class RefImp::Resources::Ncbi::Biosample {
     },
     has_optional_transient => {
         elink_xml => { is => 'Text', },
+        _error => { is => 'Text', },
         ua => { },
     },
     doc => 'NCBI E-Utils Biosample Helper',
@@ -53,19 +54,17 @@ sub create {
     $self->fatal_message('No bioproject given!') if not $self->bioproject;
     $self->fatal_message('No biosample given!') if not $self->biosample;
 
-    $self->__init__;
+    $self;
 }
 
-sub __init__ {
+sub _init_ua {
     my $self = shift;
+    return if $self->ua;
 
     my $ua = LWP::UserAgent->new;
     $ua->timeout(10);
     $ua->env_proxy;
     $self->ua($ua);
-
-    $self->load_elink_xml;
-    $self;
 }
 
 sub fetch_xml_dom {
@@ -77,8 +76,7 @@ sub fetch_xml_dom {
     my $url = $self->$url_method;
     my $response = $self->ua->get($url);
     if ( not $response->is_success ) {
-        $self->warning_message($response->status_line);
-        $self->fatal_message("Failed to GET %s", $url);
+        $self->fatal_message("Failed to GET %s\n%s", $url, $response->status_line);
     }
 
     my $content = $response->decoded_content;
@@ -92,15 +90,26 @@ sub fetch_xml_dom {
     $dom
 }
 
-sub load_elink_xml {
+sub verify {
     my $self = shift;
+
+    $self->_init_ua;
 
     my $dom = $self->fetch_xml_dom('elink');
     my $biosample_uid = $self->biosample_uid;
     my @links = $dom->findnodes('/eLinkResult/LinkSet/LinkSetDb/Link/Id');
-    $self->fatal_message("No bioproject/biosample links found in elink xml!\n%s", $self->elink_xml) if not @links;
+    if ( not @links ) {
+        $self->_error( sprintf("No bioproject/biosample links found in elink xml!\n%s", $self->elink_xml) );
+        return;
+    }
+
     my ($bioproject_link) = grep { $_->textContent eq $biosample_uid } @links;
-    $self->fatal_message('Could not find bioproject/biosample %s/%s link!', $self->bioproject, $self->biosample) if not $bioproject_link;
+    if ( not $bioproject_link ) {
+        $self->_error( sprintf('Could not find bioproject/biosample %s/%s link!', $self->bioproject, $self->biosample) );
+        return;
+    };
+
+    1;
 };
 
 1;

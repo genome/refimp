@@ -4,7 +4,7 @@ use strict;
 use warnings 'FATAL';
 
 use Test::Exception;
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 use TestEnv;
 
@@ -63,6 +63,14 @@ subtest "ncbi ftp" => sub{
     my $ftp = TestEnv::NcbiFtp->setup;
     ok($ftp, 'setup test ncbi ftp');
     is(RefImp::Resources::NcbiFtp->connect, $ftp, 'correctly redefined Net::FTP new');
+
+};
+
+subtest 'ncbi biosample' => sub{
+    plan tests => 1;
+
+    my $ua = TestEnv::NcbiBiosample->setup;
+    ok($ua, 'ncbi biosample');
 
 };
 

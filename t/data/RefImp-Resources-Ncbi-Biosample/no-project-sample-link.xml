@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE eLinkResult PUBLIC "-//NLM//DTD elink 20101123//EN" "https://eutils.ncbi.nlm.nih.gov/eutils/dtd/20101123/elink.dtd">
+<eLinkResult>
+
+  <LinkSet>
+    <DbFrom>bioproject</DbFrom>
+    <IdList>
+      <Id>376014</Id>
+    </IdList>
+    <LinkSetDb>
+      <DbTo>biosample</DbTo>
+      <LinkName>bioproject_biosample_sp</LinkName>
+      
+        <Link>
+				<Id>634963</Id>
+			</Link>
+      
+    </LinkSetDb>
+    <LinkSetDb>
+      <DbTo>biosample</DbTo>
+      <LinkName>bioproject_biosample</LinkName>
+      
+        <Link>
+				<Id>6617326</Id>
+			</Link>
+        <Link>
+				<Id>6617325</Id>
+			</Link>
+        <Link>
+				<Id>6617324</Id>
+			</Link>
+        <Link>
+				<Id>6617323</Id>
+			</Link>
+        <Link>
+				<Id>6617322</Id>
+			</Link>
+        <Link>
+				<Id>6617321</Id>
+			</Link>
+        <Link>
+				<Id>6617320</Id>
+			</Link>
+        <Link>
+				<Id>6617319</Id>
+			</Link>
+        <Link>
+				<Id>6617318</Id>
+			</Link>
+        <Link>
+				<Id>6617317</Id>
+			</Link>
+        <Link>
+				<Id>634963</Id>
+			</Link>
+      
+    </LinkSetDb>
+    <LinkSetDb>
+      <DbTo>biosample</DbTo>
+      <LinkName>bioproject_biosample_all</LinkName>
+      
+        <Link>
+				<Id>6617326</Id>
+			</Link>
+        <Link>
+				<Id>6617325</Id>
+			</Link>
+        <Link>
+				<Id>6617324</Id>
+			</Link>
+        <Link>
+				<Id>6617323</Id>
+			</Link>
+        <Link>
+				<Id>6617322</Id>
+			</Link>
+        <Link>
+				<Id>6617321</Id>
+			</Link>
+        <Link>
+				<Id>6617320</Id>
+			</Link>
+        <Link>
+				<Id>6617319</Id>
+			</Link>
+        <Link>
+				<Id>6617318</Id>
+			</Link>
+        <Link>
+				<Id>6617317</Id>
+			</Link>
+        <Link>
+				<Id>634963</Id>
+			</Link>
+      
+    </LinkSetDb>
+  </LinkSet>
+</eLinkResult>
