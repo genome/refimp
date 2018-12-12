@@ -170,26 +170,44 @@ sub release_notes {
 sub validate_for_submit {
     my $self = shift;
 
+    # Directory
     $self->fatal_message('No directory set to validate submission!') if not $self->directory;
     $self->fatal_message('Failed to validate for submit, submission directory (%s) does not exist!', $self->directory) if not -d $self->directory;
 
+    # Submission info loaded
     my $info = $self->submission_info;
     $self->fatal_message('No submission info set!') if not $info or not %$info;
 
+    # Assembly method
     my $assembly_method = $self->info_for('assembly_method');
     $self->fatal_message('Invalid assembly_method "%s", a "v." is required between the assembler and the date run/version.', $assembly_method) if $assembly_method !~ / v\. /;
 
+    # Verify required infos
+    my $nonfile_keys = Set::Scalar->new( grep { $_ !~ /_file$/ } RefImp::Assembly::SubmissionInfo->submission_info_keys );
+    my $optional_keys = Set::Scalar->new( RefImp::Assembly::SubmissionInfo->submission_info_optional_keys );
+    for my $key ( $nonfile_keys->difference($optional_keys)->members ) {
+        $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
+    }
 
-    # Verify bioproject/biosample
-    my $ncbi_biosample = RefImp::Resources::Ncbi::Biosample->create(
-        bioproject => $self->bioproject,
-        biosample => $self->biosample,
-    );
-    $self->ncbi_biosample($ncbi_biosample);
+    # Verify infos that get formatted
+    RefImp::Assembly::Command::Submission::CreateTar->format_names( $self->info_for('authors') );
+    my @formatted_contact = RefImp::Assembly::Command::Submission::CreateTar->format_names( $self->info_for('contact') );
+    $self->fatal_message('More than one contact found in submission info!') if @formatted_contact > 1;
 
     # Release notes is required
     $self->fatal_message('No release_notes_file in submission info!') if not $self->info_for('release_notes_file');
     $self->path_for('release_notes_file'); # fatal if not defined and existing
+
+    # Verify bioproject/biosample
+    if ( not $self->ncbi_biosample ) {
+        $self->ncbi_biosample(
+            RefImp::Resources::Ncbi::Biosample->create(
+                bioproject => $self->bioproject,
+                biosample => $self->biosample,
+            )
+        );
+    }
+    $self->ncbi_biosample->verify;
 
     # Contigs/Supercontigs/AGP
     my $contigs_file = $self->path_for('contigs_file');
@@ -202,16 +220,6 @@ sub validate_for_submit {
     elsif ( not $contigs_file ) { # no contigs, no supercontigs
         $self->fatal_message('No contigs or supercontigs files set in submission YAML!');
     }
-
-    my $nonfile_keys = Set::Scalar->new( grep { $_ !~ /_file$/ } RefImp::Assembly::SubmissionInfo->submission_info_keys );
-    my $optional_keys = Set::Scalar->new( RefImp::Assembly::SubmissionInfo->submission_info_optional_keys );
-    for my $key ( $nonfile_keys->difference($optional_keys)->members ) {
-        $self->fatal_message('No %s in submission info!', $key) if not defined $self->info_for($key);
-    }
-
-    RefImp::Assembly::Command::Submission::CreateTar->format_names( $self->info_for('authors') );
-    my @formatted_contact = RefImp::Assembly::Command::Submission::CreateTar->format_names( $self->info_for('contact') );
-    $self->fatal_message('More than one contact found in submission info!') if @formatted_contact > 1;
 
     1;
 }

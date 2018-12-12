@@ -152,7 +152,7 @@ sub setup {
 		});
 
 	my %responses;
-    my @request_types = (qw/ elink esummary /);
+    my @request_types = (qw/ elink esummary no-links no-project-sample-link /);
     my $data_dir = dir( TestEnv::test_data_directory_for_package('RefImp::Resources::Ncbi::Biosample') );
 	for my $request_type ( @request_types ) {
 		my $xml_file = $data_dir->file($request_type.'.xml');
@@ -166,16 +166,21 @@ sub setup {
         $responses{$request_type} = $response;
 	}
 
-	$ua->mock(
-        'get',
-		sub{
-			my ($ua, $url) = @_;
-            my $requested_type = List::MoreUtils::firstval { $url =~ /$_/ } @request_types;
-            return $responses{$requested_type};
-		},
-	);
+    my $failed_response = Test::MockObject->new();
+    $failed_response->set_false('is_success');
+    $failed_response->set_always('status_line', 'Failed to GET elink URL');
+    $responses{failed} = $failed_response;
 
-	return $ua;
+    my $current_type = $request_types[0];
+    $ua->mock('set_response_type', sub{
+            my ($self, $type) = @_;
+            die "No type given!" if not $type;
+            die "Invalid type given! $type" if not exists $responses{$type};
+            $current_type = $type;
+        },);
+    $ua->mock( 'get', sub{ $responses{$current_type} }, );
+
+    $ua;
 }
 
 1;
