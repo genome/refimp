@@ -17,15 +17,6 @@ class Tenx::Assembly::Command::DownloadFromCloud {
             doc => 'Remotely stored assembly id or URL.',
         },
     },
-    has_optional_input => {
-        types => {
-            is => 'Text',
-            is_many => 1,
-            default_value => [ RefImp::Assembly->mkoutput_types ],
-            valid_values => [ RefImp::Assembly->mkoutput_types ],
-            doc => 'Assembly outputs to download.',
-        },
-    },
     has_output => {
         destination => {
             is => 'Text',
@@ -47,11 +38,24 @@ sub execute {
     $self->fatal_message('Unknown assembly cloud source: %s. Is the assembly on the cloud?', $url) if $url !~ m#^gs://#;
 
     my $destination = dir($self->destination)->subdir($assembly->name);
-    mkpath($destination) or $self->fatal_message('Failed to mkpath: %s', $destination);
+    mkpath("$destination") or $self->fatal_message('Failed to mkpath: %s', $destination);
+    for my $bn (qw/ _log /) {
+        my $src = sprintf('%s/%s', $assembly->url, $bn);
+        Util::GCP->cp($src, "$destination");
+    }
 
-    for my $type ( $self->types ) {
-        my $src_files = sprintf('%s/mkoutput/%s.%s.*fasta.gz', $assembly->url, $assembly->name, $type);
-        Util::GCP->cp($src_files, $destination);
+    $destination = $destination->subdir('outs');
+    mkpath("$destination") or $self->fatal_message('Failed to mkpath: %s', $destination);
+    for my $bn (qw/ report.txt summary.csv /) {
+        my $src = sprintf('%s/outs/%s', $assembly->url, $bn);
+        Util::GCP->cp($src, "$destination");
+    }
+
+    $destination = $destination->parent->subdir('mkoutput');
+    mkpath("$destination") or $self->fatal_message('Failed to mkpath: %s', $destination);
+    for my $type ( RefImp::Assembly->mkoutput_types ) {
+        my $src = sprintf('%s/mkoutput/%s.%s.*fasta.gz', $assembly->url, $assembly->name, $type);
+        Util::GCP->cp($src, "$destination");
     }
 
     $self->status_message('Download assembly from cloud...OK');
