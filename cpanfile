@@ -9,6 +9,7 @@ requires 'Devel::Cover';
 requires 'Devel::Cover::Report::Coveralls';
 requires 'File::Copy::Recursive';
 requires 'File::Slurp';
+requires 'File::Touch';
 requires 'Filesys::Df';
 requires 'FindBin';
 requires 'Hash::Merge';

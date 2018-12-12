@@ -6,8 +6,9 @@ use warnings 'FATAL';
 use TestEnv;
 
 use File::Temp 'tempdir';
+use File::Touch 'touch';
 use IPC::Cmd;
-use Path::Class 'dir';
+use Path::Class qw/ dir file/;
 use Sub::Install;
 use Test::Exception;
 use Test::More tests => 3;
@@ -25,18 +26,29 @@ subtest 'setup' => sub{
     $test{tempdir} = dir( tempdir(CLEANUP => 1) );
 
 	my $cnt = 0;
-    my @types = RefImp::Assembly->mkoutput_types;
+
+    my $destination = $test{tempdir}->subdir('SAMPLE1');
+    my @commands = (
+        [ 'gsutil', 'cp', 'gs://data/assembly/SAMPLE1/_log', $destination, ],
+        [ 'gsutil', 'cp', 'gs://data/assembly/SAMPLE1/outs/report.txt', $destination->subdir('outs'), ],
+        [ 'gsutil', 'cp', 'gs://data/assembly/SAMPLE1/outs/summary.csv', $destination->subdir('outs'), ],
+    );
+    for ( RefImp::Assembly->mkoutput_types ) {
+        push @commands, [ 'gsutil', 'cp', sprintf('gs://data/assembly/SAMPLE1/mkoutput/SAMPLE1.%s.*fasta.gz', $_), $destination->subdir('mkoutput'), ];
+    }
+
     $test{mock_gcp_cp} = sub{
         my %p = @_;
 		is_deeply(
 			\%p,
             {
-                command => [ 'gsutil', 'cp', sprintf('gs://data/assembly/SAMPLE1/mkoutput/SAMPLE1.%s.*fasta.gz', $types[$cnt]), $test{tempdir}->subdir('SAMPLE1'), ],
+                command => $commands[$cnt],
                 verbose => 0,
             },
-			'correct subcommand for '.$types[$cnt]
+			"correct subcommand number $cnt",
 		);
 		$cnt++;
+        touch( dir($p{command}->[3])->file( file($p{command}->[2])->basename )->stringify );
 		( 1, '' );
 	};
     $test{mock_gcp_cp_fail} = sub{ ( 0, 'gsutil not found' ); };
@@ -44,7 +56,7 @@ subtest 'setup' => sub{
 };
 
 subtest 'download from cloud' => sub{
-    plan tests => 7;
+    plan tests => 14;
 
 	Sub::Install::reinstall_sub({
 			code => sub{ $test{mock_gcp_cp}->(@_); },
@@ -63,7 +75,17 @@ subtest 'download from cloud' => sub{
 
     lives_ok(sub{ $cmd->execute; }, 'execute');
     ok($cmd->result, 'execute succeeded');
-    ok(-d $test{tempdir}->subdir('SAMPLE1'), 'created SAMPLE1 subdir');
+
+    my $dir = $test{tempdir}->subdir('SAMPLE1');
+    ok(-d $dir, 'created SAMPLE1 subdir');
+
+    my $outs_dir = $dir->subdir('outs');
+    ok(-d $outs_dir, 'created outs subdir');
+    ok(-e $outs_dir->file('report.txt'), 'retrieved report.txt');
+    ok(-e $outs_dir->file('summary.csv'), 'retrieved summary.csv');
+
+    my $mkoutput_dir = $dir->subdir('mkoutput');
+    ok(-d $mkoutput_dir, 'created mkoutput subdir');
 
 };
 
