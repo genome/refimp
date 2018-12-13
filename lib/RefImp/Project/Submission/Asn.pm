@@ -4,7 +4,6 @@ use strict;
 use warnings 'FATAL';
 
 use Bio::SeqIO;
-use File::Spec;
 use List::Util;
 use RefImp::Resources::Ncbi::ProjectName;
 
@@ -12,7 +11,7 @@ class RefImp::Project::Submission::Asn {
     has => {
         project => { is => 'RefImp::Project', },
         submit_info => { is => 'HASH', },
-        working_directory => { is => 'Text', },
+        working_directory => { is => 'Path::Class::Dir', },
     },
     has_calculated => {
         ncbi_clone_name => {
@@ -21,11 +20,15 @@ class RefImp::Project::Submission::Asn {
         },
         template_path => {
             calculate_from => [qw/ project working_directory /],
-            calculate => q/ File::Spec->join($working_directory, join('.', $project->name, 'template')) /,
+            calculate => q/ $working_directory->file( join('.', $project->name, 'template')) /,
         },
         asn_path => {
             calculate_from => [qw/ working_directory project /],
-            calculate => q/ File::Spec->join($working_directory, join('.', $project->name, 'sqn')) /,
+            calculate => q/ $working_directory->file( join('.', $project->name, 'sqn')) /,
+        },
+        fsa_path => {
+            calculate_from => [qw/ working_directory project /],
+            calculate => q/ $working_directory->file( join('.', $project->name, 'fsa')) /,
         },
     },
     has_transient_optional => {
@@ -84,7 +87,7 @@ sub _create_tbl_file {
     my $self = shift;
     $self->status_message('Create TBL file...');
 
-    my $tbl_path = File::Spec->join($self->working_directory, join('.', $self->project->name, 'tbl'));
+    my $tbl_path = $self->working_directory->file( join('.', $self->project->name, 'tbl') );
     $self->status_message('TBL path: %s', $tbl_path);
     my $fh = IO::File->new($tbl_path, 'w');
     $self->fatal_message('Failed to open TBL file! %s', $!) if not $fh;
@@ -320,12 +323,12 @@ sub _create_fsa_file { # header on first line, entire sequence on second line
     my $self = shift;
     $self->status_message('Create FSA file...');
 
-    my $seqfile = File::Spec->join($self->working_directory, join('.', $self->project->name, 'seq'));
+    my $seqfile = $self->working_directory->file( join('.', $self->project->name, 'seq') );
     $self->status_message('Getting sequence from SEQ file: %s', $seqfile);
     my $seqstream = Bio::SeqIO->new('-file' => $seqfile, '-format' => 'Fasta');
     my $seq = $seqstream->next_seq()->seq;
 
-    my $fsa_path = File::Spec->join($self->working_directory, join('.', $self->project->name, 'fsa'));
+    my $fsa_path = $self->fsa_path;
     $self->status_message('FSA path: %s', $fsa_path);
     my $fh = new IO::File ">$fsa_path";
     $fh->print( ">".$self->header."\n".$seq);
