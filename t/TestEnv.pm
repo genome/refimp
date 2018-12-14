@@ -24,13 +24,16 @@ INIT { # runs after compilation, right before execution
     eval "use lib '$lib';";
     die "FATAL: $@" if $@;
 
+    eval 'use Pacbio';
+    die "FATAL: $@" if $@;
+
     eval 'use RefImp';
     die "FATAL: $@" if $@;
 
-    eval 'use Tenx';
+    eval 'use Sx';
     die "FATAL: $@" if $@;
 
-    eval 'use Sx';
+    eval 'use Tenx';
     die "FATAL: $@" if $@;
 
     RefImp::Config::set('analysis_directory', $test_data_directory->subdir('analysis')->stringify);
@@ -41,7 +44,7 @@ INIT { # runs after compilation, right before execution
     RefImp::Config::set('net_ldap_url', 'ipa.refimp.org');
     RefImp::Config::set('test_data_path', "$test_data_directory");
 
-    my $bin = File::Spec->join($repo_path, 'bin');
+    my $bin = $repo_path->subdir('bin');
     $ENV{PATH} = "$bin:$ENV{PATH}";
 
 }

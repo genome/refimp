@@ -3,19 +3,23 @@
 use strict;
 use warnings 'FATAL';
 
-use Test::Exception;
+use List::Util;
 use Test::More tests => 7;
 
 use TestEnv;
 
-subtest 'RefImp' => sub {
-    plan tests => 2;
+subtest 'libs' => sub {
+    plan tests => 6;
 
-    my ($refimp_in_inc) = grep { /RefImp\.pm/ } keys %INC;
-    ok($refimp_in_inc, 'RefImp is in INC');
+    for my $namespace (qw/ RefImp Tenx Pacbio /) {
+        my $pm = join('.', $namespace, 'pm');
 
-    my $repo_path = TestEnv::repo_path();
-    is($INC{$refimp_in_inc}, $repo_path->subdir('lib')->file('RefImp.pm'), 'RefImp path is correct');
+        my $in_inc = List::Util::first { /$pm/ } keys %INC;
+        ok($in_inc, "$namespace is in INC");
+
+        my $repo_path = TestEnv::repo_path();
+        is($INC{$in_inc}, $repo_path->subdir('lib')->file($pm), "$namespace path is correct");
+    }
 
 };
 
