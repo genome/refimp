@@ -1,16 +1,12 @@
 package TestEnv;
 
 use strict;
-use warnings;
+use warnings 'FATAL';
 
 use File::Basename 'dirname';
-use File::Spec;
 use File::Temp 'tempdir';
 use Path::Class 'dir';
-use Sys::Hostname;
 use Test::MockObject;
-
-use Path::Class;
 
 my ($repo_path, $test_data_directory);
 sub repo_path { $repo_path }
@@ -37,13 +33,13 @@ INIT { # runs after compilation, right before execution
     eval 'use Sx';
     die "FATAL: $@" if $@;
 
-    RefImp::Config::set('analysis_directory', File::Spec->join($test_data_directory, 'analysis'));
+    RefImp::Config::set('analysis_directory', $test_data_directory->subdir('analysis')->stringify);
     RefImp::Config::set('environment', 'test');
     RefImp::Config::set('refimp_ds', 'RefImp::DataSource::TestDb');
     RefImp::Config::set('refimp_ds_oltp', 'RefImp::DataSource::TestDb');
-    RefImp::Config::set('ds_testdb_server', File::Spec->join($test_data_directory, 'test.db'));
+    RefImp::Config::set('ds_testdb_server', $test_data_directory->file('test.db')->stringify);
     RefImp::Config::set('net_ldap_url', 'ipa.refimp.org');
-    RefImp::Config::set('test_data_path', $test_data_directory);
+    RefImp::Config::set('test_data_path', "$test_data_directory");
 
     my $bin = File::Spec->join($repo_path, 'bin');
     $ENV{PATH} = "$bin:$ENV{PATH}";
