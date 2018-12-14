@@ -9,6 +9,7 @@ use File::Copy::Recursive;
 use File::Spec;
 use File::Temp;
 use IO::File;
+use Path::Class 'dir';
 use Net::FTP;
 use RefImp::Ace::Directory;
 use RefImp::Project::Submission::Info;
@@ -139,7 +140,7 @@ sub _generate_asn {
     my $asn = RefImp::Project::Submission::Asn->create(
         project => $self->project,
         submit_info => $self->submit_info,
-        working_directory => $self->staging_directory,
+        working_directory => dir( $self->staging_directory ),
     );
     $asn->generate;
 
