@@ -5,6 +5,7 @@ use warnings 'FATAL';
 
 use TestEnv;
 
+use File::Compare 'compare';
 use File::Temp;
 use Path::Class;
 use Test::More tests => 2;
@@ -14,7 +15,7 @@ my $pkg = 'RefImp::Project::Submission::Asn';
 use_ok($pkg) or die;
 
 subtest 'create' => sub{
-    plan tests => 5;
+    plan tests => 8;
 
     my $data_dir = TestEnv::test_data_directory_for_class($pkg);
     TestEnv::LimsRestApi::setup;
@@ -36,10 +37,18 @@ subtest 'create' => sub{
     );
     ok($asn, 'create');
     $asn->generate;
+
     ok(-s $asn->template_path, 'template_path created'); # date is on file, need way to compare...
     ok(-s $asn->asn_path, 'asn_path created'); # date is on file, need way to compare...
-    is($asn->fsa_path, $working_directory->file($project_name.'.fsa'), 'fsa_path correct');
+
+    my $fsa_bn = join('.', $project_name, 'fsa');
+    is($asn->fsa_path, $working_directory->file($fsa_bn), 'fsa_path name');
     ok(-s $asn->fsa_path, 'fsa_path created');
+
+    my $cmt_bn = join('.', $project_name, 'cmt');
+    is($asn->cmt_path, $working_directory->file($cmt_bn), 'cmt_path name');
+    ok(-s $asn->cmt_path, 'cmt_path created');
+    is(compare($asn->cmt_path->stringify, $data_dir->file($cmt_bn)->stringify), 0, 'cmt_path as expected');
 
 };
 

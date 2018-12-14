@@ -30,6 +30,10 @@ class RefImp::Project::Submission::Asn {
             calculate_from => [qw/ working_directory project /],
             calculate => q/ $working_directory->file( join('.', $project->name, 'fsa')) /,
         },
+        cmt_path => {
+            calculate_from => [qw/ working_directory project /],
+            calculate => q/ $working_directory->file( join('.', $project->name, 'cmt')) /,
+        },
     },
     has_transient_optional => {
         header => { is => 'Text', },
@@ -43,6 +47,7 @@ sub generate {
     $self->_create_tbl_file;
     $self->_create_template_file;
     $self->_create_fsa_file;
+    $self->_create_cmt_file;
     $self->_create_asn_file;
 
     return 1;
@@ -337,6 +342,29 @@ sub _create_fsa_file { # header on first line, entire sequence on second line
     $self->status_message('Create FSA file...OK');
 }
 
+sub _create_cmt_file {
+    my $self = shift;
+    if ( !exists $self->submit_info->{COMMENTS}->{AnyOtherComments} ) {
+        $self->status_message('Skipping "cmt" file for miseq sequencing tech...');
+        return;
+    }
+    $self->status_message('Writing "cmt" file for miseq sequencing tech...');
+
+    my $cmt_path = $self->cmt_path;
+    my $fh = IO::File->new($cmt_path, 'w');
+    $self->fatal_message('Failed to open %s for writing!', $cmt_path) if not $fh;
+
+    my @data = (
+        [ "StructuredCommentPrefix", "##Genome-Assembly-Data-START##" ],
+        [ "Assembly Method phredphrap", "120312" ],
+        [ "Sequencing Technology", "Illumina MiSeq" ],
+    );
+    $fh->print( join("\n", map { join("\t", @$_) } @data)."\n" );
+    $fh->close;
+
+    $self->status_message('Writing "cmt" file for miseq sequencing tech...OK');
+}
+
 sub _create_asn_file {
     my $self = shift;
     $self->status_message('Create ASN file...');
@@ -349,6 +377,7 @@ sub _create_asn_file {
 
     my $tbl2asn = "tbl2asn";
     my $cmd = "$tbl2asn -t $template_path  -p $working_directory -j '[organism=$species_name]'";
+    $cmd .= ' -X C' if -s $self->cmt_path;
     $self->status_message('Running: %s', $cmd);
     my $rv = system $cmd;
     if ( $rv or not -s $asn_path ) {
