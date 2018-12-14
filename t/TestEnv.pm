@@ -5,6 +5,8 @@ use warnings;
 
 use File::Basename 'dirname';
 use File::Spec;
+use File::Temp 'tempdir';
+use Path::Class 'dir';
 use Sys::Hostname;
 use Test::MockObject;
 
@@ -59,6 +61,8 @@ sub test_data_directory_for_package {
     die 'No package given to get test data directory' if not $pkg;
     File::Spec->join( RefImp::Config::get('test_data_path'), join('-', split('::', $pkg)) );
 }
+
+sub temp_dir { dir( File::Temp::tempdir(CLEANUP => 1) ); }
 
 package TestEnv::LimsRestApi;
 

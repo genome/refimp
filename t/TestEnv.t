@@ -4,7 +4,7 @@ use strict;
 use warnings 'FATAL';
 
 use Test::Exception;
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 use TestEnv;
 
@@ -46,6 +46,15 @@ subtest 'config' => sub{
     for my $config_key ( sort keys %expected_configs ) {
         is(RefImp::Config::get($config_key), $expected_configs{$config_key}, $config_key);
     }
+
+};
+
+subtest 'tempdir' => sub{
+    plan tests => 2;
+
+    my $tempdir = TestEnv::temp_dir;
+    ok($tempdir, 'got tempdir');
+    ok(-d $tempdir, 'tempdir exits');
 
 };
 
