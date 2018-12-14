@@ -15,7 +15,7 @@ my $pkg = 'RefImp::Project::Submission::Asn';
 use_ok($pkg) or die;
 
 subtest 'create' => sub{
-    plan tests => 8;
+    plan tests => 9;
 
     my $data_dir = TestEnv::test_data_directory_for_class($pkg);
     TestEnv::LimsRestApi::setup;
@@ -44,6 +44,7 @@ subtest 'create' => sub{
     my $fsa_bn = join('.', $project_name, 'fsa');
     is($asn->fsa_path, $working_directory->file($fsa_bn), 'fsa_path name');
     ok(-s $asn->fsa_path, 'fsa_path created');
+    is(compare($asn->fsa_path->stringify, $data_dir->file($fsa_bn)->stringify), 0, 'fsa_path as expected');
 
     my $cmt_bn = join('.', $project_name, 'cmt');
     is($asn->cmt_path, $working_directory->file($cmt_bn), 'cmt_path name');
