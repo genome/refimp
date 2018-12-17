@@ -345,7 +345,7 @@ sub _create_asn_file {
     my $working_directory = $self->working_directory;
 
     my $tbl2asn = "tbl2asn";
-    my $cmd = "$tbl2asn -t $template_path  -p $working_directory -j '[organism=$species_name]'";
+    my $cmd = "$tbl2asn -t $template_path  -p $working_directory -j '[organism=$species_name]' -Vv -Wt";
     $self->status_message('Running: %s', $cmd);
     my $rv = system $cmd;
     if ( $rv or not -s $asn_path ) {
