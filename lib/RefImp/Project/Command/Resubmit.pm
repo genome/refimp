@@ -1,4 +1,4 @@
-package RefImp::Project::Command::Submission::Resubmit;
+package RefImp::Project::Command::Resubmit;
 
 use strict;
 use warnings 'FATAL';
@@ -11,7 +11,7 @@ use RefImp::Project::Submission::Form;
 use RefImp::Resources::NcbiFtp;
 use YAML;
 
-class RefImp::Project::Command::Submission::Resubmit { 
+class RefImp::Project::Command::Resubmit { 
     is => 'Command::V2',
     has => {
         from_submission => {

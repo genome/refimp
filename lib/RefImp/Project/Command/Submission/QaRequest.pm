@@ -7,7 +7,7 @@ use RefImp::Project::Submission::Info;
 use RefImp::Project::Submission::Form;
 
 class RefImp::Project::Command::Submission::QaRequest {
-    is => 'RefImp::Project::Command::Submission::QaBase',
+    is => 'RefImp::Project::Command::Base',
     has_input => {
         checker_unix_logins => {
             is => 'String',
@@ -27,7 +27,7 @@ sub execute {
     $self->status_message('Presubmit project...');
 
     $self->status_message('Project:  %s', $self->project->name);
-    $self->_check_project_status;
+    $self->fatal_message("Incorrect project status to request QA: %s", $self->project->status) if $self->project->status ne 'finish_start';
     $self->_display_submit_form;
     $self->_send_email;
     $self->project->status('presubmitted');
