@@ -122,7 +122,7 @@ sub _generate_asn {
     my $asn = RefImp::Project::Submission::Asn->create(
         project => $self->submission->project,
         submit_info => $self->submit_info,
-        working_directory => $self->staging_directory->stringify,
+        working_directory => $self->staging_directory,
     );
     $asn->generate;
 

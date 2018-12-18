@@ -4,7 +4,6 @@ use strict;
 use warnings 'FATAL';
 
 use Bio::SeqIO;
-use File::Spec;
 use List::Util;
 use RefImp::Resources::Ncbi::ProjectName;
 
@@ -12,7 +11,7 @@ class RefImp::Project::Submission::Asn {
     has => {
         project => { is => 'RefImp::Project', },
         submit_info => { is => 'HASH', },
-        working_directory => { is => 'Text', },
+        working_directory => { is => 'Path::Class::Dir', },
     },
     has_calculated => {
         ncbi_clone_name => {
@@ -21,11 +20,19 @@ class RefImp::Project::Submission::Asn {
         },
         template_path => {
             calculate_from => [qw/ project working_directory /],
-            calculate => q/ File::Spec->join($working_directory, join('.', $project->name, 'template')) /,
+            calculate => q/ $working_directory->file( join('.', $project->name, 'template')) /,
         },
         asn_path => {
             calculate_from => [qw/ working_directory project /],
-            calculate => q/ File::Spec->join($working_directory, join('.', $project->name, 'sqn')) /,
+            calculate => q/ $working_directory->file( join('.', $project->name, 'sqn')) /,
+        },
+        fsa_path => {
+            calculate_from => [qw/ working_directory project /],
+            calculate => q/ $working_directory->file( join('.', $project->name, 'fsa')) /,
+        },
+        cmt_path => {
+            calculate_from => [qw/ working_directory project /],
+            calculate => q/ $working_directory->file( join('.', $project->name, 'cmt')) /,
         },
     },
     has_transient_optional => {
@@ -40,6 +47,7 @@ sub generate {
     $self->_create_tbl_file;
     $self->_create_template_file;
     $self->_create_fsa_file;
+    $self->_create_cmt_file;
     $self->_create_asn_file;
 
     return 1;
@@ -84,7 +92,7 @@ sub _create_tbl_file {
     my $self = shift;
     $self->status_message('Create TBL file...');
 
-    my $tbl_path = File::Spec->join($self->working_directory, join('.', $self->project->name, 'tbl'));
+    my $tbl_path = $self->working_directory->file( join('.', $self->project->name, 'tbl') );
     $self->status_message('TBL path: %s', $tbl_path);
     my $fh = IO::File->new($tbl_path, 'w');
     $self->fatal_message('Failed to open TBL file! %s', $!) if not $fh;
@@ -320,18 +328,41 @@ sub _create_fsa_file { # header on first line, entire sequence on second line
     my $self = shift;
     $self->status_message('Create FSA file...');
 
-    my $seqfile = File::Spec->join($self->working_directory, join('.', $self->project->name, 'seq'));
+    my $seqfile = $self->working_directory->file( join('.', $self->project->name, 'seq') );
     $self->status_message('Getting sequence from SEQ file: %s', $seqfile);
     my $seqstream = Bio::SeqIO->new('-file' => $seqfile, '-format' => 'Fasta');
     my $seq = $seqstream->next_seq()->seq;
 
-    my $fsa_path = File::Spec->join($self->working_directory, join('.', $self->project->name, 'fsa'));
+    my $fsa_path = $self->fsa_path;
     $self->status_message('FSA path: %s', $fsa_path);
     my $fh = new IO::File ">$fsa_path";
     $fh->print( ">".$self->header."\n".$seq);
     $fh->close;
 
     $self->status_message('Create FSA file...OK');
+}
+
+sub _create_cmt_file {
+    my $self = shift;
+    if ( !exists $self->submit_info->{COMMENTS}->{AnyOtherComments} ) {
+        $self->status_message('Skipping "cmt" file for miseq sequencing tech...');
+        return;
+    }
+    $self->status_message('Writing "cmt" file for miseq sequencing tech...');
+
+    my $cmt_path = $self->cmt_path;
+    my $fh = IO::File->new($cmt_path, 'w');
+    $self->fatal_message('Failed to open %s for writing!', $cmt_path) if not $fh;
+
+    my @data = (
+        [ "StructuredCommentPrefix", "##Genome-Assembly-Data-START##" ],
+        [ "Assembly Method phredphrap", "120312" ],
+        [ "Sequencing Technology", "Illumina MiSeq" ],
+    );
+    $fh->print( join("\n", map { join("\t", @$_) } @data)."\n" );
+    $fh->close;
+
+    $self->status_message('Writing "cmt" file for miseq sequencing tech...OK');
 }
 
 sub _create_asn_file {
@@ -346,6 +377,7 @@ sub _create_asn_file {
 
     my $tbl2asn = "tbl2asn";
     my $cmd = "$tbl2asn -t $template_path  -p $working_directory -j '[organism=$species_name]' -Vv -Wt";
+    $cmd .= ' -X C' if -s $self->cmt_path;
     $self->status_message('Running: %s', $cmd);
     my $rv = system $cmd;
     if ( $rv or not -s $asn_path ) {
