@@ -3,9 +3,6 @@
 use strict;
 use warnings 'FATAL';
 
-
-
-
 use TestEnv;
 
 use File::Compare;
@@ -17,10 +14,10 @@ my %test;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    $test{pkg} = 'RefImp::Project::Command::Submission::Resubmit';
+    $test{pkg} = 'RefImp::Project::Command::Resubmit';
     use_ok($test{pkg}) or die;
 
-    $test{data_dir} = TestEnv::test_data_directory_for_package('RefImp::Project::Command::Submission::Submit');
+    $test{data_dir} = TestEnv::test_data_directory_for_package('RefImp::Project::Command::Submit');
     $test{submission} = RefImp::Project::Submission->create(
         project => RefImp::Project->get(1),
         directory => $test{data_dir},

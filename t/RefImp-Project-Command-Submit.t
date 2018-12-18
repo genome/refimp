@@ -14,7 +14,7 @@ my %setup;
 subtest 'setup' => sub{
     plan tests => 2;
 
-    $setup{pkg} = 'RefImp::Project::Command::Submission::Submit';
+    $setup{pkg} = 'RefImp::Project::Command::Submit';
     use_ok($setup{pkg}) or die;
     use_ok('RefImp::Project::Submission') or die;
 
