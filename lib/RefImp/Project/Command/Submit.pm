@@ -9,6 +9,7 @@ use File::Copy::Recursive;
 use File::Spec;
 use File::Temp;
 use IO::File;
+use List::Util 'any';
 use Path::Class 'dir';
 use Net::FTP;
 use RefImp::Ace::Directory;
@@ -19,7 +20,7 @@ use RefImp::Resources::NcbiFtp;
 use YAML;
 
 class RefImp::Project::Command::Submit { 
-    is => 'RefImp::Project::Command::Submission::QaBase',
+    is => 'RefImp::Project::Command::Base',
     has_transient_optional => {
         asn_path => { is => 'Text', },
         staging_directory => { is => 'Text', },
@@ -47,6 +48,16 @@ sub execute {
     $self->_update_project_and_submission;
 
     return 1;
+}
+
+sub _check_project_status {
+    my ($self) = @_;
+
+    my $status = $self->project->status;
+    $self->status_message('Current project status: %s', $status);
+    if ( not any { $status eq $_ } $self->valid_project_statuses ) {
+        $self->fatal_message('Project has incorrect status. Needs to be: %s', join(' ', $self->valid_project_statuses));
+    }
 }
 
 sub _create_submission_record {

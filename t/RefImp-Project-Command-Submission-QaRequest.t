@@ -51,7 +51,7 @@ subtest 'cannot presubmit project with incorrect status' => sub{
                 checker_unix_logins => [ $setup{finisher}->name ],
             );
         },
-        qr/Project /,
+        qr/Incorrect project status to request QA/,
         'fails w/ incorrect project status',
     );
     is($setup{project}->status, 'prefinish_done', 'did not presubmit')
