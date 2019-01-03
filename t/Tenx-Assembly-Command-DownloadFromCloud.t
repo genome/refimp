@@ -65,7 +65,7 @@ subtest 'download from cloud' => sub{
         });
 
     my $cmd = $test{class}->create(
-        assembly => 'gs://data/assembly/SAMPLE1',
+        assembly => 'gs://data/assembly/SAMPLE1/',
         destination => "$test{tempdir}",
     );
     ok($cmd, 'create cmd');
@@ -90,17 +90,25 @@ subtest 'download from cloud' => sub{
 };
 
 subtest 'fails' => sub{
-    plan tests => 3;
+    plan tests => 6;
 
     my $error;
     open local(*STDERR), '>', \$error or die $!;
+    my $cmd = $test{class}->create(
+        assembly => 'gs://data/assembly/SAMPLE1',
+        destination => "$test{tempdir}",
+    );
+    ok($cmd, 'create cmd');
+    throws_ok(sub{ $cmd->execute }, qr/Local destination exists: /, 'fails w/ existing local destination');
+    ok(-d $test{tempdir}->subdir('SAMPLE1'), 'created SAMPLE2 subdir');
 
+    $error = '';
 	Sub::Install::reinstall_sub({
 			code => sub{ $test{mock_gcp_cp_fail}->(@_); },
 			as => 'run',
             into => 'IPC::Cmd',
         });
-    my $cmd = $test{class}->create(
+    $cmd = $test{class}->create(
         assembly => 'gs://data/assembly/SAMPLE2',
         destination => "$test{tempdir}",
     );

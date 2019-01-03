@@ -54,6 +54,6 @@ sub __errors__ {
     @errors;
 }
 
-sub mkoutput_types { (qw/ raw megabubbles psuedohap2 /) }
+sub mkoutput_types { (qw/ raw megabubbles pseudohap2 /) }
 
 1;
