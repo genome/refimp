@@ -20,6 +20,7 @@ class Tenx::Assembly::Command::DownloadFromCloud {
     has_output => {
         destination => {
             is => 'Text',
+            shell_args_position => 2,
             doc => 'Directory location to put assembly outputs. A subdirectory with the sample name will be made inside this directory.',
         },
     },
