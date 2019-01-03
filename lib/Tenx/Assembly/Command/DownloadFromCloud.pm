@@ -38,7 +38,9 @@ sub execute {
     $self->fatal_message('Unknown assembly cloud source: %s. Is the assembly on the cloud?', $url) if $url !~ m#^gs://#;
 
     my $destination = dir($self->destination)->subdir($assembly->name);
+    $self->fatal_message("Local destination exists: %s", $destination) if -d "$destination";
     mkpath("$destination") or $self->fatal_message('Failed to mkpath: %s', $destination);
+
     for my $bn (qw/ _log /) {
         my $src = sprintf('%s/%s', $assembly->url, $bn);
         Util::GCP->cp($src, "$destination");
