@@ -34,29 +34,30 @@ sub execute {
 
     my $assembly = Tenx::Assembly::Command->get_assembly($self->assembly);
     $self->status_message('Assembly: %s', $assembly->__display_name__);
-    my $url = $assembly->url;
-    $self->fatal_message('Unknown assembly cloud source: %s. Is the assembly on the cloud?', $url) if $url !~ m#^gs://#;
+    my $assembly_url = $assembly->url;
+    $self->fatal_message('Unknown assembly cloud source: %s. Is the assembly on the cloud?', $assembly_url) if $assembly_url !~ m#^gs://#;
+    $assembly_url =~ s#/*$##;
 
     my $destination = dir($self->destination)->subdir($assembly->name);
     $self->fatal_message("Local destination exists: %s", $destination) if -d "$destination";
     mkpath("$destination") or $self->fatal_message('Failed to mkpath: %s', $destination);
 
     for my $bn (qw/ _log /) {
-        my $src = sprintf('%s/%s', $assembly->url, $bn);
+        my $src = sprintf('%s/%s', $assembly_url, $bn);
         Util::GCP->cp($src, "$destination");
     }
 
     $destination = $destination->subdir('outs');
     mkpath("$destination") or $self->fatal_message('Failed to mkpath: %s', $destination);
     for my $bn (qw/ report.txt summary.csv /) {
-        my $src = sprintf('%s/outs/%s', $assembly->url, $bn);
+        my $src = sprintf('%s/outs/%s', $assembly_url, $bn);
         Util::GCP->cp($src, "$destination");
     }
 
     $destination = $destination->parent->subdir('mkoutput');
     mkpath("$destination") or $self->fatal_message('Failed to mkpath: %s', $destination);
     for my $type ( RefImp::Assembly->mkoutput_types ) {
-        my $src = sprintf('%s/mkoutput/%s.%s.*fasta.gz', $assembly->url, $assembly->name, $type);
+        my $src = sprintf('%s/mkoutput/%s.%s.*fasta.gz', $assembly_url, $assembly->name, $type);
         Util::GCP->cp($src, "$destination");
     }
 

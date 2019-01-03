@@ -65,7 +65,7 @@ subtest 'download from cloud' => sub{
         });
 
     my $cmd = $test{class}->create(
-        assembly => 'gs://data/assembly/SAMPLE1',
+        assembly => 'gs://data/assembly/SAMPLE1/',
         destination => "$test{tempdir}",
     );
     ok($cmd, 'create cmd');
