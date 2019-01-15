@@ -1,4 +1,4 @@
-package Pacbio::Run::Duration;
+package Pacbio::Assembly::Duration;
 
 use strict;
 use warnings 'FATAL';
