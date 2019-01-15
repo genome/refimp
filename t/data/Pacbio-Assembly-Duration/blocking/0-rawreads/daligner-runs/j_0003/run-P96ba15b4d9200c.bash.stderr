@@ -1,0 +1,110 @@
+executable=${PYPEFLOW_JOB_START_SCRIPT}
++ executable=/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003/run-P96ba15b4d9200c.bash
+timeout=${PYPEFLOW_JOB_START_TIMEOUT:-60} # wait 60s by default
++ timeout=60
+
+# Wait up to timeout seconds for the executable to become "executable",
+# then exec.
+#timeleft = int(timeout)
+while [[ ! -x "${executable}" ]]; do
+    if [[ "${timeout}" == "0" ]]; then
+        echo "timed out waiting for (${executable})"
+        exit 77
+    fi
+    echo "not executable: '${executable}', waiting ${timeout}s"
+    sleep 1
+    timeout=$((timeout-1))
+done
++ [[ ! -x /mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003/run-P96ba15b4d9200c.bash ]]
+
+/bin/bash ${executable}
++ /bin/bash /mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003/run-P96ba15b4d9200c.bash
++ '[' '!' -d /mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003 ']'
++ cd /mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003
++ eval '/bin/bash run.sh'
+++ /bin/bash run.sh
+export PATH=$PATH:/bin
++ export PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
++ PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
+cd /mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003
++ cd /mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-09 23:46:14,484 - root - DEBUG - Running "/apps/pbassemble/lib/python2.7/site-packages/pypeflow/do_task.py /mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003/task.json"
+2019-01-09 23:46:14,486 - root - DEBUG - Checking existence of '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003/task.json' with timeout=30
+2019-01-09 23:46:14,486 - root - DEBUG - Loading JSON from '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003/task.json'
+2019-01-09 23:46:14,490 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../../daligner-split/daligner_bash_template.sh',
+             u'units_of_work': u'../../daligner-chunks/j_0003/some-units-of-work.json'},
+ u'outputs': {u'results': u'some-done-files.json'},
+ u'parameters': {u'pypeflow_mb': u'32768', u'pypeflow_nproc': u'4'}}
+2019-01-09 23:46:14,490 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003' <- '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003'
+2019-01-09 23:46:14,491 - root - DEBUG - Checking existence of u'../../daligner-chunks/j_0003/some-units-of-work.json' with timeout=30
+2019-01-09 23:46:14,493 - root - DEBUG - Checking existence of u'../../daligner-split/daligner_bash_template.sh' with timeout=30
+2019-01-09 23:46:14,494 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-09 23:46:14,496 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003' <- '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003'
+2019-01-09 23:46:14,504 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_run_units_of_work --nproc=4 --units-of-work-fn=../../daligner-chunks/j_0003/some-units-of-work.json --bash-template-fn=../../daligner-split/daligner_bash_template.sh --results-fn=some-done-files.json
++ python -m falcon_kit.mains.generic_run_units_of_work --nproc=4 --units-of-work-fn=../../daligner-chunks/j_0003/some-units-of-work.json --bash-template-fn=../../daligner-split/daligner_bash_template.sh --results-fn=some-done-files.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:INPUT:{u'db': u'../../../repc/rep-combine/raw_reads.db', u'config': u'../../../../General_config.json', u'script': u'../../../daligner-split/daligner-scripts/j_0003/run_daligner.sh'}
+INFO:root:OUTPUT:{u'job_done': u'daligner.done'}
+INFO:root:PARAMS:{'pypeflow_nproc': '4'}
+INFO:root:$('rm -rf uow-00')
+WARNING:root:CD: 'uow-00' <- '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003'
+INFO:root:$('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+python -m falcon_kit.mains.dazzler --config=../../../../General_config.json --db=../../../repc/rep-combine/raw_reads.db  daligner-apply --script=../../../daligner-split/daligner-scripts/j_0003/run_daligner.sh --job-done=daligner.done
++ python -m falcon_kit.mains.dazzler --config=../../../../General_config.json --db=../../../repc/rep-combine/raw_reads.db daligner-apply --script=../../../daligner-split/daligner-scripts/j_0003/run_daligner.sh --job-done=daligner.done
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO]Log-level: INFO
+[INFO]ln -sf ../../../daligner-split/daligner-scripts/j_0003/run_daligner.sh run_daligner.sh
+[INFO]ln -sf ../../../repc/rep-combine/raw_reads.db raw_reads.db
+[INFO]ln -sf ../../../repc/rep-combine/.raw_reads.bps .raw_reads.bps
+[INFO]ln -sf ../../../repc/rep-combine/.raw_reads.dust.anno .raw_reads.dust.anno
+[INFO]ln -sf ../../../repc/rep-combine/.raw_reads.dust.data .raw_reads.dust.data
+[INFO]ln -sf ../../../repc/rep-combine/.raw_reads.idx .raw_reads.idx
+[INFO]ln -sf ../../../repc/rep-combine/.raw_reads.rep0.anno .raw_reads.rep0.anno
+[INFO]ln -sf ../../../repc/rep-combine/.raw_reads.rep0.data .raw_reads.rep0.data
+[INFO]ln -sf ../../../repc/rep-combine/.raw_reads.tan.anno .raw_reads.tan.anno
+[INFO]ln -sf ../../../repc/rep-combine/.raw_reads.tan.data .raw_reads.tan.data
+[INFO]$('bash -vex run_daligner.sh')
+daligner -v -k18 -w8 -h480 -H1000 -e0.8 -l2000 -M24 -P. -mdust -mrep0 -mtan raw_reads.4 raw_reads.1 raw_reads.2 raw_reads.3 raw_reads.4
++ daligner -v -k18 -w8 -h480 -H1000 -e0.8 -l2000 -M24 -P. -mdust -mrep0 -mtan raw_reads.4 raw_reads.1 raw_reads.2 raw_reads.3 raw_reads.4
+
+LAcheck -vS raw_reads *.las
++ LAcheck -vS raw_reads raw_reads.1.raw_reads.4.las raw_reads.2.raw_reads.4.las raw_reads.3.raw_reads.4.las raw_reads.4.raw_reads.1.las raw_reads.4.raw_reads.2.las raw_reads.4.raw_reads.3.las raw_reads.4.raw_reads.4.las
+
+date
++ date
+WARNING:root:CD: 'uow-00' -> '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003'
+
+date
++ date
+2019-01-09 23:48:17,808 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-09 23:48:17,808 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003' -> '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003'
+2019-01-09 23:48:17,809 - root - DEBUG - Checking existence of u'some-done-files.json' with timeout=30
+2019-01-09 23:48:17,809 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003' -> '/mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003'
+
+real	2m3.703s
+user	6m21.530s
+sys	0m20.760s
+touch /mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003/run.sh.done
++ touch /mnt/disks/data/assembly/ecoli-blocking/0-rawreads/daligner-runs/j_0003/run.sh.done
++ finish
++ echo 'finish code: 0'

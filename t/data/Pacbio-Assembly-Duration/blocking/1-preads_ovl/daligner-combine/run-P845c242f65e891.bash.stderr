@@ -1,0 +1,78 @@
+executable=${PYPEFLOW_JOB_START_SCRIPT}
++ executable=/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine/run-P845c242f65e891.bash
+timeout=${PYPEFLOW_JOB_START_TIMEOUT:-60} # wait 60s by default
++ timeout=60
+
+# Wait up to timeout seconds for the executable to become "executable",
+# then exec.
+#timeleft = int(timeout)
+while [[ ! -x "${executable}" ]]; do
+    if [[ "${timeout}" == "0" ]]; then
+        echo "timed out waiting for (${executable})"
+        exit 77
+    fi
+    echo "not executable: '${executable}', waiting ${timeout}s"
+    sleep 1
+    timeout=$((timeout-1))
+done
++ [[ ! -x /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine/run-P845c242f65e891.bash ]]
+
+/bin/bash ${executable}
++ /bin/bash /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine/run-P845c242f65e891.bash
++ '[' '!' -d /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine ']'
++ cd /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine
++ eval '/bin/bash run.sh'
+++ /bin/bash run.sh
+export PATH=$PATH:/bin
++ export PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
++ PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
+cd /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine
++ cd /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-10 00:21:27,746 - root - DEBUG - Running "/apps/pbassemble/lib/python2.7/site-packages/pypeflow/do_task.py /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine/task.json"
+2019-01-10 00:21:27,747 - root - DEBUG - Checking existence of '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine/task.json' with timeout=30
+2019-01-10 00:21:27,747 - root - DEBUG - Loading JSON from '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine/task.json'
+2019-01-10 00:21:27,747 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'config': u'../../General_config.json',
+             u'db': u'../build/preads.db',
+             u'gathered': u'../daligner-gathered/gathered-done-files.json'},
+ u'outputs': {u'las_paths': u'gathered-las.json'},
+ u'parameters': {u'pypeflow_mb': 4000,
+                 u'pypeflow_nproc': 1,
+                 u'topdir': u'../..'}}
+2019-01-10 00:21:27,748 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine' <- '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine'
+2019-01-10 00:21:27,748 - root - DEBUG - Checking existence of u'../build/preads.db' with timeout=30
+2019-01-10 00:21:27,748 - root - DEBUG - Checking existence of u'../daligner-gathered/gathered-done-files.json' with timeout=30
+2019-01-10 00:21:27,748 - root - DEBUG - Checking existence of u'../../General_config.json' with timeout=30
+2019-01-10 00:21:27,748 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-10 00:21:27,748 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine' <- '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine'
+2019-01-10 00:21:27,748 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.dazzler --config=../../General_config.json --db=../build/preads.db  daligner-combine --gathered=../daligner-gathered/gathered-done-files.json --las-paths-fn=gathered-las.json
++ python -m falcon_kit.mains.dazzler --config=../../General_config.json --db=../build/preads.db daligner-combine --gathered=../daligner-gathered/gathered-done-files.json --las-paths-fn=gathered-las.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO]Log-level: INFO
+
+date
++ date
+2019-01-10 00:21:27,953 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-10 00:21:27,953 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine' -> '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine'
+2019-01-10 00:21:27,953 - root - DEBUG - Checking existence of u'gathered-las.json' with timeout=30
+2019-01-10 00:21:27,954 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine' -> '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine'
+
+real	0m0.362s
+user	0m0.291s
+sys	0m0.072s
+touch /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine/run.sh.done
++ touch /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-combine/run.sh.done
++ finish
++ echo 'finish code: 0'

@@ -1,0 +1,1337 @@
+executable=${PYPEFLOW_JOB_START_SCRIPT}
++ executable=/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon/run-Pc48ab6c380bd93.bash
+timeout=${PYPEFLOW_JOB_START_TIMEOUT:-60} # wait 60s by default
++ timeout=60
+
+# Wait up to timeout seconds for the executable to become "executable",
+# then exec.
+#timeleft = int(timeout)
+while [[ ! -x "${executable}" ]]; do
+    if [[ "${timeout}" == "0" ]]; then
+        echo "timed out waiting for (${executable})"
+        exit 77
+    fi
+    echo "not executable: '${executable}', waiting ${timeout}s"
+    sleep 1
+    timeout=$((timeout-1))
+done
++ [[ ! -x /mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon/run-Pc48ab6c380bd93.bash ]]
+
+/bin/bash ${executable}
++ /bin/bash /mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon/run-Pc48ab6c380bd93.bash
++ '[' '!' -d /mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon ']'
++ cd /mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon
++ eval '/bin/bash run.sh'
+++ /bin/bash run.sh
+export PATH=$PATH:/bin
++ export PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
++ PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
+cd /mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon
++ cd /mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-10 00:24:13,476 - root - DEBUG - Running "/apps/pbassemble/lib/python2.7/site-packages/pypeflow/do_task.py /mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon/task.json"
+2019-01-10 00:24:13,478 - root - DEBUG - Checking existence of '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon/task.json' with timeout=30
+2019-01-10 00:24:13,478 - root - DEBUG - Loading JSON from '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon/task.json'
+2019-01-10 00:24:13,480 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'config': u'../General_config.json',
+             u'db2falcon_done': u'../1-preads_ovl/db2falcon/db2falcon_done',
+             u'db_file': u'../1-preads_ovl/build/preads.db',
+             u'las_fofn': u'../1-preads_ovl/las-merge-combine/las_fofn.json',
+             u'preads4falcon_fasta': u'../1-preads_ovl/db2falcon/preads4falcon.fasta'},
+ u'outputs': {u'falcon_asm_done': u'falcon_asm_done'},
+ u'parameters': {u'fc_ovlp_to_graph_option': u' --min-len 1000',
+                 u'length_cutoff_pr': u'1000',
+                 u'overlap_filtering_setting': u'--max-diff 100 --max-cov 100 --min-cov 2',
+                 u'pypeflow_mb': u'58000',
+                 u'pypeflow_nproc': u'16',
+                 u'topdir': u'..'}}
+2019-01-10 00:24:13,481 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon' <- '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon'
+2019-01-10 00:24:13,481 - root - DEBUG - Checking existence of u'../1-preads_ovl/build/preads.db' with timeout=30
+2019-01-10 00:24:13,481 - root - DEBUG - Checking existence of u'../1-preads_ovl/db2falcon/db2falcon_done' with timeout=30
+2019-01-10 00:24:13,481 - root - DEBUG - Checking existence of u'../General_config.json' with timeout=30
+2019-01-10 00:24:13,482 - root - DEBUG - Checking existence of u'../1-preads_ovl/las-merge-combine/las_fofn.json' with timeout=30
+2019-01-10 00:24:13,483 - root - DEBUG - Checking existence of u'../1-preads_ovl/db2falcon/preads4falcon.fasta' with timeout=30
+2019-01-10 00:24:13,483 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-10 00:24:13,484 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon' <- '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon'
+2019-01-10 00:24:13,505 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+# Given, las_fofn.json,
+# write preads.ovl:
+
+# mobs uses binwrappers, so it does not see our "entry-points".
+# So, after dropping "src/py_scripts/*.py", we can call these via python -m:
+
+time python -m falcon_kit.mains.ovlp_filter --db ../1-preads_ovl/build/preads.db --las-fofn ../1-preads_ovl/las-merge-combine/las_fofn.json --max-diff 100 --max-cov 100 --min-cov 2 --min-len 1000 --out-fn preads.ovl
++ python -m falcon_kit.mains.ovlp_filter --db ../1-preads_ovl/build/preads.db --las-fofn ../1-preads_ovl/las-merge-combine/las_fofn.json --max-diff 100 --max-cov 100 --min-cov 2 --min-len 1000 --out-fn preads.ovl
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[1591]starting ovlp_filter
+[1591]fofn '../1-preads_ovl/las-merge-combine/las_fofn.json': [u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las']
+[1591]preparing filter_stage1
+[1591]maxrss:    20588
+[1600]starting run_filter_stage1('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las', 100, 100, 2, 1000)
+[1600]maxrss:    14476
+[1602]starting run_filter_stage1('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las', 100, 100, 2, 1000)
+[1600]u'LA4Falcon -mo ../1-preads_ovl/build/preads.db /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las'
+[1602]maxrss:    14484
+[1604]starting run_filter_stage1('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las', 100, 100, 2, 1000)
+[1602]u'LA4Falcon -mo ../1-preads_ovl/build/preads.db /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las'
+[1604]maxrss:    14484
+[1604]u'LA4Falcon -mo ../1-preads_ovl/build/preads.db /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las'
+
+about to go into loop with novl = 1243747 /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las
+before Read_Overlap record j = 0 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 1 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 2 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 3 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 4 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 5 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 6 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 7 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 8 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 9 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:13 2019
+
+about to go into loop with novl = 1248450 /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las
+before Read_Overlap record j = 0 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 1 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 2 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 3 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 4 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 5 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 6 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 7 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 8 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 9 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:13 2019
+
+about to go into loop with novl = 604899 /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las
+before Read_Overlap record j = 0 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 1 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 2 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 3 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 4 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 5 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 6 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 7 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 8 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+before Read_Overlap record j = 9 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:13 2019
+
+completed loop record j = 604899 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:15 2019
+
+before Read_Overlap record j = 1000000 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:15 2019
+before Read_Overlap record j = 1000000 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:15 2019
+
+completed loop record j = 1243747 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:15 2019
+
+
+completed loop record j = 1248450 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:16 2019
+
+[1604]maxrss:    60724
+[1604]finished run_filter_stage1('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las', 100, 100, 2, 1000)
+[1602]maxrss:   105592
+[1602]finished run_filter_stage1('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las', 100, 100, 2, 1000)
+[1600]maxrss:   105460
+[1600]finished run_filter_stage1('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las', 100, 100, 2, 1000)
+[1591]preparing filter_stage2
+[1591]maxrss:    20588
+[1604]starting run_filter_stage2('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las', 100, 100, 2, 1000, set(361 elem))
+[1604]maxrss:    60724
+[1604]u'LA4Falcon -mo ../1-preads_ovl/build/preads.db /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las'
+[1602]starting run_filter_stage2('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las', 100, 100, 2, 1000, set(361 elem))
+[1602]maxrss:   105592
+[1602]u'LA4Falcon -mo ../1-preads_ovl/build/preads.db /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las'
+[1600]starting run_filter_stage2('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las', 100, 100, 2, 1000, set(361 elem))
+[1600]maxrss:   105460
+[1600]u'LA4Falcon -mo ../1-preads_ovl/build/preads.db /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las'
+
+about to go into loop with novl = 1243747 /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las
+before Read_Overlap record j = 0 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 1 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 2 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 3 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 4 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 5 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 6 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 7 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 8 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 9 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:21 2019
+
+about to go into loop with novl = 1248450 /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las
+before Read_Overlap record j = 0 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 1 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 2 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 3 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 4 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 5 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 6 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 7 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 8 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 9 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:21 2019
+
+about to go into loop with novl = 604899 /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las
+before Read_Overlap record j = 0 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 1 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 2 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 3 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 4 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 5 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 6 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 7 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 8 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+before Read_Overlap record j = 9 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:21 2019
+
+completed loop record j = 604899 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:22 2019
+
+before Read_Overlap record j = 1000000 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:23 2019
+
+completed loop record j = 1248450 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:23 2019
+
+before Read_Overlap record j = 1000000 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:24 2019
+
+completed loop record j = 1243747 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:24 2019
+
+[1600]maxrss:   105460
+[1600]finished run_filter_stage2('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las', 100, 100, 2, 1000, set(361 elem))
+[1602]maxrss:   109388
+[1602]finished run_filter_stage2('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las', 100, 100, 2, 1000, set(361 elem))
+[1604]maxrss:   109072
+[1604]finished run_filter_stage2('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las', 100, 100, 2, 1000, set(361 elem))
+[1591]preparing filter_stage3
+[1591]maxrss:    41100
+[1600]starting run_filter_stage3('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las', 100, 100, 2, 1000, set(361 elem), set(44710 elem), 10)
+[1600]maxrss:   105460
+[1600]u'LA4Falcon -mo ../1-preads_ovl/build/preads.db /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las'
+
+about to go into loop with novl = 1243747 /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las
+before Read_Overlap record j = 0 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 1 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 2 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 3 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 4 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 5 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 6 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 7 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 8 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 9 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:30 2019
+[1602]starting run_filter_stage3('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las', 100, 100, 2, 1000, set(361 elem), set(44710 elem), 10)
+[1602]maxrss:   109388
+[1602]u'LA4Falcon -mo ../1-preads_ovl/build/preads.db /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las'
+
+about to go into loop with novl = 1248450 /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las
+before Read_Overlap record j = 0 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 1 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 2 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 3 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 4 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 5 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 6 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 7 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 8 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 9 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:30 2019
+[1604]starting run_filter_stage3('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las', 100, 100, 2, 1000, set(361 elem), set(44710 elem), 10)
+[1604]maxrss:   109072
+[1604]u'LA4Falcon -mo ../1-preads_ovl/build/preads.db /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las'
+
+about to go into loop with novl = 604899 /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las
+before Read_Overlap record j = 0 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 1 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 2 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 3 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 4 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 5 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 6 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 7 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 8 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+before Read_Overlap record j = 9 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:30 2019
+
+completed loop record j = 604899 out of 604899 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las Thu Jan 10 00:24:31 2019
+
+before Read_Overlap record j = 1000000 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:31 2019
+
+completed loop record j = 1243747 out of 1243747 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las Thu Jan 10 00:24:32 2019
+
+before Read_Overlap record j = 1000000 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:32 2019
+[1604]maxrss:   109072
+[1604]finished run_filter_stage3('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00002/uow-00/preads.3.las', 100, 100, 2, 1000, set(361 elem), set(44710 elem), 10)
+
+completed loop record j = 1248450 out of 1248450 at /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las Thu Jan 10 00:24:32 2019
+
+[1600]maxrss:   122592
+[1600]finished run_filter_stage3('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00000/uow-00/preads.1.las', 100, 100, 2, 1000, set(361 elem), set(44710 elem), 10)
+[1602]maxrss:   122352
+[1602]finished run_filter_stage3('../1-preads_ovl/build/preads.db', u'/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/las-merge-gathered/../las-merge-runs/m_00001/uow-00/preads.2.las', 100, 100, 2, 1000, set(361 elem), set(44710 elem), 10)
+[1591]maxrss:    50796
+[1591]finished ovlp_filter
+
+real	0m21.700s
+user	0m50.961s
+sys	0m2.887s
+
+ln -sf ../1-preads_ovl/db2falcon/preads4falcon.fasta ./preads4falcon.fasta
++ ln -sf ../1-preads_ovl/db2falcon/preads4falcon.fasta ./preads4falcon.fasta
+
+# Given preads.ovl,
+# write sg_edges_list, c_path, utg_data, ctg_paths.
+time python -m falcon_kit.mains.ovlp_to_graph  --min-len 1000 --overlap-file preads.ovl >| fc_ovlp_to_graph.log
++ python -m falcon_kit.mains.ovlp_to_graph --min-len 1000 --overlap-file preads.ovl
+falcon-kit 1.2.4
+
+real	0m4.168s
+user	0m2.748s
+sys	0m0.204s
+
+# Given sg_edges_list, utg_data, ctg_paths, preads4falcon.fasta,
+# write p_ctg.fa and a_ctg_all.fa,
+# plus a_ctg_base.fa, p_ctg_tiling_path, a_ctg_tiling_path, a_ctg_base_tiling_path:
+time python -m falcon_kit.mains.graph_to_contig
++ python -m falcon_kit.mains.graph_to_contig
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:Counting 1,103,094 bytes from
+  "./sg_edges_list"
+INFO:root:        #1 count=             62   0.01% 
+INFO:root:        #3 count=            184   0.02% 
+INFO:root:        #6 count=            365   0.03% 
+INFO:root:       #11 count=            669   0.06% 
+INFO:root:       #20 count=          1,217   0.11% 
+INFO:root:       #37 count=          2,249   0.20% 
+INFO:root:       #70 count=          4,253   0.39% 
+INFO:root:      #136 count=          8,264   0.75% 
+INFO:root:      #267 count=         16,221   1.47% 
+INFO:root:      #529 count=         32,129   2.91% 
+INFO:root:    #1,052 count=         63,888   5.79% 
+INFO:root:    #2,098 count=        127,381  11.55% 
+INFO:root:    #3,915 count=        237,731  21.55% 
+INFO:root:    #5,732 count=        348,097  31.56% 
+INFO:root:    #7,549 count=        458,459  41.56% 
+INFO:root:    #9,367 count=        568,819  51.57% 
+INFO:root:   #11,184 count=        679,144  61.57% 
+INFO:root:   #13,001 count=        789,475  71.57% 
+INFO:root:   #14,819 count=        899,837  81.57% 
+INFO:root:   #16,635 count=      1,010,147  91.57% 
+INFO:root:   #18,166 count=      1,103,094 100.00% 
+INFO:root:Counted 1,103,094 bytes in 18166 calls from:
+  "./sg_edges_list"
+INFO:falcon_kit.FastaReader:Counting 450,153,236 bytes from
+  "/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon/preads4falcon.fasta"
+INFO:falcon_kit.FastaReader:        #1 count=          5,937   0.00% 
+INFO:falcon_kit.FastaReader:        #2 count=         17,713   0.00% 
+INFO:falcon_kit.FastaReader:        #4 count=         38,289   0.01% 
+INFO:falcon_kit.FastaReader:        #8 count=         73,195   0.02% 
+INFO:falcon_kit.FastaReader:       #13 count=        120,905   0.03% 
+INFO:falcon_kit.FastaReader:       #24 count=        223,983   0.05% 
+INFO:falcon_kit.FastaReader:       #41 count=        424,796   0.09% 
+INFO:falcon_kit.FastaReader:       #71 count=        814,626   0.18% 
+INFO:falcon_kit.FastaReader:      #145 count=      1,575,250   0.35% 
+INFO:falcon_kit.FastaReader:      #299 count=      3,105,253   0.69% 
+INFO:falcon_kit.FastaReader:      #623 count=      6,146,061   1.37% 
+INFO:falcon_kit.FastaReader:    #1,305 count=     12,231,021   2.72% 
+INFO:falcon_kit.FastaReader:    #2,573 count=     24,400,640   5.42% 
+INFO:falcon_kit.FastaReader:    #5,280 count=     48,727,307  10.82% 
+INFO:falcon_kit.FastaReader:   #10,275 count=     93,749,867  20.83% 
+INFO:falcon_kit.FastaReader:   #15,440 count=    138,773,304  30.83% 
+INFO:falcon_kit.FastaReader:   #20,584 count=    183,794,940  40.83% 
+INFO:falcon_kit.FastaReader:   #25,823 count=    228,810,905  50.83% 
+INFO:falcon_kit.FastaReader:   #30,932 count=    273,830,610  60.83% 
+INFO:falcon_kit.FastaReader:   #36,123 count=    318,863,553  70.83% 
+INFO:falcon_kit.FastaReader:   #41,217 count=    363,880,491  80.83% 
+INFO:falcon_kit.FastaReader:   #46,309 count=    408,902,176  90.84% 
+INFO:root:Counting 1,103,094 bytes from
+  "./sg_edges_list"
+INFO:root:        #1 count=             62   0.01% 
+INFO:root:        #3 count=            184   0.02% 
+INFO:root:        #6 count=            365   0.03% 
+INFO:root:       #11 count=            669   0.06% 
+INFO:root:       #20 count=          1,217   0.11% 
+INFO:root:       #37 count=          2,249   0.20% 
+INFO:root:       #70 count=          4,253   0.39% 
+INFO:root:      #136 count=          8,264   0.75% 
+INFO:root:      #267 count=         16,221   1.47% 
+INFO:root:      #529 count=         32,129   2.91% 
+INFO:root:    #1,052 count=         63,888   5.79% 
+INFO:root:    #2,098 count=        127,381  11.55% 
+INFO:root:    #3,915 count=        237,731  21.55% 
+INFO:root:    #5,732 count=        348,097  31.56% 
+INFO:root:    #7,549 count=        458,459  41.56% 
+INFO:root:    #9,367 count=        568,819  51.57% 
+INFO:root:   #11,184 count=        679,144  61.57% 
+INFO:root:   #13,001 count=        789,475  71.57% 
+INFO:root:   #14,819 count=        899,837  81.57% 
+INFO:root:   #16,635 count=      1,010,147  91.57% 
+INFO:root:   #18,166 count=      1,103,094 100.00% 
+INFO:root:Counted 1,103,094 bytes in 18166 calls from:
+  "./sg_edges_list"
+INFO:root:Counting 209,262 bytes from
+  "./utg_data"
+INFO:root:        #1 count=            130   0.06% 
+INFO:root:        #3 count=            330   0.16% 
+INFO:root:        #7 count=            694   0.33% 
+INFO:root:       #12 count=          1,245   0.59% 
+INFO:root:       #23 count=          2,334   1.12% 
+INFO:root:       #40 count=          4,433   2.12% 
+INFO:root:       #77 count=          8,676   4.15% 
+INFO:root:      #145 count=         16,999   8.12% 
+INFO:root:      #302 count=         33,688  16.10% 
+INFO:root:      #489 count=         54,715  26.15% 
+INFO:root:      #686 count=         75,714  36.18% 
+INFO:root:      #870 count=         96,690  46.21% 
+INFO:root:    #1,054 count=        117,692  56.24% 
+INFO:root:    #1,250 count=        138,643  66.25% 
+INFO:root:    #1,437 count=        159,611  76.27% 
+INFO:root:    #1,621 count=        180,596  86.30% 
+INFO:root:    #1,798 count=        201,551  96.32% 
+INFO:root:    #1,866 count=        209,262 100.00% 
+INFO:root:Counted 209,262 bytes in 1866 calls from:
+  "./utg_data"
+INFO:root:Counting 16,533 bytes from
+  "./ctg_paths"
+INFO:root:        #1 count=          5,907  35.73% 
+INFO:root:        #2 count=         11,814  71.46% 
+INFO:root:        #3 count=         13,832  83.66% 
+INFO:root:        #4 count=         15,850  95.87% 
+INFO:root:       #10 count=         16,533 100.00% 
+INFO:root:Counted 16,533 bytes in 10 calls from:
+  "./ctg_paths"
+
+real	0m5.435s
+user	0m3.994s
+sys	0m0.306s
+
+# Given a_ctg_all.fa, write a_ctg.fa:
+time python -m falcon_kit.mains.dedup_a_tigs >| a_ctg.fa
++ python -m falcon_kit.mains.dedup_a_tigs
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[i = 1, j = 0] Comparing: query "000000F-001-01" vs ref "000000F-001-00".
+Aligning (Edlib): len(ref_seq) = 10520, len(query_seq) = 10520
+Mapped (q, s1 = 0, e1 = 10508, len1 = 10508, (e1 - s1) = 10520, t, s2 = 0, e2 = 10508, (e2 - s2) = 10508, len2 = 10520)
+Calling edlib.align(q, s1 = 0, e1 = 10508, len1 = 10508, (e1 - s1) = 10520, t, s2 = 0, e2 = 10508, (e2 - s2) = 10508, len2 = 10520)
+  Rounded: new_delta_l = 0, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-002-01" vs ref "000000F-002-00".
+Aligning (Edlib): len(ref_seq) = 37074, len(query_seq) = 37020
+Mapped (q, s1 = 0, e1 = 37008, len1 = 37008, (e1 - s1) = 37020, t, s2 = 0, e2 = 37062, (e2 - s2) = 37062, len2 = 37074)
+Calling edlib.align(q, s1 = 0, e1 = 37008, len1 = 37008, (e1 - s1) = 37020, t, s2 = 0, e2 = 37062, (e2 - s2) = 37062, len2 = 37074)
+  Rounded: new_delta_l = -54, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-003-01" vs ref "000000F-003-00".
+Aligning (Edlib): len(ref_seq) = 15435, len(query_seq) = 15480
+Mapped (q, s1 = 0, e1 = 15468, len1 = 15468, (e1 - s1) = 15480, t, s2 = 0, e2 = 15423, (e2 - s2) = 15423, len2 = 15435)
+Calling edlib.align(q, s1 = 0, e1 = 15468, len1 = 15468, (e1 - s1) = 15480, t, s2 = 0, e2 = 15423, (e2 - s2) = 15423, len2 = 15435)
+  Rounded: new_delta_l = 45, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-004-01" vs ref "000000F-004-00".
+Aligning (Edlib): len(ref_seq) = 16436, len(query_seq) = 16430
+Mapped (q, s1 = 0, e1 = 16420, len1 = 16420, (e1 - s1) = 16430, t, s2 = 0, e2 = 16426, (e2 - s2) = 16426, len2 = 16436)
+Calling edlib.align(q, s1 = 0, e1 = 16420, len1 = 16420, (e1 - s1) = 16430, t, s2 = 0, e2 = 16426, (e2 - s2) = 16426, len2 = 16436)
+  Rounded: new_delta_l = -6, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-005-01" vs ref "000000F-005-00".
+Aligning (Edlib): len(ref_seq) = 10353, len(query_seq) = 10356
+Mapped (q, s1 = 0, e1 = 10344, len1 = 10344, (e1 - s1) = 10356, t, s2 = 0, e2 = 10341, (e2 - s2) = 10341, len2 = 10353)
+Calling edlib.align(q, s1 = 0, e1 = 10344, len1 = 10344, (e1 - s1) = 10356, t, s2 = 0, e2 = 10341, (e2 - s2) = 10341, len2 = 10353)
+  Rounded: new_delta_l = 3, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-006-01" vs ref "000000F-006-00".
+Aligning (Edlib): len(ref_seq) = 10589, len(query_seq) = 10580
+Mapped (q, s1 = 0, e1 = 10568, len1 = 10568, (e1 - s1) = 10580, t, s2 = 0, e2 = 10577, (e2 - s2) = 10577, len2 = 10589)
+Calling edlib.align(q, s1 = 0, e1 = 10568, len1 = 10568, (e1 - s1) = 10580, t, s2 = 0, e2 = 10577, (e2 - s2) = 10577, len2 = 10589)
+  Rounded: new_delta_l = -9, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-007-01" vs ref "000000F-007-00".
+Aligning (Edlib): len(ref_seq) = 13129, len(query_seq) = 13124
+Mapped (q, s1 = 0, e1 = 13112, len1 = 13112, (e1 - s1) = 13124, t, s2 = 0, e2 = 13117, (e2 - s2) = 13117, len2 = 13129)
+Calling edlib.align(q, s1 = 0, e1 = 13112, len1 = 13112, (e1 - s1) = 13124, t, s2 = 0, e2 = 13117, (e2 - s2) = 13117, len2 = 13129)
+  Rounded: new_delta_l = -5, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-008-01" vs ref "000000F-008-00".
+Aligning (Edlib): len(ref_seq) = 50686, len(query_seq) = 50652
+Mapped (q, s1 = 0, e1 = 50640, len1 = 50640, (e1 - s1) = 50652, t, s2 = 0, e2 = 50674, (e2 - s2) = 50674, len2 = 50686)
+Calling edlib.align(q, s1 = 0, e1 = 50640, len1 = 50640, (e1 - s1) = 50652, t, s2 = 0, e2 = 50674, (e2 - s2) = 50674, len2 = 50686)
+  Rounded: new_delta_l = -34, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-009-01" vs ref "000000F-009-00".
+Aligning (Edlib): len(ref_seq) = 30950, len(query_seq) = 30979
+Mapped (q, s1 = 0, e1 = 30968, len1 = 30968, (e1 - s1) = 30979, t, s2 = 0, e2 = 30939, (e2 - s2) = 30939, len2 = 30950)
+Calling edlib.align(q, s1 = 0, e1 = 30968, len1 = 30968, (e1 - s1) = 30979, t, s2 = 0, e2 = 30939, (e2 - s2) = 30939, len2 = 30950)
+  Rounded: new_delta_l = 29, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-009-02" vs ref "000000F-009-00".
+Aligning (Edlib): len(ref_seq) = 30950, len(query_seq) = 30954
+Mapped (q, s1 = 0, e1 = 30944, len1 = 30944, (e1 - s1) = 30954, t, s2 = 0, e2 = 30940, (e2 - s2) = 30940, len2 = 30950)
+Calling edlib.align(q, s1 = 0, e1 = 30944, len1 = 30944, (e1 - s1) = 30954, t, s2 = 0, e2 = 30940, (e2 - s2) = 30940, len2 = 30950)
+  Rounded: new_delta_l = 4, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-010-01" vs ref "000000F-010-00".
+Aligning (Edlib): len(ref_seq) = 9765, len(query_seq) = 9767
+Mapped (q, s1 = 0, e1 = 9756, len1 = 9756, (e1 - s1) = 9767, t, s2 = 0, e2 = 9754, (e2 - s2) = 9754, len2 = 9765)
+Calling edlib.align(q, s1 = 0, e1 = 9756, len1 = 9756, (e1 - s1) = 9767, t, s2 = 0, e2 = 9754, (e2 - s2) = 9754, len2 = 9765)
+  Rounded: new_delta_l = 2, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-011-01" vs ref "000000F-011-00".
+Aligning (Edlib): len(ref_seq) = 21209, len(query_seq) = 21205
+Mapped (q, s1 = 0, e1 = 21196, len1 = 21196, (e1 - s1) = 21205, t, s2 = 0, e2 = 21200, (e2 - s2) = 21200, len2 = 21209)
+Calling edlib.align(q, s1 = 0, e1 = 21196, len1 = 21196, (e1 - s1) = 21205, t, s2 = 0, e2 = 21200, (e2 - s2) = 21200, len2 = 21209)
+  Rounded: new_delta_l = -4, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-012-01" vs ref "000000F-012-00".
+Aligning (Edlib): len(ref_seq) = 17043, len(query_seq) = 17030
+Mapped (q, s1 = 0, e1 = 17020, len1 = 17020, (e1 - s1) = 17030, t, s2 = 0, e2 = 17033, (e2 - s2) = 17033, len2 = 17043)
+Calling edlib.align(q, s1 = 0, e1 = 17020, len1 = 17020, (e1 - s1) = 17030, t, s2 = 0, e2 = 17033, (e2 - s2) = 17033, len2 = 17043)
+  Rounded: new_delta_l = -13, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-013-01" vs ref "000000F-013-00".
+Aligning (Edlib): len(ref_seq) = 23578, len(query_seq) = 23582
+Mapped (q, s1 = 0, e1 = 23572, len1 = 23572, (e1 - s1) = 23582, t, s2 = 0, e2 = 23568, (e2 - s2) = 23568, len2 = 23578)
+Calling edlib.align(q, s1 = 0, e1 = 23572, len1 = 23572, (e1 - s1) = 23582, t, s2 = 0, e2 = 23568, (e2 - s2) = 23568, len2 = 23578)
+  Rounded: new_delta_l = 4, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-014-01" vs ref "000000F-014-00".
+Aligning (Edlib): len(ref_seq) = 17427, len(query_seq) = 17431
+Mapped (q, s1 = 0, e1 = 17420, len1 = 17420, (e1 - s1) = 17431, t, s2 = 0, e2 = 17416, (e2 - s2) = 17416, len2 = 17427)
+Calling edlib.align(q, s1 = 0, e1 = 17420, len1 = 17420, (e1 - s1) = 17431, t, s2 = 0, e2 = 17416, (e2 - s2) = 17416, len2 = 17427)
+  Rounded: new_delta_l = 4, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-015-01" vs ref "000000F-015-00".
+Aligning (Edlib): len(ref_seq) = 13437, len(query_seq) = 13393
+Mapped (q, s1 = 0, e1 = 13384, len1 = 13384, (e1 - s1) = 13393, t, s2 = 0, e2 = 13428, (e2 - s2) = 13428, len2 = 13437)
+Calling edlib.align(q, s1 = 0, e1 = 13384, len1 = 13384, (e1 - s1) = 13393, t, s2 = 0, e2 = 13428, (e2 - s2) = 13428, len2 = 13437)
+  Rounded: new_delta_l = -44, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-016-01" vs ref "000000F-016-00".
+Aligning (Edlib): len(ref_seq) = 11578, len(query_seq) = 11574
+Mapped (q, s1 = 0, e1 = 11564, len1 = 11564, (e1 - s1) = 11574, t, s2 = 0, e2 = 11568, (e2 - s2) = 11568, len2 = 11578)
+Calling edlib.align(q, s1 = 0, e1 = 11564, len1 = 11564, (e1 - s1) = 11574, t, s2 = 0, e2 = 11568, (e2 - s2) = 11568, len2 = 11578)
+  Rounded: new_delta_l = -4, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-016-02" vs ref "000000F-016-00".
+Aligning (Edlib): len(ref_seq) = 11578, len(query_seq) = 11577
+Mapped (q, s1 = 0, e1 = 11568, len1 = 11568, (e1 - s1) = 11577, t, s2 = 0, e2 = 11569, (e2 - s2) = 11569, len2 = 11578)
+Calling edlib.align(q, s1 = 0, e1 = 11568, len1 = 11568, (e1 - s1) = 11577, t, s2 = 0, e2 = 11569, (e2 - s2) = 11569, len2 = 11578)
+  Rounded: new_delta_l = -1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-017-01" vs ref "000000F-017-00".
+Aligning (Edlib): len(ref_seq) = 22583, len(query_seq) = 22610
+Mapped (q, s1 = 0, e1 = 22600, len1 = 22600, (e1 - s1) = 22610, t, s2 = 0, e2 = 22573, (e2 - s2) = 22573, len2 = 22583)
+Calling edlib.align(q, s1 = 0, e1 = 22600, len1 = 22600, (e1 - s1) = 22610, t, s2 = 0, e2 = 22573, (e2 - s2) = 22573, len2 = 22583)
+  Rounded: new_delta_l = 27, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-017-02" vs ref "000000F-017-00".
+Aligning (Edlib): len(ref_seq) = 22583, len(query_seq) = 22619
+Mapped (q, s1 = 0, e1 = 22608, len1 = 22608, (e1 - s1) = 22619, t, s2 = 0, e2 = 22572, (e2 - s2) = 22572, len2 = 22583)
+Calling edlib.align(q, s1 = 0, e1 = 22608, len1 = 22608, (e1 - s1) = 22619, t, s2 = 0, e2 = 22572, (e2 - s2) = 22572, len2 = 22583)
+  Rounded: new_delta_l = 36, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-018-01" vs ref "000000F-018-00".
+Aligning (Edlib): len(ref_seq) = 27126, len(query_seq) = 27180
+Mapped (q, s1 = 0, e1 = 27168, len1 = 27168, (e1 - s1) = 27180, t, s2 = 0, e2 = 27114, (e2 - s2) = 27114, len2 = 27126)
+Calling edlib.align(q, s1 = 0, e1 = 27168, len1 = 27168, (e1 - s1) = 27180, t, s2 = 0, e2 = 27114, (e2 - s2) = 27114, len2 = 27126)
+  Rounded: new_delta_l = 54, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-019-01" vs ref "000000F-019-00".
+Aligning (Edlib): len(ref_seq) = 10108, len(query_seq) = 10098
+Mapped (q, s1 = 0, e1 = 10088, len1 = 10088, (e1 - s1) = 10098, t, s2 = 0, e2 = 10098, (e2 - s2) = 10098, len2 = 10108)
+Calling edlib.align(q, s1 = 0, e1 = 10088, len1 = 10088, (e1 - s1) = 10098, t, s2 = 0, e2 = 10098, (e2 - s2) = 10098, len2 = 10108)
+  Rounded: new_delta_l = -10, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-020-01" vs ref "000000F-020-00".
+Aligning (Edlib): len(ref_seq) = 39904, len(query_seq) = 39903
+Mapped (q, s1 = 0, e1 = 39892, len1 = 39892, (e1 - s1) = 39903, t, s2 = 0, e2 = 39893, (e2 - s2) = 39893, len2 = 39904)
+Calling edlib.align(q, s1 = 0, e1 = 39892, len1 = 39892, (e1 - s1) = 39903, t, s2 = 0, e2 = 39893, (e2 - s2) = 39893, len2 = 39904)
+  Rounded: new_delta_l = -1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-021-01" vs ref "000000F-021-00".
+Aligning (Edlib): len(ref_seq) = 23306, len(query_seq) = 23314
+Mapped (q, s1 = 0, e1 = 23304, len1 = 23304, (e1 - s1) = 23314, t, s2 = 0, e2 = 23296, (e2 - s2) = 23296, len2 = 23306)
+Calling edlib.align(q, s1 = 0, e1 = 23304, len1 = 23304, (e1 - s1) = 23314, t, s2 = 0, e2 = 23296, (e2 - s2) = 23296, len2 = 23306)
+  Rounded: new_delta_l = 8, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-022-01" vs ref "000000F-022-00".
+Aligning (Edlib): len(ref_seq) = 17759, len(query_seq) = 17770
+Mapped (q, s1 = 0, e1 = 17760, len1 = 17760, (e1 - s1) = 17770, t, s2 = 0, e2 = 17749, (e2 - s2) = 17749, len2 = 17759)
+Calling edlib.align(q, s1 = 0, e1 = 17760, len1 = 17760, (e1 - s1) = 17770, t, s2 = 0, e2 = 17749, (e2 - s2) = 17749, len2 = 17759)
+  Rounded: new_delta_l = 11, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-023-01" vs ref "000000F-023-00".
+Aligning (Edlib): len(ref_seq) = 13582, len(query_seq) = 13651
+Mapped (q, s1 = 0, e1 = 13640, len1 = 13640, (e1 - s1) = 13651, t, s2 = 0, e2 = 13571, (e2 - s2) = 13571, len2 = 13582)
+Calling edlib.align(q, s1 = 0, e1 = 13640, len1 = 13640, (e1 - s1) = 13651, t, s2 = 0, e2 = 13571, (e2 - s2) = 13571, len2 = 13582)
+  Rounded: new_delta_l = 69, new_idt = 0.99, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-024-01" vs ref "000000F-024-00".
+Aligning (Edlib): len(ref_seq) = 37122, len(query_seq) = 37133
+Mapped (q, s1 = 0, e1 = 37124, len1 = 37124, (e1 - s1) = 37133, t, s2 = 0, e2 = 37113, (e2 - s2) = 37113, len2 = 37122)
+Calling edlib.align(q, s1 = 0, e1 = 37124, len1 = 37124, (e1 - s1) = 37133, t, s2 = 0, e2 = 37113, (e2 - s2) = 37113, len2 = 37122)
+  Rounded: new_delta_l = 11, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-025-01" vs ref "000000F-025-00".
+Aligning (Edlib): len(ref_seq) = 4365, len(query_seq) = 4366
+Mapped (q, s1 = 0, e1 = 4356, len1 = 4356, (e1 - s1) = 4366, t, s2 = 0, e2 = 4355, (e2 - s2) = 4355, len2 = 4365)
+Calling edlib.align(q, s1 = 0, e1 = 4356, len1 = 4356, (e1 - s1) = 4366, t, s2 = 0, e2 = 4355, (e2 - s2) = 4355, len2 = 4365)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-026-01" vs ref "000000F-026-00".
+Aligning (Edlib): len(ref_seq) = 24838, len(query_seq) = 24839
+Mapped (q, s1 = 0, e1 = 24828, len1 = 24828, (e1 - s1) = 24839, t, s2 = 0, e2 = 24827, (e2 - s2) = 24827, len2 = 24838)
+Calling edlib.align(q, s1 = 0, e1 = 24828, len1 = 24828, (e1 - s1) = 24839, t, s2 = 0, e2 = 24827, (e2 - s2) = 24827, len2 = 24838)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-026-02" vs ref "000000F-026-00".
+Aligning (Edlib): len(ref_seq) = 24838, len(query_seq) = 24838
+Mapped (q, s1 = 0, e1 = 24828, len1 = 24828, (e1 - s1) = 24838, t, s2 = 0, e2 = 24828, (e2 - s2) = 24828, len2 = 24838)
+Calling edlib.align(q, s1 = 0, e1 = 24828, len1 = 24828, (e1 - s1) = 24838, t, s2 = 0, e2 = 24828, (e2 - s2) = 24828, len2 = 24838)
+  Rounded: new_delta_l = 0, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-027-01" vs ref "000000F-027-00".
+Aligning (Edlib): len(ref_seq) = 32703, len(query_seq) = 32703
+Mapped (q, s1 = 0, e1 = 32692, len1 = 32692, (e1 - s1) = 32703, t, s2 = 0, e2 = 32692, (e2 - s2) = 32692, len2 = 32703)
+Calling edlib.align(q, s1 = 0, e1 = 32692, len1 = 32692, (e1 - s1) = 32703, t, s2 = 0, e2 = 32692, (e2 - s2) = 32692, len2 = 32703)
+  Rounded: new_delta_l = 0, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-028-01" vs ref "000000F-028-00".
+Aligning (Edlib): len(ref_seq) = 8362, len(query_seq) = 8363
+Mapped (q, s1 = 0, e1 = 8352, len1 = 8352, (e1 - s1) = 8363, t, s2 = 0, e2 = 8351, (e2 - s2) = 8351, len2 = 8362)
+Calling edlib.align(q, s1 = 0, e1 = 8352, len1 = 8352, (e1 - s1) = 8363, t, s2 = 0, e2 = 8351, (e2 - s2) = 8351, len2 = 8362)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-029-01" vs ref "000000F-029-00".
+Aligning (Edlib): len(ref_seq) = 11901, len(query_seq) = 11810
+Mapped (q, s1 = 4, e1 = 11800, len1 = 11796, (e1 - s1) = 11810, t, s2 = 5, e2 = 11891, (e2 - s2) = 11886, len2 = 11901)
+Calling edlib.align(q, s1 = 4, e1 = 11800, len1 = 11796, (e1 - s1) = 11810, t, s2 = 5, e2 = 11891, (e2 - s2) = 11886, len2 = 11901)
+  Rounded: new_delta_l = -91, new_idt = 0.99, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-030-01" vs ref "000000F-030-00".
+Aligning (Edlib): len(ref_seq) = 4861, len(query_seq) = 4864
+Mapped (q, s1 = 0, e1 = 4852, len1 = 4852, (e1 - s1) = 4864, t, s2 = 0, e2 = 4849, (e2 - s2) = 4849, len2 = 4861)
+Calling edlib.align(q, s1 = 0, e1 = 4852, len1 = 4852, (e1 - s1) = 4864, t, s2 = 0, e2 = 4849, (e2 - s2) = 4849, len2 = 4861)
+  Rounded: new_delta_l = 3, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-031-01" vs ref "000000F-031-00".
+Aligning (Edlib): len(ref_seq) = 18594, len(query_seq) = 18612
+Mapped (q, s1 = 0, e1 = 18600, len1 = 18600, (e1 - s1) = 18612, t, s2 = 0, e2 = 18582, (e2 - s2) = 18582, len2 = 18594)
+Calling edlib.align(q, s1 = 0, e1 = 18600, len1 = 18600, (e1 - s1) = 18612, t, s2 = 0, e2 = 18582, (e2 - s2) = 18582, len2 = 18594)
+  Rounded: new_delta_l = 18, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-032-01" vs ref "000000F-032-00".
+Aligning (Edlib): len(ref_seq) = 28471, len(query_seq) = 28461
+Mapped (q, s1 = 0, e1 = 28452, len1 = 28452, (e1 - s1) = 28461, t, s2 = 0, e2 = 28462, (e2 - s2) = 28462, len2 = 28471)
+Calling edlib.align(q, s1 = 0, e1 = 28452, len1 = 28452, (e1 - s1) = 28461, t, s2 = 0, e2 = 28462, (e2 - s2) = 28462, len2 = 28471)
+  Rounded: new_delta_l = -10, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-032-02" vs ref "000000F-032-00".
+Aligning (Edlib): len(ref_seq) = 28471, len(query_seq) = 28476
+Mapped (q, s1 = 0, e1 = 28464, len1 = 28464, (e1 - s1) = 28476, t, s2 = 0, e2 = 28459, (e2 - s2) = 28459, len2 = 28471)
+Calling edlib.align(q, s1 = 0, e1 = 28464, len1 = 28464, (e1 - s1) = 28476, t, s2 = 0, e2 = 28459, (e2 - s2) = 28459, len2 = 28471)
+  Rounded: new_delta_l = 5, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-033-01" vs ref "000000F-033-00".
+Aligning (Edlib): len(ref_seq) = 16132, len(query_seq) = 16158
+Mapped (q, s1 = 0, e1 = 16148, len1 = 16148, (e1 - s1) = 16158, t, s2 = 0, e2 = 16122, (e2 - s2) = 16122, len2 = 16132)
+Calling edlib.align(q, s1 = 0, e1 = 16148, len1 = 16148, (e1 - s1) = 16158, t, s2 = 0, e2 = 16122, (e2 - s2) = 16122, len2 = 16132)
+  Rounded: new_delta_l = 26, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-034-01" vs ref "000000F-034-00".
+Aligning (Edlib): len(ref_seq) = 10703, len(query_seq) = 10704
+Mapped (q, s1 = 0, e1 = 10692, len1 = 10692, (e1 - s1) = 10704, t, s2 = 0, e2 = 10691, (e2 - s2) = 10691, len2 = 10703)
+Calling edlib.align(q, s1 = 0, e1 = 10692, len1 = 10692, (e1 - s1) = 10704, t, s2 = 0, e2 = 10691, (e2 - s2) = 10691, len2 = 10703)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-035-01" vs ref "000000F-035-00".
+Aligning (Edlib): len(ref_seq) = 16689, len(query_seq) = 16706
+Mapped (q, s1 = 0, e1 = 16696, len1 = 16696, (e1 - s1) = 16706, t, s2 = 0, e2 = 16679, (e2 - s2) = 16679, len2 = 16689)
+Calling edlib.align(q, s1 = 0, e1 = 16696, len1 = 16696, (e1 - s1) = 16706, t, s2 = 0, e2 = 16679, (e2 - s2) = 16679, len2 = 16689)
+  Rounded: new_delta_l = 17, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-036-01" vs ref "000000F-036-00".
+Aligning (Edlib): len(ref_seq) = 10368, len(query_seq) = 10366
+Mapped (q, s1 = 0, e1 = 10356, len1 = 10356, (e1 - s1) = 10366, t, s2 = 0, e2 = 10358, (e2 - s2) = 10358, len2 = 10368)
+Calling edlib.align(q, s1 = 0, e1 = 10356, len1 = 10356, (e1 - s1) = 10366, t, s2 = 0, e2 = 10358, (e2 - s2) = 10358, len2 = 10368)
+  Rounded: new_delta_l = -2, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-037-01" vs ref "000000F-037-00".
+Aligning (Edlib): len(ref_seq) = 27456, len(query_seq) = 27455
+Mapped (q, s1 = 0, e1 = 27444, len1 = 27444, (e1 - s1) = 27455, t, s2 = 0, e2 = 27445, (e2 - s2) = 27445, len2 = 27456)
+Calling edlib.align(q, s1 = 0, e1 = 27444, len1 = 27444, (e1 - s1) = 27455, t, s2 = 0, e2 = 27445, (e2 - s2) = 27445, len2 = 27456)
+  Rounded: new_delta_l = -1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-038-01" vs ref "000000F-038-00".
+Aligning (Edlib): len(ref_seq) = 6216, len(query_seq) = 6262
+Mapped (q, s1 = 0, e1 = 6252, len1 = 6252, (e1 - s1) = 6262, t, s2 = 0, e2 = 6206, (e2 - s2) = 6206, len2 = 6216)
+Calling edlib.align(q, s1 = 0, e1 = 6252, len1 = 6252, (e1 - s1) = 6262, t, s2 = 0, e2 = 6206, (e2 - s2) = 6206, len2 = 6216)
+  Rounded: new_delta_l = 46, new_idt = 0.98, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-039-01" vs ref "000000F-039-00".
+Aligning (Edlib): len(ref_seq) = 23031, len(query_seq) = 23030
+Mapped (q, s1 = 0, e1 = 23020, len1 = 23020, (e1 - s1) = 23030, t, s2 = 0, e2 = 23021, (e2 - s2) = 23021, len2 = 23031)
+Calling edlib.align(q, s1 = 0, e1 = 23020, len1 = 23020, (e1 - s1) = 23030, t, s2 = 0, e2 = 23021, (e2 - s2) = 23021, len2 = 23031)
+  Rounded: new_delta_l = -1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-040-01" vs ref "000000F-040-00".
+Aligning (Edlib): len(ref_seq) = 14439, len(query_seq) = 14437
+Mapped (q, s1 = 0, e1 = 14428, len1 = 14428, (e1 - s1) = 14437, t, s2 = 0, e2 = 14430, (e2 - s2) = 14430, len2 = 14439)
+Calling edlib.align(q, s1 = 0, e1 = 14428, len1 = 14428, (e1 - s1) = 14437, t, s2 = 0, e2 = 14430, (e2 - s2) = 14430, len2 = 14439)
+  Rounded: new_delta_l = -2, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-041-01" vs ref "000000F-041-00".
+Aligning (Edlib): len(ref_seq) = 9614, len(query_seq) = 9621
+Mapped (q, s1 = 0, e1 = 9612, len1 = 9612, (e1 - s1) = 9621, t, s2 = 0, e2 = 9605, (e2 - s2) = 9605, len2 = 9614)
+Calling edlib.align(q, s1 = 0, e1 = 9612, len1 = 9612, (e1 - s1) = 9621, t, s2 = 0, e2 = 9605, (e2 - s2) = 9605, len2 = 9614)
+  Rounded: new_delta_l = 7, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-042-01" vs ref "000000F-042-00".
+Aligning (Edlib): len(ref_seq) = 13904, len(query_seq) = 13905
+Mapped (q, s1 = 0, e1 = 13896, len1 = 13896, (e1 - s1) = 13905, t, s2 = 0, e2 = 13895, (e2 - s2) = 13895, len2 = 13904)
+Calling edlib.align(q, s1 = 0, e1 = 13896, len1 = 13896, (e1 - s1) = 13905, t, s2 = 0, e2 = 13895, (e2 - s2) = 13895, len2 = 13904)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-043-01" vs ref "000000F-043-00".
+Aligning (Edlib): len(ref_seq) = 39124, len(query_seq) = 39138
+Mapped (q, s1 = 0, e1 = 39128, len1 = 39128, (e1 - s1) = 39138, t, s2 = 0, e2 = 39114, (e2 - s2) = 39114, len2 = 39124)
+Calling edlib.align(q, s1 = 0, e1 = 39128, len1 = 39128, (e1 - s1) = 39138, t, s2 = 0, e2 = 39114, (e2 - s2) = 39114, len2 = 39124)
+  Rounded: new_delta_l = 14, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-044-01" vs ref "000000F-044-00".
+Aligning (Edlib): len(ref_seq) = 8351, len(query_seq) = 8352
+Mapped (q, s1 = 0, e1 = 8340, len1 = 8340, (e1 - s1) = 8352, t, s2 = 0, e2 = 8339, (e2 - s2) = 8339, len2 = 8351)
+Calling edlib.align(q, s1 = 0, e1 = 8340, len1 = 8340, (e1 - s1) = 8352, t, s2 = 0, e2 = 8339, (e2 - s2) = 8339, len2 = 8351)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-045-01" vs ref "000000F-045-00".
+Aligning (Edlib): len(ref_seq) = 25205, len(query_seq) = 25148
+Mapped (q, s1 = 0, e1 = 25136, len1 = 25136, (e1 - s1) = 25148, t, s2 = 0, e2 = 25193, (e2 - s2) = 25193, len2 = 25205)
+Calling edlib.align(q, s1 = 0, e1 = 25136, len1 = 25136, (e1 - s1) = 25148, t, s2 = 0, e2 = 25193, (e2 - s2) = 25193, len2 = 25205)
+  Rounded: new_delta_l = -57, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-046-01" vs ref "000000F-046-00".
+Aligning (Edlib): len(ref_seq) = 12191, len(query_seq) = 12193
+Mapped (q, s1 = 0, e1 = 12184, len1 = 12184, (e1 - s1) = 12193, t, s2 = 0, e2 = 12182, (e2 - s2) = 12182, len2 = 12191)
+Calling edlib.align(q, s1 = 0, e1 = 12184, len1 = 12184, (e1 - s1) = 12193, t, s2 = 0, e2 = 12182, (e2 - s2) = 12182, len2 = 12191)
+  Rounded: new_delta_l = 2, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-047-01" vs ref "000000F-047-00".
+Aligning (Edlib): len(ref_seq) = 41940, len(query_seq) = 41939
+Mapped (q, s1 = 0, e1 = 41928, len1 = 41928, (e1 - s1) = 41939, t, s2 = 0, e2 = 41929, (e2 - s2) = 41929, len2 = 41940)
+Calling edlib.align(q, s1 = 0, e1 = 41928, len1 = 41928, (e1 - s1) = 41939, t, s2 = 0, e2 = 41929, (e2 - s2) = 41929, len2 = 41940)
+  Rounded: new_delta_l = -1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-047-02" vs ref "000000F-047-00".
+Aligning (Edlib): len(ref_seq) = 41940, len(query_seq) = 41935
+Mapped (q, s1 = 0, e1 = 41924, len1 = 41924, (e1 - s1) = 41935, t, s2 = 0, e2 = 41929, (e2 - s2) = 41929, len2 = 41940)
+Calling edlib.align(q, s1 = 0, e1 = 41924, len1 = 41924, (e1 - s1) = 41935, t, s2 = 0, e2 = 41929, (e2 - s2) = 41929, len2 = 41940)
+  Rounded: new_delta_l = -5, new_idt = 0.98, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-048-01" vs ref "000000F-048-00".
+Aligning (Edlib): len(ref_seq) = 17152, len(query_seq) = 17171
+Mapped (q, s1 = 0, e1 = 17160, len1 = 17160, (e1 - s1) = 17171, t, s2 = 0, e2 = 17141, (e2 - s2) = 17141, len2 = 17152)
+Calling edlib.align(q, s1 = 0, e1 = 17160, len1 = 17160, (e1 - s1) = 17171, t, s2 = 0, e2 = 17141, (e2 - s2) = 17141, len2 = 17152)
+  Rounded: new_delta_l = 19, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-049-01" vs ref "000000F-049-00".
+Aligning (Edlib): len(ref_seq) = 12808, len(query_seq) = 12802
+Mapped (q, s1 = 0, e1 = 12792, len1 = 12792, (e1 - s1) = 12802, t, s2 = 0, e2 = 12798, (e2 - s2) = 12798, len2 = 12808)
+Calling edlib.align(q, s1 = 0, e1 = 12792, len1 = 12792, (e1 - s1) = 12802, t, s2 = 0, e2 = 12798, (e2 - s2) = 12798, len2 = 12808)
+  Rounded: new_delta_l = -6, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-050-01" vs ref "000000F-050-00".
+Aligning (Edlib): len(ref_seq) = 10165, len(query_seq) = 10165
+Mapped (q, s1 = 0, e1 = 10156, len1 = 10156, (e1 - s1) = 10165, t, s2 = 0, e2 = 10156, (e2 - s2) = 10156, len2 = 10165)
+Calling edlib.align(q, s1 = 0, e1 = 10156, len1 = 10156, (e1 - s1) = 10165, t, s2 = 0, e2 = 10156, (e2 - s2) = 10156, len2 = 10165)
+  Rounded: new_delta_l = 0, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-051-01" vs ref "000000F-051-00".
+Aligning (Edlib): len(ref_seq) = 6884, len(query_seq) = 6883
+Mapped (q, s1 = 0, e1 = 6872, len1 = 6872, (e1 - s1) = 6883, t, s2 = 0, e2 = 6873, (e2 - s2) = 6873, len2 = 6884)
+Calling edlib.align(q, s1 = 0, e1 = 6872, len1 = 6872, (e1 - s1) = 6883, t, s2 = 0, e2 = 6873, (e2 - s2) = 6873, len2 = 6884)
+  Rounded: new_delta_l = -1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-051-02" vs ref "000000F-051-00".
+Aligning (Edlib): len(ref_seq) = 6884, len(query_seq) = 6882
+Mapped (q, s1 = 0, e1 = 6872, len1 = 6872, (e1 - s1) = 6882, t, s2 = 0, e2 = 6874, (e2 - s2) = 6874, len2 = 6884)
+Calling edlib.align(q, s1 = 0, e1 = 6872, len1 = 6872, (e1 - s1) = 6882, t, s2 = 0, e2 = 6874, (e2 - s2) = 6874, len2 = 6884)
+  Rounded: new_delta_l = -2, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-052-01" vs ref "000000F-052-00".
+Aligning (Edlib): len(ref_seq) = 50668, len(query_seq) = 50624
+Mapped (q, s1 = 0, e1 = 50612, len1 = 50612, (e1 - s1) = 50624, t, s2 = 0, e2 = 50656, (e2 - s2) = 50656, len2 = 50668)
+Calling edlib.align(q, s1 = 0, e1 = 50612, len1 = 50612, (e1 - s1) = 50624, t, s2 = 0, e2 = 50656, (e2 - s2) = 50656, len2 = 50668)
+  Rounded: new_delta_l = -44, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-053-01" vs ref "000000F-053-00".
+Aligning (Edlib): len(ref_seq) = 22911, len(query_seq) = 22939
+Mapped (q, s1 = 36, e1 = 22928, len1 = 22892, (e1 - s1) = 22939, t, s2 = 3, e2 = 22900, (e2 - s2) = 22897, len2 = 22911)
+Calling edlib.align(q, s1 = 36, e1 = 22928, len1 = 22892, (e1 - s1) = 22939, t, s2 = 3, e2 = 22900, (e2 - s2) = 22897, len2 = 22911)
+  Rounded: new_delta_l = 28, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-054-01" vs ref "000000F-054-00".
+Aligning (Edlib): len(ref_seq) = 14363, len(query_seq) = 14359
+Mapped (q, s1 = 0, e1 = 14348, len1 = 14348, (e1 - s1) = 14359, t, s2 = 0, e2 = 14352, (e2 - s2) = 14352, len2 = 14363)
+Calling edlib.align(q, s1 = 0, e1 = 14348, len1 = 14348, (e1 - s1) = 14359, t, s2 = 0, e2 = 14352, (e2 - s2) = 14352, len2 = 14363)
+  Rounded: new_delta_l = -4, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-055-01" vs ref "000000F-055-00".
+Aligning (Edlib): len(ref_seq) = 8087, len(query_seq) = 8081
+Mapped (q, s1 = 0, e1 = 8072, len1 = 8072, (e1 - s1) = 8081, t, s2 = 0, e2 = 8078, (e2 - s2) = 8078, len2 = 8087)
+Calling edlib.align(q, s1 = 0, e1 = 8072, len1 = 8072, (e1 - s1) = 8081, t, s2 = 0, e2 = 8078, (e2 - s2) = 8078, len2 = 8087)
+  Rounded: new_delta_l = -6, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-056-01" vs ref "000000F-056-00".
+Aligning (Edlib): len(ref_seq) = 19557, len(query_seq) = 19562
+Mapped (q, s1 = 0, e1 = 19552, len1 = 19552, (e1 - s1) = 19562, t, s2 = 0, e2 = 19547, (e2 - s2) = 19547, len2 = 19557)
+Calling edlib.align(q, s1 = 0, e1 = 19552, len1 = 19552, (e1 - s1) = 19562, t, s2 = 0, e2 = 19547, (e2 - s2) = 19547, len2 = 19557)
+  Rounded: new_delta_l = 5, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-057-01" vs ref "000000F-057-00".
+Aligning (Edlib): len(ref_seq) = 22611, len(query_seq) = 22594
+Mapped (q, s1 = 4, e1 = 22584, len1 = 22580, (e1 - s1) = 22594, t, s2 = 5, e2 = 22601, (e2 - s2) = 22596, len2 = 22611)
+Calling edlib.align(q, s1 = 4, e1 = 22584, len1 = 22580, (e1 - s1) = 22594, t, s2 = 5, e2 = 22601, (e2 - s2) = 22596, len2 = 22611)
+  Rounded: new_delta_l = -17, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-058-01" vs ref "000000F-058-00".
+Aligning (Edlib): len(ref_seq) = 35298, len(query_seq) = 35380
+Mapped (q, s1 = 0, e1 = 35368, len1 = 35368, (e1 - s1) = 35380, t, s2 = 0, e2 = 35286, (e2 - s2) = 35286, len2 = 35298)
+Calling edlib.align(q, s1 = 0, e1 = 35368, len1 = 35368, (e1 - s1) = 35380, t, s2 = 0, e2 = 35286, (e2 - s2) = 35286, len2 = 35298)
+  Rounded: new_delta_l = 82, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-059-01" vs ref "000000F-059-00".
+Aligning (Edlib): len(ref_seq) = 11832, len(query_seq) = 11822
+Mapped (q, s1 = 0, e1 = 11812, len1 = 11812, (e1 - s1) = 11822, t, s2 = 0, e2 = 11822, (e2 - s2) = 11822, len2 = 11832)
+Calling edlib.align(q, s1 = 0, e1 = 11812, len1 = 11812, (e1 - s1) = 11822, t, s2 = 0, e2 = 11822, (e2 - s2) = 11822, len2 = 11832)
+  Rounded: new_delta_l = -10, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-059-02" vs ref "000000F-059-00".
+Aligning (Edlib): len(ref_seq) = 11832, len(query_seq) = 11816
+Mapped (q, s1 = 0, e1 = 11804, len1 = 11804, (e1 - s1) = 11816, t, s2 = 0, e2 = 11820, (e2 - s2) = 11820, len2 = 11832)
+Calling edlib.align(q, s1 = 0, e1 = 11804, len1 = 11804, (e1 - s1) = 11816, t, s2 = 0, e2 = 11820, (e2 - s2) = 11820, len2 = 11832)
+  Rounded: new_delta_l = -16, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-060-01" vs ref "000000F-060-00".
+Aligning (Edlib): len(ref_seq) = 26330, len(query_seq) = 26327
+Mapped (q, s1 = 0, e1 = 26316, len1 = 26316, (e1 - s1) = 26327, t, s2 = 0, e2 = 26319, (e2 - s2) = 26319, len2 = 26330)
+Calling edlib.align(q, s1 = 0, e1 = 26316, len1 = 26316, (e1 - s1) = 26327, t, s2 = 0, e2 = 26319, (e2 - s2) = 26319, len2 = 26330)
+  Rounded: new_delta_l = -3, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-061-01" vs ref "000000F-061-00".
+Aligning (Edlib): len(ref_seq) = 21870, len(query_seq) = 21866
+Mapped (q, s1 = 0, e1 = 21856, len1 = 21856, (e1 - s1) = 21866, t, s2 = 0, e2 = 21860, (e2 - s2) = 21860, len2 = 21870)
+Calling edlib.align(q, s1 = 0, e1 = 21856, len1 = 21856, (e1 - s1) = 21866, t, s2 = 0, e2 = 21860, (e2 - s2) = 21860, len2 = 21870)
+  Rounded: new_delta_l = -4, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-061-02" vs ref "000000F-061-00".
+Aligning (Edlib): len(ref_seq) = 21870, len(query_seq) = 21919
+Mapped (q, s1 = 0, e1 = 21908, len1 = 21908, (e1 - s1) = 21919, t, s2 = 0, e2 = 21859, (e2 - s2) = 21859, len2 = 21870)
+Calling edlib.align(q, s1 = 0, e1 = 21908, len1 = 21908, (e1 - s1) = 21919, t, s2 = 0, e2 = 21859, (e2 - s2) = 21859, len2 = 21870)
+  Rounded: new_delta_l = 49, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-062-01" vs ref "000000F-062-00".
+Aligning (Edlib): len(ref_seq) = 29378, len(query_seq) = 29383
+Mapped (q, s1 = 0, e1 = 29372, len1 = 29372, (e1 - s1) = 29383, t, s2 = 0, e2 = 29367, (e2 - s2) = 29367, len2 = 29378)
+Calling edlib.align(q, s1 = 0, e1 = 29372, len1 = 29372, (e1 - s1) = 29383, t, s2 = 0, e2 = 29367, (e2 - s2) = 29367, len2 = 29378)
+  Rounded: new_delta_l = 5, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-062-02" vs ref "000000F-062-00".
+Aligning (Edlib): len(ref_seq) = 29378, len(query_seq) = 29384
+Mapped (q, s1 = 0, e1 = 29372, len1 = 29372, (e1 - s1) = 29384, t, s2 = 0, e2 = 29366, (e2 - s2) = 29366, len2 = 29378)
+Calling edlib.align(q, s1 = 0, e1 = 29372, len1 = 29372, (e1 - s1) = 29384, t, s2 = 0, e2 = 29366, (e2 - s2) = 29366, len2 = 29378)
+  Rounded: new_delta_l = 6, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-063-01" vs ref "000000F-063-00".
+Aligning (Edlib): len(ref_seq) = 19375, len(query_seq) = 19387
+Mapped (q, s1 = 0, e1 = 19376, len1 = 19376, (e1 - s1) = 19387, t, s2 = 0, e2 = 19364, (e2 - s2) = 19364, len2 = 19375)
+Calling edlib.align(q, s1 = 0, e1 = 19376, len1 = 19376, (e1 - s1) = 19387, t, s2 = 0, e2 = 19364, (e2 - s2) = 19364, len2 = 19375)
+  Rounded: new_delta_l = 12, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-064-01" vs ref "000000F-064-00".
+Aligning (Edlib): len(ref_seq) = 20911, len(query_seq) = 20912
+Mapped (q, s1 = 0, e1 = 20900, len1 = 20900, (e1 - s1) = 20912, t, s2 = 0, e2 = 20899, (e2 - s2) = 20899, len2 = 20911)
+Calling edlib.align(q, s1 = 0, e1 = 20900, len1 = 20900, (e1 - s1) = 20912, t, s2 = 0, e2 = 20899, (e2 - s2) = 20899, len2 = 20911)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-065-01" vs ref "000000F-065-00".
+Aligning (Edlib): len(ref_seq) = 45586, len(query_seq) = 45599
+Mapped (q, s1 = 0, e1 = 45588, len1 = 45588, (e1 - s1) = 45599, t, s2 = 0, e2 = 45575, (e2 - s2) = 45575, len2 = 45586)
+Calling edlib.align(q, s1 = 0, e1 = 45588, len1 = 45588, (e1 - s1) = 45599, t, s2 = 0, e2 = 45575, (e2 - s2) = 45575, len2 = 45586)
+  Rounded: new_delta_l = 13, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-066-01" vs ref "000000F-066-00".
+Aligning (Edlib): len(ref_seq) = 21279, len(query_seq) = 21262
+Mapped (q, s1 = 0, e1 = 21252, len1 = 21252, (e1 - s1) = 21262, t, s2 = 0, e2 = 21269, (e2 - s2) = 21269, len2 = 21279)
+Calling edlib.align(q, s1 = 0, e1 = 21252, len1 = 21252, (e1 - s1) = 21262, t, s2 = 0, e2 = 21269, (e2 - s2) = 21269, len2 = 21279)
+  Rounded: new_delta_l = -17, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-067-01" vs ref "000000F-067-00".
+Aligning (Edlib): len(ref_seq) = 18603, len(query_seq) = 18604
+Mapped (q, s1 = 0, e1 = 18592, len1 = 18592, (e1 - s1) = 18604, t, s2 = 0, e2 = 18591, (e2 - s2) = 18591, len2 = 18603)
+Calling edlib.align(q, s1 = 0, e1 = 18592, len1 = 18592, (e1 - s1) = 18604, t, s2 = 0, e2 = 18591, (e2 - s2) = 18591, len2 = 18603)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-068-01" vs ref "000000F-068-00".
+Aligning (Edlib): len(ref_seq) = 17772, len(query_seq) = 17764
+Mapped (q, s1 = 4, e1 = 17752, len1 = 17748, (e1 - s1) = 17764, t, s2 = 1, e2 = 17760, (e2 - s2) = 17759, len2 = 17772)
+Calling edlib.align(q, s1 = 4, e1 = 17752, len1 = 17748, (e1 - s1) = 17764, t, s2 = 1, e2 = 17760, (e2 - s2) = 17759, len2 = 17772)
+  Rounded: new_delta_l = -8, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-069-01" vs ref "000000F-069-00".
+Aligning (Edlib): len(ref_seq) = 28992, len(query_seq) = 29020
+Mapped (q, s1 = 0, e1 = 29008, len1 = 29008, (e1 - s1) = 29020, t, s2 = 0, e2 = 28980, (e2 - s2) = 28980, len2 = 28992)
+Calling edlib.align(q, s1 = 0, e1 = 29008, len1 = 29008, (e1 - s1) = 29020, t, s2 = 0, e2 = 28980, (e2 - s2) = 28980, len2 = 28992)
+  Rounded: new_delta_l = 28, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-070-01" vs ref "000000F-070-00".
+Aligning (Edlib): len(ref_seq) = 18716, len(query_seq) = 18719
+Mapped (q, s1 = 0, e1 = 18708, len1 = 18708, (e1 - s1) = 18719, t, s2 = 0, e2 = 18705, (e2 - s2) = 18705, len2 = 18716)
+Calling edlib.align(q, s1 = 0, e1 = 18708, len1 = 18708, (e1 - s1) = 18719, t, s2 = 0, e2 = 18705, (e2 - s2) = 18705, len2 = 18716)
+  Rounded: new_delta_l = 3, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-071-01" vs ref "000000F-071-00".
+Aligning (Edlib): len(ref_seq) = 20646, len(query_seq) = 20639
+Mapped (q, s1 = 0, e1 = 20628, len1 = 20628, (e1 - s1) = 20639, t, s2 = 0, e2 = 20635, (e2 - s2) = 20635, len2 = 20646)
+Calling edlib.align(q, s1 = 0, e1 = 20628, len1 = 20628, (e1 - s1) = 20639, t, s2 = 0, e2 = 20635, (e2 - s2) = 20635, len2 = 20646)
+  Rounded: new_delta_l = -7, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-072-01" vs ref "000000F-072-00".
+Aligning (Edlib): len(ref_seq) = 22402, len(query_seq) = 22407
+Mapped (q, s1 = 0, e1 = 22396, len1 = 22396, (e1 - s1) = 22407, t, s2 = 0, e2 = 22391, (e2 - s2) = 22391, len2 = 22402)
+Calling edlib.align(q, s1 = 0, e1 = 22396, len1 = 22396, (e1 - s1) = 22407, t, s2 = 0, e2 = 22391, (e2 - s2) = 22391, len2 = 22402)
+  Rounded: new_delta_l = 5, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-073-01" vs ref "000000F-073-00".
+Aligning (Edlib): len(ref_seq) = 12276, len(query_seq) = 12278
+Mapped (q, s1 = 0, e1 = 12268, len1 = 12268, (e1 - s1) = 12278, t, s2 = 0, e2 = 12266, (e2 - s2) = 12266, len2 = 12276)
+Calling edlib.align(q, s1 = 0, e1 = 12268, len1 = 12268, (e1 - s1) = 12278, t, s2 = 0, e2 = 12266, (e2 - s2) = 12266, len2 = 12276)
+  Rounded: new_delta_l = 2, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000000F-073-02" vs ref "000000F-073-00".
+Aligning (Edlib): len(ref_seq) = 12276, len(query_seq) = 12277
+Mapped (q, s1 = 0, e1 = 12268, len1 = 12268, (e1 - s1) = 12277, t, s2 = 0, e2 = 12267, (e2 - s2) = 12267, len2 = 12276)
+Calling edlib.align(q, s1 = 0, e1 = 12268, len1 = 12268, (e1 - s1) = 12277, t, s2 = 0, e2 = 12267, (e2 - s2) = 12267, len2 = 12276)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-074-01" vs ref "000000F-074-00".
+Aligning (Edlib): len(ref_seq) = 12498, len(query_seq) = 12491
+Mapped (q, s1 = 0, e1 = 12480, len1 = 12480, (e1 - s1) = 12491, t, s2 = 0, e2 = 12487, (e2 - s2) = 12487, len2 = 12498)
+Calling edlib.align(q, s1 = 0, e1 = 12480, len1 = 12480, (e1 - s1) = 12491, t, s2 = 0, e2 = 12487, (e2 - s2) = 12487, len2 = 12498)
+  Rounded: new_delta_l = -7, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-075-01" vs ref "000000F-075-00".
+Aligning (Edlib): len(ref_seq) = 28567, len(query_seq) = 28568
+Mapped (q, s1 = 0, e1 = 28556, len1 = 28556, (e1 - s1) = 28568, t, s2 = 0, e2 = 28555, (e2 - s2) = 28555, len2 = 28567)
+Calling edlib.align(q, s1 = 0, e1 = 28556, len1 = 28556, (e1 - s1) = 28568, t, s2 = 0, e2 = 28555, (e2 - s2) = 28555, len2 = 28567)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-076-01" vs ref "000000F-076-00".
+Aligning (Edlib): len(ref_seq) = 11727, len(query_seq) = 11728
+Mapped (q, s1 = 0, e1 = 11716, len1 = 11716, (e1 - s1) = 11728, t, s2 = 0, e2 = 11715, (e2 - s2) = 11715, len2 = 11727)
+Calling edlib.align(q, s1 = 0, e1 = 11716, len1 = 11716, (e1 - s1) = 11728, t, s2 = 0, e2 = 11715, (e2 - s2) = 11715, len2 = 11727)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000000F-077-01" vs ref "000000F-077-00".
+Aligning (Edlib): len(ref_seq) = 14202, len(query_seq) = 14201
+Mapped (q, s1 = 0, e1 = 14192, len1 = 14192, (e1 - s1) = 14201, t, s2 = 0, e2 = 14193, (e2 - s2) = 14193, len2 = 14202)
+Calling edlib.align(q, s1 = 0, e1 = 14192, len1 = 14192, (e1 - s1) = 14201, t, s2 = 0, e2 = 14193, (e2 - s2) = 14193, len2 = 14202)
+  Rounded: new_delta_l = -1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-001-01" vs ref "000001F-001-00".
+Aligning (Edlib): len(ref_seq) = 13066, len(query_seq) = 13065
+Mapped (q, s1 = 0, e1 = 13056, len1 = 13056, (e1 - s1) = 13065, t, s2 = 0, e2 = 13057, (e2 - s2) = 13057, len2 = 13066)
+Calling edlib.align(q, s1 = 0, e1 = 13056, len1 = 13056, (e1 - s1) = 13065, t, s2 = 0, e2 = 13057, (e2 - s2) = 13057, len2 = 13066)
+  Rounded: new_delta_l = -1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-002-01" vs ref "000001F-002-00".
+Aligning (Edlib): len(ref_seq) = 19443, len(query_seq) = 19449
+Mapped (q, s1 = 0, e1 = 19440, len1 = 19440, (e1 - s1) = 19449, t, s2 = 0, e2 = 19434, (e2 - s2) = 19434, len2 = 19443)
+Calling edlib.align(q, s1 = 0, e1 = 19440, len1 = 19440, (e1 - s1) = 19449, t, s2 = 0, e2 = 19434, (e2 - s2) = 19434, len2 = 19443)
+  Rounded: new_delta_l = 6, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-003-01" vs ref "000001F-003-00".
+Aligning (Edlib): len(ref_seq) = 52572, len(query_seq) = 52580
+Mapped (q, s1 = 0, e1 = 52568, len1 = 52568, (e1 - s1) = 52580, t, s2 = 0, e2 = 52560, (e2 - s2) = 52560, len2 = 52572)
+Calling edlib.align(q, s1 = 0, e1 = 52568, len1 = 52568, (e1 - s1) = 52580, t, s2 = 0, e2 = 52560, (e2 - s2) = 52560, len2 = 52572)
+  Rounded: new_delta_l = 8, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-004-01" vs ref "000001F-004-00".
+Aligning (Edlib): len(ref_seq) = 22113, len(query_seq) = 22090
+Mapped (q, s1 = 0, e1 = 22080, len1 = 22080, (e1 - s1) = 22090, t, s2 = 0, e2 = 22103, (e2 - s2) = 22103, len2 = 22113)
+Calling edlib.align(q, s1 = 0, e1 = 22080, len1 = 22080, (e1 - s1) = 22090, t, s2 = 0, e2 = 22103, (e2 - s2) = 22103, len2 = 22113)
+  Rounded: new_delta_l = -23, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-005-01" vs ref "000001F-005-00".
+Aligning (Edlib): len(ref_seq) = 19475, len(query_seq) = 19501
+Mapped (q, s1 = 0, e1 = 19492, len1 = 19492, (e1 - s1) = 19501, t, s2 = 0, e2 = 19466, (e2 - s2) = 19466, len2 = 19475)
+Calling edlib.align(q, s1 = 0, e1 = 19492, len1 = 19492, (e1 - s1) = 19501, t, s2 = 0, e2 = 19466, (e2 - s2) = 19466, len2 = 19475)
+  Rounded: new_delta_l = 26, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000001F-005-02" vs ref "000001F-005-00".
+Aligning (Edlib): len(ref_seq) = 19475, len(query_seq) = 19504
+Mapped (q, s1 = 0, e1 = 19492, len1 = 19492, (e1 - s1) = 19504, t, s2 = 0, e2 = 19463, (e2 - s2) = 19463, len2 = 19475)
+Calling edlib.align(q, s1 = 0, e1 = 19492, len1 = 19492, (e1 - s1) = 19504, t, s2 = 0, e2 = 19463, (e2 - s2) = 19463, len2 = 19475)
+  Rounded: new_delta_l = 29, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-006-01" vs ref "000001F-006-00".
+Aligning (Edlib): len(ref_seq) = 14680, len(query_seq) = 14685
+Mapped (q, s1 = 0, e1 = 14676, len1 = 14676, (e1 - s1) = 14685, t, s2 = 0, e2 = 14671, (e2 - s2) = 14671, len2 = 14680)
+Calling edlib.align(q, s1 = 0, e1 = 14676, len1 = 14676, (e1 - s1) = 14685, t, s2 = 0, e2 = 14671, (e2 - s2) = 14671, len2 = 14680)
+  Rounded: new_delta_l = 5, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-007-01" vs ref "000001F-007-00".
+Aligning (Edlib): len(ref_seq) = 31872, len(query_seq) = 31872
+Mapped (q, s1 = 0, e1 = 31860, len1 = 31860, (e1 - s1) = 31872, t, s2 = 0, e2 = 31860, (e2 - s2) = 31860, len2 = 31872)
+Calling edlib.align(q, s1 = 0, e1 = 31860, len1 = 31860, (e1 - s1) = 31872, t, s2 = 0, e2 = 31860, (e2 - s2) = 31860, len2 = 31872)
+  Rounded: new_delta_l = 0, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000001F-007-02" vs ref "000001F-007-00".
+Aligning (Edlib): len(ref_seq) = 31872, len(query_seq) = 31869
+Mapped (q, s1 = 0, e1 = 31860, len1 = 31860, (e1 - s1) = 31869, t, s2 = 0, e2 = 31863, (e2 - s2) = 31863, len2 = 31872)
+Calling edlib.align(q, s1 = 0, e1 = 31860, len1 = 31860, (e1 - s1) = 31869, t, s2 = 0, e2 = 31863, (e2 - s2) = 31863, len2 = 31872)
+  Rounded: new_delta_l = -3, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-008-01" vs ref "000001F-008-00".
+Aligning (Edlib): len(ref_seq) = 24739, len(query_seq) = 24731
+Mapped (q, s1 = 0, e1 = 24720, len1 = 24720, (e1 - s1) = 24731, t, s2 = 0, e2 = 24728, (e2 - s2) = 24728, len2 = 24739)
+Calling edlib.align(q, s1 = 0, e1 = 24720, len1 = 24720, (e1 - s1) = 24731, t, s2 = 0, e2 = 24728, (e2 - s2) = 24728, len2 = 24739)
+  Rounded: new_delta_l = -8, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-009-01" vs ref "000001F-009-00".
+Aligning (Edlib): len(ref_seq) = 10636, len(query_seq) = 10631
+Mapped (q, s1 = 0, e1 = 10620, len1 = 10620, (e1 - s1) = 10631, t, s2 = 3, e2 = 10625, (e2 - s2) = 10622, len2 = 10636)
+Calling edlib.align(q, s1 = 0, e1 = 10620, len1 = 10620, (e1 - s1) = 10631, t, s2 = 3, e2 = 10625, (e2 - s2) = 10622, len2 = 10636)
+  Rounded: new_delta_l = -5, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-010-01" vs ref "000001F-010-00".
+Aligning (Edlib): len(ref_seq) = 17164, len(query_seq) = 17167
+Mapped (q, s1 = 0, e1 = 17156, len1 = 17156, (e1 - s1) = 17167, t, s2 = 0, e2 = 17153, (e2 - s2) = 17153, len2 = 17164)
+Calling edlib.align(q, s1 = 0, e1 = 17156, len1 = 17156, (e1 - s1) = 17167, t, s2 = 0, e2 = 17153, (e2 - s2) = 17153, len2 = 17164)
+  Rounded: new_delta_l = 3, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-011-01" vs ref "000001F-011-00".
+Aligning (Edlib): len(ref_seq) = 29685, len(query_seq) = 29683
+Mapped (q, s1 = 0, e1 = 29672, len1 = 29672, (e1 - s1) = 29683, t, s2 = 0, e2 = 29674, (e2 - s2) = 29674, len2 = 29685)
+Calling edlib.align(q, s1 = 0, e1 = 29672, len1 = 29672, (e1 - s1) = 29683, t, s2 = 0, e2 = 29674, (e2 - s2) = 29674, len2 = 29685)
+  Rounded: new_delta_l = -2, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-012-01" vs ref "000001F-012-00".
+Aligning (Edlib): len(ref_seq) = 27956, len(query_seq) = 27956
+Mapped (q, s1 = 0, e1 = 27944, len1 = 27944, (e1 - s1) = 27956, t, s2 = 0, e2 = 27944, (e2 - s2) = 27944, len2 = 27956)
+Calling edlib.align(q, s1 = 0, e1 = 27944, len1 = 27944, (e1 - s1) = 27956, t, s2 = 0, e2 = 27944, (e2 - s2) = 27944, len2 = 27956)
+  Rounded: new_delta_l = 0, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-013-01" vs ref "000001F-013-00".
+Aligning (Edlib): len(ref_seq) = 12547, len(query_seq) = 12555
+Mapped (q, s1 = 0, e1 = 12544, len1 = 12544, (e1 - s1) = 12555, t, s2 = 0, e2 = 12536, (e2 - s2) = 12536, len2 = 12547)
+Calling edlib.align(q, s1 = 0, e1 = 12544, len1 = 12544, (e1 - s1) = 12555, t, s2 = 0, e2 = 12536, (e2 - s2) = 12536, len2 = 12547)
+  Rounded: new_delta_l = 8, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-014-01" vs ref "000001F-014-00".
+Aligning (Edlib): len(ref_seq) = 14524, len(query_seq) = 14511
+Mapped (q, s1 = 0, e1 = 14500, len1 = 14500, (e1 - s1) = 14511, t, s2 = 0, e2 = 14513, (e2 - s2) = 14513, len2 = 14524)
+Calling edlib.align(q, s1 = 0, e1 = 14500, len1 = 14500, (e1 - s1) = 14511, t, s2 = 0, e2 = 14513, (e2 - s2) = 14513, len2 = 14524)
+  Rounded: new_delta_l = -13, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-015-01" vs ref "000001F-015-00".
+Aligning (Edlib): len(ref_seq) = 31399, len(query_seq) = 31401
+Mapped (q, s1 = 0, e1 = 31392, len1 = 31392, (e1 - s1) = 31401, t, s2 = 0, e2 = 31390, (e2 - s2) = 31390, len2 = 31399)
+Calling edlib.align(q, s1 = 0, e1 = 31392, len1 = 31392, (e1 - s1) = 31401, t, s2 = 0, e2 = 31390, (e2 - s2) = 31390, len2 = 31399)
+  Rounded: new_delta_l = 2, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-016-01" vs ref "000001F-016-00".
+Aligning (Edlib): len(ref_seq) = 13137, len(query_seq) = 13147
+Mapped (q, s1 = 0, e1 = 13136, len1 = 13136, (e1 - s1) = 13147, t, s2 = 0, e2 = 13126, (e2 - s2) = 13126, len2 = 13137)
+Calling edlib.align(q, s1 = 0, e1 = 13136, len1 = 13136, (e1 - s1) = 13147, t, s2 = 0, e2 = 13126, (e2 - s2) = 13126, len2 = 13137)
+  Rounded: new_delta_l = 10, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000001F-016-02" vs ref "000001F-016-00".
+Aligning (Edlib): len(ref_seq) = 13137, len(query_seq) = 13144
+Mapped (q, s1 = 0, e1 = 13132, len1 = 13132, (e1 - s1) = 13144, t, s2 = 0, e2 = 13125, (e2 - s2) = 13125, len2 = 13137)
+Calling edlib.align(q, s1 = 0, e1 = 13132, len1 = 13132, (e1 - s1) = 13144, t, s2 = 0, e2 = 13125, (e2 - s2) = 13125, len2 = 13137)
+  Rounded: new_delta_l = 7, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-017-01" vs ref "000001F-017-00".
+Aligning (Edlib): len(ref_seq) = 20158, len(query_seq) = 20156
+Mapped (q, s1 = 0, e1 = 20144, len1 = 20144, (e1 - s1) = 20156, t, s2 = 0, e2 = 20146, (e2 - s2) = 20146, len2 = 20158)
+Calling edlib.align(q, s1 = 0, e1 = 20144, len1 = 20144, (e1 - s1) = 20156, t, s2 = 0, e2 = 20146, (e2 - s2) = 20146, len2 = 20158)
+  Rounded: new_delta_l = -2, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-018-01" vs ref "000001F-018-00".
+Aligning (Edlib): len(ref_seq) = 3165, len(query_seq) = 3166
+Mapped (q, s1 = 0, e1 = 3156, len1 = 3156, (e1 - s1) = 3166, t, s2 = 0, e2 = 3155, (e2 - s2) = 3155, len2 = 3165)
+Calling edlib.align(q, s1 = 0, e1 = 3156, len1 = 3156, (e1 - s1) = 3166, t, s2 = 0, e2 = 3155, (e2 - s2) = 3155, len2 = 3165)
+  Rounded: new_delta_l = 1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-019-01" vs ref "000001F-019-00".
+Aligning (Edlib): len(ref_seq) = 13054, len(query_seq) = 13054
+Mapped (q, s1 = 0, e1 = 13044, len1 = 13044, (e1 - s1) = 13054, t, s2 = 0, e2 = 13044, (e2 - s2) = 13044, len2 = 13054)
+Calling edlib.align(q, s1 = 0, e1 = 13044, len1 = 13044, (e1 - s1) = 13054, t, s2 = 0, e2 = 13044, (e2 - s2) = 13044, len2 = 13054)
+  Rounded: new_delta_l = 0, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-020-01" vs ref "000001F-020-00".
+Aligning (Edlib): len(ref_seq) = 46231, len(query_seq) = 46217
+Mapped (q, s1 = 0, e1 = 46208, len1 = 46208, (e1 - s1) = 46217, t, s2 = 0, e2 = 46222, (e2 - s2) = 46222, len2 = 46231)
+Calling edlib.align(q, s1 = 0, e1 = 46208, len1 = 46208, (e1 - s1) = 46217, t, s2 = 0, e2 = 46222, (e2 - s2) = 46222, len2 = 46231)
+  Rounded: new_delta_l = -14, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 2, j = 0] Comparing: query "000001F-020-02" vs ref "000001F-020-00".
+Aligning (Edlib): len(ref_seq) = 46231, len(query_seq) = 46219
+Mapped (q, s1 = 0, e1 = 46208, len1 = 46208, (e1 - s1) = 46219, t, s2 = 0, e2 = 46220, (e2 - s2) = 46220, len2 = 46231)
+Calling edlib.align(q, s1 = 0, e1 = 46208, len1 = 46208, (e1 - s1) = 46219, t, s2 = 0, e2 = 46220, (e2 - s2) = 46220, len2 = 46231)
+  Rounded: new_delta_l = -12, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-021-01" vs ref "000001F-021-00".
+Aligning (Edlib): len(ref_seq) = 14122, len(query_seq) = 14148
+Mapped (q, s1 = 0, e1 = 14136, len1 = 14136, (e1 - s1) = 14148, t, s2 = 0, e2 = 14110, (e2 - s2) = 14110, len2 = 14122)
+Calling edlib.align(q, s1 = 0, e1 = 14136, len1 = 14136, (e1 - s1) = 14148, t, s2 = 0, e2 = 14110, (e2 - s2) = 14110, len2 = 14122)
+  Rounded: new_delta_l = 26, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-022-01" vs ref "000001F-022-00".
+Aligning (Edlib): len(ref_seq) = 31498, len(query_seq) = 31477
+Mapped (q, s1 = 0, e1 = 31468, len1 = 31468, (e1 - s1) = 31477, t, s2 = 0, e2 = 31489, (e2 - s2) = 31489, len2 = 31498)
+Calling edlib.align(q, s1 = 0, e1 = 31468, len1 = 31468, (e1 - s1) = 31477, t, s2 = 0, e2 = 31489, (e2 - s2) = 31489, len2 = 31498)
+  Rounded: new_delta_l = -21, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-023-01" vs ref "000001F-023-00".
+Aligning (Edlib): len(ref_seq) = 5823, len(query_seq) = 5822
+Mapped (q, s1 = 0, e1 = 5812, len1 = 5812, (e1 - s1) = 5822, t, s2 = 0, e2 = 5813, (e2 - s2) = 5813, len2 = 5823)
+Calling edlib.align(q, s1 = 0, e1 = 5812, len1 = 5812, (e1 - s1) = 5822, t, s2 = 0, e2 = 5813, (e2 - s2) = 5813, len2 = 5823)
+  Rounded: new_delta_l = -1, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-024-01" vs ref "000001F-024-00".
+Aligning (Edlib): len(ref_seq) = 25947, len(query_seq) = 25998
+Mapped (q, s1 = 0, e1 = 25988, len1 = 25988, (e1 - s1) = 25998, t, s2 = 0, e2 = 25937, (e2 - s2) = 25937, len2 = 25947)
+Calling edlib.align(q, s1 = 0, e1 = 25988, len1 = 25988, (e1 - s1) = 25998, t, s2 = 0, e2 = 25937, (e2 - s2) = 25937, len2 = 25947)
+  Rounded: new_delta_l = 51, new_idt = 1.00, new_cov = 1.00
+    -> Duplicate!
+
+[i = 1, j = 0] Comparing: query "000001F-025-01" vs ref "000001F-025-00".
+Aligning (Edlib): len(ref_seq) = 31408, len(query_seq) = 31516
+Mapped (q, s1 = 0, e1 = 31504, len1 = 31504, (e1 - s1) = 31516, t, s2 = 0, e2 = 31396, (e2 - s2) = 31396, len2 = 31408)
+Calling edlib.align(q, s1 = 0, e1 = 31504, len1 = 31504, (e1 - s1) = 31516, t, s2 = 0, e2 = 31396, (e2 - s2) = 31396, len2 = 31408)
+  Rounded: new_delta_l = 108, new_idt = 0.99, new_cov = 1.00
+    -> Duplicate!
+
+
+real	0m0.492s
+user	0m0.400s
+sys	0m0.058s
+
+# Given a_ctg.fa and a_ctg_all_tiling_path, write a_ctg_tiling_path:
+time python -m falcon_kit.mains.dedup_a_tp >| a_ctg_tiling_path
++ python -m falcon_kit.mains.dedup_a_tp
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+real	0m0.208s
+user	0m0.136s
+sys	0m0.040s
+
+# Collect all info needed to format the GFA-1 and GFA-2 representations of
+# the assembly graphs.
+time python -m falcon_kit.mains.collect_pread_gfa >| asm.gfa.json
++ python -m falcon_kit.mains.collect_pread_gfa
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+real	0m3.759s
+user	0m3.412s
+sys	0m0.280s
+time python -m falcon_kit.mains.collect_pread_gfa --add-string-graph >| sg.gfa.json
++ python -m falcon_kit.mains.collect_pread_gfa --add-string-graph
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+real	0m4.135s
+user	0m3.803s
+sys	0m0.276s
+time python -m falcon_kit.mains.collect_contig_gfa >| contig.gfa.json
++ python -m falcon_kit.mains.collect_contig_gfa
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+real	0m0.471s
+user	0m0.314s
+sys	0m0.109s
+
+# Output the assembly pread graph.
+time python -m falcon_kit.mains.gen_gfa_v1 asm.gfa.json >| asm.gfa
++ python -m falcon_kit.mains.gen_gfa_v1 asm.gfa.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+real	0m0.488s
+user	0m0.311s
+sys	0m0.107s
+time python -m falcon_kit.mains.gen_gfa_v2 asm.gfa.json >| asm.gfa2
++ python -m falcon_kit.mains.gen_gfa_v2 asm.gfa.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+real	0m0.498s
+user	0m0.320s
+sys	0m0.102s
+
+# Output the string graph.
+time python -m falcon_kit.mains.gen_gfa_v1 sg.gfa.json >| sg.gfa
++ python -m falcon_kit.mains.gen_gfa_v1 sg.gfa.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+real	0m0.675s
+user	0m0.425s
+sys	0m0.120s
+time python -m falcon_kit.mains.gen_gfa_v2 sg.gfa.json >| sg.gfa2
++ python -m falcon_kit.mains.gen_gfa_v2 sg.gfa.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+real	0m0.750s
+user	0m0.480s
+sys	0m0.123s
+
+# Output the contig graph with associate contigs attached to each primary contig.
+time python -m falcon_kit.mains.gen_gfa_v2 contig.gfa.json >| contig.gfa2
++ python -m falcon_kit.mains.gen_gfa_v2 contig.gfa.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+real	0m0.432s
+user	0m0.292s
+sys	0m0.093s
+
+#rm -f ./preads4falcon.fasta
+
+touch falcon_asm_done
++ touch falcon_asm_done
+
+date
++ date
+2019-01-10 00:24:56,733 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-10 00:24:56,734 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon' -> '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon'
+2019-01-10 00:24:56,734 - root - DEBUG - Checking existence of u'falcon_asm_done' with timeout=30
+2019-01-10 00:24:56,734 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon' -> '/mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon'
+
+real	0m43.782s
+user	1m7.763s
+sys	0m4.783s
+touch /mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon/run.sh.done
++ touch /mnt/disks/data/assembly/ecoli-blocking/2-asm-falcon/run.sh.done
++ finish
++ echo 'finish code: 0'
