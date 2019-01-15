@@ -1,23 +1,26 @@
-#!/usr/bin/env perl
+package Pacbio::Run::Duration;
 
 use strict;
 use warnings 'FATAL';
 
-use Data::Dumper;
-use IO::File;
 use File::Find 'find';
+use IO::File;
 use Path::Class;
-use File::Spec;
 
-die "No directory given!" if not @ARGV;
-my $directory = dir($ARGV[0])->absolute;
-die "Directory does not exists! $directory" if not -d "$directory";
+sub directory { $_{0}->{directory} }
+
+sub new {
+    my ($class) = @_;
+
+    die "No directory given!" if not $_[1];
+    my $directory = dir($ARGV[0])->absolute;
+    die "Directory does not exists! $directory" if not -d "$directory";
+
+    bless { directory => $directory }, $class;
+}
 
 sub find_stages_and_durations {
-	my ($directory) = @_;
-
-	die "No run directory given." if not $directory;
-	die "Run directory given does not exist! $directory" if not -d "$directory";
+	my ($self) = @_;
 
     my %stages;
     my $total = 0;
@@ -25,9 +28,8 @@ sub find_stages_and_durations {
 		{
 			wanted => sub{
 				if ( /stderr$/) {
-                    my ($done_file, $duration) = get_done_file_and_duration($File::Find::name);
+                    my ($stage, $duration) = get_stage_and_duration($File::Find::name);
                     return if not $done_file;
-                    my @stage = get_stage_from_file_name($done_file, $directory);
                     $total += $duration;
                     for my $i ( 0 .. $#stage ) {
                         my $name = join(' ', @stage[0..$i]);
@@ -36,7 +38,7 @@ sub find_stages_and_durations {
 				}
 			},
 		},
-		glob($directory->file('*')->stringify),
+		glob($self->directory->file('*')->stringify),
 	);
 
     $stages{total} = $total;
@@ -44,7 +46,7 @@ sub find_stages_and_durations {
 
 }
 
-sub get_done_file_and_duration {
+sub get_stage_and_duration {
 	my ($file) = @_;
 
     my $fh = IO::File->new("$file");
@@ -54,7 +56,7 @@ sub get_done_file_and_duration {
     my $duration = 0;
     while ( my $l = $fh->getline ) {
         if ( $l =~ /^real\s(.+)/ ) {
-            $duration = get_duration_from_time_output("$1");
+            $duration += get_duration_from_time_output("$1");
         }
         elsif ( $l =~ /^touch\s+(.+)/ ) {
             $done_file = $1;
@@ -62,19 +64,7 @@ sub get_done_file_and_duration {
     }
     $fh->close;
 
-    ( $done_file, $duration );
-}
-
-sub get_stage_from_file_name {
-    my ($file) = @_;
-    my @components = file($file)->components;
-    shift @components if $components[0] eq ''; # remove the root
-    do {
-        shift @components;
-    } until $components[0] =~ /^\d\-/;
-    pop @components if $components[$#components] eq 'run.sh.done'; # remove run.sh.done
-    pop @components if $components[$#components] =~ /_\d{3,}$/; # remove the chunked steps
-    @components;
+    ( get_stage_from_file_name($done_file), $duration );
 }
 
 sub get_duration_from_time_output {
@@ -88,4 +78,18 @@ sub get_duration_from_time_output {
     $duration;
 }
 
-find_stages_and_durations($directory);
+sub get_stage_from_file_name {
+    my ($file) = @_;
+
+    my @components = file($file)->components;
+    shift @components if $components[0] eq ''; # remove the root
+    do {
+        shift @components;
+    } until $components[0] =~ /^\d\-/;
+    pop @components if $components[$#components] eq 'run.sh.done'; # remove run.sh.done
+    pop @components if $components[$#components] =~ /_\d{3,}$/; # remove the chunked steps
+    die "Cannot derive stage from done file: $file" if not @components;
+    \@components;
+}
+
+1;
