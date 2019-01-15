@@ -1,0 +1,91 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings 'FATAL';
+
+use Data::Dumper;
+use IO::File;
+use File::Find 'find';
+use Path::Class;
+use File::Spec;
+
+die "No directory given!" if not @ARGV;
+my $directory = dir($ARGV[0])->absolute;
+die "Directory does not exists! $directory" if not -d "$directory";
+
+sub find_stages_and_durations {
+	my ($directory) = @_;
+
+	die "No run directory given." if not $directory;
+	die "Run directory given does not exist! $directory" if not -d "$directory";
+
+    my %stages;
+    my $total = 0;
+	find(
+		{
+			wanted => sub{
+				if ( /stderr$/) {
+                    my ($done_file, $duration) = get_done_file_and_duration($File::Find::name);
+                    return if not $done_file;
+                    my @stage = get_stage_from_file_name($done_file, $directory);
+                    $total += $duration;
+                    for my $i ( 0 .. $#stage ) {
+                        my $name = join(' ', @stage[0..$i]);
+                        $stages{$name} += $duration;
+                    }
+				}
+			},
+		},
+		glob($directory->file('*')->stringify),
+	);
+
+    $stages{total} = $total;
+    print join("\n", map { join(' ', $_, $stages{$_}) } sort keys %stages)."\n";
+
+}
+
+sub get_done_file_and_duration {
+	my ($file) = @_;
+
+    my $fh = IO::File->new("$file");
+    die "Failed to open file: $file" if not $fh;
+
+    my ($done_file);
+    my $duration = 0;
+    while ( my $l = $fh->getline ) {
+        if ( $l =~ /^real\s(.+)/ ) {
+            $duration = get_duration_from_time_output("$1");
+        }
+        elsif ( $l =~ /^touch\s+(.+)/ ) {
+            $done_file = $1;
+        }
+    }
+    $fh->close;
+
+    ( $done_file, $duration );
+}
+
+sub get_stage_from_file_name {
+    my ($file) = @_;
+    my @components = file($file)->components;
+    shift @components if $components[0] eq ''; # remove the root
+    do {
+        shift @components;
+    } until $components[0] =~ /^\d\-/;
+    pop @components if $components[$#components] eq 'run.sh.done'; # remove run.sh.done
+    pop @components if $components[$#components] =~ /_\d{3,}$/; # remove the chunked steps
+    @components;
+}
+
+sub get_duration_from_time_output {
+    my ($time_output) = @_;
+
+    my $duration = 0;
+    my ($min, $sec) = split('m', $time_output);
+    $duration += $min * 60 if $sec;
+    $sec =~ s/s$//;
+    $duration += $sec;
+    $duration;
+}
+
+find_stages_and_durations($directory);
