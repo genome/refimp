@@ -29,10 +29,11 @@ sub find_stages_and_durations {
 			wanted => sub{
 				if ( /stderr$/) {
                     my ($stage, $duration) = get_stage_and_duration($File::Find::name);
-                    return if not $done_file;
+                    return if not $stage;
                     $total += $duration;
-                    for my $i ( 0 .. $#stage ) {
-                        my $name = join(' ', @stage[0..$i]);
+                    my $end = @$stage - 1;
+                    for my $i ( 0 .. $end ) {
+                        my $name = join(' ', @$stage[0..$i]);
                         $stages{$name} += $duration;
                     }
 				}
