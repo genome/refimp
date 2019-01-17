@@ -3,34 +3,33 @@ package Pacbio::Assembly::Duration;
 use strict;
 use warnings 'FATAL';
 
+use base 'Class::Accessor';
+__PACKAGE__->mk_accessors(qw/ directory stages /);
+
 use File::Find 'find';
 use IO::File;
 use Path::Class;
-
-sub directory { $_{0}->{directory} }
 
 sub new {
     my ($class) = @_;
 
     die "No directory given!" if not $_[1];
-    my $directory = dir($ARGV[0])->absolute;
+    my $directory = dir("$_[1]")->absolute;
     die "Directory does not exists! $directory" if not -d "$directory";
 
     bless { directory => $directory }, $class;
 }
 
-sub find_stages_and_durations {
+sub get_stages {
 	my ($self) = @_;
 
     my %stages;
-    my $total = 0;
 	find(
 		{
 			wanted => sub{
 				if ( /stderr$/) {
                     my ($stage, $duration) = get_stage_and_duration($File::Find::name);
                     return if not $stage;
-                    $total += $duration;
                     my $end = @$stage - 1;
                     for my $i ( 0 .. $end ) {
                         my $name = join(' ', @$stage[0..$i]);
@@ -42,8 +41,7 @@ sub find_stages_and_durations {
 		glob($self->directory->file('*')->stringify),
 	);
 
-    $stages{total} = $total;
-    print join("\n", map { join(' ', $_, $stages{$_}) } sort keys %stages)."\n";
+    $self->stages(\%stages);
 
 }
 
