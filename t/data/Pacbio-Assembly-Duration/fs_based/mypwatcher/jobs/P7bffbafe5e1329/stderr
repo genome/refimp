@@ -1,0 +1,979 @@
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329 --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+hostname=blade18-3-1.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-07 15:23:36,390 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json"
+2019-01-07 15:23:36,391 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json' with timeout=30
+2019-01-07 15:23:36,392 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json'
+2019-01-07 15:23:36,393 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../../quiver-split/bash-template.sh',
+             u'units_of_work': u'../../quiver-chunks/000113F_022/some-units-of-work.json'},
+ u'outputs': {u'results': u'results.json'},
+ u'parameters': {u'pypeflow_mb': u'43000', u'pypeflow_nproc': u'2'}}
+2019-01-07 15:23:36,393 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 15:23:36,394 - root - DEBUG - Checking existence of u'../../quiver-chunks/000113F_022/some-units-of-work.json' with timeout=30
+2019-01-07 15:23:36,396 - root - DEBUG - Checking existence of u'../../quiver-split/bash-template.sh' with timeout=30
+2019-01-07 15:23:36,397 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-07 15:23:36,398 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 15:23:36,399 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
++ python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:INPUT:{u'ref_fasta': u'../../../quiver-split/refs/000113F_022/ref.fa', u'read_bam': u'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam', u'ctg_type': u'../../../quiver-split/refs/000113F_022/ctg_type'}
+INFO:root:OUTPUT:{u'cns_fasta': u'cns.fasta.gz', u'cns_vcf': u'cns.vcf', u'job_done': u'quiver_done', u'ctg_type_again': u'ctg_type', u'cns_fastq': u'cns.fastq.gz'}
+INFO:root:PARAMS:{'pypeflow_nproc': '2', u'ctg_id': u'000113F_022'}
+INFO:root:$('rm -rf uow-00')
+WARNING:root:CD: 'uow-00' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+INFO:root:$('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+set -vex
++ set -vex
+trap 'touch quiver_done.exit' EXIT
++ trap 'touch quiver_done.exit' EXIT
+hostname
++ hostname
+date
++ date
+
+nproc=2
++ nproc=2
+samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
++ samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
+pbalign --tmpDir=$(pwd)/tmp --nproc=$nproc --minAccuracy=0.75 --minLength=50          --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr          --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1            /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+++ pwd
++ pbalign --tmpDir=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/uow-00/tmp --nproc=2 --minAccuracy=0.75 --minLength=50 --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1 /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin/pbalign", line 11, in <module>
+    load_entry_point('pbalign==0.3.1', 'console_scripts', 'pbalign')()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 487, in load_entry_point
+    return get_distribution(dist).load_entry_point(group, name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2728, in load_entry_point
+    return ep.load()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2346, in load
+    return self.resolve()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2352, in resolve
+    module = __import__(self.module_name, fromlist=['__name__'], level=0)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbalign/pbalignrunner.py", line 53, in <module>
+    from pbcore.io import (AlignmentSet, ConsensusAlignmentSet)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/__init__.py", line 3, in <module>
+    from .BasH5IO import *
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/BasH5IO.py", line 15, in <module>
+    import numpy as np
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/__init__.py", line 142, in <module>
+    from . import add_newdocs
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/add_newdocs.py", line 13, in <module>
+    from numpy.lib import add_newdoc
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/__init__.py", line 8, in <module>
+    from .type_check import *
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/type_check.py", line 11, in <module>
+    import numpy.core.numeric as _nx
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/core/__init__.py", line 24, in <module>
+    raise ImportError(msg)
+ImportError: 
+Importing the multiarray numpy extension module failed.  Most
+likely you are trying to import a failed build of numpy.
+If you're working with a numpy git repo, try `git clean -xdf` (removes all
+files not under version control).  Otherwise reinstall numpy.
+
+touch quiver_done.exit
++ touch quiver_done.exit
+WARNING:root:Call '/bin/bash user_script.sh' returned 256.
+WARNING:root:CD: 'uow-00' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 116, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 112, in main
+    run(**vars(args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 65, in run
+    pypeflow.do_task.run_bash(script, inputs, outputs, params)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
+2019-01-07 15:23:37,074 - root - WARNING - Call '/bin/bash user_script.sh' returned 256.
+2019-01-07 15:23:37,075 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 15:23:37,075 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 15:23:37,075 - root - CRITICAL - Error in /gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py with args="{'json_fn': '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json',\n 'timeout': 30,\n 'tmpdir': None}"
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 268, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 260, in main
+    run(**vars(parsed_args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 254, in run
+    run_cfg_in_tmpdir(cfg, tmpdir, '.')
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 229, in run_cfg_in_tmpdir
+    run_bash(bash_template, myinputs, myoutputs, parameters)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
++++ pwd
+++ echo 'FAILURE. Running top in /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 (If you see -terminal database is inaccessible- you are using the python bin-wrapper, so you will not get diagnostic info. No big deal. This process is crashing anyway.)'
+++ rm -f top.txt
+++ which python
+++ which top
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ pstree -apl
+
+real	0m1.086s
+user	0m0.540s
+sys	0m0.220s
+ returned: 256
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329 --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+hostname=blade17-2-12.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-07 16:24:57,371 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json"
+2019-01-07 16:24:57,373 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json' with timeout=30
+2019-01-07 16:24:57,376 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json'
+2019-01-07 16:24:57,377 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../../quiver-split/bash-template.sh',
+             u'units_of_work': u'../../quiver-chunks/000113F_022/some-units-of-work.json'},
+ u'outputs': {u'results': u'results.json'},
+ u'parameters': {u'pypeflow_mb': u'43000', u'pypeflow_nproc': u'2'}}
+2019-01-07 16:24:57,377 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 16:24:57,377 - root - DEBUG - Checking existence of u'../../quiver-chunks/000113F_022/some-units-of-work.json' with timeout=30
+2019-01-07 16:24:57,381 - root - DEBUG - Checking existence of u'../../quiver-split/bash-template.sh' with timeout=30
+2019-01-07 16:24:57,381 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-07 16:24:57,384 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 16:24:57,388 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
++ python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:INPUT:{u'ref_fasta': u'../../../quiver-split/refs/000113F_022/ref.fa', u'read_bam': u'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam', u'ctg_type': u'../../../quiver-split/refs/000113F_022/ctg_type'}
+INFO:root:OUTPUT:{u'cns_fasta': u'cns.fasta.gz', u'cns_vcf': u'cns.vcf', u'job_done': u'quiver_done', u'ctg_type_again': u'ctg_type', u'cns_fastq': u'cns.fastq.gz'}
+INFO:root:PARAMS:{'pypeflow_nproc': '2', u'ctg_id': u'000113F_022'}
+INFO:root:$('rm -rf uow-00')
+WARNING:root:CD: 'uow-00' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+INFO:root:$('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+set -vex
++ set -vex
+trap 'touch quiver_done.exit' EXIT
++ trap 'touch quiver_done.exit' EXIT
+hostname
++ hostname
+date
++ date
+
+nproc=2
++ nproc=2
+samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
++ samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
+pbalign --tmpDir=$(pwd)/tmp --nproc=$nproc --minAccuracy=0.75 --minLength=50          --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr          --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1            /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+++ pwd
++ pbalign --tmpDir=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/uow-00/tmp --nproc=2 --minAccuracy=0.75 --minLength=50 --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1 /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin/pbalign", line 11, in <module>
+    load_entry_point('pbalign==0.3.1', 'console_scripts', 'pbalign')()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 487, in load_entry_point
+    return get_distribution(dist).load_entry_point(group, name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2728, in load_entry_point
+    return ep.load()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2346, in load
+    return self.resolve()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2352, in resolve
+    module = __import__(self.module_name, fromlist=['__name__'], level=0)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbalign/pbalignrunner.py", line 53, in <module>
+    from pbcore.io import (AlignmentSet, ConsensusAlignmentSet)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/__init__.py", line 3, in <module>
+    from .BasH5IO import *
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/BasH5IO.py", line 15, in <module>
+    import numpy as np
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/__init__.py", line 142, in <module>
+    from . import add_newdocs
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/add_newdocs.py", line 13, in <module>
+    from numpy.lib import add_newdoc
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/__init__.py", line 8, in <module>
+    from .type_check import *
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/type_check.py", line 11, in <module>
+    import numpy.core.numeric as _nx
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/core/__init__.py", line 24, in <module>
+    raise ImportError(msg)
+ImportError: 
+Importing the multiarray numpy extension module failed.  Most
+likely you are trying to import a failed build of numpy.
+If you're working with a numpy git repo, try `git clean -xdf` (removes all
+files not under version control).  Otherwise reinstall numpy.
+
+touch quiver_done.exit
++ touch quiver_done.exit
+WARNING:root:Call '/bin/bash user_script.sh' returned 256.
+WARNING:root:CD: 'uow-00' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 116, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 112, in main
+    run(**vars(args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 65, in run
+    pypeflow.do_task.run_bash(script, inputs, outputs, params)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
+2019-01-07 16:24:58,192 - root - WARNING - Call '/bin/bash user_script.sh' returned 256.
+2019-01-07 16:24:58,192 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 16:24:58,192 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 16:24:58,193 - root - CRITICAL - Error in /gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py with args="{'json_fn': '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json',\n 'timeout': 30,\n 'tmpdir': None}"
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 268, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 260, in main
+    run(**vars(parsed_args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 254, in run
+    run_cfg_in_tmpdir(cfg, tmpdir, '.')
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 229, in run_cfg_in_tmpdir
+    run_bash(bash_template, myinputs, myoutputs, parameters)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
++++ pwd
+++ echo 'FAILURE. Running top in /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 (If you see -terminal database is inaccessible- you are using the python bin-wrapper, so you will not get diagnostic info. No big deal. This process is crashing anyway.)'
+++ rm -f top.txt
+++ which python
+++ which top
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ pstree -apl
+
+real	0m1.242s
+user	0m0.616s
+sys	0m0.208s
+ returned: 256
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329 --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+hostname=blade18-1-6.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-07 19:42:12,415 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json"
+2019-01-07 19:42:12,417 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json' with timeout=30
+2019-01-07 19:42:12,418 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json'
+2019-01-07 19:42:12,420 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../../quiver-split/bash-template.sh',
+             u'units_of_work': u'../../quiver-chunks/000113F_022/some-units-of-work.json'},
+ u'outputs': {u'results': u'results.json'},
+ u'parameters': {u'pypeflow_mb': u'43000', u'pypeflow_nproc': u'2'}}
+2019-01-07 19:42:12,420 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 19:42:12,420 - root - DEBUG - Checking existence of u'../../quiver-chunks/000113F_022/some-units-of-work.json' with timeout=30
+2019-01-07 19:42:12,423 - root - DEBUG - Checking existence of u'../../quiver-split/bash-template.sh' with timeout=30
+2019-01-07 19:42:12,423 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-07 19:42:12,424 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 19:42:12,428 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
++ python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:INPUT:{u'ref_fasta': u'../../../quiver-split/refs/000113F_022/ref.fa', u'read_bam': u'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam', u'ctg_type': u'../../../quiver-split/refs/000113F_022/ctg_type'}
+INFO:root:OUTPUT:{u'cns_fasta': u'cns.fasta.gz', u'cns_vcf': u'cns.vcf', u'job_done': u'quiver_done', u'ctg_type_again': u'ctg_type', u'cns_fastq': u'cns.fastq.gz'}
+INFO:root:PARAMS:{'pypeflow_nproc': '2', u'ctg_id': u'000113F_022'}
+INFO:root:$('rm -rf uow-00')
+WARNING:root:CD: 'uow-00' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+INFO:root:$('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+set -vex
++ set -vex
+trap 'touch quiver_done.exit' EXIT
++ trap 'touch quiver_done.exit' EXIT
+hostname
++ hostname
+date
++ date
+
+nproc=2
++ nproc=2
+samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
++ samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
+pbalign --tmpDir=$(pwd)/tmp --nproc=$nproc --minAccuracy=0.75 --minLength=50          --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr          --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1            /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+++ pwd
++ pbalign --tmpDir=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/uow-00/tmp --nproc=2 --minAccuracy=0.75 --minLength=50 --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1 /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin/pbalign", line 11, in <module>
+    load_entry_point('pbalign==0.3.1', 'console_scripts', 'pbalign')()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 487, in load_entry_point
+    return get_distribution(dist).load_entry_point(group, name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2728, in load_entry_point
+    return ep.load()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2346, in load
+    return self.resolve()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2352, in resolve
+    module = __import__(self.module_name, fromlist=['__name__'], level=0)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbalign/pbalignrunner.py", line 53, in <module>
+    from pbcore.io import (AlignmentSet, ConsensusAlignmentSet)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/__init__.py", line 3, in <module>
+    from .BasH5IO import *
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/BasH5IO.py", line 15, in <module>
+    import numpy as np
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/__init__.py", line 142, in <module>
+    from . import add_newdocs
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/add_newdocs.py", line 13, in <module>
+    from numpy.lib import add_newdoc
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/__init__.py", line 8, in <module>
+    from .type_check import *
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/type_check.py", line 11, in <module>
+    import numpy.core.numeric as _nx
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/core/__init__.py", line 24, in <module>
+    raise ImportError(msg)
+ImportError: 
+Importing the multiarray numpy extension module failed.  Most
+likely you are trying to import a failed build of numpy.
+If you're working with a numpy git repo, try `git clean -xdf` (removes all
+files not under version control).  Otherwise reinstall numpy.
+
+touch quiver_done.exit
++ touch quiver_done.exit
+WARNING:root:Call '/bin/bash user_script.sh' returned 256.
+WARNING:root:CD: 'uow-00' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 116, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 112, in main
+    run(**vars(args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 65, in run
+    pypeflow.do_task.run_bash(script, inputs, outputs, params)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
+2019-01-07 19:42:13,175 - root - WARNING - Call '/bin/bash user_script.sh' returned 256.
+2019-01-07 19:42:13,176 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 19:42:13,176 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-07 19:42:13,176 - root - CRITICAL - Error in /gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py with args="{'json_fn': '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json',\n 'timeout': 30,\n 'tmpdir': None}"
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 268, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 260, in main
+    run(**vars(parsed_args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 254, in run
+    run_cfg_in_tmpdir(cfg, tmpdir, '.')
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 229, in run_cfg_in_tmpdir
+    run_bash(bash_template, myinputs, myoutputs, parameters)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
++++ pwd
+++ echo 'FAILURE. Running top in /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 (If you see -terminal database is inaccessible- you are using the python bin-wrapper, so you will not get diagnostic info. No big deal. This process is crashing anyway.)'
+++ rm -f top.txt
+++ which python
+++ which top
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ pstree -apl
+
+real	0m1.215s
+user	0m0.592s
+sys	0m0.192s
+ returned: 256
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329 --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+hostname=blade18-1-6.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-08 13:04:46,580 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json"
+2019-01-08 13:04:46,581 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json' with timeout=30
+2019-01-08 13:04:46,583 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json'
+2019-01-08 13:04:46,584 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../../quiver-split/bash-template.sh',
+             u'units_of_work': u'../../quiver-chunks/000113F_022/some-units-of-work.json'},
+ u'outputs': {u'results': u'results.json'},
+ u'parameters': {u'pypeflow_mb': u'43000', u'pypeflow_nproc': u'2'}}
+2019-01-08 13:04:46,584 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 13:04:46,584 - root - DEBUG - Checking existence of u'../../quiver-chunks/000113F_022/some-units-of-work.json' with timeout=30
+2019-01-08 13:04:46,587 - root - DEBUG - Checking existence of u'../../quiver-split/bash-template.sh' with timeout=30
+2019-01-08 13:04:46,588 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-08 13:04:46,589 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 13:04:46,590 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
++ python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:INPUT:{u'ref_fasta': u'../../../quiver-split/refs/000113F_022/ref.fa', u'read_bam': u'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam', u'ctg_type': u'../../../quiver-split/refs/000113F_022/ctg_type'}
+INFO:root:OUTPUT:{u'cns_fasta': u'cns.fasta.gz', u'cns_vcf': u'cns.vcf', u'job_done': u'quiver_done', u'ctg_type_again': u'ctg_type', u'cns_fastq': u'cns.fastq.gz'}
+INFO:root:PARAMS:{'pypeflow_nproc': '2', u'ctg_id': u'000113F_022'}
+INFO:root:$('rm -rf uow-00')
+WARNING:root:CD: 'uow-00' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+INFO:root:$('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+set -vex
++ set -vex
+trap 'touch quiver_done.exit' EXIT
++ trap 'touch quiver_done.exit' EXIT
+hostname
++ hostname
+date
++ date
+
+nproc=2
++ nproc=2
+samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
++ samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
+pbalign --tmpDir=$(pwd)/tmp --nproc=$nproc --minAccuracy=0.75 --minLength=50          --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr          --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1            /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+++ pwd
++ pbalign --tmpDir=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/uow-00/tmp --nproc=2 --minAccuracy=0.75 --minLength=50 --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1 /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin/pbalign", line 11, in <module>
+    load_entry_point('pbalign==0.3.1', 'console_scripts', 'pbalign')()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 487, in load_entry_point
+    return get_distribution(dist).load_entry_point(group, name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2728, in load_entry_point
+    return ep.load()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2346, in load
+    return self.resolve()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2352, in resolve
+    module = __import__(self.module_name, fromlist=['__name__'], level=0)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbalign/pbalignrunner.py", line 53, in <module>
+    from pbcore.io import (AlignmentSet, ConsensusAlignmentSet)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/__init__.py", line 3, in <module>
+    from .BasH5IO import *
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/BasH5IO.py", line 15, in <module>
+    import numpy as np
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/__init__.py", line 142, in <module>
+    from . import add_newdocs
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/add_newdocs.py", line 13, in <module>
+    from numpy.lib import add_newdoc
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/__init__.py", line 8, in <module>
+    from .type_check import *
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/type_check.py", line 11, in <module>
+    import numpy.core.numeric as _nx
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/core/__init__.py", line 24, in <module>
+    raise ImportError(msg)
+ImportError: 
+Importing the multiarray numpy extension module failed.  Most
+likely you are trying to import a failed build of numpy.
+If you're working with a numpy git repo, try `git clean -xdf` (removes all
+files not under version control).  Otherwise reinstall numpy.
+
+touch quiver_done.exit
++ touch quiver_done.exit
+WARNING:root:Call '/bin/bash user_script.sh' returned 256.
+WARNING:root:CD: 'uow-00' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 116, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 112, in main
+    run(**vars(args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 65, in run
+    pypeflow.do_task.run_bash(script, inputs, outputs, params)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
+2019-01-08 13:04:47,330 - root - WARNING - Call '/bin/bash user_script.sh' returned 256.
+2019-01-08 13:04:47,330 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 13:04:47,330 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 13:04:47,331 - root - CRITICAL - Error in /gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py with args="{'json_fn': '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json',\n 'timeout': 30,\n 'tmpdir': None}"
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 268, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 260, in main
+    run(**vars(parsed_args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 254, in run
+    run_cfg_in_tmpdir(cfg, tmpdir, '.')
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 229, in run_cfg_in_tmpdir
+    run_bash(bash_template, myinputs, myoutputs, parameters)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
++++ pwd
+++ echo 'FAILURE. Running top in /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 (If you see -terminal database is inaccessible- you are using the python bin-wrapper, so you will not get diagnostic info. No big deal. This process is crashing anyway.)'
+++ rm -f top.txt
+++ which python
+++ which top
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ pstree -apl
+
+real	0m1.131s
+user	0m0.604s
+sys	0m0.224s
+ returned: 256
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329 --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+hostname=blade17-1-9.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-08 14:28:48,928 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json"
+2019-01-08 14:28:48,929 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json' with timeout=30
+2019-01-08 14:28:48,932 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json'
+2019-01-08 14:28:48,933 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../../quiver-split/bash-template.sh',
+             u'units_of_work': u'../../quiver-chunks/000113F_022/some-units-of-work.json'},
+ u'outputs': {u'results': u'results.json'},
+ u'parameters': {u'pypeflow_mb': u'100000', u'pypeflow_nproc': u'2'}}
+2019-01-08 14:28:48,933 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 14:28:48,933 - root - DEBUG - Checking existence of u'../../quiver-chunks/000113F_022/some-units-of-work.json' with timeout=30
+2019-01-08 14:28:48,936 - root - DEBUG - Checking existence of u'../../quiver-split/bash-template.sh' with timeout=30
+2019-01-08 14:28:48,936 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-08 14:28:48,939 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 14:28:48,944 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
++ python -m falcon_kit.mains.generic_run_units_of_work --nproc=2 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:INPUT:{u'ref_fasta': u'../../../quiver-split/refs/000113F_022/ref.fa', u'read_bam': u'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam', u'ctg_type': u'../../../quiver-split/refs/000113F_022/ctg_type'}
+INFO:root:OUTPUT:{u'cns_fasta': u'cns.fasta.gz', u'cns_vcf': u'cns.vcf', u'job_done': u'quiver_done', u'ctg_type_again': u'ctg_type', u'cns_fastq': u'cns.fastq.gz'}
+INFO:root:PARAMS:{'pypeflow_nproc': '2', u'ctg_id': u'000113F_022'}
+INFO:root:$('rm -rf uow-00')
+WARNING:root:CD: 'uow-00' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+INFO:root:$('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+set -vex
++ set -vex
+trap 'touch quiver_done.exit' EXIT
++ trap 'touch quiver_done.exit' EXIT
+hostname
++ hostname
+date
++ date
+
+nproc=2
++ nproc=2
+samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
++ samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
+pbalign --tmpDir=$(pwd)/tmp --nproc=$nproc --minAccuracy=0.75 --minLength=50          --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr          --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1            /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+++ pwd
++ pbalign --tmpDir=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/uow-00/tmp --nproc=2 --minAccuracy=0.75 --minLength=50 --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1 /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin/pbalign", line 11, in <module>
+    load_entry_point('pbalign==0.3.1', 'console_scripts', 'pbalign')()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 487, in load_entry_point
+    return get_distribution(dist).load_entry_point(group, name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2728, in load_entry_point
+    return ep.load()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2346, in load
+    return self.resolve()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2352, in resolve
+    module = __import__(self.module_name, fromlist=['__name__'], level=0)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbalign/pbalignrunner.py", line 53, in <module>
+    from pbcore.io import (AlignmentSet, ConsensusAlignmentSet)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/__init__.py", line 3, in <module>
+    from .BasH5IO import *
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pbcore/io/BasH5IO.py", line 15, in <module>
+    import numpy as np
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/__init__.py", line 142, in <module>
+    from . import add_newdocs
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/add_newdocs.py", line 13, in <module>
+    from numpy.lib import add_newdoc
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/__init__.py", line 8, in <module>
+    from .type_check import *
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/lib/type_check.py", line 11, in <module>
+    import numpy.core.numeric as _nx
+  File "/gscuser/ctomlins/.local/lib/python2.7/site-packages/numpy/core/__init__.py", line 24, in <module>
+    raise ImportError(msg)
+ImportError: 
+Importing the multiarray numpy extension module failed.  Most
+likely you are trying to import a failed build of numpy.
+If you're working with a numpy git repo, try `git clean -xdf` (removes all
+files not under version control).  Otherwise reinstall numpy.
+
+touch quiver_done.exit
++ touch quiver_done.exit
+WARNING:root:Call '/bin/bash user_script.sh' returned 256.
+WARNING:root:CD: 'uow-00' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 116, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 112, in main
+    run(**vars(args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/falcon_kit/mains/generic_run_units_of_work.py", line 65, in run
+    pypeflow.do_task.run_bash(script, inputs, outputs, params)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
+2019-01-08 14:28:49,624 - root - WARNING - Call '/bin/bash user_script.sh' returned 256.
+2019-01-08 14:28:49,624 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 14:28:49,624 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 14:28:49,625 - root - CRITICAL - Error in /gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py with args="{'json_fn': '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json',\n 'timeout': 30,\n 'tmpdir': None}"
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 268, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 260, in main
+    run(**vars(parsed_args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 254, in run
+    run_cfg_in_tmpdir(cfg, tmpdir, '.')
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 229, in run_cfg_in_tmpdir
+    run_bash(bash_template, myinputs, myoutputs, parameters)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 256.
++++ pwd
+++ echo 'FAILURE. Running top in /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 (If you see -terminal database is inaccessible- you are using the python bin-wrapper, so you will not get diagnostic info. No big deal. This process is crashing anyway.)'
+++ rm -f top.txt
+++ which python
+++ which top
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ pstree -apl
+
+real	0m1.149s
+user	0m0.612s
+sys	0m0.192s
+ returned: 256
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329 --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+hostname=blade18-2-16.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-08 16:44:49,203 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json"
+2019-01-08 16:44:49,204 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json' with timeout=30
+2019-01-08 16:44:49,205 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json'
+2019-01-08 16:44:49,206 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../../quiver-split/bash-template.sh',
+             u'units_of_work': u'../../quiver-chunks/000113F_022/some-units-of-work.json'},
+ u'outputs': {u'results': u'results.json'},
+ u'parameters': {u'pypeflow_mb': u'70000', u'pypeflow_nproc': u'1'}}
+2019-01-08 16:44:49,206 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 16:44:49,206 - root - DEBUG - Checking existence of u'../../quiver-chunks/000113F_022/some-units-of-work.json' with timeout=30
+2019-01-08 16:44:49,210 - root - DEBUG - Checking existence of u'../../quiver-split/bash-template.sh' with timeout=30
+2019-01-08 16:44:49,210 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-08 16:44:49,211 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-08 16:44:49,215 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_run_units_of_work --nproc=1 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
++ python -m falcon_kit.mains.generic_run_units_of_work --nproc=1 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:INPUT:{u'ref_fasta': u'../../../quiver-split/refs/000113F_022/ref.fa', u'read_bam': u'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam', u'ctg_type': u'../../../quiver-split/refs/000113F_022/ctg_type'}
+INFO:root:OUTPUT:{u'cns_fasta': u'cns.fasta.gz', u'cns_vcf': u'cns.vcf', u'job_done': u'quiver_done', u'ctg_type_again': u'ctg_type', u'cns_fastq': u'cns.fastq.gz'}
+INFO:root:PARAMS:{'pypeflow_nproc': '1', u'ctg_id': u'000113F_022'}
+INFO:root:$('rm -rf uow-00')
+WARNING:root:CD: 'uow-00' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+INFO:root:$('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+set -vex
++ set -vex
+trap 'touch quiver_done.exit' EXIT
++ trap 'touch quiver_done.exit' EXIT
+hostname
++ hostname
+date
++ date
+
+nproc=1
++ nproc=1
+samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
++ samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
+pbalign --tmpDir=$(pwd)/tmp --nproc=$nproc --minAccuracy=0.75 --minLength=50          --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr          --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1            /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+++ pwd
++ pbalign --tmpDir=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/uow-00/tmp --nproc=1 --minAccuracy=0.75 --minLength=50 --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1 /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022 --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329 --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+hostname=blade18-1-15.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P7bffbafe5e1329'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P7bffbafe5e1329'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-09 19:12:57,041 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json"
+2019-01-09 19:12:57,043 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json' with timeout=30
+2019-01-09 19:12:57,044 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/task.json'
+2019-01-09 19:12:57,045 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../../quiver-split/bash-template.sh',
+             u'units_of_work': u'../../quiver-chunks/000113F_022/some-units-of-work.json'},
+ u'outputs': {u'results': u'results.json'},
+ u'parameters': {u'pypeflow_mb': u'70000', u'pypeflow_nproc': u'1'}}
+2019-01-09 19:12:57,045 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-09 19:12:57,046 - root - DEBUG - Checking existence of u'../../quiver-chunks/000113F_022/some-units-of-work.json' with timeout=30
+2019-01-09 19:12:57,049 - root - DEBUG - Checking existence of u'../../quiver-split/bash-template.sh' with timeout=30
+2019-01-09 19:12:57,049 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-09 19:12:57,051 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-09 19:12:57,052 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_run_units_of_work --nproc=1 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
++ python -m falcon_kit.mains.generic_run_units_of_work --nproc=1 --units-of-work-fn=../../quiver-chunks/000113F_022/some-units-of-work.json --bash-template-fn=../../quiver-split/bash-template.sh --results-fn=results.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:INPUT:{u'ref_fasta': u'../../../quiver-split/refs/000113F_022/ref.fa', u'read_bam': u'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam', u'ctg_type': u'../../../quiver-split/refs/000113F_022/ctg_type'}
+INFO:root:OUTPUT:{u'cns_fasta': u'cns.fasta.gz', u'cns_vcf': u'cns.vcf', u'job_done': u'quiver_done', u'ctg_type_again': u'ctg_type', u'cns_fastq': u'cns.fastq.gz'}
+INFO:root:PARAMS:{'pypeflow_nproc': '1', u'ctg_id': u'000113F_022'}
+INFO:root:$('rm -rf uow-00')
+WARNING:root:CD: 'uow-00' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+INFO:root:$('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+set -vex
++ set -vex
+trap 'touch quiver_done.exit' EXIT
++ trap 'touch quiver_done.exit' EXIT
+hostname
++ hostname
+date
++ date
+
+nproc=1
++ nproc=1
+samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
++ samtools faidx ../../../quiver-split/refs/000113F_022/ref.fa
+pbalign --tmpDir=$(pwd)/tmp --nproc=$nproc --minAccuracy=0.75 --minLength=50          --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr          --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1            /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+++ pwd
++ pbalign --tmpDir=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/uow-00/tmp --nproc=1 --minAccuracy=0.75 --minLength=50 --minAnchorSize=12 --maxDivergence=30 --concordant --algorithm=blasr --algorithmOptions=--useQuality --maxHits=1 --hitPolicy=random --seed=1 /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-run/segr4403/segregated/000113F_022/000113F_022.bam ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam
+#python -c 'import ConsensusCore2 as cc2; print cc2' # So quiver likely works.
+(variantCaller --algorithm=arrow -x 5 -X 120 -q 20 -j $nproc -r ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam            -o cns.fasta.gz -o cns.fastq.gz --minConfidence 0 -o cns.vcf) || echo WARNING quiver failed. Maybe no reads for this block.
++ variantCaller --algorithm=arrow -x 5 -X 120 -q 20 -j 1 -r ../../../quiver-split/refs/000113F_022/ref.fa aln-000113F_022.bam -o cns.fasta.gz -o cns.fastq.gz --minConfidence 0 -o cns.vcf
+touch cns.fasta.gz
++ touch cns.fasta.gz
+touch cns.fastq.gz
++ touch cns.fastq.gz
+touch cns.vcf
++ touch cns.vcf
+cp -f ../../../quiver-split/refs/000113F_022/ctg_type ctg_type
++ cp -f ../../../quiver-split/refs/000113F_022/ctg_type ctg_type
+date
++ date
+touch quiver_done
++ touch quiver_done
+
+date
++ date
+touch quiver_done.exit
++ touch quiver_done.exit
+WARNING:root:CD: 'uow-00' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+
+date
++ date
+2019-01-09 19:17:30,903 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-09 19:17:30,904 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+2019-01-09 19:17:30,904 - root - DEBUG - Checking existence of u'results.json' with timeout=30
+2019-01-09 19:17:30,904 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022'
+
+real	4m34.123s
+user	4m31.852s
+sys	0m1.248s
+touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/run.sh.done
++ touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-run/000113F_022/run.sh.done
+ returned: 0

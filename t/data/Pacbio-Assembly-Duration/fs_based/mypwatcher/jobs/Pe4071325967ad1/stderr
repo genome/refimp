@@ -1,0 +1,58 @@
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103 --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pe4071325967ad1 --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pe4071325967ad1 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pe4071325967ad1', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pe4071325967ad1', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103'
+hostname=blade18-3-2.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pe4071325967ad1'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pe4071325967ad1'
+sleep_s=10.0
+before setpgid: pid=117124 pgid=111
+ after setpgid: pid=117124 pgid=117124
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-07 15:16:43,156 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103/task.json"
+2019-01-07 15:16:43,157 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103/task.json' with timeout=30
+2019-01-07 15:16:43,158 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103/task.json'
+2019-01-07 15:16:43,159 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'all': u'../../quiver-split/all-units-of-work.json'},
+ u'outputs': {u'one': u'some-units-of-work.json'},
+ u'parameters': {u'pypeflow_mb': 4000,
+                 u'pypeflow_nproc': 1,
+                 u'split_idx': 1887}}
+2019-01-07 15:16:43,159 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103'
+2019-01-07 15:16:43,159 - root - DEBUG - Checking existence of u'../../quiver-split/all-units-of-work.json' with timeout=30
+2019-01-07 15:16:43,159 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-07 15:16:43,160 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103'
+2019-01-07 15:16:43,161 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../quiver-split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=1887
++ python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../quiver-split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=1887
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+date
++ date
+2019-01-07 15:16:43,620 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-07 15:16:43,620 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103'
+2019-01-07 15:16:43,620 - root - DEBUG - Checking existence of u'some-units-of-work.json' with timeout=30
+2019-01-07 15:16:43,620 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103'
+
+real	0m0.729s
+user	0m0.508s
+sys	0m0.124s
+touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103/run.sh.done
++ touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/quiver-chunks/000007F_103/run.sh.done
+ returned: 0

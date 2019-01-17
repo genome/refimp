@@ -86,7 +86,11 @@ sub get_stage_from_file_name {
         shift @components;
     } until $components[0] =~ /^\d\-/;
     pop @components if $components[$#components] eq 'run.sh.done'; # remove run.sh.done
-    pop @components if $components[$#components] =~ /_\d{3,}$/; # remove the chunked steps
+
+    # Remove the chunked steps: j_0000 000000F chunk_000000F segr000
+    pop @components if $components[$#components] =~ /\d{3,}/;
+    pop @components if $components[$#components] =~ /^segr\d+$/;
+
     die "Cannot derive stage from done file: $file" if not @components;
     \@components;
 }

@@ -1,0 +1,56 @@
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000 --heartbeat-file=/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-Pd96a7b32a3ab98 --exit-file=/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-Pd96a7b32a3ab98 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000', exit_file='/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-Pd96a7b32a3ab98', heartbeat_file='/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-Pd96a7b32a3ab98', rate=10.0)
+
+cwd:'/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000'
+hostname=pbassemble1-controller.c.washu-genome-hall-group-dev.internal
+heartbeat_fn='/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-Pd96a7b32a3ab98'
+exit_fn='/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-Pd96a7b32a3ab98'
+sleep_s=10.0
+before setpgid: pid=15808 pgid=15107
+ after setpgid: pid=15808 pgid=15808
+In cwd: /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
++ PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
+cd /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000
++ cd /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-09 20:05:56,264 - root - DEBUG - Running "/apps/pbassemble/lib/python2.7/site-packages/pypeflow/do_task.py /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000/task.json"
+2019-01-09 20:05:56,266 - root - DEBUG - Checking existence of '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000/task.json' with timeout=30
+2019-01-09 20:05:56,266 - root - DEBUG - Loading JSON from '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000/task.json'
+2019-01-09 20:05:56,266 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'all': u'../../daligner-split/all-units-of-work.json'},
+ u'outputs': {u'one': u'some-units-of-work.json'},
+ u'parameters': {u'pypeflow_mb': 4000, u'pypeflow_nproc': 1, u'split_idx': 0}}
+2019-01-09 20:05:56,267 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000' <- '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000'
+2019-01-09 20:05:56,267 - root - DEBUG - Checking existence of u'../../daligner-split/all-units-of-work.json' with timeout=30
+2019-01-09 20:05:56,267 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-09 20:05:56,267 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000' <- '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000'
+2019-01-09 20:05:56,267 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../daligner-split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=0
++ python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../daligner-split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=0
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+date
++ date
+2019-01-09 20:05:56,498 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-09 20:05:56,499 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000' -> '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000'
+2019-01-09 20:05:56,499 - root - DEBUG - Checking existence of u'some-units-of-work.json' with timeout=30
+2019-01-09 20:05:56,499 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000' -> '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000'
+
+real	0m0.614s
+user	0m0.403s
+sys	0m0.060s
+touch /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000/run.sh.done
++ touch /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-chunks/j_0000/run.sh.done
+ returned: 0

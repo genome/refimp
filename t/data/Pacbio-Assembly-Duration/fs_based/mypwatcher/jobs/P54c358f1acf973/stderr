@@ -1,0 +1,56 @@
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P54c358f1acf973 --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P54c358f1acf973 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P54c358f1acf973', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P54c358f1acf973', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F'
+hostname=blade18-1-16.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P54c358f1acf973'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P54c358f1acf973'
+sleep_s=10.0
+before setpgid: pid=1504 pgid=166
+ after setpgid: pid=1504 pgid=1504
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2018-12-12 15:16:03,127 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F/task.json"
+2018-12-12 15:16:03,128 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F/task.json' with timeout=30
+2018-12-12 15:16:03,128 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F/task.json'
+2018-12-12 15:16:03,129 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'all': u'../../split/all-units-of-work.json'},
+ u'outputs': {u'one': u'some-units-of-work.json'},
+ u'parameters': {u'pypeflow_mb': 4000, u'pypeflow_nproc': 1, u'split_idx': 20}}
+2018-12-12 15:16:03,129 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F'
+2018-12-12 15:16:03,129 - root - DEBUG - Checking existence of u'../../split/all-units-of-work.json' with timeout=30
+2018-12-12 15:16:03,129 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2018-12-12 15:16:03,129 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F'
+2018-12-12 15:16:03,130 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=20
++ python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=20
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+date
++ date
+2018-12-12 15:16:03,440 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2018-12-12 15:16:03,441 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F'
+2018-12-12 15:16:03,441 - root - DEBUG - Checking existence of u'some-units-of-work.json' with timeout=30
+2018-12-12 15:16:03,441 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F'
+
+real	0m0.523s
+user	0m0.368s
+sys	0m0.108s
+touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F/run.sh.done
++ touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunks/chunk_001102F/run.sh.done
+ returned: 0
