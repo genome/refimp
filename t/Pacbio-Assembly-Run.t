@@ -6,7 +6,7 @@ use warnings 'FATAL';
 use TestEnv;
 use Test::More tests => 3;
 
-my %test = ( class => 'Pacbio::Assembly::Duration');
+my %test = ( class => 'Pacbio::Assembly::Run');
 subtest 'setup' => sub{
     plan tests => 2;
 
