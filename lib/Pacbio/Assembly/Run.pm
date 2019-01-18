@@ -30,10 +30,11 @@ sub get_stages {
 				if ( /stderr$/) {
                     my ($stage, $duration) = get_stage_and_duration($File::Find::name);
                     return if not $stage;
-                    my $end = @$stage - 1;
-                    for my $i ( 0 .. $end ) {
-                        my $name = join(' ', @$stage[0..$i]);
-                        $stages{$name} += $duration;
+                    $stages{ $stage->[0] }->{duration} += $duration;
+                    if ( @$stage > 1 ) {
+                        my $end = @$stage - 1;
+                        my $name = join(' ', @$stage[1..$end]);
+                        $stages{ $stage->[0] }->{substages}->{$name} += $duration;
                     }
 				}
 			},
