@@ -22,8 +22,8 @@ subtest 'blocking' => sub{
     my $dir = $test{data_dir}->subdir('blocking');
     ok(-d $dir, 'blocking data dir exists');
 
-    my $duration = $test{class}->new($dir);
-    ok($duration, 'create duration');
+    my $run = $test{class}->new($dir);
+    ok($run, 'create run');
 
     my $expected_stages = {
 		'0-rawreads' => {
@@ -47,7 +47,7 @@ subtest 'blocking' => sub{
 		},
 	};
 
-	my $stages = $duration->get_stages;
+	my $stages = $run->get_stages;
     is_deeply($stages, $expected_stages, 'got stages');
 
 };
@@ -58,8 +58,8 @@ subtest 'fs_based' => sub{
     my $dir = $test{data_dir}->subdir('fs_based');
     ok(-d $dir, 'fs_based data dir exists');
 
-    my $duration = $test{class}->new($dir);
-    ok($duration, 'create duration');
+    my $run = $test{class}->new($dir);
+    ok($run, 'create run');
 
 	my $expected_stages = {
 		'0-rawreads' => {
@@ -99,7 +99,7 @@ subtest 'fs_based' => sub{
 		},
 	};
 
-	my $stages = $duration->get_stages;
+	my $stages = $run->get_stages;
 	is_deeply($stages, $expected_stages, 'got stages');
 
 };

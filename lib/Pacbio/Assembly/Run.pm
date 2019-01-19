@@ -15,7 +15,7 @@ sub new {
 
     die "No directory given!" if not $_[1];
     my $directory = dir("$_[1]")->absolute;
-    die "Directory does not exists! $directory" if not -d "$directory";
+    die "Assembly directory does not exist! $directory" if not -d "$directory";
 
     bless { directory => $directory }, $class;
 }
