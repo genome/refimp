@@ -2,6 +2,7 @@ requires 'Bio::Seq';
 requires 'Bio::SeqIO';
 requires 'Class::Accessor';
 requires 'DateTime';
+requires 'DateTime::Format::Duration';
 requires 'DBD::Pg';
 requires 'DBD::mysql', 4.046;
 requires 'Date::Format';
