@@ -1,0 +1,91 @@
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002 --heartbeat-file=/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-Pb3f38acd68b750 --exit-file=/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-Pb3f38acd68b750 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002', exit_file='/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-Pb3f38acd68b750', heartbeat_file='/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-Pb3f38acd68b750', rate=10.0)
+
+cwd:'/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002'
+hostname=pbassemble1-compute3.c.washu-genome-hall-group-dev.internal
+heartbeat_fn='/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-Pb3f38acd68b750'
+exit_fn='/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-Pb3f38acd68b750'
+sleep_s=10.0
+before setpgid: pid=10673 pgid=10600
+ after setpgid: pid=10673 pgid=10673
+In cwd: /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
++ PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
+cd /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002
++ cd /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-09 20:05:57,663 - root - DEBUG - Running "/apps/pbassemble/lib/python2.7/site-packages/pypeflow/do_task.py /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002/task.json"
+2019-01-09 20:05:57,666 - root - DEBUG - Checking existence of '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002/task.json' with timeout=30
+2019-01-09 20:05:57,669 - root - DEBUG - Loading JSON from '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002/task.json'
+2019-01-09 20:05:57,673 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../../daligner-split/daligner_bash_template.sh',
+             u'units_of_work': u'../../daligner-chunks/j_0002/some-units-of-work.json'},
+ u'outputs': {u'results': u'some-done-files.json'},
+ u'parameters': {u'pypeflow_mb': u'32768', u'pypeflow_nproc': u'4'}}
+2019-01-09 20:05:57,675 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002' <- '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002'
+2019-01-09 20:05:57,677 - root - DEBUG - Checking existence of u'../../daligner-chunks/j_0002/some-units-of-work.json' with timeout=30
+2019-01-09 20:05:57,681 - root - DEBUG - Checking existence of u'../../daligner-split/daligner_bash_template.sh' with timeout=30
+2019-01-09 20:05:57,683 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-09 20:05:57,687 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002' <- '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002'
+2019-01-09 20:05:57,698 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_run_units_of_work --nproc=4 --units-of-work-fn=../../daligner-chunks/j_0002/some-units-of-work.json --bash-template-fn=../../daligner-split/daligner_bash_template.sh --results-fn=some-done-files.json
++ python -m falcon_kit.mains.generic_run_units_of_work --nproc=4 --units-of-work-fn=../../daligner-chunks/j_0002/some-units-of-work.json --bash-template-fn=../../daligner-split/daligner_bash_template.sh --results-fn=some-done-files.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+INFO:root:INPUT:{u'db': u'../../../build/preads.db', u'config': u'../../../../General_config.json', u'script': u'../../../daligner-split/daligner-scripts/j_0002/run_daligner.sh'}
+INFO:root:OUTPUT:{u'job_done': u'daligner.done'}
+INFO:root:PARAMS:{'pypeflow_nproc': '4'}
+INFO:root:$('rm -rf uow-00')
+WARNING:root:CD: 'uow-00' <- '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002'
+INFO:root:$('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+python -m falcon_kit.mains.dazzler --config=../../../../General_config.json --db=../../../build/preads.db  daligner-apply --script=../../../daligner-split/daligner-scripts/j_0002/run_daligner.sh --job-done=daligner.done
++ python -m falcon_kit.mains.dazzler --config=../../../../General_config.json --db=../../../build/preads.db daligner-apply --script=../../../daligner-split/daligner-scripts/j_0002/run_daligner.sh --job-done=daligner.done
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO]Log-level: INFO
+[INFO]ln -sf ../../../daligner-split/daligner-scripts/j_0002/run_daligner.sh run_daligner.sh
+[INFO]ln -sf ../../../build/preads.db preads.db
+[INFO]ln -sf ../../../build/.preads.bps .preads.bps
+[INFO]ln -sf ../../../build/.preads.dust.anno .preads.dust.anno
+[INFO]ln -sf ../../../build/.preads.dust.data .preads.dust.data
+[INFO]ln -sf ../../../build/.preads.idx .preads.idx
+[INFO]$('bash -vex run_daligner.sh')
+daligner_p -v -k24 -h1024 -H1000 -e0.9 -l2500 -M24 -P. -mdust preads.3 preads.1 preads.2 preads.3
++ daligner_p -v -k24 -h1024 -H1000 -e0.9 -l2500 -M24 -P. -mdust preads.3 preads.1 preads.2 preads.3
+
+LAcheck -vS preads *.las
++ LAcheck -vS preads preads.1.preads.3.las preads.2.preads.3.las preads.3.preads.1.las preads.3.preads.2.las preads.3.preads.3.las
+
+date
++ date
+WARNING:root:CD: 'uow-00' -> '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002'
+
+date
++ date
+2019-01-09 20:09:05,542 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-09 20:09:05,545 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002' -> '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002'
+2019-01-09 20:09:05,548 - root - DEBUG - Checking existence of u'some-done-files.json' with timeout=30
+2019-01-09 20:09:05,552 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002' -> '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002'
+
+real	3m8.413s
+user	10m2.938s
+sys	0m32.092s
+touch /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002/run.sh.done
++ touch /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-runs/j_0002/run.sh.done
+ returned: 0

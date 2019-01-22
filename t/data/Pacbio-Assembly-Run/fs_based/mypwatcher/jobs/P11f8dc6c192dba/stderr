@@ -1,0 +1,58 @@
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726 --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P11f8dc6c192dba --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P11f8dc6c192dba --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P11f8dc6c192dba', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P11f8dc6c192dba', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726'
+hostname=blade17-4-10.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-P11f8dc6c192dba'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-P11f8dc6c192dba'
+sleep_s=10.0
+before setpgid: pid=31406 pgid=3663
+ after setpgid: pid=31406 pgid=31406
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2018-12-20 07:07:41,962 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726/task.json"
+2018-12-20 07:07:41,963 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726/task.json' with timeout=30
+2018-12-20 07:07:41,963 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726/task.json'
+2018-12-20 07:07:41,964 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'all': u'../../segregate-split/all-units-of-work.json'},
+ u'outputs': {u'one': u'some-units-of-work.json'},
+ u'parameters': {u'pypeflow_mb': 4000,
+                 u'pypeflow_nproc': 1,
+                 u'split_idx': 4726}}
+2018-12-20 07:07:41,964 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726'
+2018-12-20 07:07:41,964 - root - DEBUG - Checking existence of u'../../segregate-split/all-units-of-work.json' with timeout=30
+2018-12-20 07:07:41,964 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2018-12-20 07:07:41,965 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726'
+2018-12-20 07:07:41,966 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../segregate-split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=4726
++ python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../segregate-split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=4726
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+date
++ date
+2018-12-20 07:07:42,261 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2018-12-20 07:07:42,262 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726'
+2018-12-20 07:07:42,262 - root - DEBUG - Checking existence of u'some-units-of-work.json' with timeout=30
+2018-12-20 07:07:42,262 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726'
+
+real	0m0.519s
+user	0m0.348s
+sys	0m0.124s
+touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726/run.sh.done
++ touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/4-polish/segregate-chunks/segr4726/run.sh.done
+ returned: 0

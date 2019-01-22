@@ -1,0 +1,2299 @@
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+hostname=blade17-4-4.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2018-12-12 15:19:45,535 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json"
+2018-12-12 15:19:45,536 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json' with timeout=30
+2018-12-12 15:19:45,540 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json'
+2018-12-12 15:19:45,541 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../split/dummy.sh',
+             u'units_of_work': u'../chunks/chunk_001110F/some-units-of-work.json'},
+ u'outputs': {u'results': u'result-list.json'},
+ u'parameters': {u'pypeflow_mb': u'24000', u'pypeflow_nproc': u'2'}}
+2018-12-12 15:19:45,541 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 15:19:45,541 - root - DEBUG - Checking existence of u'../chunks/chunk_001110F/some-units-of-work.json' with timeout=30
+2018-12-12 15:19:45,548 - root - DEBUG - Checking existence of u'../split/dummy.sh' with timeout=30
+2018-12-12 15:19:45,548 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2018-12-12 15:19:45,553 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 15:19:45,557 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+    python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
++ python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+falcon-unzip 1.1.4
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO 2018-12-12 15:19:46] Loading units-of-work from '../chunks/chunk_001110F/some-units-of-work.json'
+[INFO 2018-12-12 15:19:46] Loading p assembly graph.
+[INFO 2018-12-12 15:19:46] Counting 393,255,010 bytes from
+  "../../../2-asm-falcon/sg_edges_list"
+[INFO 2018-12-12 15:19:46]         #1 count=             61   0.00% 
+[INFO 2018-12-12 15:19:46]         #2 count=            122   0.00% 
+[INFO 2018-12-12 15:19:46]         #5 count=            304   0.00% 
+[INFO 2018-12-12 15:19:46]        #10 count=            608   0.00% 
+[INFO 2018-12-12 15:19:46]        #19 count=          1,154   0.00% 
+[INFO 2018-12-12 15:19:46]        #36 count=          2,188   0.00% 
+[INFO 2018-12-12 15:19:46]        #69 count=          4,194   0.00% 
+[INFO 2018-12-12 15:19:46]       #134 count=          8,149   0.00% 
+[INFO 2018-12-12 15:19:46]       #263 count=         15,991   0.00% 
+[INFO 2018-12-12 15:19:46]       #521 count=         31,665   0.01% 
+[INFO 2018-12-12 15:19:46]     #1,035 count=         62,916   0.02% 
+[INFO 2018-12-12 15:19:46]     #2,063 count=        125,415   0.03% 
+[INFO 2018-12-12 15:19:46]     #4,118 count=        250,347   0.06% 
+[INFO 2018-12-12 15:19:46]     #8,228 count=        500,230   0.13% 
+[INFO 2018-12-12 15:19:46]    #16,448 count=        999,984   0.25% 
+[INFO 2018-12-12 15:19:46]    #32,890 count=      1,999,441   0.51% 
+[INFO 2018-12-12 15:19:46]    #65,770 count=      3,998,330   1.02% 
+[INFO 2018-12-12 15:19:46]   #131,532 count=      7,996,058   2.03% 
+[INFO 2018-12-12 15:19:47]   #263,052 count=     15,991,465   4.07% 
+[INFO 2018-12-12 15:19:49]   #526,097 count=     31,982,272   8.13% 
+[INFO 2018-12-12 15:19:53] #1,052,182 count=     63,963,890  16.27% 
+[INFO 2018-12-12 15:19:59] #1,699,072 count=    103,289,402  26.27% 
+[INFO 2018-12-12 15:20:05] #2,345,956 count=    142,614,939  36.27% 
+[INFO 2018-12-12 15:20:13] #2,992,840 count=    181,940,471  46.27% 
+[INFO 2018-12-12 15:20:21] #3,639,734 count=    221,266,023  56.27% 
+[INFO 2018-12-12 15:20:31] #4,286,620 count=    260,591,563  66.27% 
+[INFO 2018-12-12 15:20:41] #4,933,508 count=    299,917,109  76.27% 
+[INFO 2018-12-12 15:20:53] #5,580,393 count=    339,242,626  86.27% 
+[INFO 2018-12-12 15:21:05] #6,227,289 count=    378,568,150  96.27% 
+[INFO 2018-12-12 15:21:10] #6,468,884 count=    393,255,010 100.00% 
+[INFO 2018-12-12 15:21:10] Counting 27,571,140 bytes from
+  "../../../2-asm-falcon/utg_data"
+[INFO 2018-12-12 15:21:10]         #1 count=            120   0.00% 
+[INFO 2018-12-12 15:21:10]         #2 count=            262   0.00% 
+[INFO 2018-12-12 15:21:10]         #3 count=          1,976   0.01% 
+[INFO 2018-12-12 15:21:10]        #18 count=          3,962   0.01% 
+[INFO 2018-12-12 15:21:10]        #41 count=          9,021   0.03% 
+[INFO 2018-12-12 15:21:10]        #72 count=         16,007   0.06% 
+[INFO 2018-12-12 15:21:10]       #122 count=         29,779   0.11% 
+[INFO 2018-12-12 15:21:10]       #248 count=         57,286   0.21% 
+[INFO 2018-12-12 15:21:10]       #520 count=        112,609   0.41% 
+[INFO 2018-12-12 15:21:10]     #1,063 count=        222,394   0.81% 
+[INFO 2018-12-12 15:21:10]     #2,146 count=        441,841   1.60% 
+[INFO 2018-12-12 15:21:10]     #4,373 count=        880,717   3.19% 
+[INFO 2018-12-12 15:21:10]     #8,696 count=      1,758,330   6.38% 
+[INFO 2018-12-12 15:21:10]    #17,204 count=      3,513,500  12.74% 
+[INFO 2018-12-12 15:21:10]    #30,999 count=      6,271,157  22.75% 
+[INFO 2018-12-12 15:21:11]    #44,727 count=      9,028,291  32.75% 
+[INFO 2018-12-12 15:21:11]    #58,383 count=     11,785,567  42.75% 
+[INFO 2018-12-12 15:21:11]    #71,906 count=     14,542,759  52.75% 
+[INFO 2018-12-12 15:21:11]    #85,474 count=     17,300,571  62.75% 
+[INFO 2018-12-12 15:21:11]    #98,965 count=     20,057,700  72.75% 
+[INFO 2018-12-12 15:21:11]   #112,434 count=     22,814,911  82.75% 
+[INFO 2018-12-12 15:21:11]   #126,054 count=     25,572,105  92.75% 
+[INFO 2018-12-12 15:21:11]   #135,908 count=     27,571,140 100.00% 
+[INFO 2018-12-12 15:21:11] Counting 2,076,822 bytes from
+  "../../../2-asm-falcon/ctg_paths"
+[INFO 2018-12-12 15:21:11]         #1 count=         18,761   0.90% 
+[INFO 2018-12-12 15:21:11]         #2 count=         37,522   1.81% 
+[INFO 2018-12-12 15:21:11]         #4 count=         86,168   4.15% 
+[INFO 2018-12-12 15:21:11]        #10 count=        172,490   8.31% 
+[INFO 2018-12-12 15:21:12]        #23 count=        331,486  15.96% 
+[INFO 2018-12-12 15:21:12]        #43 count=        546,929  26.33% 
+[INFO 2018-12-12 15:21:12]        #73 count=        758,821  36.54% 
+[INFO 2018-12-12 15:21:12]       #110 count=        969,371  46.68% 
+[INFO 2018-12-12 15:21:13]       #168 count=      1,180,094  56.82% 
+[INFO 2018-12-12 15:21:13]       #239 count=      1,390,059  66.93% 
+[INFO 2018-12-12 15:21:13]       #364 count=      1,598,379  76.96% 
+[INFO 2018-12-12 15:21:13]       #747 count=      1,806,150  86.97% 
+[INFO 2018-12-12 15:21:13]     #2,140 count=      2,013,916  96.97% 
+[INFO 2018-12-12 15:21:13]     #2,692 count=      2,076,822 100.00% 
+[INFO 2018-12-12 15:21:42] Loading h assembly graph.
+[INFO 2018-12-12 15:21:42] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-12 15:21:42]         #1 count=             56   0.00% 
+[INFO 2018-12-12 15:21:42]         #3 count=            166   0.00% 
+[INFO 2018-12-12 15:21:42]         #6 count=            337   0.00% 
+[INFO 2018-12-12 15:21:42]        #11 count=            614   0.00% 
+[INFO 2018-12-12 15:21:42]        #19 count=          1,074   0.00% 
+[INFO 2018-12-12 15:21:42]        #35 count=          1,998   0.00% 
+[INFO 2018-12-12 15:21:42]        #67 count=          3,830   0.00% 
+[INFO 2018-12-12 15:21:42]       #129 count=          7,439   0.00% 
+[INFO 2018-12-12 15:21:42]       #254 count=         14,656   0.00% 
+[INFO 2018-12-12 15:21:42]       #504 count=         28,992   0.01% 
+[INFO 2018-12-12 15:21:42]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-12 15:21:42]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-12 15:21:42]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-12 15:21:42]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-12 15:21:42]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-12 15:21:42]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-12 15:21:42]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-12 15:21:42]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-12 15:21:43]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-12 15:21:44]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-12 15:21:47] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-12 15:21:50] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-12 15:21:53] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-12 15:21:56] #2,570,066 count=    148,308,712  49.66% 
+[INFO 2018-12-12 15:22:00] #3,087,571 count=    178,171,335  59.66% 
+[INFO 2018-12-12 15:22:03] #3,605,086 count=    208,033,937  69.66% 
+[INFO 2018-12-12 15:22:05] #4,122,602 count=    237,896,564  79.66% 
+[INFO 2018-12-12 15:22:11] #4,640,092 count=    267,759,147  89.66% 
+[INFO 2018-12-12 15:22:14] #5,157,590 count=    297,621,759  99.66% 
+[INFO 2018-12-12 15:22:14] #5,174,990 count=    298,625,824 100.00% 
+[INFO 2018-12-12 15:22:14] Counting 25,420,215 bytes from
+  "../../1-hasm/utg_data"
+[INFO 2018-12-12 15:22:14]         #1 count=            152   0.00% 
+[INFO 2018-12-12 15:22:14]         #3 count=            380   0.00% 
+[INFO 2018-12-12 15:22:14]         #6 count=            691   0.00% 
+[INFO 2018-12-12 15:22:14]         #9 count=          1,363   0.01% 
+[INFO 2018-12-12 15:22:14]        #17 count=          2,767   0.01% 
+[INFO 2018-12-12 15:22:14]        #30 count=          5,482   0.02% 
+[INFO 2018-12-12 15:22:14]        #46 count=         10,428   0.04% 
+[INFO 2018-12-12 15:22:14]        #86 count=         20,239   0.08% 
+[INFO 2018-12-12 15:22:14]       #178 count=         40,231   0.16% 
+[INFO 2018-12-12 15:22:14]       #356 count=         79,528   0.31% 
+[INFO 2018-12-12 15:22:14]       #725 count=        157,449   0.62% 
+[INFO 2018-12-12 15:22:14]     #1,454 count=        313,120   1.23% 
+[INFO 2018-12-12 15:22:14]     #2,810 count=        625,203   2.46% 
+[INFO 2018-12-12 15:22:14]     #5,629 count=      1,247,877   4.91% 
+[INFO 2018-12-12 15:22:14]    #11,362 count=      2,493,453   9.81% 
+[INFO 2018-12-12 15:22:14]    #22,612 count=      4,983,825  19.61% 
+[INFO 2018-12-12 15:22:14]    #34,024 count=      7,525,903  29.61% 
+[INFO 2018-12-12 15:22:14]    #45,261 count=     10,067,969  39.61% 
+[INFO 2018-12-12 15:22:14]    #56,691 count=     12,610,026  49.61% 
+[INFO 2018-12-12 15:22:14]    #68,240 count=     15,152,092  59.61% 
+[INFO 2018-12-12 15:22:14]    #79,524 count=     17,694,387  69.61% 
+[INFO 2018-12-12 15:22:14]    #90,945 count=     20,236,609  79.61% 
+[INFO 2018-12-12 15:22:14]   #102,348 count=     22,778,765  89.61% 
+[INFO 2018-12-12 15:22:14]   #113,479 count=     25,321,172  99.61% 
+[INFO 2018-12-12 15:22:14]   #113,874 count=     25,420,215 100.00% 
+[INFO 2018-12-12 15:22:14] Counting 9,282,686 bytes from
+  "../../1-hasm/ctg_paths"
+[INFO 2018-12-12 15:22:14]         #1 count=            119   0.00% 
+[INFO 2018-12-12 15:22:14]         #2 count=            238   0.00% 
+[INFO 2018-12-12 15:22:14]         #4 count=            476   0.01% 
+[INFO 2018-12-12 15:22:14]         #6 count=          1,110   0.01% 
+[INFO 2018-12-12 15:22:14]        #10 count=          2,090   0.02% 
+[INFO 2018-12-12 15:22:14]        #18 count=          4,176   0.04% 
+[INFO 2018-12-12 15:22:14]        #40 count=          8,124   0.09% 
+[INFO 2018-12-12 15:22:14]        #85 count=         15,828   0.17% 
+[INFO 2018-12-12 15:22:14]       #173 count=         31,072   0.33% 
+[INFO 2018-12-12 15:22:14]       #356 count=         61,639   0.66% 
+[INFO 2018-12-12 15:22:14]       #740 count=        122,665   1.32% 
+[INFO 2018-12-12 15:22:14]     #1,545 count=        244,556   2.63% 
+[INFO 2018-12-12 15:22:14]     #3,231 count=        488,326   5.26% 
+[INFO 2018-12-12 15:22:14]     #6,799 count=        975,831  10.51% 
+[INFO 2018-12-12 15:22:14]    #13,919 count=      1,904,123  20.51% 
+[INFO 2018-12-12 15:22:15]    #21,284 count=      2,832,401  30.51% 
+[INFO 2018-12-12 15:22:15]    #28,813 count=      3,760,681  40.51% 
+[INFO 2018-12-12 15:22:15]    #36,502 count=      4,688,962  50.51% 
+[INFO 2018-12-12 15:22:15]    #44,259 count=      5,617,252  60.51% 
+[INFO 2018-12-12 15:22:15]    #52,090 count=      6,545,634  70.51% 
+[INFO 2018-12-12 15:22:15]    #59,996 count=      7,473,969  80.52% 
+[INFO 2018-12-12 15:22:15]    #67,958 count=      8,402,303  90.52% 
+[INFO 2018-12-12 15:22:15]    #75,704 count=      9,282,686 100.00% 
+[INFO 2018-12-12 15:22:39] Loading phasing info and making the read ID sets.
+[INFO 2018-12-12 15:22:39] Counting 349,971,562 bytes from
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-12 15:22:39]         #1 count=             28   0.00% 
+[INFO 2018-12-12 15:22:39]         #3 count=             79   0.00% 
+[INFO 2018-12-12 15:22:39]         #5 count=            135   0.00% 
+[INFO 2018-12-12 15:22:39]        #10 count=            260   0.00% 
+[INFO 2018-12-12 15:22:39]        #19 count=            492   0.00% 
+[INFO 2018-12-12 15:22:39]        #36 count=            958   0.00% 
+[INFO 2018-12-12 15:22:39]        #70 count=          1,855   0.00% 
+[INFO 2018-12-12 15:22:39]       #137 count=          3,651   0.00% 
+[INFO 2018-12-12 15:22:39]       #273 count=          7,244   0.00% 
+[INFO 2018-12-12 15:22:39]       #545 count=         14,420   0.00% 
+[INFO 2018-12-12 15:22:39]     #1,085 count=         28,760   0.01% 
+[INFO 2018-12-12 15:22:39]     #2,195 count=         57,432   0.02% 
+[INFO 2018-12-12 15:22:39]     #4,436 count=        114,788   0.03% 
+[INFO 2018-12-12 15:22:39]     #8,895 count=        229,490   0.07% 
+[INFO 2018-12-12 15:22:39]    #17,811 count=        458,868   0.13% 
+[INFO 2018-12-12 15:22:39]    #35,683 count=        917,631   0.26% 
+[INFO 2018-12-12 15:22:39]    #70,522 count=      1,835,152   0.52% 
+[INFO 2018-12-12 15:22:40]   #142,403 count=      3,670,168   1.05% 
+[INFO 2018-12-12 15:22:40]   #292,234 count=      7,340,201   2.10% 
+[INFO 2018-12-12 15:22:42]   #574,499 count=     14,680,247   4.19% 
+[INFO 2018-12-12 15:22:45] #1,133,297 count=     29,360,322   8.39% 
+[INFO 2018-12-12 15:22:51] #2,264,251 count=     58,720,472  16.78% 
+[INFO 2018-12-12 15:22:58] #3,605,145 count=     93,717,648  26.78% 
+[INFO 2018-12-12 15:23:05] #4,940,633 count=    128,714,829  36.78% 
+[INFO 2018-12-12 15:23:13] #6,280,851 count=    163,712,005  46.78% 
+[INFO 2018-12-12 15:23:20] #7,618,964 count=    198,709,167  56.78% 
+[INFO 2018-12-12 15:23:27] #8,952,795 count=    233,706,324  66.78% 
+[INFO 2018-12-12 15:23:35] #10,288,760 count=    268,703,487  76.78% 
+[INFO 2018-12-12 15:23:43] #11,647,546 count=    303,700,663  86.78% 
+[INFO 2018-12-12 15:23:50] #12,992,533 count=    338,697,822  96.78% 
+[INFO 2018-12-12 15:23:52] #13,418,677 count=    349,971,562 100.00% 
+[INFO 2018-12-12 15:23:52] Counted 349,971,562 bytes in 13418677 calls from:
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-12 15:23:52] Loading the 2-asm-falcon primary contigs.
+[INFO 2018-12-12 15:23:52] Counting 2,828,349,133 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/2-asm-falcon/p_ctg.fa"
+[INFO 2018-12-12 15:23:53]         #1 count=     71,628,731   2.53% 
+[INFO 2018-12-12 15:23:54]         #3 count=    200,798,651   7.10% 
+[INFO 2018-12-12 15:23:56]         #7 count=    387,394,395  13.70% 
+[INFO 2018-12-12 15:23:58]        #14 count=    676,099,747  23.90% 
+[INFO 2018-12-12 15:24:01]        #23 count=    983,873,634  34.79% 
+[INFO 2018-12-12 15:24:04]        #35 count=  1,285,619,667  45.45% 
+[INFO 2018-12-12 15:24:07]        #50 count=  1,568,535,824  55.46% 
+[INFO 2018-12-12 15:24:09]        #69 count=  1,853,058,186  65.52% 
+[INFO 2018-12-12 15:24:12]        #98 count=  2,137,844,015  75.59% 
+[INFO 2018-12-12 15:24:15]       #141 count=  2,425,008,379  85.74% 
+[INFO 2018-12-12 15:24:17]       #247 count=  2,708,195,685  95.75% 
+[INFO 2018-12-12 15:24:18] Done loading 2-asm-falcon primary contigs.
+[INFO 2018-12-12 15:24:18] Loading tiling paths.
+[INFO 2018-12-12 15:24:34] Done loading tiling paths.
+[INFO 2018-12-12 15:24:34] Loading the 1-hasm haplotigs.
+[INFO 2018-12-12 15:24:44] Counting 4,394,604,390 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/1-hasm/p_ctg.fa"
+[INFO 2018-12-12 15:24:44]         #1 count=      1,457,133   0.03% 
+[INFO 2018-12-12 15:24:44]         #2 count=      2,921,201   0.07% 
+[INFO 2018-12-12 15:24:44]         #5 count=      6,716,408   0.15% 
+[INFO 2018-12-12 15:24:45]        #11 count=     13,632,902   0.31% 
+[INFO 2018-12-12 15:24:45]        #23 count=     26,270,202   0.60% 
+[INFO 2018-12-12 15:24:45]        #50 count=     50,030,539   1.14% 
+[INFO 2018-12-12 15:24:45]       #112 count=     96,721,360   2.20% 
+[INFO 2018-12-12 15:24:46]       #255 count=    190,260,384   4.33% 
+[INFO 2018-12-12 15:24:48]       #595 count=    377,099,003   8.58% 
+[INFO 2018-12-12 15:24:51]     #1,457 count=    750,304,484  17.07% 
+[INFO 2018-12-12 15:24:55]     #2,775 count=  1,189,818,785  27.07% 
+[INFO 2018-12-12 15:24:59]     #4,433 count=  1,629,516,323  37.08% 
+[INFO 2018-12-12 15:25:03]     #6,511 count=  2,069,088,532  47.08% 
+[INFO 2018-12-12 15:25:07]     #9,105 count=  2,508,581,641  57.08% 
+[INFO 2018-12-12 15:25:11]    #12,434 count=  2,948,098,628  67.08% 
+[INFO 2018-12-12 15:25:16]    #16,867 count=  3,387,559,558  77.08% 
+[INFO 2018-12-12 15:25:20]    #23,068 count=  3,827,032,762  87.08% 
+[INFO 2018-12-12 15:25:24]    #31,918 count=  4,266,500,947  97.08% 
+[INFO 2018-12-12 15:25:26] Loading haplotigs.
+[INFO 2018-12-12 15:25:26] Counting 37,852 units from
+  "tiling_paths"
+[INFO 2018-12-12 15:25:26]         #1 count=              1   0.00% 000037F-HAP031602F-000037F.1000018.1
+[INFO 2018-12-12 15:25:26]         #3 count=              3   0.01% 000255F-HAP036320F-000255F.3000003.1
+[INFO 2018-12-12 15:25:26]         #7 count=              7   0.02% 000000F-HAP017932F-000000F.47000161.1
+[INFO 2018-12-12 15:25:26]        #15 count=             15   0.04% 000025F-HAP025013F-000025F.11000033.0
+[INFO 2018-12-12 15:25:26]        #31 count=             31   0.08% 000059F-HAP032497F-000059F.16000026.1
+[INFO 2018-12-12 15:25:26]        #63 count=             63   0.17% 000136F-HAP013660F-000136F.7000019.1
+[INFO 2018-12-12 15:25:26]       #127 count=            127   0.34% 000094F-HAP035709F-000094F.3000015.0
+[INFO 2018-12-12 15:25:26]       #255 count=            255   0.67% 000007F-HAP031106F-000007F.33000158.1
+[INFO 2018-12-12 15:25:26]       #511 count=            511   1.35% 000019F-HAP015085F-000019F.33000101.0
+[INFO 2018-12-12 15:25:26]     #1,023 count=          1,023   2.70% 000186F-HAP031312F-000186F.3000028.0
+[INFO 2018-12-12 15:25:26]     #2,047 count=          2,047   5.41% 000220F-HAP024800F-000220F.3000004.0
+[INFO 2018-12-12 15:25:27]     #4,095 count=          4,095  10.82% 000009F-HAP008510F-000009F.15000054.1
+[INFO 2018-12-12 15:25:27]     #7,880 count=          7,880  20.82% 000658F-HAP033694F-000658F.1000001.0
+[INFO 2018-12-12 15:25:28]    #11,665 count=         11,665  30.82% 000095F-HAP015179F-000095F.34000025.0
+[INFO 2018-12-12 15:25:29]    #15,450 count=         15,450  40.82% 000002F-HAP005607F-000002F.94000227.0
+[INFO 2018-12-12 15:25:30]    #19,235 count=         19,235  50.82% 000001F-HAP008637F-000001F.48000223.1
+[INFO 2018-12-12 15:25:30]    #23,020 count=         23,020  60.82% 000090F-HAP028333F-000090F.15000049.0
+[INFO 2018-12-12 15:25:31]    #26,805 count=         26,805  70.82% 000007F-HAP023063F-000007F.25000107.1
+[INFO 2018-12-12 15:25:32]    #30,590 count=         30,590  80.81% 000331F-HAP033389F-000331F.1000002.0
+[INFO 2018-12-12 15:25:32]    #34,375 count=         34,375  90.81% 000015F-HAP011170F-000015F.37000070.1
+[INFO 2018-12-12 15:25:34] Done loading haplotigs.
+[INFO 2018-12-12 15:25:34] Loading sg_edges_list.
+[INFO 2018-12-12 15:25:34] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-12 15:25:34]         #1 count=             56   0.00% 
+[INFO 2018-12-12 15:25:34]         #3 count=            166   0.00% 
+[INFO 2018-12-12 15:25:34]         #6 count=            337   0.00% 
+[INFO 2018-12-12 15:25:34]        #11 count=            614   0.00% 
+[INFO 2018-12-12 15:25:34]        #19 count=          1,074   0.00% 
+[INFO 2018-12-12 15:25:34]        #35 count=          1,998   0.00% 
+[INFO 2018-12-12 15:25:34]        #67 count=          3,830   0.00% 
+[INFO 2018-12-12 15:25:34]       #129 count=          7,439   0.00% 
+[INFO 2018-12-12 15:25:34]       #254 count=         14,656   0.00% 
+[INFO 2018-12-12 15:25:34]       #504 count=         28,992   0.01% 
+[INFO 2018-12-12 15:25:34]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-12 15:25:34]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-12 15:25:34]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-12 15:25:34]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-12 15:25:34]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-12 15:25:34]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-12 15:25:34]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-12 15:25:34]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-12 15:25:34]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-12 15:25:39]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-12 15:25:40] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-12 15:25:41] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-12 15:25:43] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-12 15:25:48] #2,570,066 count=    148,308,712  49.66% 
+user_script.sh: line 9:    21 Killed                  python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+2018-12-12 15:25:50,602 - root - WARNING - Call '/bin/bash user_script.sh' returned 35072.
+2018-12-12 15:25:50,602 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 15:25:50,602 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 15:25:50,603 - root - CRITICAL - Error in /gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py with args="{'json_fn': '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json',\n 'timeout': 30,\n 'tmpdir': None}"
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 268, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 260, in main
+    run(**vars(parsed_args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 254, in run
+    run_cfg_in_tmpdir(cfg, tmpdir, '.')
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 229, in run_cfg_in_tmpdir
+    run_bash(bash_template, myinputs, myoutputs, parameters)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 35072.
++++ pwd
+++ echo 'FAILURE. Running top in /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F (If you see -terminal database is inaccessible- you are using the python bin-wrapper, so you will not get diagnostic info. No big deal. This process is crashing anyway.)'
+++ rm -f top.txt
+++ which python
+++ which top
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ pstree -apl
+
+real	6m5.487s
+user	5m39.752s
+sys	0m24.320s
+ returned: 256
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+hostname=blade18-2-3.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2018-12-12 15:40:52,088 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json"
+2018-12-12 15:40:52,089 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json' with timeout=30
+2018-12-12 15:40:52,091 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json'
+2018-12-12 15:40:52,092 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../split/dummy.sh',
+             u'units_of_work': u'../chunks/chunk_001110F/some-units-of-work.json'},
+ u'outputs': {u'results': u'result-list.json'},
+ u'parameters': {u'pypeflow_mb': u'24000', u'pypeflow_nproc': u'2'}}
+2018-12-12 15:40:52,092 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 15:40:52,092 - root - DEBUG - Checking existence of u'../chunks/chunk_001110F/some-units-of-work.json' with timeout=30
+2018-12-12 15:40:52,094 - root - DEBUG - Checking existence of u'../split/dummy.sh' with timeout=30
+2018-12-12 15:40:52,094 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2018-12-12 15:40:52,097 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 15:40:52,101 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+    python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
++ python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+falcon-unzip 1.1.4
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO 2018-12-12 15:40:52] Loading units-of-work from '../chunks/chunk_001110F/some-units-of-work.json'
+[INFO 2018-12-12 15:40:52] Loading p assembly graph.
+[INFO 2018-12-12 15:40:52] Counting 393,255,010 bytes from
+  "../../../2-asm-falcon/sg_edges_list"
+[INFO 2018-12-12 15:40:52]         #1 count=             61   0.00% 
+[INFO 2018-12-12 15:40:52]         #2 count=            122   0.00% 
+[INFO 2018-12-12 15:40:52]         #5 count=            304   0.00% 
+[INFO 2018-12-12 15:40:52]        #10 count=            608   0.00% 
+[INFO 2018-12-12 15:40:52]        #19 count=          1,154   0.00% 
+[INFO 2018-12-12 15:40:52]        #36 count=          2,188   0.00% 
+[INFO 2018-12-12 15:40:52]        #69 count=          4,194   0.00% 
+[INFO 2018-12-12 15:40:52]       #134 count=          8,149   0.00% 
+[INFO 2018-12-12 15:40:52]       #263 count=         15,991   0.00% 
+[INFO 2018-12-12 15:40:52]       #521 count=         31,665   0.01% 
+[INFO 2018-12-12 15:40:52]     #1,035 count=         62,916   0.02% 
+[INFO 2018-12-12 15:40:52]     #2,063 count=        125,415   0.03% 
+[INFO 2018-12-12 15:40:52]     #4,118 count=        250,347   0.06% 
+[INFO 2018-12-12 15:40:52]     #8,228 count=        500,230   0.13% 
+[INFO 2018-12-12 15:40:52]    #16,448 count=        999,984   0.25% 
+[INFO 2018-12-12 15:40:52]    #32,890 count=      1,999,441   0.51% 
+[INFO 2018-12-12 15:40:52]    #65,770 count=      3,998,330   1.02% 
+[INFO 2018-12-12 15:40:53]   #131,532 count=      7,996,058   2.03% 
+[INFO 2018-12-12 15:40:53]   #263,052 count=     15,991,465   4.07% 
+[INFO 2018-12-12 15:40:54]   #526,097 count=     31,982,272   8.13% 
+[INFO 2018-12-12 15:40:57] #1,052,182 count=     63,963,890  16.27% 
+[INFO 2018-12-12 15:41:01] #1,699,072 count=    103,289,402  26.27% 
+[INFO 2018-12-12 15:41:06] #2,345,956 count=    142,614,939  36.27% 
+[INFO 2018-12-12 15:41:13] #2,992,840 count=    181,940,471  46.27% 
+[INFO 2018-12-12 15:41:19] #3,639,734 count=    221,266,023  56.27% 
+[INFO 2018-12-12 15:41:27] #4,286,620 count=    260,591,563  66.27% 
+[INFO 2018-12-12 15:41:35] #4,933,508 count=    299,917,109  76.27% 
+[INFO 2018-12-12 15:41:46] #5,580,393 count=    339,242,626  86.27% 
+[INFO 2018-12-12 15:41:55] #6,227,289 count=    378,568,150  96.27% 
+[INFO 2018-12-12 15:42:00] #6,468,884 count=    393,255,010 100.00% 
+[INFO 2018-12-12 15:42:00] Counting 27,571,140 bytes from
+  "../../../2-asm-falcon/utg_data"
+[INFO 2018-12-12 15:42:00]         #1 count=            120   0.00% 
+[INFO 2018-12-12 15:42:00]         #2 count=            262   0.00% 
+[INFO 2018-12-12 15:42:00]         #3 count=          1,976   0.01% 
+[INFO 2018-12-12 15:42:00]        #18 count=          3,962   0.01% 
+[INFO 2018-12-12 15:42:00]        #41 count=          9,021   0.03% 
+[INFO 2018-12-12 15:42:00]        #72 count=         16,007   0.06% 
+[INFO 2018-12-12 15:42:00]       #122 count=         29,779   0.11% 
+[INFO 2018-12-12 15:42:00]       #248 count=         57,286   0.21% 
+[INFO 2018-12-12 15:42:00]       #520 count=        112,609   0.41% 
+[INFO 2018-12-12 15:42:00]     #1,063 count=        222,394   0.81% 
+[INFO 2018-12-12 15:42:00]     #2,146 count=        441,841   1.60% 
+[INFO 2018-12-12 15:42:00]     #4,373 count=        880,717   3.19% 
+[INFO 2018-12-12 15:42:00]     #8,696 count=      1,758,330   6.38% 
+[INFO 2018-12-12 15:42:00]    #17,204 count=      3,513,500  12.74% 
+[INFO 2018-12-12 15:42:00]    #30,999 count=      6,271,157  22.75% 
+[INFO 2018-12-12 15:42:00]    #44,727 count=      9,028,291  32.75% 
+[INFO 2018-12-12 15:42:00]    #58,383 count=     11,785,567  42.75% 
+[INFO 2018-12-12 15:42:00]    #71,906 count=     14,542,759  52.75% 
+[INFO 2018-12-12 15:42:00]    #85,474 count=     17,300,571  62.75% 
+[INFO 2018-12-12 15:42:00]    #98,965 count=     20,057,700  72.75% 
+[INFO 2018-12-12 15:42:01]   #112,434 count=     22,814,911  82.75% 
+[INFO 2018-12-12 15:42:01]   #126,054 count=     25,572,105  92.75% 
+[INFO 2018-12-12 15:42:01]   #135,908 count=     27,571,140 100.00% 
+[INFO 2018-12-12 15:42:01] Counting 2,076,822 bytes from
+  "../../../2-asm-falcon/ctg_paths"
+[INFO 2018-12-12 15:42:01]         #1 count=         18,761   0.90% 
+[INFO 2018-12-12 15:42:01]         #2 count=         37,522   1.81% 
+[INFO 2018-12-12 15:42:01]         #4 count=         86,168   4.15% 
+[INFO 2018-12-12 15:42:01]        #10 count=        172,490   8.31% 
+[INFO 2018-12-12 15:42:02]        #23 count=        331,486  15.96% 
+[INFO 2018-12-12 15:42:02]        #43 count=        546,929  26.33% 
+[INFO 2018-12-12 15:42:02]        #73 count=        758,821  36.54% 
+[INFO 2018-12-12 15:42:02]       #110 count=        969,371  46.68% 
+[INFO 2018-12-12 15:42:02]       #168 count=      1,180,094  56.82% 
+[INFO 2018-12-12 15:42:02]       #239 count=      1,390,059  66.93% 
+[INFO 2018-12-12 15:42:02]       #364 count=      1,598,379  76.96% 
+[INFO 2018-12-12 15:42:02]       #747 count=      1,806,150  86.97% 
+[INFO 2018-12-12 15:42:02]     #2,140 count=      2,013,916  96.97% 
+[INFO 2018-12-12 15:42:02]     #2,692 count=      2,076,822 100.00% 
+[INFO 2018-12-12 15:42:25] Loading h assembly graph.
+[INFO 2018-12-12 15:42:25] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-12 15:42:25]         #1 count=             56   0.00% 
+[INFO 2018-12-12 15:42:25]         #3 count=            166   0.00% 
+[INFO 2018-12-12 15:42:25]         #6 count=            337   0.00% 
+[INFO 2018-12-12 15:42:25]        #11 count=            614   0.00% 
+[INFO 2018-12-12 15:42:25]        #19 count=          1,074   0.00% 
+[INFO 2018-12-12 15:42:25]        #35 count=          1,998   0.00% 
+[INFO 2018-12-12 15:42:25]        #67 count=          3,830   0.00% 
+[INFO 2018-12-12 15:42:25]       #129 count=          7,439   0.00% 
+[INFO 2018-12-12 15:42:25]       #254 count=         14,656   0.00% 
+[INFO 2018-12-12 15:42:25]       #504 count=         28,992   0.01% 
+[INFO 2018-12-12 15:42:25]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-12 15:42:25]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-12 15:42:25]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-12 15:42:25]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-12 15:42:25]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-12 15:42:25]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-12 15:42:25]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-12 15:42:26]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-12 15:42:26]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-12 15:42:27]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-12 15:42:29] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-12 15:42:31] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-12 15:42:33] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-12 15:42:35] #2,570,066 count=    148,308,712  49.66% 
+[INFO 2018-12-12 15:42:37] #3,087,571 count=    178,171,335  59.66% 
+[INFO 2018-12-12 15:42:39] #3,605,086 count=    208,033,937  69.66% 
+[INFO 2018-12-12 15:42:41] #4,122,602 count=    237,896,564  79.66% 
+[INFO 2018-12-12 15:42:44] #4,640,092 count=    267,759,147  89.66% 
+[INFO 2018-12-12 15:42:46] #5,157,590 count=    297,621,759  99.66% 
+[INFO 2018-12-12 15:42:46] #5,174,990 count=    298,625,824 100.00% 
+[INFO 2018-12-12 15:42:46] Counting 25,420,215 bytes from
+  "../../1-hasm/utg_data"
+[INFO 2018-12-12 15:42:46]         #1 count=            152   0.00% 
+[INFO 2018-12-12 15:42:46]         #3 count=            380   0.00% 
+[INFO 2018-12-12 15:42:46]         #6 count=            691   0.00% 
+[INFO 2018-12-12 15:42:46]         #9 count=          1,363   0.01% 
+[INFO 2018-12-12 15:42:46]        #17 count=          2,767   0.01% 
+[INFO 2018-12-12 15:42:46]        #30 count=          5,482   0.02% 
+[INFO 2018-12-12 15:42:46]        #46 count=         10,428   0.04% 
+[INFO 2018-12-12 15:42:46]        #86 count=         20,239   0.08% 
+[INFO 2018-12-12 15:42:46]       #178 count=         40,231   0.16% 
+[INFO 2018-12-12 15:42:46]       #356 count=         79,528   0.31% 
+[INFO 2018-12-12 15:42:46]       #725 count=        157,449   0.62% 
+[INFO 2018-12-12 15:42:46]     #1,454 count=        313,120   1.23% 
+[INFO 2018-12-12 15:42:46]     #2,810 count=        625,203   2.46% 
+[INFO 2018-12-12 15:42:46]     #5,629 count=      1,247,877   4.91% 
+[INFO 2018-12-12 15:42:46]    #11,362 count=      2,493,453   9.81% 
+[INFO 2018-12-12 15:42:46]    #22,612 count=      4,983,825  19.61% 
+[INFO 2018-12-12 15:42:47]    #34,024 count=      7,525,903  29.61% 
+[INFO 2018-12-12 15:42:47]    #45,261 count=     10,067,969  39.61% 
+[INFO 2018-12-12 15:42:47]    #56,691 count=     12,610,026  49.61% 
+[INFO 2018-12-12 15:42:47]    #68,240 count=     15,152,092  59.61% 
+[INFO 2018-12-12 15:42:47]    #79,524 count=     17,694,387  69.61% 
+[INFO 2018-12-12 15:42:47]    #90,945 count=     20,236,609  79.61% 
+[INFO 2018-12-12 15:42:47]   #102,348 count=     22,778,765  89.61% 
+[INFO 2018-12-12 15:42:47]   #113,479 count=     25,321,172  99.61% 
+[INFO 2018-12-12 15:42:47]   #113,874 count=     25,420,215 100.00% 
+[INFO 2018-12-12 15:42:47] Counting 9,282,686 bytes from
+  "../../1-hasm/ctg_paths"
+[INFO 2018-12-12 15:42:47]         #1 count=            119   0.00% 
+[INFO 2018-12-12 15:42:47]         #2 count=            238   0.00% 
+[INFO 2018-12-12 15:42:47]         #4 count=            476   0.01% 
+[INFO 2018-12-12 15:42:47]         #6 count=          1,110   0.01% 
+[INFO 2018-12-12 15:42:47]        #10 count=          2,090   0.02% 
+[INFO 2018-12-12 15:42:47]        #18 count=          4,176   0.04% 
+[INFO 2018-12-12 15:42:47]        #40 count=          8,124   0.09% 
+[INFO 2018-12-12 15:42:47]        #85 count=         15,828   0.17% 
+[INFO 2018-12-12 15:42:47]       #173 count=         31,072   0.33% 
+[INFO 2018-12-12 15:42:47]       #356 count=         61,639   0.66% 
+[INFO 2018-12-12 15:42:47]       #740 count=        122,665   1.32% 
+[INFO 2018-12-12 15:42:47]     #1,545 count=        244,556   2.63% 
+[INFO 2018-12-12 15:42:47]     #3,231 count=        488,326   5.26% 
+[INFO 2018-12-12 15:42:47]     #6,799 count=        975,831  10.51% 
+[INFO 2018-12-12 15:42:47]    #13,919 count=      1,904,123  20.51% 
+[INFO 2018-12-12 15:42:47]    #21,284 count=      2,832,401  30.51% 
+[INFO 2018-12-12 15:42:47]    #28,813 count=      3,760,681  40.51% 
+[INFO 2018-12-12 15:42:47]    #36,502 count=      4,688,962  50.51% 
+[INFO 2018-12-12 15:42:47]    #44,259 count=      5,617,252  60.51% 
+[INFO 2018-12-12 15:42:47]    #52,090 count=      6,545,634  70.51% 
+[INFO 2018-12-12 15:42:47]    #59,996 count=      7,473,969  80.52% 
+[INFO 2018-12-12 15:42:47]    #67,958 count=      8,402,303  90.52% 
+[INFO 2018-12-12 15:42:47]    #75,704 count=      9,282,686 100.00% 
+[INFO 2018-12-12 15:43:05] Loading phasing info and making the read ID sets.
+[INFO 2018-12-12 15:43:05] Counting 349,971,562 bytes from
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-12 15:43:05]         #1 count=             28   0.00% 
+[INFO 2018-12-12 15:43:05]         #3 count=             79   0.00% 
+[INFO 2018-12-12 15:43:05]         #5 count=            135   0.00% 
+[INFO 2018-12-12 15:43:05]        #10 count=            260   0.00% 
+[INFO 2018-12-12 15:43:05]        #19 count=            492   0.00% 
+[INFO 2018-12-12 15:43:05]        #36 count=            958   0.00% 
+[INFO 2018-12-12 15:43:05]        #70 count=          1,855   0.00% 
+[INFO 2018-12-12 15:43:05]       #137 count=          3,651   0.00% 
+[INFO 2018-12-12 15:43:05]       #273 count=          7,244   0.00% 
+[INFO 2018-12-12 15:43:05]       #545 count=         14,420   0.00% 
+[INFO 2018-12-12 15:43:05]     #1,085 count=         28,760   0.01% 
+[INFO 2018-12-12 15:43:05]     #2,195 count=         57,432   0.02% 
+[INFO 2018-12-12 15:43:05]     #4,436 count=        114,788   0.03% 
+[INFO 2018-12-12 15:43:05]     #8,895 count=        229,490   0.07% 
+[INFO 2018-12-12 15:43:05]    #17,811 count=        458,868   0.13% 
+[INFO 2018-12-12 15:43:05]    #35,683 count=        917,631   0.26% 
+[INFO 2018-12-12 15:43:05]    #70,522 count=      1,835,152   0.52% 
+[INFO 2018-12-12 15:43:05]   #142,403 count=      3,670,168   1.05% 
+[INFO 2018-12-12 15:43:06]   #292,234 count=      7,340,201   2.10% 
+[INFO 2018-12-12 15:43:07]   #574,499 count=     14,680,247   4.19% 
+[INFO 2018-12-12 15:43:09] #1,133,297 count=     29,360,322   8.39% 
+[INFO 2018-12-12 15:43:13] #2,264,251 count=     58,720,472  16.78% 
+[INFO 2018-12-12 15:43:18] #3,605,145 count=     93,717,648  26.78% 
+[INFO 2018-12-12 15:43:22] #4,940,633 count=    128,714,829  36.78% 
+[INFO 2018-12-12 15:43:28] #6,280,851 count=    163,712,005  46.78% 
+[INFO 2018-12-12 15:43:32] #7,618,964 count=    198,709,167  56.78% 
+[INFO 2018-12-12 15:43:37] #8,952,795 count=    233,706,324  66.78% 
+[INFO 2018-12-12 15:43:42] #10,288,760 count=    268,703,487  76.78% 
+[INFO 2018-12-12 15:43:47] #11,647,546 count=    303,700,663  86.78% 
+[INFO 2018-12-12 15:43:52] #12,992,533 count=    338,697,822  96.78% 
+[INFO 2018-12-12 15:43:54] #13,418,677 count=    349,971,562 100.00% 
+[INFO 2018-12-12 15:43:54] Counted 349,971,562 bytes in 13418677 calls from:
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-12 15:43:54] Loading the 2-asm-falcon primary contigs.
+[INFO 2018-12-12 15:43:54] Counting 2,828,349,133 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/2-asm-falcon/p_ctg.fa"
+[INFO 2018-12-12 15:43:54]         #1 count=     71,628,731   2.53% 
+[INFO 2018-12-12 15:43:55]         #3 count=    200,798,651   7.10% 
+[INFO 2018-12-12 15:43:56]         #7 count=    387,394,395  13.70% 
+[INFO 2018-12-12 15:43:58]        #14 count=    676,099,747  23.90% 
+[INFO 2018-12-12 15:44:00]        #23 count=    983,873,634  34.79% 
+[INFO 2018-12-12 15:44:02]        #35 count=  1,285,619,667  45.45% 
+[INFO 2018-12-12 15:44:03]        #50 count=  1,568,535,824  55.46% 
+[INFO 2018-12-12 15:44:05]        #69 count=  1,853,058,186  65.52% 
+[INFO 2018-12-12 15:44:07]        #98 count=  2,137,844,015  75.59% 
+[INFO 2018-12-12 15:44:09]       #141 count=  2,425,008,379  85.74% 
+[INFO 2018-12-12 15:44:11]       #247 count=  2,708,195,685  95.75% 
+[INFO 2018-12-12 15:44:12] Done loading 2-asm-falcon primary contigs.
+[INFO 2018-12-12 15:44:12] Loading tiling paths.
+[INFO 2018-12-12 15:44:26] Done loading tiling paths.
+[INFO 2018-12-12 15:44:26] Loading the 1-hasm haplotigs.
+[INFO 2018-12-12 15:44:34] Counting 4,394,604,390 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/1-hasm/p_ctg.fa"
+[INFO 2018-12-12 15:44:34]         #1 count=      1,457,133   0.03% 
+[INFO 2018-12-12 15:44:34]         #2 count=      2,921,201   0.07% 
+[INFO 2018-12-12 15:44:34]         #5 count=      6,716,408   0.15% 
+[INFO 2018-12-12 15:44:35]        #11 count=     13,632,902   0.31% 
+[INFO 2018-12-12 15:44:35]        #23 count=     26,270,202   0.60% 
+[INFO 2018-12-12 15:44:35]        #50 count=     50,030,539   1.14% 
+[INFO 2018-12-12 15:44:35]       #112 count=     96,721,360   2.20% 
+[INFO 2018-12-12 15:44:36]       #255 count=    190,260,384   4.33% 
+[INFO 2018-12-12 15:44:37]       #595 count=    377,099,003   8.58% 
+[INFO 2018-12-12 15:44:39]     #1,457 count=    750,304,484  17.07% 
+[INFO 2018-12-12 15:44:42]     #2,775 count=  1,189,818,785  27.07% 
+[INFO 2018-12-12 15:44:45]     #4,433 count=  1,629,516,323  37.08% 
+[INFO 2018-12-12 15:44:48]     #6,511 count=  2,069,088,532  47.08% 
+[INFO 2018-12-12 15:44:51]     #9,105 count=  2,508,581,641  57.08% 
+[INFO 2018-12-12 15:44:54]    #12,434 count=  2,948,098,628  67.08% 
+[INFO 2018-12-12 15:44:57]    #16,867 count=  3,387,559,558  77.08% 
+[INFO 2018-12-12 15:45:01]    #23,068 count=  3,827,032,762  87.08% 
+[INFO 2018-12-12 15:45:04]    #31,918 count=  4,266,500,947  97.08% 
+[INFO 2018-12-12 15:45:05] Loading haplotigs.
+[INFO 2018-12-12 15:45:05] Counting 37,852 units from
+  "tiling_paths"
+[INFO 2018-12-12 15:45:05]         #1 count=              1   0.00% 000037F-HAP031602F-000037F.1000018.1
+[INFO 2018-12-12 15:45:05]         #3 count=              3   0.01% 000255F-HAP036320F-000255F.3000003.1
+[INFO 2018-12-12 15:45:05]         #7 count=              7   0.02% 000000F-HAP017932F-000000F.47000161.1
+[INFO 2018-12-12 15:45:05]        #15 count=             15   0.04% 000025F-HAP025013F-000025F.11000033.0
+[INFO 2018-12-12 15:45:05]        #31 count=             31   0.08% 000059F-HAP032497F-000059F.16000026.1
+[INFO 2018-12-12 15:45:05]        #63 count=             63   0.17% 000136F-HAP013660F-000136F.7000019.1
+[INFO 2018-12-12 15:45:05]       #127 count=            127   0.34% 000094F-HAP035709F-000094F.3000015.0
+[INFO 2018-12-12 15:45:05]       #255 count=            255   0.67% 000007F-HAP031106F-000007F.33000158.1
+[INFO 2018-12-12 15:45:05]       #511 count=            511   1.35% 000019F-HAP015085F-000019F.33000101.0
+[INFO 2018-12-12 15:45:05]     #1,023 count=          1,023   2.70% 000186F-HAP031312F-000186F.3000028.0
+[INFO 2018-12-12 15:45:05]     #2,047 count=          2,047   5.41% 000220F-HAP024800F-000220F.3000004.0
+[INFO 2018-12-12 15:45:06]     #4,095 count=          4,095  10.82% 000009F-HAP008510F-000009F.15000054.1
+[INFO 2018-12-12 15:45:06]     #7,880 count=          7,880  20.82% 000658F-HAP033694F-000658F.1000001.0
+[INFO 2018-12-12 15:45:07]    #11,665 count=         11,665  30.82% 000095F-HAP015179F-000095F.34000025.0
+[INFO 2018-12-12 15:45:08]    #15,450 count=         15,450  40.82% 000002F-HAP005607F-000002F.94000227.0
+[INFO 2018-12-12 15:45:08]    #19,235 count=         19,235  50.82% 000001F-HAP008637F-000001F.48000223.1
+[INFO 2018-12-12 15:45:09]    #23,020 count=         23,020  60.82% 000090F-HAP028333F-000090F.15000049.0
+[INFO 2018-12-12 15:45:09]    #26,805 count=         26,805  70.82% 000007F-HAP023063F-000007F.25000107.1
+[INFO 2018-12-12 15:45:10]    #30,590 count=         30,590  80.81% 000331F-HAP033389F-000331F.1000002.0
+[INFO 2018-12-12 15:45:11]    #34,375 count=         34,375  90.81% 000015F-HAP011170F-000015F.37000070.1
+[INFO 2018-12-12 15:45:12] Done loading haplotigs.
+[INFO 2018-12-12 15:45:12] Loading sg_edges_list.
+[INFO 2018-12-12 15:45:12] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-12 15:45:12]         #1 count=             56   0.00% 
+[INFO 2018-12-12 15:45:12]         #3 count=            166   0.00% 
+[INFO 2018-12-12 15:45:12]         #6 count=            337   0.00% 
+[INFO 2018-12-12 15:45:12]        #11 count=            614   0.00% 
+[INFO 2018-12-12 15:45:12]        #19 count=          1,074   0.00% 
+[INFO 2018-12-12 15:45:12]        #35 count=          1,998   0.00% 
+[INFO 2018-12-12 15:45:12]        #67 count=          3,830   0.00% 
+[INFO 2018-12-12 15:45:12]       #129 count=          7,439   0.00% 
+[INFO 2018-12-12 15:45:12]       #254 count=         14,656   0.00% 
+[INFO 2018-12-12 15:45:12]       #504 count=         28,992   0.01% 
+[INFO 2018-12-12 15:45:12]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-12 15:45:12]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-12 15:45:12]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-12 15:45:12]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-12 15:45:12]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-12 15:45:12]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-12 15:45:12]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-12 15:45:12]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-12 15:45:12]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-12 15:45:16]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-12 15:45:17] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-12 15:45:18] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-12 15:45:19] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-12 15:45:24] #2,570,066 count=    148,308,712  49.66% 
+user_script.sh: line 9:    21 Killed                  python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+2018-12-12 15:45:25,979 - root - WARNING - Call '/bin/bash user_script.sh' returned 35072.
+2018-12-12 15:45:25,980 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 15:45:25,980 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 15:45:25,980 - root - CRITICAL - Error in /gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py with args="{'json_fn': '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json',\n 'timeout': 30,\n 'tmpdir': None}"
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 268, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 260, in main
+    run(**vars(parsed_args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 254, in run
+    run_cfg_in_tmpdir(cfg, tmpdir, '.')
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 229, in run_cfg_in_tmpdir
+    run_bash(bash_template, myinputs, myoutputs, parameters)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 35072.
++++ pwd
+++ echo 'FAILURE. Running top in /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F (If you see -terminal database is inaccessible- you are using the python bin-wrapper, so you will not get diagnostic info. No big deal. This process is crashing anyway.)'
+++ rm -f top.txt
+++ which python
+++ which top
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ pstree -apl
+
+real	4m34.295s
+user	4m15.612s
+sys	0m18.116s
+ returned: 256
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+hostname=blade17-4-12.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d'
+sleep_s=10.0
+before setpgid: pid=9 pgid=1
+ after setpgid: pid=9 pgid=9
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2018-12-12 16:03:52,854 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json"
+2018-12-12 16:03:52,855 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json' with timeout=30
+2018-12-12 16:03:52,858 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json'
+2018-12-12 16:03:52,859 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../split/dummy.sh',
+             u'units_of_work': u'../chunks/chunk_001110F/some-units-of-work.json'},
+ u'outputs': {u'results': u'result-list.json'},
+ u'parameters': {u'pypeflow_mb': u'24000', u'pypeflow_nproc': u'2'}}
+2018-12-12 16:03:52,859 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 16:03:52,859 - root - DEBUG - Checking existence of u'../chunks/chunk_001110F/some-units-of-work.json' with timeout=30
+2018-12-12 16:03:52,862 - root - DEBUG - Checking existence of u'../split/dummy.sh' with timeout=30
+2018-12-12 16:03:52,862 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2018-12-12 16:03:52,865 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 16:03:52,871 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+    python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
++ python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+falcon-unzip 1.1.4
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO 2018-12-12 16:03:53] Loading units-of-work from '../chunks/chunk_001110F/some-units-of-work.json'
+[INFO 2018-12-12 16:03:53] Loading p assembly graph.
+[INFO 2018-12-12 16:03:53] Counting 393,255,010 bytes from
+  "../../../2-asm-falcon/sg_edges_list"
+[INFO 2018-12-12 16:03:53]         #1 count=             61   0.00% 
+[INFO 2018-12-12 16:03:53]         #2 count=            122   0.00% 
+[INFO 2018-12-12 16:03:53]         #5 count=            304   0.00% 
+[INFO 2018-12-12 16:03:53]        #10 count=            608   0.00% 
+[INFO 2018-12-12 16:03:53]        #19 count=          1,154   0.00% 
+[INFO 2018-12-12 16:03:53]        #36 count=          2,188   0.00% 
+[INFO 2018-12-12 16:03:53]        #69 count=          4,194   0.00% 
+[INFO 2018-12-12 16:03:53]       #134 count=          8,149   0.00% 
+[INFO 2018-12-12 16:03:53]       #263 count=         15,991   0.00% 
+[INFO 2018-12-12 16:03:53]       #521 count=         31,665   0.01% 
+[INFO 2018-12-12 16:03:53]     #1,035 count=         62,916   0.02% 
+[INFO 2018-12-12 16:03:53]     #2,063 count=        125,415   0.03% 
+[INFO 2018-12-12 16:03:53]     #4,118 count=        250,347   0.06% 
+[INFO 2018-12-12 16:03:53]     #8,228 count=        500,230   0.13% 
+[INFO 2018-12-12 16:03:53]    #16,448 count=        999,984   0.25% 
+[INFO 2018-12-12 16:03:53]    #32,890 count=      1,999,441   0.51% 
+[INFO 2018-12-12 16:03:53]    #65,770 count=      3,998,330   1.02% 
+[INFO 2018-12-12 16:03:54]   #131,532 count=      7,996,058   2.03% 
+[INFO 2018-12-12 16:03:55]   #263,052 count=     15,991,465   4.07% 
+[INFO 2018-12-12 16:03:56]   #526,097 count=     31,982,272   8.13% 
+[INFO 2018-12-12 16:04:00] #1,052,182 count=     63,963,890  16.27% 
+[INFO 2018-12-12 16:04:07] #1,699,072 count=    103,289,402  26.27% 
+[INFO 2018-12-12 16:04:14] #2,345,956 count=    142,614,939  36.27% 
+[INFO 2018-12-12 16:04:24] #2,992,840 count=    181,940,471  46.27% 
+[INFO 2018-12-12 16:04:34] #3,639,734 count=    221,266,023  56.27% 
+[INFO 2018-12-12 16:04:44] #4,286,620 count=    260,591,563  66.27% 
+[INFO 2018-12-12 16:04:56] #4,933,508 count=    299,917,109  76.27% 
+[INFO 2018-12-12 16:05:09] #5,580,393 count=    339,242,626  86.27% 
+[INFO 2018-12-12 16:05:21] #6,227,289 count=    378,568,150  96.27% 
+[INFO 2018-12-12 16:05:27] #6,468,884 count=    393,255,010 100.00% 
+[INFO 2018-12-12 16:05:27] Counting 27,571,140 bytes from
+  "../../../2-asm-falcon/utg_data"
+[INFO 2018-12-12 16:05:27]         #1 count=            120   0.00% 
+[INFO 2018-12-12 16:05:27]         #2 count=            262   0.00% 
+[INFO 2018-12-12 16:05:27]         #3 count=          1,976   0.01% 
+[INFO 2018-12-12 16:05:27]        #18 count=          3,962   0.01% 
+[INFO 2018-12-12 16:05:27]        #41 count=          9,021   0.03% 
+[INFO 2018-12-12 16:05:27]        #72 count=         16,007   0.06% 
+[INFO 2018-12-12 16:05:27]       #122 count=         29,779   0.11% 
+[INFO 2018-12-12 16:05:27]       #248 count=         57,286   0.21% 
+[INFO 2018-12-12 16:05:27]       #520 count=        112,609   0.41% 
+[INFO 2018-12-12 16:05:27]     #1,063 count=        222,394   0.81% 
+[INFO 2018-12-12 16:05:27]     #2,146 count=        441,841   1.60% 
+[INFO 2018-12-12 16:05:27]     #4,373 count=        880,717   3.19% 
+[INFO 2018-12-12 16:05:27]     #8,696 count=      1,758,330   6.38% 
+[INFO 2018-12-12 16:05:27]    #17,204 count=      3,513,500  12.74% 
+[INFO 2018-12-12 16:05:27]    #30,999 count=      6,271,157  22.75% 
+[INFO 2018-12-12 16:05:27]    #44,727 count=      9,028,291  32.75% 
+[INFO 2018-12-12 16:05:27]    #58,383 count=     11,785,567  42.75% 
+[INFO 2018-12-12 16:05:27]    #71,906 count=     14,542,759  52.75% 
+[INFO 2018-12-12 16:05:27]    #85,474 count=     17,300,571  62.75% 
+[INFO 2018-12-12 16:05:27]    #98,965 count=     20,057,700  72.75% 
+[INFO 2018-12-12 16:05:28]   #112,434 count=     22,814,911  82.75% 
+[INFO 2018-12-12 16:05:28]   #126,054 count=     25,572,105  92.75% 
+[INFO 2018-12-12 16:05:28]   #135,908 count=     27,571,140 100.00% 
+[INFO 2018-12-12 16:05:28] Counting 2,076,822 bytes from
+  "../../../2-asm-falcon/ctg_paths"
+[INFO 2018-12-12 16:05:28]         #1 count=         18,761   0.90% 
+[INFO 2018-12-12 16:05:28]         #2 count=         37,522   1.81% 
+[INFO 2018-12-12 16:05:28]         #4 count=         86,168   4.15% 
+[INFO 2018-12-12 16:05:28]        #10 count=        172,490   8.31% 
+[INFO 2018-12-12 16:05:29]        #23 count=        331,486  15.96% 
+[INFO 2018-12-12 16:05:29]        #43 count=        546,929  26.33% 
+[INFO 2018-12-12 16:05:29]        #73 count=        758,821  36.54% 
+[INFO 2018-12-12 16:05:29]       #110 count=        969,371  46.68% 
+[INFO 2018-12-12 16:05:29]       #168 count=      1,180,094  56.82% 
+[INFO 2018-12-12 16:05:29]       #239 count=      1,390,059  66.93% 
+[INFO 2018-12-12 16:05:29]       #364 count=      1,598,379  76.96% 
+[INFO 2018-12-12 16:05:30]       #747 count=      1,806,150  86.97% 
+[INFO 2018-12-12 16:05:30]     #2,140 count=      2,013,916  96.97% 
+[INFO 2018-12-12 16:05:30]     #2,692 count=      2,076,822 100.00% 
+[INFO 2018-12-12 16:05:57] Loading h assembly graph.
+[INFO 2018-12-12 16:05:57] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-12 16:05:57]         #1 count=             56   0.00% 
+[INFO 2018-12-12 16:05:57]         #3 count=            166   0.00% 
+[INFO 2018-12-12 16:05:57]         #6 count=            337   0.00% 
+[INFO 2018-12-12 16:05:57]        #11 count=            614   0.00% 
+[INFO 2018-12-12 16:05:57]        #19 count=          1,074   0.00% 
+[INFO 2018-12-12 16:05:57]        #35 count=          1,998   0.00% 
+[INFO 2018-12-12 16:05:57]        #67 count=          3,830   0.00% 
+[INFO 2018-12-12 16:05:57]       #129 count=          7,439   0.00% 
+[INFO 2018-12-12 16:05:57]       #254 count=         14,656   0.00% 
+[INFO 2018-12-12 16:05:57]       #504 count=         28,992   0.01% 
+[INFO 2018-12-12 16:05:57]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-12 16:05:57]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-12 16:05:57]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-12 16:05:57]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-12 16:05:57]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-12 16:05:57]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-12 16:05:57]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-12 16:05:57]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-12 16:05:58]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-12 16:05:59]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-12 16:06:02] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-12 16:06:05] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-12 16:06:08] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-12 16:06:11] #2,570,066 count=    148,308,712  49.66% 
+[INFO 2018-12-12 16:06:14] #3,087,571 count=    178,171,335  59.66% 
+[INFO 2018-12-12 16:06:17] #3,605,086 count=    208,033,937  69.66% 
+[INFO 2018-12-12 16:06:20] #4,122,602 count=    237,896,564  79.66% 
+[INFO 2018-12-12 16:06:25] #4,640,092 count=    267,759,147  89.66% 
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+hostname=blade18-1-6.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2018-12-12 16:56:07,144 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json"
+2018-12-12 16:56:07,145 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json' with timeout=30
+2018-12-12 16:56:07,148 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json'
+2018-12-12 16:56:07,150 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../split/dummy.sh',
+             u'units_of_work': u'../chunks/chunk_001110F/some-units-of-work.json'},
+ u'outputs': {u'results': u'result-list.json'},
+ u'parameters': {u'pypeflow_mb': u'24000', u'pypeflow_nproc': u'2'}}
+2018-12-12 16:56:07,150 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 16:56:07,150 - root - DEBUG - Checking existence of u'../chunks/chunk_001110F/some-units-of-work.json' with timeout=30
+2018-12-12 16:56:07,154 - root - DEBUG - Checking existence of u'../split/dummy.sh' with timeout=30
+2018-12-12 16:56:07,154 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2018-12-12 16:56:07,156 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 16:56:07,159 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+    python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
++ python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+falcon-unzip 1.1.4
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO 2018-12-12 16:56:07] Loading units-of-work from '../chunks/chunk_001110F/some-units-of-work.json'
+[INFO 2018-12-12 16:56:07] Loading p assembly graph.
+[INFO 2018-12-12 16:56:07] Counting 393,255,010 bytes from
+  "../../../2-asm-falcon/sg_edges_list"
+[INFO 2018-12-12 16:56:07]         #1 count=             61   0.00% 
+[INFO 2018-12-12 16:56:07]         #2 count=            122   0.00% 
+[INFO 2018-12-12 16:56:07]         #5 count=            304   0.00% 
+[INFO 2018-12-12 16:56:07]        #10 count=            608   0.00% 
+[INFO 2018-12-12 16:56:07]        #19 count=          1,154   0.00% 
+[INFO 2018-12-12 16:56:07]        #36 count=          2,188   0.00% 
+[INFO 2018-12-12 16:56:07]        #69 count=          4,194   0.00% 
+[INFO 2018-12-12 16:56:07]       #134 count=          8,149   0.00% 
+[INFO 2018-12-12 16:56:07]       #263 count=         15,991   0.00% 
+[INFO 2018-12-12 16:56:07]       #521 count=         31,665   0.01% 
+[INFO 2018-12-12 16:56:07]     #1,035 count=         62,916   0.02% 
+[INFO 2018-12-12 16:56:07]     #2,063 count=        125,415   0.03% 
+[INFO 2018-12-12 16:56:07]     #4,118 count=        250,347   0.06% 
+[INFO 2018-12-12 16:56:07]     #8,228 count=        500,230   0.13% 
+[INFO 2018-12-12 16:56:07]    #16,448 count=        999,984   0.25% 
+[INFO 2018-12-12 16:56:07]    #32,890 count=      1,999,441   0.51% 
+[INFO 2018-12-12 16:56:07]    #65,770 count=      3,998,330   1.02% 
+[INFO 2018-12-12 16:56:08]   #131,532 count=      7,996,058   2.03% 
+[INFO 2018-12-12 16:56:08]   #263,052 count=     15,991,465   4.07% 
+[INFO 2018-12-12 16:56:09]   #526,097 count=     31,982,272   8.13% 
+[INFO 2018-12-12 16:56:13] #1,052,182 count=     63,963,890  16.27% 
+[INFO 2018-12-12 16:56:17] #1,699,072 count=    103,289,402  26.27% 
+[INFO 2018-12-12 16:56:21] #2,345,956 count=    142,614,939  36.27% 
+[INFO 2018-12-12 16:56:27] #2,992,840 count=    181,940,471  46.27% 
+[INFO 2018-12-12 16:56:33] #3,639,734 count=    221,266,023  56.27% 
+[INFO 2018-12-12 16:56:41] #4,286,620 count=    260,591,563  66.27% 
+[INFO 2018-12-12 16:56:49] #4,933,508 count=    299,917,109  76.27% 
+[INFO 2018-12-12 16:56:59] #5,580,393 count=    339,242,626  86.27% 
+[INFO 2018-12-12 16:57:08] #6,227,289 count=    378,568,150  96.27% 
+[INFO 2018-12-12 16:57:12] #6,468,884 count=    393,255,010 100.00% 
+[INFO 2018-12-12 16:57:12] Counting 27,571,140 bytes from
+  "../../../2-asm-falcon/utg_data"
+[INFO 2018-12-12 16:57:12]         #1 count=            120   0.00% 
+[INFO 2018-12-12 16:57:12]         #2 count=            262   0.00% 
+[INFO 2018-12-12 16:57:12]         #3 count=          1,976   0.01% 
+[INFO 2018-12-12 16:57:12]        #18 count=          3,962   0.01% 
+[INFO 2018-12-12 16:57:12]        #41 count=          9,021   0.03% 
+[INFO 2018-12-12 16:57:12]        #72 count=         16,007   0.06% 
+[INFO 2018-12-12 16:57:12]       #122 count=         29,779   0.11% 
+[INFO 2018-12-12 16:57:12]       #248 count=         57,286   0.21% 
+[INFO 2018-12-12 16:57:12]       #520 count=        112,609   0.41% 
+[INFO 2018-12-12 16:57:12]     #1,063 count=        222,394   0.81% 
+[INFO 2018-12-12 16:57:12]     #2,146 count=        441,841   1.60% 
+[INFO 2018-12-12 16:57:12]     #4,373 count=        880,717   3.19% 
+[INFO 2018-12-12 16:57:12]     #8,696 count=      1,758,330   6.38% 
+[INFO 2018-12-12 16:57:12]    #17,204 count=      3,513,500  12.74% 
+[INFO 2018-12-12 16:57:12]    #30,999 count=      6,271,157  22.75% 
+[INFO 2018-12-12 16:57:12]    #44,727 count=      9,028,291  32.75% 
+[INFO 2018-12-12 16:57:12]    #58,383 count=     11,785,567  42.75% 
+[INFO 2018-12-12 16:57:12]    #71,906 count=     14,542,759  52.75% 
+[INFO 2018-12-12 16:57:12]    #85,474 count=     17,300,571  62.75% 
+[INFO 2018-12-12 16:57:12]    #98,965 count=     20,057,700  72.75% 
+[INFO 2018-12-12 16:57:12]   #112,434 count=     22,814,911  82.75% 
+[INFO 2018-12-12 16:57:13]   #126,054 count=     25,572,105  92.75% 
+[INFO 2018-12-12 16:57:13]   #135,908 count=     27,571,140 100.00% 
+[INFO 2018-12-12 16:57:13] Counting 2,076,822 bytes from
+  "../../../2-asm-falcon/ctg_paths"
+[INFO 2018-12-12 16:57:13]         #1 count=         18,761   0.90% 
+[INFO 2018-12-12 16:57:13]         #2 count=         37,522   1.81% 
+[INFO 2018-12-12 16:57:13]         #4 count=         86,168   4.15% 
+[INFO 2018-12-12 16:57:13]        #10 count=        172,490   8.31% 
+[INFO 2018-12-12 16:57:14]        #23 count=        331,486  15.96% 
+[INFO 2018-12-12 16:57:14]        #43 count=        546,929  26.33% 
+[INFO 2018-12-12 16:57:14]        #73 count=        758,821  36.54% 
+[INFO 2018-12-12 16:57:14]       #110 count=        969,371  46.68% 
+[INFO 2018-12-12 16:57:14]       #168 count=      1,180,094  56.82% 
+[INFO 2018-12-12 16:57:14]       #239 count=      1,390,059  66.93% 
+[INFO 2018-12-12 16:57:14]       #364 count=      1,598,379  76.96% 
+[INFO 2018-12-12 16:57:14]       #747 count=      1,806,150  86.97% 
+[INFO 2018-12-12 16:57:14]     #2,140 count=      2,013,916  96.97% 
+[INFO 2018-12-12 16:57:14]     #2,692 count=      2,076,822 100.00% 
+[INFO 2018-12-12 16:57:35] Loading h assembly graph.
+[INFO 2018-12-12 16:57:35] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-12 16:57:35]         #1 count=             56   0.00% 
+[INFO 2018-12-12 16:57:35]         #3 count=            166   0.00% 
+[INFO 2018-12-12 16:57:35]         #6 count=            337   0.00% 
+[INFO 2018-12-12 16:57:35]        #11 count=            614   0.00% 
+[INFO 2018-12-12 16:57:35]        #19 count=          1,074   0.00% 
+[INFO 2018-12-12 16:57:35]        #35 count=          1,998   0.00% 
+[INFO 2018-12-12 16:57:35]        #67 count=          3,830   0.00% 
+[INFO 2018-12-12 16:57:35]       #129 count=          7,439   0.00% 
+[INFO 2018-12-12 16:57:35]       #254 count=         14,656   0.00% 
+[INFO 2018-12-12 16:57:35]       #504 count=         28,992   0.01% 
+[INFO 2018-12-12 16:57:35]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-12 16:57:35]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-12 16:57:35]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-12 16:57:35]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-12 16:57:35]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-12 16:57:36]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-12 16:57:36]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-12 16:57:36]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-12 16:57:36]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-12 16:57:37]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-12 16:57:39] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-12 16:57:41] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-12 16:57:43] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-12 16:57:45] #2,570,066 count=    148,308,712  49.66% 
+[INFO 2018-12-12 16:57:47] #3,087,571 count=    178,171,335  59.66% 
+[INFO 2018-12-12 16:57:49] #3,605,086 count=    208,033,937  69.66% 
+[INFO 2018-12-12 16:57:51] #4,122,602 count=    237,896,564  79.66% 
+[INFO 2018-12-12 16:57:54] #4,640,092 count=    267,759,147  89.66% 
+[INFO 2018-12-12 16:57:56] #5,157,590 count=    297,621,759  99.66% 
+[INFO 2018-12-12 16:57:56] #5,174,990 count=    298,625,824 100.00% 
+[INFO 2018-12-12 16:57:56] Counting 25,420,215 bytes from
+  "../../1-hasm/utg_data"
+[INFO 2018-12-12 16:57:56]         #1 count=            152   0.00% 
+[INFO 2018-12-12 16:57:56]         #3 count=            380   0.00% 
+[INFO 2018-12-12 16:57:56]         #6 count=            691   0.00% 
+[INFO 2018-12-12 16:57:56]         #9 count=          1,363   0.01% 
+[INFO 2018-12-12 16:57:56]        #17 count=          2,767   0.01% 
+[INFO 2018-12-12 16:57:56]        #30 count=          5,482   0.02% 
+[INFO 2018-12-12 16:57:56]        #46 count=         10,428   0.04% 
+[INFO 2018-12-12 16:57:56]        #86 count=         20,239   0.08% 
+[INFO 2018-12-12 16:57:56]       #178 count=         40,231   0.16% 
+[INFO 2018-12-12 16:57:56]       #356 count=         79,528   0.31% 
+[INFO 2018-12-12 16:57:56]       #725 count=        157,449   0.62% 
+[INFO 2018-12-12 16:57:56]     #1,454 count=        313,120   1.23% 
+[INFO 2018-12-12 16:57:56]     #2,810 count=        625,203   2.46% 
+[INFO 2018-12-12 16:57:56]     #5,629 count=      1,247,877   4.91% 
+[INFO 2018-12-12 16:57:56]    #11,362 count=      2,493,453   9.81% 
+[INFO 2018-12-12 16:57:56]    #22,612 count=      4,983,825  19.61% 
+[INFO 2018-12-12 16:57:56]    #34,024 count=      7,525,903  29.61% 
+[INFO 2018-12-12 16:57:56]    #45,261 count=     10,067,969  39.61% 
+[INFO 2018-12-12 16:57:56]    #56,691 count=     12,610,026  49.61% 
+[INFO 2018-12-12 16:57:56]    #68,240 count=     15,152,092  59.61% 
+[INFO 2018-12-12 16:57:56]    #79,524 count=     17,694,387  69.61% 
+[INFO 2018-12-12 16:57:56]    #90,945 count=     20,236,609  79.61% 
+[INFO 2018-12-12 16:57:56]   #102,348 count=     22,778,765  89.61% 
+[INFO 2018-12-12 16:57:57]   #113,479 count=     25,321,172  99.61% 
+[INFO 2018-12-12 16:57:57]   #113,874 count=     25,420,215 100.00% 
+[INFO 2018-12-12 16:57:57] Counting 9,282,686 bytes from
+  "../../1-hasm/ctg_paths"
+[INFO 2018-12-12 16:57:57]         #1 count=            119   0.00% 
+[INFO 2018-12-12 16:57:57]         #2 count=            238   0.00% 
+[INFO 2018-12-12 16:57:57]         #4 count=            476   0.01% 
+[INFO 2018-12-12 16:57:57]         #6 count=          1,110   0.01% 
+[INFO 2018-12-12 16:57:57]        #10 count=          2,090   0.02% 
+[INFO 2018-12-12 16:57:57]        #18 count=          4,176   0.04% 
+[INFO 2018-12-12 16:57:57]        #40 count=          8,124   0.09% 
+[INFO 2018-12-12 16:57:57]        #85 count=         15,828   0.17% 
+[INFO 2018-12-12 16:57:57]       #173 count=         31,072   0.33% 
+[INFO 2018-12-12 16:57:57]       #356 count=         61,639   0.66% 
+[INFO 2018-12-12 16:57:57]       #740 count=        122,665   1.32% 
+[INFO 2018-12-12 16:57:57]     #1,545 count=        244,556   2.63% 
+[INFO 2018-12-12 16:57:57]     #3,231 count=        488,326   5.26% 
+[INFO 2018-12-12 16:57:57]     #6,799 count=        975,831  10.51% 
+[INFO 2018-12-12 16:57:57]    #13,919 count=      1,904,123  20.51% 
+[INFO 2018-12-12 16:57:57]    #21,284 count=      2,832,401  30.51% 
+[INFO 2018-12-12 16:57:57]    #28,813 count=      3,760,681  40.51% 
+[INFO 2018-12-12 16:57:57]    #36,502 count=      4,688,962  50.51% 
+[INFO 2018-12-12 16:57:57]    #44,259 count=      5,617,252  60.51% 
+[INFO 2018-12-12 16:57:57]    #52,090 count=      6,545,634  70.51% 
+[INFO 2018-12-12 16:57:57]    #59,996 count=      7,473,969  80.52% 
+[INFO 2018-12-12 16:57:57]    #67,958 count=      8,402,303  90.52% 
+[INFO 2018-12-12 16:57:57]    #75,704 count=      9,282,686 100.00% 
+[INFO 2018-12-12 16:58:15] Loading phasing info and making the read ID sets.
+[INFO 2018-12-12 16:58:15] Counting 349,971,562 bytes from
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-12 16:58:15]         #1 count=             28   0.00% 
+[INFO 2018-12-12 16:58:15]         #3 count=             79   0.00% 
+[INFO 2018-12-12 16:58:15]         #5 count=            135   0.00% 
+[INFO 2018-12-12 16:58:15]        #10 count=            260   0.00% 
+[INFO 2018-12-12 16:58:15]        #19 count=            492   0.00% 
+[INFO 2018-12-12 16:58:15]        #36 count=            958   0.00% 
+[INFO 2018-12-12 16:58:15]        #70 count=          1,855   0.00% 
+[INFO 2018-12-12 16:58:15]       #137 count=          3,651   0.00% 
+[INFO 2018-12-12 16:58:15]       #273 count=          7,244   0.00% 
+[INFO 2018-12-12 16:58:15]       #545 count=         14,420   0.00% 
+[INFO 2018-12-12 16:58:15]     #1,085 count=         28,760   0.01% 
+[INFO 2018-12-12 16:58:15]     #2,195 count=         57,432   0.02% 
+[INFO 2018-12-12 16:58:15]     #4,436 count=        114,788   0.03% 
+[INFO 2018-12-12 16:58:15]     #8,895 count=        229,490   0.07% 
+[INFO 2018-12-12 16:58:15]    #17,811 count=        458,868   0.13% 
+[INFO 2018-12-12 16:58:15]    #35,683 count=        917,631   0.26% 
+[INFO 2018-12-12 16:58:15]    #70,522 count=      1,835,152   0.52% 
+[INFO 2018-12-12 16:58:15]   #142,403 count=      3,670,168   1.05% 
+[INFO 2018-12-12 16:58:16]   #292,234 count=      7,340,201   2.10% 
+[INFO 2018-12-12 16:58:17]   #574,499 count=     14,680,247   4.19% 
+[INFO 2018-12-12 16:58:19] #1,133,297 count=     29,360,322   8.39% 
+[INFO 2018-12-12 16:58:23] #2,264,251 count=     58,720,472  16.78% 
+[INFO 2018-12-12 16:58:28] #3,605,145 count=     93,717,648  26.78% 
+[INFO 2018-12-12 16:58:32] #4,940,633 count=    128,714,829  36.78% 
+[INFO 2018-12-12 16:58:37] #6,280,851 count=    163,712,005  46.78% 
+[INFO 2018-12-12 16:58:42] #7,618,964 count=    198,709,167  56.78% 
+[INFO 2018-12-12 16:58:47] #8,952,795 count=    233,706,324  66.78% 
+[INFO 2018-12-12 16:58:51] #10,288,760 count=    268,703,487  76.78% 
+[INFO 2018-12-12 16:58:57] #11,647,546 count=    303,700,663  86.78% 
+[INFO 2018-12-12 16:59:01] #12,992,533 count=    338,697,822  96.78% 
+[INFO 2018-12-12 16:59:03] #13,418,677 count=    349,971,562 100.00% 
+[INFO 2018-12-12 16:59:03] Counted 349,971,562 bytes in 13418677 calls from:
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-12 16:59:03] Loading the 2-asm-falcon primary contigs.
+[INFO 2018-12-12 16:59:03] Counting 2,828,349,133 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/2-asm-falcon/p_ctg.fa"
+[INFO 2018-12-12 16:59:03]         #1 count=     71,628,731   2.53% 
+[INFO 2018-12-12 16:59:04]         #3 count=    200,798,651   7.10% 
+[INFO 2018-12-12 16:59:05]         #7 count=    387,394,395  13.70% 
+[INFO 2018-12-12 16:59:07]        #14 count=    676,099,747  23.90% 
+[INFO 2018-12-12 16:59:09]        #23 count=    983,873,634  34.79% 
+[INFO 2018-12-12 16:59:11]        #35 count=  1,285,619,667  45.45% 
+[INFO 2018-12-12 16:59:13]        #50 count=  1,568,535,824  55.46% 
+[INFO 2018-12-12 16:59:14]        #69 count=  1,853,058,186  65.52% 
+[INFO 2018-12-12 16:59:16]        #98 count=  2,137,844,015  75.59% 
+[INFO 2018-12-12 16:59:18]       #141 count=  2,425,008,379  85.74% 
+[INFO 2018-12-12 16:59:20]       #247 count=  2,708,195,685  95.75% 
+[INFO 2018-12-12 16:59:21] Done loading 2-asm-falcon primary contigs.
+[INFO 2018-12-12 16:59:21] Loading tiling paths.
+[INFO 2018-12-12 16:59:34] Done loading tiling paths.
+[INFO 2018-12-12 16:59:34] Loading the 1-hasm haplotigs.
+[INFO 2018-12-12 16:59:42] Counting 4,394,604,390 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/1-hasm/p_ctg.fa"
+[INFO 2018-12-12 16:59:42]         #1 count=      1,457,133   0.03% 
+[INFO 2018-12-12 16:59:42]         #2 count=      2,921,201   0.07% 
+[INFO 2018-12-12 16:59:42]         #5 count=      6,716,408   0.15% 
+[INFO 2018-12-12 16:59:42]        #11 count=     13,632,902   0.31% 
+[INFO 2018-12-12 16:59:42]        #23 count=     26,270,202   0.60% 
+[INFO 2018-12-12 16:59:42]        #50 count=     50,030,539   1.14% 
+[INFO 2018-12-12 16:59:42]       #112 count=     96,721,360   2.20% 
+[INFO 2018-12-12 16:59:43]       #255 count=    190,260,384   4.33% 
+[INFO 2018-12-12 16:59:44]       #595 count=    377,099,003   8.58% 
+[INFO 2018-12-12 16:59:46]     #1,457 count=    750,304,484  17.07% 
+[INFO 2018-12-12 16:59:49]     #2,775 count=  1,189,818,785  27.07% 
+[INFO 2018-12-12 16:59:52]     #4,433 count=  1,629,516,323  37.08% 
+[INFO 2018-12-12 16:59:55]     #6,511 count=  2,069,088,532  47.08% 
+[INFO 2018-12-12 16:59:59]     #9,105 count=  2,508,581,641  57.08% 
+[INFO 2018-12-12 17:00:04]    #12,434 count=  2,948,098,628  67.08% 
+[INFO 2018-12-12 17:00:08]    #16,867 count=  3,387,559,558  77.08% 
+[INFO 2018-12-12 17:00:12]    #23,068 count=  3,827,032,762  87.08% 
+[INFO 2018-12-12 17:00:15]    #31,918 count=  4,266,500,947  97.08% 
+[INFO 2018-12-12 17:00:16] Loading haplotigs.
+[INFO 2018-12-12 17:00:16] Counting 37,852 units from
+  "tiling_paths"
+[INFO 2018-12-12 17:00:16]         #1 count=              1   0.00% 000037F-HAP031602F-000037F.1000018.1
+[INFO 2018-12-12 17:00:16]         #3 count=              3   0.01% 000255F-HAP036320F-000255F.3000003.1
+[INFO 2018-12-12 17:00:16]         #7 count=              7   0.02% 000000F-HAP017932F-000000F.47000161.1
+[INFO 2018-12-12 17:00:16]        #15 count=             15   0.04% 000025F-HAP025013F-000025F.11000033.0
+[INFO 2018-12-12 17:00:16]        #31 count=             31   0.08% 000059F-HAP032497F-000059F.16000026.1
+[INFO 2018-12-12 17:00:16]        #63 count=             63   0.17% 000136F-HAP013660F-000136F.7000019.1
+[INFO 2018-12-12 17:00:16]       #127 count=            127   0.34% 000094F-HAP035709F-000094F.3000015.0
+[INFO 2018-12-12 17:00:16]       #255 count=            255   0.67% 000007F-HAP031106F-000007F.33000158.1
+[INFO 2018-12-12 17:00:16]       #511 count=            511   1.35% 000019F-HAP015085F-000019F.33000101.0
+[INFO 2018-12-12 17:00:16]     #1,023 count=          1,023   2.70% 000186F-HAP031312F-000186F.3000028.0
+[INFO 2018-12-12 17:00:16]     #2,047 count=          2,047   5.41% 000220F-HAP024800F-000220F.3000004.0
+[INFO 2018-12-12 17:00:16]     #4,095 count=          4,095  10.82% 000009F-HAP008510F-000009F.15000054.1
+[INFO 2018-12-12 17:00:17]     #7,880 count=          7,880  20.82% 000658F-HAP033694F-000658F.1000001.0
+[INFO 2018-12-12 17:00:17]    #11,665 count=         11,665  30.82% 000095F-HAP015179F-000095F.34000025.0
+[INFO 2018-12-12 17:00:18]    #15,450 count=         15,450  40.82% 000002F-HAP005607F-000002F.94000227.0
+[INFO 2018-12-12 17:00:18]    #19,235 count=         19,235  50.82% 000001F-HAP008637F-000001F.48000223.1
+[INFO 2018-12-12 17:00:19]    #23,020 count=         23,020  60.82% 000090F-HAP028333F-000090F.15000049.0
+[INFO 2018-12-12 17:00:19]    #26,805 count=         26,805  70.82% 000007F-HAP023063F-000007F.25000107.1
+[INFO 2018-12-12 17:00:20]    #30,590 count=         30,590  80.81% 000331F-HAP033389F-000331F.1000002.0
+[INFO 2018-12-12 17:00:20]    #34,375 count=         34,375  90.81% 000015F-HAP011170F-000015F.37000070.1
+[INFO 2018-12-12 17:00:21] Done loading haplotigs.
+[INFO 2018-12-12 17:00:21] Loading sg_edges_list.
+[INFO 2018-12-12 17:00:21] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-12 17:00:21]         #1 count=             56   0.00% 
+[INFO 2018-12-12 17:00:21]         #3 count=            166   0.00% 
+[INFO 2018-12-12 17:00:21]         #6 count=            337   0.00% 
+[INFO 2018-12-12 17:00:21]        #11 count=            614   0.00% 
+[INFO 2018-12-12 17:00:21]        #19 count=          1,074   0.00% 
+[INFO 2018-12-12 17:00:21]        #35 count=          1,998   0.00% 
+[INFO 2018-12-12 17:00:21]        #67 count=          3,830   0.00% 
+[INFO 2018-12-12 17:00:21]       #129 count=          7,439   0.00% 
+[INFO 2018-12-12 17:00:21]       #254 count=         14,656   0.00% 
+[INFO 2018-12-12 17:00:21]       #504 count=         28,992   0.01% 
+[INFO 2018-12-12 17:00:21]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-12 17:00:21]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-12 17:00:21]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-12 17:00:21]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-12 17:00:21]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-12 17:00:21]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-12 17:00:21]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-12 17:00:22]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-12 17:00:22]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-12 17:00:25]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-12 17:00:26] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-12 17:00:28] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-12 17:00:29] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-12 17:00:33] #2,570,066 count=    148,308,712  49.66% 
+user_script.sh: line 9:    21 Killed                  python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+2018-12-12 17:00:35,127 - root - WARNING - Call '/bin/bash user_script.sh' returned 35072.
+2018-12-12 17:00:35,127 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 17:00:35,127 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-12 17:00:35,127 - root - CRITICAL - Error in /gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py with args="{'json_fn': '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json',\n 'timeout': 30,\n 'tmpdir': None}"
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 268, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 260, in main
+    run(**vars(parsed_args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 254, in run
+    run_cfg_in_tmpdir(cfg, tmpdir, '.')
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 229, in run_cfg_in_tmpdir
+    run_bash(bash_template, myinputs, myoutputs, parameters)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 35072.
++++ pwd
+++ echo 'FAILURE. Running top in /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F (If you see -terminal database is inaccessible- you are using the python bin-wrapper, so you will not get diagnostic info. No big deal. This process is crashing anyway.)'
+++ rm -f top.txt
+++ which python
+++ which top
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ pstree -apl
+
+real	4m28.407s
+user	4m7.696s
+sys	0m15.880s
+ returned: 256
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+hostname=blade17-4-12.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2018-12-18 14:32:24,719 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json"
+2018-12-18 14:32:24,721 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json' with timeout=30
+2018-12-18 14:32:24,723 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json'
+2018-12-18 14:32:24,724 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../split/dummy.sh',
+             u'units_of_work': u'../chunks/chunk_001110F/some-units-of-work.json'},
+ u'outputs': {u'results': u'result-list.json'},
+ u'parameters': {u'pypeflow_mb': u'24000', u'pypeflow_nproc': u'2'}}
+2018-12-18 14:32:24,724 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-18 14:32:24,724 - root - DEBUG - Checking existence of u'../chunks/chunk_001110F/some-units-of-work.json' with timeout=30
+2018-12-18 14:32:24,726 - root - DEBUG - Checking existence of u'../split/dummy.sh' with timeout=30
+2018-12-18 14:32:24,726 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2018-12-18 14:32:24,728 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-18 14:32:24,730 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+    python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
++ python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+falcon-unzip 1.1.4
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO 2018-12-18 14:32:26] Loading units-of-work from '../chunks/chunk_001110F/some-units-of-work.json'
+[INFO 2018-12-18 14:32:26] Loading p assembly graph.
+[INFO 2018-12-18 14:32:26] Counting 393,255,010 bytes from
+  "../../../2-asm-falcon/sg_edges_list"
+[INFO 2018-12-18 14:32:26]         #1 count=             61   0.00% 
+[INFO 2018-12-18 14:32:26]         #2 count=            122   0.00% 
+[INFO 2018-12-18 14:32:26]         #5 count=            304   0.00% 
+[INFO 2018-12-18 14:32:26]        #10 count=            608   0.00% 
+[INFO 2018-12-18 14:32:26]        #19 count=          1,154   0.00% 
+[INFO 2018-12-18 14:32:26]        #36 count=          2,188   0.00% 
+[INFO 2018-12-18 14:32:26]        #69 count=          4,194   0.00% 
+[INFO 2018-12-18 14:32:26]       #134 count=          8,149   0.00% 
+[INFO 2018-12-18 14:32:26]       #263 count=         15,991   0.00% 
+[INFO 2018-12-18 14:32:26]       #521 count=         31,665   0.01% 
+[INFO 2018-12-18 14:32:26]     #1,035 count=         62,916   0.02% 
+[INFO 2018-12-18 14:32:26]     #2,063 count=        125,415   0.03% 
+[INFO 2018-12-18 14:32:26]     #4,118 count=        250,347   0.06% 
+[INFO 2018-12-18 14:32:26]     #8,228 count=        500,230   0.13% 
+[INFO 2018-12-18 14:32:26]    #16,448 count=        999,984   0.25% 
+[INFO 2018-12-18 14:32:26]    #32,890 count=      1,999,441   0.51% 
+[INFO 2018-12-18 14:32:26]    #65,770 count=      3,998,330   1.02% 
+[INFO 2018-12-18 14:32:26]   #131,532 count=      7,996,058   2.03% 
+[INFO 2018-12-18 14:32:27]   #263,052 count=     15,991,465   4.07% 
+[INFO 2018-12-18 14:32:29]   #526,097 count=     31,982,272   8.13% 
+[INFO 2018-12-18 14:32:33] #1,052,182 count=     63,963,890  16.27% 
+[INFO 2018-12-18 14:32:38] #1,699,072 count=    103,289,402  26.27% 
+[INFO 2018-12-18 14:32:44] #2,345,956 count=    142,614,939  36.27% 
+[INFO 2018-12-18 14:32:52] #2,992,840 count=    181,940,471  46.27% 
+[INFO 2018-12-18 14:32:59] #3,639,734 count=    221,266,023  56.27% 
+[INFO 2018-12-18 14:33:09] #4,286,620 count=    260,591,563  66.27% 
+[INFO 2018-12-18 14:33:18] #4,933,508 count=    299,917,109  76.27% 
+[INFO 2018-12-18 14:33:30] #5,580,393 count=    339,242,626  86.27% 
+[INFO 2018-12-18 14:33:41] #6,227,289 count=    378,568,150  96.27% 
+[INFO 2018-12-18 14:33:46] #6,468,884 count=    393,255,010 100.00% 
+[INFO 2018-12-18 14:33:46] Counting 27,571,140 bytes from
+  "../../../2-asm-falcon/utg_data"
+[INFO 2018-12-18 14:33:46]         #1 count=            120   0.00% 
+[INFO 2018-12-18 14:33:46]         #2 count=            262   0.00% 
+[INFO 2018-12-18 14:33:46]         #3 count=          1,976   0.01% 
+[INFO 2018-12-18 14:33:46]        #18 count=          3,962   0.01% 
+[INFO 2018-12-18 14:33:46]        #41 count=          9,021   0.03% 
+[INFO 2018-12-18 14:33:46]        #72 count=         16,007   0.06% 
+[INFO 2018-12-18 14:33:46]       #122 count=         29,779   0.11% 
+[INFO 2018-12-18 14:33:46]       #248 count=         57,286   0.21% 
+[INFO 2018-12-18 14:33:46]       #520 count=        112,609   0.41% 
+[INFO 2018-12-18 14:33:46]     #1,063 count=        222,394   0.81% 
+[INFO 2018-12-18 14:33:46]     #2,146 count=        441,841   1.60% 
+[INFO 2018-12-18 14:33:46]     #4,373 count=        880,717   3.19% 
+[INFO 2018-12-18 14:33:46]     #8,696 count=      1,758,330   6.38% 
+[INFO 2018-12-18 14:33:46]    #17,204 count=      3,513,500  12.74% 
+[INFO 2018-12-18 14:33:46]    #30,999 count=      6,271,157  22.75% 
+[INFO 2018-12-18 14:33:46]    #44,727 count=      9,028,291  32.75% 
+[INFO 2018-12-18 14:33:46]    #58,383 count=     11,785,567  42.75% 
+[INFO 2018-12-18 14:33:46]    #71,906 count=     14,542,759  52.75% 
+[INFO 2018-12-18 14:33:47]    #85,474 count=     17,300,571  62.75% 
+[INFO 2018-12-18 14:33:47]    #98,965 count=     20,057,700  72.75% 
+[INFO 2018-12-18 14:33:47]   #112,434 count=     22,814,911  82.75% 
+[INFO 2018-12-18 14:33:47]   #126,054 count=     25,572,105  92.75% 
+[INFO 2018-12-18 14:33:47]   #135,908 count=     27,571,140 100.00% 
+[INFO 2018-12-18 14:33:47] Counting 2,076,822 bytes from
+  "../../../2-asm-falcon/ctg_paths"
+[INFO 2018-12-18 14:33:47]         #1 count=         18,761   0.90% 
+[INFO 2018-12-18 14:33:47]         #2 count=         37,522   1.81% 
+[INFO 2018-12-18 14:33:47]         #4 count=         86,168   4.15% 
+[INFO 2018-12-18 14:33:47]        #10 count=        172,490   8.31% 
+[INFO 2018-12-18 14:33:48]        #23 count=        331,486  15.96% 
+[INFO 2018-12-18 14:33:48]        #43 count=        546,929  26.33% 
+[INFO 2018-12-18 14:33:48]        #73 count=        758,821  36.54% 
+[INFO 2018-12-18 14:33:48]       #110 count=        969,371  46.68% 
+[INFO 2018-12-18 14:33:48]       #168 count=      1,180,094  56.82% 
+[INFO 2018-12-18 14:33:48]       #239 count=      1,390,059  66.93% 
+[INFO 2018-12-18 14:33:48]       #364 count=      1,598,379  76.96% 
+[INFO 2018-12-18 14:33:48]       #747 count=      1,806,150  86.97% 
+[INFO 2018-12-18 14:33:49]     #2,140 count=      2,013,916  96.97% 
+[INFO 2018-12-18 14:33:49]     #2,692 count=      2,076,822 100.00% 
+[INFO 2018-12-18 14:34:17] Loading h assembly graph.
+[INFO 2018-12-18 14:34:17] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-18 14:34:17]         #1 count=             56   0.00% 
+[INFO 2018-12-18 14:34:17]         #3 count=            166   0.00% 
+[INFO 2018-12-18 14:34:17]         #6 count=            337   0.00% 
+[INFO 2018-12-18 14:34:17]        #11 count=            614   0.00% 
+[INFO 2018-12-18 14:34:17]        #19 count=          1,074   0.00% 
+[INFO 2018-12-18 14:34:17]        #35 count=          1,998   0.00% 
+[INFO 2018-12-18 14:34:17]        #67 count=          3,830   0.00% 
+[INFO 2018-12-18 14:34:17]       #129 count=          7,439   0.00% 
+[INFO 2018-12-18 14:34:17]       #254 count=         14,656   0.00% 
+[INFO 2018-12-18 14:34:17]       #504 count=         28,992   0.01% 
+[INFO 2018-12-18 14:34:17]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-18 14:34:17]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-18 14:34:17]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-18 14:34:17]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-18 14:34:17]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-18 14:34:17]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-18 14:34:18]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-18 14:34:18]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-18 14:34:19]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-18 14:34:20]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-18 14:34:23] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-18 14:34:26] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-18 14:34:29] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-18 14:34:32] #2,570,066 count=    148,308,712  49.66% 
+[INFO 2018-12-18 14:34:35] #3,087,571 count=    178,171,335  59.66% 
+[INFO 2018-12-18 14:34:38] #3,605,086 count=    208,033,937  69.66% 
+[INFO 2018-12-18 14:34:41] #4,122,602 count=    237,896,564  79.66% 
+[INFO 2018-12-18 14:34:47] #4,640,092 count=    267,759,147  89.66% 
+[INFO 2018-12-18 14:34:49] #5,157,590 count=    297,621,759  99.66% 
+[INFO 2018-12-18 14:34:50] #5,174,990 count=    298,625,824 100.00% 
+[INFO 2018-12-18 14:34:50] Counting 25,420,215 bytes from
+  "../../1-hasm/utg_data"
+[INFO 2018-12-18 14:34:50]         #1 count=            152   0.00% 
+[INFO 2018-12-18 14:34:50]         #3 count=            380   0.00% 
+[INFO 2018-12-18 14:34:50]         #6 count=            691   0.00% 
+[INFO 2018-12-18 14:34:50]         #9 count=          1,363   0.01% 
+[INFO 2018-12-18 14:34:50]        #17 count=          2,767   0.01% 
+[INFO 2018-12-18 14:34:50]        #30 count=          5,482   0.02% 
+[INFO 2018-12-18 14:34:50]        #46 count=         10,428   0.04% 
+[INFO 2018-12-18 14:34:50]        #86 count=         20,239   0.08% 
+[INFO 2018-12-18 14:34:50]       #178 count=         40,231   0.16% 
+[INFO 2018-12-18 14:34:50]       #356 count=         79,528   0.31% 
+[INFO 2018-12-18 14:34:50]       #725 count=        157,449   0.62% 
+[INFO 2018-12-18 14:34:50]     #1,454 count=        313,120   1.23% 
+[INFO 2018-12-18 14:34:50]     #2,810 count=        625,203   2.46% 
+[INFO 2018-12-18 14:34:50]     #5,629 count=      1,247,877   4.91% 
+[INFO 2018-12-18 14:34:50]    #11,362 count=      2,493,453   9.81% 
+[INFO 2018-12-18 14:34:50]    #22,612 count=      4,983,825  19.61% 
+[INFO 2018-12-18 14:34:50]    #34,024 count=      7,525,903  29.61% 
+[INFO 2018-12-18 14:34:50]    #45,261 count=     10,067,969  39.61% 
+[INFO 2018-12-18 14:34:50]    #56,691 count=     12,610,026  49.61% 
+[INFO 2018-12-18 14:34:50]    #68,240 count=     15,152,092  59.61% 
+[INFO 2018-12-18 14:34:50]    #79,524 count=     17,694,387  69.61% 
+[INFO 2018-12-18 14:34:50]    #90,945 count=     20,236,609  79.61% 
+[INFO 2018-12-18 14:34:50]   #102,348 count=     22,778,765  89.61% 
+[INFO 2018-12-18 14:34:50]   #113,479 count=     25,321,172  99.61% 
+[INFO 2018-12-18 14:34:50]   #113,874 count=     25,420,215 100.00% 
+[INFO 2018-12-18 14:34:50] Counting 9,282,686 bytes from
+  "../../1-hasm/ctg_paths"
+[INFO 2018-12-18 14:34:50]         #1 count=            119   0.00% 
+[INFO 2018-12-18 14:34:50]         #2 count=            238   0.00% 
+[INFO 2018-12-18 14:34:50]         #4 count=            476   0.01% 
+[INFO 2018-12-18 14:34:50]         #6 count=          1,110   0.01% 
+[INFO 2018-12-18 14:34:50]        #10 count=          2,090   0.02% 
+[INFO 2018-12-18 14:34:50]        #18 count=          4,176   0.04% 
+[INFO 2018-12-18 14:34:50]        #40 count=          8,124   0.09% 
+[INFO 2018-12-18 14:34:50]        #85 count=         15,828   0.17% 
+[INFO 2018-12-18 14:34:50]       #173 count=         31,072   0.33% 
+[INFO 2018-12-18 14:34:50]       #356 count=         61,639   0.66% 
+[INFO 2018-12-18 14:34:50]       #740 count=        122,665   1.32% 
+[INFO 2018-12-18 14:34:50]     #1,545 count=        244,556   2.63% 
+[INFO 2018-12-18 14:34:50]     #3,231 count=        488,326   5.26% 
+[INFO 2018-12-18 14:34:50]     #6,799 count=        975,831  10.51% 
+[INFO 2018-12-18 14:34:50]    #13,919 count=      1,904,123  20.51% 
+[INFO 2018-12-18 14:34:50]    #21,284 count=      2,832,401  30.51% 
+[INFO 2018-12-18 14:34:51]    #28,813 count=      3,760,681  40.51% 
+[INFO 2018-12-18 14:34:51]    #36,502 count=      4,688,962  50.51% 
+[INFO 2018-12-18 14:34:51]    #44,259 count=      5,617,252  60.51% 
+[INFO 2018-12-18 14:34:51]    #52,090 count=      6,545,634  70.51% 
+[INFO 2018-12-18 14:34:51]    #59,996 count=      7,473,969  80.52% 
+[INFO 2018-12-18 14:34:51]    #67,958 count=      8,402,303  90.52% 
+[INFO 2018-12-18 14:34:51]    #75,704 count=      9,282,686 100.00% 
+[INFO 2018-12-18 14:35:15] Loading phasing info and making the read ID sets.
+[INFO 2018-12-18 14:35:15] Counting 349,971,562 bytes from
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-18 14:35:15]         #1 count=             28   0.00% 
+[INFO 2018-12-18 14:35:15]         #3 count=             79   0.00% 
+[INFO 2018-12-18 14:35:15]         #5 count=            135   0.00% 
+[INFO 2018-12-18 14:35:15]        #10 count=            260   0.00% 
+[INFO 2018-12-18 14:35:15]        #19 count=            492   0.00% 
+[INFO 2018-12-18 14:35:15]        #36 count=            958   0.00% 
+[INFO 2018-12-18 14:35:15]        #70 count=          1,855   0.00% 
+[INFO 2018-12-18 14:35:15]       #137 count=          3,651   0.00% 
+[INFO 2018-12-18 14:35:15]       #273 count=          7,244   0.00% 
+[INFO 2018-12-18 14:35:15]       #545 count=         14,420   0.00% 
+[INFO 2018-12-18 14:35:15]     #1,085 count=         28,760   0.01% 
+[INFO 2018-12-18 14:35:15]     #2,195 count=         57,432   0.02% 
+[INFO 2018-12-18 14:35:15]     #4,436 count=        114,788   0.03% 
+[INFO 2018-12-18 14:35:15]     #8,895 count=        229,490   0.07% 
+[INFO 2018-12-18 14:35:15]    #17,811 count=        458,868   0.13% 
+[INFO 2018-12-18 14:35:15]    #35,683 count=        917,631   0.26% 
+[INFO 2018-12-18 14:35:15]    #70,522 count=      1,835,152   0.52% 
+[INFO 2018-12-18 14:35:16]   #142,403 count=      3,670,168   1.05% 
+[INFO 2018-12-18 14:35:17]   #292,234 count=      7,340,201   2.10% 
+[INFO 2018-12-18 14:35:18]   #574,499 count=     14,680,247   4.19% 
+[INFO 2018-12-18 14:35:21] #1,133,297 count=     29,360,322   8.39% 
+[INFO 2018-12-18 14:35:27] #2,264,251 count=     58,720,472  16.78% 
+[INFO 2018-12-18 14:35:34] #3,605,145 count=     93,717,648  26.78% 
+[INFO 2018-12-18 14:35:41] #4,940,633 count=    128,714,829  36.78% 
+[INFO 2018-12-18 14:35:48] #6,280,851 count=    163,712,005  46.78% 
+[INFO 2018-12-18 14:35:56] #7,618,964 count=    198,709,167  56.78% 
+[INFO 2018-12-18 14:36:03] #8,952,795 count=    233,706,324  66.78% 
+[INFO 2018-12-18 14:36:10] #10,288,760 count=    268,703,487  76.78% 
+[INFO 2018-12-18 14:36:17] #11,647,546 count=    303,700,663  86.78% 
+[INFO 2018-12-18 14:36:25] #12,992,533 count=    338,697,822  96.78% 
+[INFO 2018-12-18 14:36:27] #13,418,677 count=    349,971,562 100.00% 
+[INFO 2018-12-18 14:36:27] Counted 349,971,562 bytes in 13418677 calls from:
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-18 14:36:27] Loading the 2-asm-falcon primary contigs.
+[INFO 2018-12-18 14:36:27] Counting 2,828,349,133 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/2-asm-falcon/p_ctg.fa"
+[INFO 2018-12-18 14:36:27]         #1 count=     71,628,731   2.53% 
+[INFO 2018-12-18 14:36:28]         #3 count=    200,798,651   7.10% 
+[INFO 2018-12-18 14:36:30]         #7 count=    387,394,395  13.70% 
+[INFO 2018-12-18 14:36:33]        #14 count=    676,099,747  23.90% 
+[INFO 2018-12-18 14:36:36]        #23 count=    983,873,634  34.79% 
+[INFO 2018-12-18 14:36:38]        #35 count=  1,285,619,667  45.45% 
+[INFO 2018-12-18 14:36:41]        #50 count=  1,568,535,824  55.46% 
+[INFO 2018-12-18 14:36:43]        #69 count=  1,853,058,186  65.52% 
+[INFO 2018-12-18 14:36:46]        #98 count=  2,137,844,015  75.59% 
+[INFO 2018-12-18 14:36:49]       #141 count=  2,425,008,379  85.74% 
+[INFO 2018-12-18 14:36:51]       #247 count=  2,708,195,685  95.75% 
+[INFO 2018-12-18 14:36:52] Done loading 2-asm-falcon primary contigs.
+[INFO 2018-12-18 14:36:52] Loading tiling paths.
+[INFO 2018-12-18 14:37:10] Done loading tiling paths.
+[INFO 2018-12-18 14:37:10] Loading the 1-hasm haplotigs.
+[INFO 2018-12-18 14:37:21] Counting 4,394,604,390 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/1-hasm/p_ctg.fa"
+[INFO 2018-12-18 14:37:21]         #1 count=      1,457,133   0.03% 
+[INFO 2018-12-18 14:37:21]         #2 count=      2,921,201   0.07% 
+[INFO 2018-12-18 14:37:21]         #5 count=      6,716,408   0.15% 
+[INFO 2018-12-18 14:37:21]        #11 count=     13,632,902   0.31% 
+[INFO 2018-12-18 14:37:21]        #23 count=     26,270,202   0.60% 
+[INFO 2018-12-18 14:37:21]        #50 count=     50,030,539   1.14% 
+[INFO 2018-12-18 14:37:22]       #112 count=     96,721,360   2.20% 
+[INFO 2018-12-18 14:37:22]       #255 count=    190,260,384   4.33% 
+[INFO 2018-12-18 14:37:24]       #595 count=    377,099,003   8.58% 
+[INFO 2018-12-18 14:37:27]     #1,457 count=    750,304,484  17.07% 
+[INFO 2018-12-18 14:37:31]     #2,775 count=  1,189,818,785  27.07% 
+[INFO 2018-12-18 14:37:35]     #4,433 count=  1,629,516,323  37.08% 
+[INFO 2018-12-18 14:37:39]     #6,511 count=  2,069,088,532  47.08% 
+[INFO 2018-12-18 14:37:43]     #9,105 count=  2,508,581,641  57.08% 
+[INFO 2018-12-18 14:37:47]    #12,434 count=  2,948,098,628  67.08% 
+[INFO 2018-12-18 14:37:51]    #16,867 count=  3,387,559,558  77.08% 
+[INFO 2018-12-18 14:37:56]    #23,068 count=  3,827,032,762  87.08% 
+[INFO 2018-12-18 14:38:00]    #31,918 count=  4,266,500,947  97.08% 
+[INFO 2018-12-18 14:38:01] Loading haplotigs.
+[INFO 2018-12-18 14:38:01] Counting 37,852 units from
+  "tiling_paths"
+[INFO 2018-12-18 14:38:01]         #1 count=              1   0.00% 000037F-HAP031602F-000037F.1000018.1
+[INFO 2018-12-18 14:38:01]         #3 count=              3   0.01% 000255F-HAP036320F-000255F.3000003.1
+[INFO 2018-12-18 14:38:01]         #7 count=              7   0.02% 000000F-HAP017932F-000000F.47000161.1
+[INFO 2018-12-18 14:38:01]        #15 count=             15   0.04% 000025F-HAP025013F-000025F.11000033.0
+[INFO 2018-12-18 14:38:01]        #31 count=             31   0.08% 000059F-HAP032497F-000059F.16000026.1
+[INFO 2018-12-18 14:38:01]        #63 count=             63   0.17% 000136F-HAP013660F-000136F.7000019.1
+[INFO 2018-12-18 14:38:01]       #127 count=            127   0.34% 000094F-HAP035709F-000094F.3000015.0
+[INFO 2018-12-18 14:38:01]       #255 count=            255   0.67% 000007F-HAP031106F-000007F.33000158.1
+[INFO 2018-12-18 14:38:01]       #511 count=            511   1.35% 000019F-HAP015085F-000019F.33000101.0
+[INFO 2018-12-18 14:38:02]     #1,023 count=          1,023   2.70% 000186F-HAP031312F-000186F.3000028.0
+[INFO 2018-12-18 14:38:02]     #2,047 count=          2,047   5.41% 000220F-HAP024800F-000220F.3000004.0
+[INFO 2018-12-18 14:38:02]     #4,095 count=          4,095  10.82% 000009F-HAP008510F-000009F.15000054.1
+[INFO 2018-12-18 14:38:03]     #7,880 count=          7,880  20.82% 000658F-HAP033694F-000658F.1000001.0
+[INFO 2018-12-18 14:38:04]    #11,665 count=         11,665  30.82% 000095F-HAP015179F-000095F.34000025.0
+[INFO 2018-12-18 14:38:05]    #15,450 count=         15,450  40.82% 000002F-HAP005607F-000002F.94000227.0
+[INFO 2018-12-18 14:38:05]    #19,235 count=         19,235  50.82% 000001F-HAP008637F-000001F.48000223.1
+[INFO 2018-12-18 14:38:06]    #23,020 count=         23,020  60.82% 000090F-HAP028333F-000090F.15000049.0
+[INFO 2018-12-18 14:38:07]    #26,805 count=         26,805  70.82% 000007F-HAP023063F-000007F.25000107.1
+[INFO 2018-12-18 14:38:07]    #30,590 count=         30,590  80.81% 000331F-HAP033389F-000331F.1000002.0
+[INFO 2018-12-18 14:38:08]    #34,375 count=         34,375  90.81% 000015F-HAP011170F-000015F.37000070.1
+[INFO 2018-12-18 14:38:09] Done loading haplotigs.
+[INFO 2018-12-18 14:38:09] Loading sg_edges_list.
+[INFO 2018-12-18 14:38:09] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-18 14:38:09]         #1 count=             56   0.00% 
+[INFO 2018-12-18 14:38:09]         #3 count=            166   0.00% 
+[INFO 2018-12-18 14:38:09]         #6 count=            337   0.00% 
+[INFO 2018-12-18 14:38:09]        #11 count=            614   0.00% 
+[INFO 2018-12-18 14:38:09]        #19 count=          1,074   0.00% 
+[INFO 2018-12-18 14:38:09]        #35 count=          1,998   0.00% 
+[INFO 2018-12-18 14:38:09]        #67 count=          3,830   0.00% 
+[INFO 2018-12-18 14:38:09]       #129 count=          7,439   0.00% 
+[INFO 2018-12-18 14:38:09]       #254 count=         14,656   0.00% 
+[INFO 2018-12-18 14:38:09]       #504 count=         28,992   0.01% 
+[INFO 2018-12-18 14:38:09]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-18 14:38:09]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-18 14:38:09]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-18 14:38:09]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-18 14:38:09]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-18 14:38:09]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-18 14:38:09]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-18 14:38:10]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-18 14:38:10]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-18 14:38:14]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-18 14:38:16] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-18 14:38:17] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-18 14:38:18] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-18 14:38:24] #2,570,066 count=    148,308,712  49.66% 
+user_script.sh: line 9:    21 Killed                  python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+2018-12-18 14:38:26,056 - root - WARNING - Call '/bin/bash user_script.sh' returned 35072.
+2018-12-18 14:38:26,057 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-18 14:38:26,057 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-18 14:38:26,057 - root - CRITICAL - Error in /gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py with args="{'json_fn': '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json',\n 'timeout': 30,\n 'tmpdir': None}"
+Traceback (most recent call last):
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 174, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 268, in <module>
+    main()
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 260, in main
+    run(**vars(parsed_args))
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 254, in run
+    run_cfg_in_tmpdir(cfg, tmpdir, '.')
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 229, in run_cfg_in_tmpdir
+    run_bash(bash_template, myinputs, myoutputs, parameters)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py", line 188, in run_bash
+    util.system(cmd)
+  File "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/io.py", line 29, in syscall
+    raise Exception(msg)
+Exception: Call '/bin/bash user_script.sh' returned 35072.
++++ pwd
+++ echo 'FAILURE. Running top in /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F (If you see -terminal database is inaccessible- you are using the python bin-wrapper, so you will not get diagnostic info. No big deal. This process is crashing anyway.)'
+++ rm -f top.txt
+++ which python
+++ which top
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ env -u LD_LIBRARY_PATH top -b -n 1
+++ pstree -apl
+
+real	6m1.784s
+user	5m33.868s
+sys	0m26.084s
+ returned: 256
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+hostname=blade17-2-4.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2018-12-18 14:46:16,751 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json"
+2018-12-18 14:46:16,753 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json' with timeout=30
+2018-12-18 14:46:16,757 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json'
+2018-12-18 14:46:16,759 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../split/dummy.sh',
+             u'units_of_work': u'../chunks/chunk_001110F/some-units-of-work.json'},
+ u'outputs': {u'results': u'result-list.json'},
+ u'parameters': {u'pypeflow_mb': u'24000', u'pypeflow_nproc': u'2'}}
+2018-12-18 14:46:16,759 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-18 14:46:16,759 - root - DEBUG - Checking existence of u'../chunks/chunk_001110F/some-units-of-work.json' with timeout=30
+2018-12-18 14:46:16,763 - root - DEBUG - Checking existence of u'../split/dummy.sh' with timeout=30
+2018-12-18 14:46:16,763 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2018-12-18 14:46:16,766 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-18 14:46:16,772 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+    python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
++ python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+falcon-unzip 1.1.4
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO 2018-12-18 14:46:17] Loading units-of-work from '../chunks/chunk_001110F/some-units-of-work.json'
+[INFO 2018-12-18 14:46:17] Loading p assembly graph.
+[INFO 2018-12-18 14:46:17] Counting 393,255,010 bytes from
+  "../../../2-asm-falcon/sg_edges_list"
+[INFO 2018-12-18 14:46:17]         #1 count=             61   0.00% 
+[INFO 2018-12-18 14:46:17]         #2 count=            122   0.00% 
+[INFO 2018-12-18 14:46:17]         #5 count=            304   0.00% 
+[INFO 2018-12-18 14:46:17]        #10 count=            608   0.00% 
+[INFO 2018-12-18 14:46:17]        #19 count=          1,154   0.00% 
+[INFO 2018-12-18 14:46:17]        #36 count=          2,188   0.00% 
+[INFO 2018-12-18 14:46:17]        #69 count=          4,194   0.00% 
+[INFO 2018-12-18 14:46:17]       #134 count=          8,149   0.00% 
+[INFO 2018-12-18 14:46:17]       #263 count=         15,991   0.00% 
+[INFO 2018-12-18 14:46:17]       #521 count=         31,665   0.01% 
+[INFO 2018-12-18 14:46:17]     #1,035 count=         62,916   0.02% 
+[INFO 2018-12-18 14:46:17]     #2,063 count=        125,415   0.03% 
+[INFO 2018-12-18 14:46:17]     #4,118 count=        250,347   0.06% 
+[INFO 2018-12-18 14:46:17]     #8,228 count=        500,230   0.13% 
+[INFO 2018-12-18 14:46:17]    #16,448 count=        999,984   0.25% 
+[INFO 2018-12-18 14:46:17]    #32,890 count=      1,999,441   0.51% 
+[INFO 2018-12-18 14:46:17]    #65,770 count=      3,998,330   1.02% 
+[INFO 2018-12-18 14:46:17]   #131,532 count=      7,996,058   2.03% 
+[INFO 2018-12-18 14:46:18]   #263,052 count=     15,991,465   4.07% 
+[INFO 2018-12-18 14:46:19]   #526,097 count=     31,982,272   8.13% 
+[INFO 2018-12-18 14:46:22] #1,052,182 count=     63,963,890  16.27% 
+[INFO 2018-12-18 14:46:26] #1,699,072 count=    103,289,402  26.27% 
+[INFO 2018-12-18 14:46:31] #2,345,956 count=    142,614,939  36.27% 
+[INFO 2018-12-18 14:46:37] #2,992,840 count=    181,940,471  46.27% 
+[INFO 2018-12-18 14:46:43] #3,639,734 count=    221,266,023  56.27% 
+[INFO 2018-12-18 14:46:50] #4,286,620 count=    260,591,563  66.27% 
+[INFO 2018-12-18 14:46:58] #4,933,508 count=    299,917,109  76.27% 
+[INFO 2018-12-18 14:47:07] #5,580,393 count=    339,242,626  86.27% 
+[INFO 2018-12-18 14:47:16] #6,227,289 count=    378,568,150  96.27% 
+[INFO 2018-12-18 14:47:20] #6,468,884 count=    393,255,010 100.00% 
+[INFO 2018-12-18 14:47:20] Counting 27,571,140 bytes from
+  "../../../2-asm-falcon/utg_data"
+[INFO 2018-12-18 14:47:20]         #1 count=            120   0.00% 
+[INFO 2018-12-18 14:47:20]         #2 count=            262   0.00% 
+[INFO 2018-12-18 14:47:20]         #3 count=          1,976   0.01% 
+[INFO 2018-12-18 14:47:20]        #18 count=          3,962   0.01% 
+[INFO 2018-12-18 14:47:20]        #41 count=          9,021   0.03% 
+[INFO 2018-12-18 14:47:20]        #72 count=         16,007   0.06% 
+[INFO 2018-12-18 14:47:20]       #122 count=         29,779   0.11% 
+[INFO 2018-12-18 14:47:20]       #248 count=         57,286   0.21% 
+[INFO 2018-12-18 14:47:20]       #520 count=        112,609   0.41% 
+[INFO 2018-12-18 14:47:20]     #1,063 count=        222,394   0.81% 
+[INFO 2018-12-18 14:47:20]     #2,146 count=        441,841   1.60% 
+[INFO 2018-12-18 14:47:20]     #4,373 count=        880,717   3.19% 
+[INFO 2018-12-18 14:47:20]     #8,696 count=      1,758,330   6.38% 
+[INFO 2018-12-18 14:47:20]    #17,204 count=      3,513,500  12.74% 
+[INFO 2018-12-18 14:47:20]    #30,999 count=      6,271,157  22.75% 
+[INFO 2018-12-18 14:47:20]    #44,727 count=      9,028,291  32.75% 
+[INFO 2018-12-18 14:47:20]    #58,383 count=     11,785,567  42.75% 
+[INFO 2018-12-18 14:47:20]    #71,906 count=     14,542,759  52.75% 
+[INFO 2018-12-18 14:47:20]    #85,474 count=     17,300,571  62.75% 
+[INFO 2018-12-18 14:47:20]    #98,965 count=     20,057,700  72.75% 
+[INFO 2018-12-18 14:47:21]   #112,434 count=     22,814,911  82.75% 
+[INFO 2018-12-18 14:47:21]   #126,054 count=     25,572,105  92.75% 
+[INFO 2018-12-18 14:47:21]   #135,908 count=     27,571,140 100.00% 
+[INFO 2018-12-18 14:47:21] Counting 2,076,822 bytes from
+  "../../../2-asm-falcon/ctg_paths"
+[INFO 2018-12-18 14:47:21]         #1 count=         18,761   0.90% 
+[INFO 2018-12-18 14:47:21]         #2 count=         37,522   1.81% 
+[INFO 2018-12-18 14:47:21]         #4 count=         86,168   4.15% 
+[INFO 2018-12-18 14:47:21]        #10 count=        172,490   8.31% 
+[INFO 2018-12-18 14:47:22]        #23 count=        331,486  15.96% 
+[INFO 2018-12-18 14:47:22]        #43 count=        546,929  26.33% 
+[INFO 2018-12-18 14:47:22]        #73 count=        758,821  36.54% 
+[INFO 2018-12-18 14:47:22]       #110 count=        969,371  46.68% 
+[INFO 2018-12-18 14:47:22]       #168 count=      1,180,094  56.82% 
+[INFO 2018-12-18 14:47:22]       #239 count=      1,390,059  66.93% 
+[INFO 2018-12-18 14:47:22]       #364 count=      1,598,379  76.96% 
+[INFO 2018-12-18 14:47:22]       #747 count=      1,806,150  86.97% 
+[INFO 2018-12-18 14:47:22]     #2,140 count=      2,013,916  96.97% 
+[INFO 2018-12-18 14:47:22]     #2,692 count=      2,076,822 100.00% 
+[INFO 2018-12-18 14:47:43] Loading h assembly graph.
+[INFO 2018-12-18 14:47:43] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-18 14:47:43]         #1 count=             56   0.00% 
+[INFO 2018-12-18 14:47:43]         #3 count=            166   0.00% 
+[INFO 2018-12-18 14:47:43]         #6 count=            337   0.00% 
+[INFO 2018-12-18 14:47:43]        #11 count=            614   0.00% 
+[INFO 2018-12-18 14:47:43]        #19 count=          1,074   0.00% 
+[INFO 2018-12-18 14:47:43]        #35 count=          1,998   0.00% 
+[INFO 2018-12-18 14:47:43]        #67 count=          3,830   0.00% 
+[INFO 2018-12-18 14:47:43]       #129 count=          7,439   0.00% 
+[INFO 2018-12-18 14:47:43]       #254 count=         14,656   0.00% 
+[INFO 2018-12-18 14:47:43]       #504 count=         28,992   0.01% 
+[INFO 2018-12-18 14:47:43]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-18 14:47:43]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-18 14:47:43]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-18 14:47:43]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-18 14:47:43]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-18 14:47:43]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-18 14:47:43]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-18 14:47:43]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-18 14:47:43]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-18 14:47:44]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-18 14:47:46] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-18 14:47:48] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-18 14:47:50] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-18 14:47:52] #2,570,066 count=    148,308,712  49.66% 
+[INFO 2018-12-18 14:47:54] #3,087,571 count=    178,171,335  59.66% 
+[INFO 2018-12-18 14:47:56] #3,605,086 count=    208,033,937  69.66% 
+[INFO 2018-12-18 14:47:58] #4,122,602 count=    237,896,564  79.66% 
+[INFO 2018-12-18 14:48:02] #4,640,092 count=    267,759,147  89.66% 
+[INFO 2018-12-18 14:48:04] #5,157,590 count=    297,621,759  99.66% 
+[INFO 2018-12-18 14:48:04] #5,174,990 count=    298,625,824 100.00% 
+[INFO 2018-12-18 14:48:04] Counting 25,420,215 bytes from
+  "../../1-hasm/utg_data"
+[INFO 2018-12-18 14:48:04]         #1 count=            152   0.00% 
+[INFO 2018-12-18 14:48:04]         #3 count=            380   0.00% 
+[INFO 2018-12-18 14:48:04]         #6 count=            691   0.00% 
+[INFO 2018-12-18 14:48:04]         #9 count=          1,363   0.01% 
+[INFO 2018-12-18 14:48:04]        #17 count=          2,767   0.01% 
+[INFO 2018-12-18 14:48:04]        #30 count=          5,482   0.02% 
+[INFO 2018-12-18 14:48:04]        #46 count=         10,428   0.04% 
+[INFO 2018-12-18 14:48:04]        #86 count=         20,239   0.08% 
+[INFO 2018-12-18 14:48:04]       #178 count=         40,231   0.16% 
+[INFO 2018-12-18 14:48:04]       #356 count=         79,528   0.31% 
+[INFO 2018-12-18 14:48:04]       #725 count=        157,449   0.62% 
+[INFO 2018-12-18 14:48:04]     #1,454 count=        313,120   1.23% 
+[INFO 2018-12-18 14:48:04]     #2,810 count=        625,203   2.46% 
+[INFO 2018-12-18 14:48:04]     #5,629 count=      1,247,877   4.91% 
+[INFO 2018-12-18 14:48:04]    #11,362 count=      2,493,453   9.81% 
+[INFO 2018-12-18 14:48:04]    #22,612 count=      4,983,825  19.61% 
+[INFO 2018-12-18 14:48:04]    #34,024 count=      7,525,903  29.61% 
+[INFO 2018-12-18 14:48:04]    #45,261 count=     10,067,969  39.61% 
+[INFO 2018-12-18 14:48:04]    #56,691 count=     12,610,026  49.61% 
+[INFO 2018-12-18 14:48:04]    #68,240 count=     15,152,092  59.61% 
+[INFO 2018-12-18 14:48:04]    #79,524 count=     17,694,387  69.61% 
+[INFO 2018-12-18 14:48:04]    #90,945 count=     20,236,609  79.61% 
+[INFO 2018-12-18 14:48:04]   #102,348 count=     22,778,765  89.61% 
+[INFO 2018-12-18 14:48:04]   #113,479 count=     25,321,172  99.61% 
+[INFO 2018-12-18 14:48:04]   #113,874 count=     25,420,215 100.00% 
+[INFO 2018-12-18 14:48:04] Counting 9,282,686 bytes from
+  "../../1-hasm/ctg_paths"
+[INFO 2018-12-18 14:48:04]         #1 count=            119   0.00% 
+[INFO 2018-12-18 14:48:04]         #2 count=            238   0.00% 
+[INFO 2018-12-18 14:48:04]         #4 count=            476   0.01% 
+[INFO 2018-12-18 14:48:04]         #6 count=          1,110   0.01% 
+[INFO 2018-12-18 14:48:04]        #10 count=          2,090   0.02% 
+[INFO 2018-12-18 14:48:04]        #18 count=          4,176   0.04% 
+[INFO 2018-12-18 14:48:04]        #40 count=          8,124   0.09% 
+[INFO 2018-12-18 14:48:04]        #85 count=         15,828   0.17% 
+[INFO 2018-12-18 14:48:04]       #173 count=         31,072   0.33% 
+[INFO 2018-12-18 14:48:04]       #356 count=         61,639   0.66% 
+[INFO 2018-12-18 14:48:04]       #740 count=        122,665   1.32% 
+[INFO 2018-12-18 14:48:04]     #1,545 count=        244,556   2.63% 
+[INFO 2018-12-18 14:48:04]     #3,231 count=        488,326   5.26% 
+[INFO 2018-12-18 14:48:04]     #6,799 count=        975,831  10.51% 
+[INFO 2018-12-18 14:48:04]    #13,919 count=      1,904,123  20.51% 
+[INFO 2018-12-18 14:48:05]    #21,284 count=      2,832,401  30.51% 
+[INFO 2018-12-18 14:48:05]    #28,813 count=      3,760,681  40.51% 
+[INFO 2018-12-18 14:48:05]    #36,502 count=      4,688,962  50.51% 
+[INFO 2018-12-18 14:48:05]    #44,259 count=      5,617,252  60.51% 
+[INFO 2018-12-18 14:48:05]    #52,090 count=      6,545,634  70.51% 
+[INFO 2018-12-18 14:48:05]    #59,996 count=      7,473,969  80.52% 
+[INFO 2018-12-18 14:48:05]    #67,958 count=      8,402,303  90.52% 
+[INFO 2018-12-18 14:48:05]    #75,704 count=      9,282,686 100.00% 
+[INFO 2018-12-18 14:48:23] Loading phasing info and making the read ID sets.
+[INFO 2018-12-18 14:48:23] Counting 349,971,562 bytes from
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-18 14:48:23]         #1 count=             28   0.00% 
+[INFO 2018-12-18 14:48:23]         #3 count=             79   0.00% 
+[INFO 2018-12-18 14:48:23]         #5 count=            135   0.00% 
+[INFO 2018-12-18 14:48:23]        #10 count=            260   0.00% 
+[INFO 2018-12-18 14:48:23]        #19 count=            492   0.00% 
+[INFO 2018-12-18 14:48:23]        #36 count=            958   0.00% 
+[INFO 2018-12-18 14:48:23]        #70 count=          1,855   0.00% 
+[INFO 2018-12-18 14:48:23]       #137 count=          3,651   0.00% 
+[INFO 2018-12-18 14:48:23]       #273 count=          7,244   0.00% 
+[INFO 2018-12-18 14:48:23]       #545 count=         14,420   0.00% 
+[INFO 2018-12-18 14:48:23]     #1,085 count=         28,760   0.01% 
+[INFO 2018-12-18 14:48:23]     #2,195 count=         57,432   0.02% 
+[INFO 2018-12-18 14:48:23]     #4,436 count=        114,788   0.03% 
+[INFO 2018-12-18 14:48:23]     #8,895 count=        229,490   0.07% 
+[INFO 2018-12-18 14:48:23]    #17,811 count=        458,868   0.13% 
+[INFO 2018-12-18 14:48:23]    #35,683 count=        917,631   0.26% 
+[INFO 2018-12-18 14:48:23]    #70,522 count=      1,835,152   0.52% 
+[INFO 2018-12-18 14:48:24]   #142,403 count=      3,670,168   1.05% 
+[INFO 2018-12-18 14:48:24]   #292,234 count=      7,340,201   2.10% 
+[INFO 2018-12-18 14:48:25]   #574,499 count=     14,680,247   4.19% 
+[INFO 2018-12-18 14:48:27] #1,133,297 count=     29,360,322   8.39% 
+[INFO 2018-12-18 14:48:31] #2,264,251 count=     58,720,472  16.78% 
+[INFO 2018-12-18 14:48:36] #3,605,145 count=     93,717,648  26.78% 
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F --heartbeat-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d --exit-file=/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F', exit_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d', heartbeat_file='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d', rate=10.0)
+
+cwd:'/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+hostname=blade17-3-5.gsc.wustl.edu
+heartbeat_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/heartbeats/heartbeat-Pd24dd18a82e65d'
+exit_fn='/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/mypwatcher/exits/exit-Pd24dd18a82e65d'
+sleep_s=10.0
+before setpgid: pid=8 pgid=1
+ after setpgid: pid=8 pgid=8
+In cwd: /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
++ PATH=/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/lsf9/9.1/linux2.6-glibc2.3-x86_64/etc:/gscuser/ebelter/.bin:/gscuser/ebelter/bin:/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin
+cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
++ cd /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2018-12-18 15:14:03,603 - root - DEBUG - Running "/gscmnt/gc2134/finishing/PB_Assembly/pb-assemble/lib/python2.7/site-packages/pypeflow/do_task.py /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json"
+2018-12-18 15:14:03,604 - root - DEBUG - Checking existence of '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json' with timeout=30
+2018-12-18 15:14:03,607 - root - DEBUG - Loading JSON from '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/task.json'
+2018-12-18 15:14:03,608 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'bash_template': u'../split/dummy.sh',
+             u'units_of_work': u'../chunks/chunk_001110F/some-units-of-work.json'},
+ u'outputs': {u'results': u'result-list.json'},
+ u'parameters': {u'pypeflow_mb': u'40000', u'pypeflow_nproc': u'2'}}
+2018-12-18 15:14:03,608 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-18 15:14:03,608 - root - DEBUG - Checking existence of u'../chunks/chunk_001110F/some-units-of-work.json' with timeout=30
+2018-12-18 15:14:03,612 - root - DEBUG - Checking existence of u'../split/dummy.sh' with timeout=30
+2018-12-18 15:14:03,614 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2018-12-18 15:14:03,617 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' <- '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-18 15:14:03,622 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+    python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
++ python -m falcon_unzip.mains.graphs_to_h_tigs_2 apply --units-of-work-fn=../chunks/chunk_001110F/some-units-of-work.json --results-fn=result-list.json
+falcon-unzip 1.1.4
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO 2018-12-18 15:14:10] Loading units-of-work from '../chunks/chunk_001110F/some-units-of-work.json'
+[INFO 2018-12-18 15:14:10] Loading p assembly graph.
+[INFO 2018-12-18 15:14:10] Counting 393,255,010 bytes from
+  "../../../2-asm-falcon/sg_edges_list"
+[INFO 2018-12-18 15:14:10]         #1 count=             61   0.00% 
+[INFO 2018-12-18 15:14:10]         #2 count=            122   0.00% 
+[INFO 2018-12-18 15:14:10]         #5 count=            304   0.00% 
+[INFO 2018-12-18 15:14:10]        #10 count=            608   0.00% 
+[INFO 2018-12-18 15:14:10]        #19 count=          1,154   0.00% 
+[INFO 2018-12-18 15:14:10]        #36 count=          2,188   0.00% 
+[INFO 2018-12-18 15:14:10]        #69 count=          4,194   0.00% 
+[INFO 2018-12-18 15:14:10]       #134 count=          8,149   0.00% 
+[INFO 2018-12-18 15:14:10]       #263 count=         15,991   0.00% 
+[INFO 2018-12-18 15:14:10]       #521 count=         31,665   0.01% 
+[INFO 2018-12-18 15:14:10]     #1,035 count=         62,916   0.02% 
+[INFO 2018-12-18 15:14:10]     #2,063 count=        125,415   0.03% 
+[INFO 2018-12-18 15:14:10]     #4,118 count=        250,347   0.06% 
+[INFO 2018-12-18 15:14:10]     #8,228 count=        500,230   0.13% 
+[INFO 2018-12-18 15:14:10]    #16,448 count=        999,984   0.25% 
+[INFO 2018-12-18 15:14:10]    #32,890 count=      1,999,441   0.51% 
+[INFO 2018-12-18 15:14:10]    #65,770 count=      3,998,330   1.02% 
+[INFO 2018-12-18 15:14:11]   #131,532 count=      7,996,058   2.03% 
+[INFO 2018-12-18 15:14:11]   #263,052 count=     15,991,465   4.07% 
+[INFO 2018-12-18 15:14:13]   #526,097 count=     31,982,272   8.13% 
+[INFO 2018-12-18 15:14:17] #1,052,182 count=     63,963,890  16.27% 
+[INFO 2018-12-18 15:14:23] #1,699,072 count=    103,289,402  26.27% 
+[INFO 2018-12-18 15:14:29] #2,345,956 count=    142,614,939  36.27% 
+[INFO 2018-12-18 15:14:36] #2,992,840 count=    181,940,471  46.27% 
+[INFO 2018-12-18 15:14:44] #3,639,734 count=    221,266,023  56.27% 
+[INFO 2018-12-18 15:14:53] #4,286,620 count=    260,591,563  66.27% 
+[INFO 2018-12-18 15:15:03] #4,933,508 count=    299,917,109  76.27% 
+[INFO 2018-12-18 15:15:14] #5,580,393 count=    339,242,626  86.27% 
+[INFO 2018-12-18 15:15:25] #6,227,289 count=    378,568,150  96.27% 
+[INFO 2018-12-18 15:15:30] #6,468,884 count=    393,255,010 100.00% 
+[INFO 2018-12-18 15:15:30] Counting 27,571,140 bytes from
+  "../../../2-asm-falcon/utg_data"
+[INFO 2018-12-18 15:15:30]         #1 count=            120   0.00% 
+[INFO 2018-12-18 15:15:30]         #2 count=            262   0.00% 
+[INFO 2018-12-18 15:15:30]         #3 count=          1,976   0.01% 
+[INFO 2018-12-18 15:15:30]        #18 count=          3,962   0.01% 
+[INFO 2018-12-18 15:15:30]        #41 count=          9,021   0.03% 
+[INFO 2018-12-18 15:15:30]        #72 count=         16,007   0.06% 
+[INFO 2018-12-18 15:15:30]       #122 count=         29,779   0.11% 
+[INFO 2018-12-18 15:15:30]       #248 count=         57,286   0.21% 
+[INFO 2018-12-18 15:15:30]       #520 count=        112,609   0.41% 
+[INFO 2018-12-18 15:15:30]     #1,063 count=        222,394   0.81% 
+[INFO 2018-12-18 15:15:30]     #2,146 count=        441,841   1.60% 
+[INFO 2018-12-18 15:15:30]     #4,373 count=        880,717   3.19% 
+[INFO 2018-12-18 15:15:30]     #8,696 count=      1,758,330   6.38% 
+[INFO 2018-12-18 15:15:30]    #17,204 count=      3,513,500  12.74% 
+[INFO 2018-12-18 15:15:30]    #30,999 count=      6,271,157  22.75% 
+[INFO 2018-12-18 15:15:30]    #44,727 count=      9,028,291  32.75% 
+[INFO 2018-12-18 15:15:30]    #58,383 count=     11,785,567  42.75% 
+[INFO 2018-12-18 15:15:31]    #71,906 count=     14,542,759  52.75% 
+[INFO 2018-12-18 15:15:31]    #85,474 count=     17,300,571  62.75% 
+[INFO 2018-12-18 15:15:31]    #98,965 count=     20,057,700  72.75% 
+[INFO 2018-12-18 15:15:31]   #112,434 count=     22,814,911  82.75% 
+[INFO 2018-12-18 15:15:31]   #126,054 count=     25,572,105  92.75% 
+[INFO 2018-12-18 15:15:31]   #135,908 count=     27,571,140 100.00% 
+[INFO 2018-12-18 15:15:31] Counting 2,076,822 bytes from
+  "../../../2-asm-falcon/ctg_paths"
+[INFO 2018-12-18 15:15:31]         #1 count=         18,761   0.90% 
+[INFO 2018-12-18 15:15:31]         #2 count=         37,522   1.81% 
+[INFO 2018-12-18 15:15:31]         #4 count=         86,168   4.15% 
+[INFO 2018-12-18 15:15:31]        #10 count=        172,490   8.31% 
+[INFO 2018-12-18 15:15:33]        #23 count=        331,486  15.96% 
+[INFO 2018-12-18 15:15:33]        #43 count=        546,929  26.33% 
+[INFO 2018-12-18 15:15:33]        #73 count=        758,821  36.54% 
+[INFO 2018-12-18 15:15:33]       #110 count=        969,371  46.68% 
+[INFO 2018-12-18 15:15:33]       #168 count=      1,180,094  56.82% 
+[INFO 2018-12-18 15:15:33]       #239 count=      1,390,059  66.93% 
+[INFO 2018-12-18 15:15:33]       #364 count=      1,598,379  76.96% 
+[INFO 2018-12-18 15:15:33]       #747 count=      1,806,150  86.97% 
+[INFO 2018-12-18 15:15:33]     #2,140 count=      2,013,916  96.97% 
+[INFO 2018-12-18 15:15:33]     #2,692 count=      2,076,822 100.00% 
+[INFO 2018-12-18 15:16:01] Loading h assembly graph.
+[INFO 2018-12-18 15:16:01] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-18 15:16:01]         #1 count=             56   0.00% 
+[INFO 2018-12-18 15:16:01]         #3 count=            166   0.00% 
+[INFO 2018-12-18 15:16:01]         #6 count=            337   0.00% 
+[INFO 2018-12-18 15:16:01]        #11 count=            614   0.00% 
+[INFO 2018-12-18 15:16:01]        #19 count=          1,074   0.00% 
+[INFO 2018-12-18 15:16:01]        #35 count=          1,998   0.00% 
+[INFO 2018-12-18 15:16:01]        #67 count=          3,830   0.00% 
+[INFO 2018-12-18 15:16:01]       #129 count=          7,439   0.00% 
+[INFO 2018-12-18 15:16:01]       #254 count=         14,656   0.00% 
+[INFO 2018-12-18 15:16:01]       #504 count=         28,992   0.01% 
+[INFO 2018-12-18 15:16:01]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-18 15:16:01]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-18 15:16:01]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-18 15:16:01]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-18 15:16:01]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-18 15:16:01]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-18 15:16:01]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-18 15:16:02]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-18 15:16:02]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-18 15:16:04]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-18 15:16:06] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-18 15:16:09] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-18 15:16:12] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-18 15:16:15] #2,570,066 count=    148,308,712  49.66% 
+[INFO 2018-12-18 15:16:18] #3,087,571 count=    178,171,335  59.66% 
+[INFO 2018-12-18 15:16:21] #3,605,086 count=    208,033,937  69.66% 
+[INFO 2018-12-18 15:16:24] #4,122,602 count=    237,896,564  79.66% 
+[INFO 2018-12-18 15:16:29] #4,640,092 count=    267,759,147  89.66% 
+[INFO 2018-12-18 15:16:32] #5,157,590 count=    297,621,759  99.66% 
+[INFO 2018-12-18 15:16:32] #5,174,990 count=    298,625,824 100.00% 
+[INFO 2018-12-18 15:16:32] Counting 25,420,215 bytes from
+  "../../1-hasm/utg_data"
+[INFO 2018-12-18 15:16:32]         #1 count=            152   0.00% 
+[INFO 2018-12-18 15:16:32]         #3 count=            380   0.00% 
+[INFO 2018-12-18 15:16:32]         #6 count=            691   0.00% 
+[INFO 2018-12-18 15:16:32]         #9 count=          1,363   0.01% 
+[INFO 2018-12-18 15:16:32]        #17 count=          2,767   0.01% 
+[INFO 2018-12-18 15:16:32]        #30 count=          5,482   0.02% 
+[INFO 2018-12-18 15:16:32]        #46 count=         10,428   0.04% 
+[INFO 2018-12-18 15:16:32]        #86 count=         20,239   0.08% 
+[INFO 2018-12-18 15:16:32]       #178 count=         40,231   0.16% 
+[INFO 2018-12-18 15:16:32]       #356 count=         79,528   0.31% 
+[INFO 2018-12-18 15:16:32]       #725 count=        157,449   0.62% 
+[INFO 2018-12-18 15:16:32]     #1,454 count=        313,120   1.23% 
+[INFO 2018-12-18 15:16:32]     #2,810 count=        625,203   2.46% 
+[INFO 2018-12-18 15:16:32]     #5,629 count=      1,247,877   4.91% 
+[INFO 2018-12-18 15:16:32]    #11,362 count=      2,493,453   9.81% 
+[INFO 2018-12-18 15:16:32]    #22,612 count=      4,983,825  19.61% 
+[INFO 2018-12-18 15:16:32]    #34,024 count=      7,525,903  29.61% 
+[INFO 2018-12-18 15:16:32]    #45,261 count=     10,067,969  39.61% 
+[INFO 2018-12-18 15:16:32]    #56,691 count=     12,610,026  49.61% 
+[INFO 2018-12-18 15:16:32]    #68,240 count=     15,152,092  59.61% 
+[INFO 2018-12-18 15:16:32]    #79,524 count=     17,694,387  69.61% 
+[INFO 2018-12-18 15:16:32]    #90,945 count=     20,236,609  79.61% 
+[INFO 2018-12-18 15:16:32]   #102,348 count=     22,778,765  89.61% 
+[INFO 2018-12-18 15:16:33]   #113,479 count=     25,321,172  99.61% 
+[INFO 2018-12-18 15:16:33]   #113,874 count=     25,420,215 100.00% 
+[INFO 2018-12-18 15:16:33] Counting 9,282,686 bytes from
+  "../../1-hasm/ctg_paths"
+[INFO 2018-12-18 15:16:33]         #1 count=            119   0.00% 
+[INFO 2018-12-18 15:16:33]         #2 count=            238   0.00% 
+[INFO 2018-12-18 15:16:33]         #4 count=            476   0.01% 
+[INFO 2018-12-18 15:16:33]         #6 count=          1,110   0.01% 
+[INFO 2018-12-18 15:16:33]        #10 count=          2,090   0.02% 
+[INFO 2018-12-18 15:16:33]        #18 count=          4,176   0.04% 
+[INFO 2018-12-18 15:16:33]        #40 count=          8,124   0.09% 
+[INFO 2018-12-18 15:16:33]        #85 count=         15,828   0.17% 
+[INFO 2018-12-18 15:16:33]       #173 count=         31,072   0.33% 
+[INFO 2018-12-18 15:16:33]       #356 count=         61,639   0.66% 
+[INFO 2018-12-18 15:16:33]       #740 count=        122,665   1.32% 
+[INFO 2018-12-18 15:16:33]     #1,545 count=        244,556   2.63% 
+[INFO 2018-12-18 15:16:33]     #3,231 count=        488,326   5.26% 
+[INFO 2018-12-18 15:16:33]     #6,799 count=        975,831  10.51% 
+[INFO 2018-12-18 15:16:33]    #13,919 count=      1,904,123  20.51% 
+[INFO 2018-12-18 15:16:33]    #21,284 count=      2,832,401  30.51% 
+[INFO 2018-12-18 15:16:33]    #28,813 count=      3,760,681  40.51% 
+[INFO 2018-12-18 15:16:33]    #36,502 count=      4,688,962  50.51% 
+[INFO 2018-12-18 15:16:33]    #44,259 count=      5,617,252  60.51% 
+[INFO 2018-12-18 15:16:33]    #52,090 count=      6,545,634  70.51% 
+[INFO 2018-12-18 15:16:33]    #59,996 count=      7,473,969  80.52% 
+[INFO 2018-12-18 15:16:33]    #67,958 count=      8,402,303  90.52% 
+[INFO 2018-12-18 15:16:33]    #75,704 count=      9,282,686 100.00% 
+[INFO 2018-12-18 15:16:57] Loading phasing info and making the read ID sets.
+[INFO 2018-12-18 15:16:57] Counting 349,971,562 bytes from
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-18 15:16:57]         #1 count=             28   0.00% 
+[INFO 2018-12-18 15:16:57]         #3 count=             79   0.00% 
+[INFO 2018-12-18 15:16:57]         #5 count=            135   0.00% 
+[INFO 2018-12-18 15:16:57]        #10 count=            260   0.00% 
+[INFO 2018-12-18 15:16:57]        #19 count=            492   0.00% 
+[INFO 2018-12-18 15:16:57]        #36 count=            958   0.00% 
+[INFO 2018-12-18 15:16:57]        #70 count=          1,855   0.00% 
+[INFO 2018-12-18 15:16:57]       #137 count=          3,651   0.00% 
+[INFO 2018-12-18 15:16:57]       #273 count=          7,244   0.00% 
+[INFO 2018-12-18 15:16:57]       #545 count=         14,420   0.00% 
+[INFO 2018-12-18 15:16:57]     #1,085 count=         28,760   0.01% 
+[INFO 2018-12-18 15:16:57]     #2,195 count=         57,432   0.02% 
+[INFO 2018-12-18 15:16:57]     #4,436 count=        114,788   0.03% 
+[INFO 2018-12-18 15:16:57]     #8,895 count=        229,490   0.07% 
+[INFO 2018-12-18 15:16:57]    #17,811 count=        458,868   0.13% 
+[INFO 2018-12-18 15:16:57]    #35,683 count=        917,631   0.26% 
+[INFO 2018-12-18 15:16:57]    #70,522 count=      1,835,152   0.52% 
+[INFO 2018-12-18 15:16:57]   #142,403 count=      3,670,168   1.05% 
+[INFO 2018-12-18 15:16:58]   #292,234 count=      7,340,201   2.10% 
+[INFO 2018-12-18 15:17:00]   #574,499 count=     14,680,247   4.19% 
+[INFO 2018-12-18 15:17:03] #1,133,297 count=     29,360,322   8.39% 
+[INFO 2018-12-18 15:17:08] #2,264,251 count=     58,720,472  16.78% 
+[INFO 2018-12-18 15:17:16] #3,605,145 count=     93,717,648  26.78% 
+[INFO 2018-12-18 15:17:23] #4,940,633 count=    128,714,829  36.78% 
+[INFO 2018-12-18 15:17:30] #6,280,851 count=    163,712,005  46.78% 
+[INFO 2018-12-18 15:17:37] #7,618,964 count=    198,709,167  56.78% 
+[INFO 2018-12-18 15:17:44] #8,952,795 count=    233,706,324  66.78% 
+[INFO 2018-12-18 15:17:51] #10,288,760 count=    268,703,487  76.78% 
+[INFO 2018-12-18 15:17:59] #11,647,546 count=    303,700,663  86.78% 
+[INFO 2018-12-18 15:18:06] #12,992,533 count=    338,697,822  96.78% 
+[INFO 2018-12-18 15:18:08] #13,418,677 count=    349,971,562 100.00% 
+[INFO 2018-12-18 15:18:08] Counted 349,971,562 bytes in 13418677 calls from:
+  "../../1-hasm/concatenated-rid-to-phase/rid_to_phase.all"
+[INFO 2018-12-18 15:18:08] Loading the 2-asm-falcon primary contigs.
+[INFO 2018-12-18 15:18:08] Counting 2,828,349,133 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/2-asm-falcon/p_ctg.fa"
+[INFO 2018-12-18 15:18:08]         #1 count=     71,628,731   2.53% 
+[INFO 2018-12-18 15:18:10]         #3 count=    200,798,651   7.10% 
+[INFO 2018-12-18 15:18:12]         #7 count=    387,394,395  13.70% 
+[INFO 2018-12-18 15:18:15]        #14 count=    676,099,747  23.90% 
+[INFO 2018-12-18 15:18:18]        #23 count=    983,873,634  34.79% 
+[INFO 2018-12-18 15:18:20]        #35 count=  1,285,619,667  45.45% 
+[INFO 2018-12-18 15:18:23]        #50 count=  1,568,535,824  55.46% 
+[INFO 2018-12-18 15:18:25]        #69 count=  1,853,058,186  65.52% 
+[INFO 2018-12-18 15:18:28]        #98 count=  2,137,844,015  75.59% 
+[INFO 2018-12-18 15:18:30]       #141 count=  2,425,008,379  85.74% 
+[INFO 2018-12-18 15:18:33]       #247 count=  2,708,195,685  95.75% 
+[INFO 2018-12-18 15:18:34] Done loading 2-asm-falcon primary contigs.
+[INFO 2018-12-18 15:18:34] Loading tiling paths.
+[INFO 2018-12-18 15:18:49] Done loading tiling paths.
+[INFO 2018-12-18 15:18:49] Loading the 1-hasm haplotigs.
+[INFO 2018-12-18 15:19:00] Counting 4,394,604,390 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/1-hasm/p_ctg.fa"
+[INFO 2018-12-18 15:19:00]         #1 count=      1,457,133   0.03% 
+[INFO 2018-12-18 15:19:00]         #2 count=      2,921,201   0.07% 
+[INFO 2018-12-18 15:19:00]         #5 count=      6,716,408   0.15% 
+[INFO 2018-12-18 15:19:00]        #11 count=     13,632,902   0.31% 
+[INFO 2018-12-18 15:19:00]        #23 count=     26,270,202   0.60% 
+[INFO 2018-12-18 15:19:00]        #50 count=     50,030,539   1.14% 
+[INFO 2018-12-18 15:19:00]       #112 count=     96,721,360   2.20% 
+[INFO 2018-12-18 15:19:01]       #255 count=    190,260,384   4.33% 
+[INFO 2018-12-18 15:19:03]       #595 count=    377,099,003   8.58% 
+[INFO 2018-12-18 15:19:06]     #1,457 count=    750,304,484  17.07% 
+[INFO 2018-12-18 15:19:10]     #2,775 count=  1,189,818,785  27.07% 
+[INFO 2018-12-18 15:19:14]     #4,433 count=  1,629,516,323  37.08% 
+[INFO 2018-12-18 15:19:17]     #6,511 count=  2,069,088,532  47.08% 
+[INFO 2018-12-18 15:19:21]     #9,105 count=  2,508,581,641  57.08% 
+[INFO 2018-12-18 15:19:25]    #12,434 count=  2,948,098,628  67.08% 
+[INFO 2018-12-18 15:19:29]    #16,867 count=  3,387,559,558  77.08% 
+[INFO 2018-12-18 15:19:34]    #23,068 count=  3,827,032,762  87.08% 
+[INFO 2018-12-18 15:19:38]    #31,918 count=  4,266,500,947  97.08% 
+[INFO 2018-12-18 15:19:39] Loading haplotigs.
+[INFO 2018-12-18 15:19:39] Counting 37,852 units from
+  "tiling_paths"
+[INFO 2018-12-18 15:19:39]         #1 count=              1   0.00% 000037F-HAP031602F-000037F.1000018.1
+[INFO 2018-12-18 15:19:39]         #3 count=              3   0.01% 000255F-HAP036320F-000255F.3000003.1
+[INFO 2018-12-18 15:19:39]         #7 count=              7   0.02% 000000F-HAP017932F-000000F.47000161.1
+[INFO 2018-12-18 15:19:39]        #15 count=             15   0.04% 000025F-HAP025013F-000025F.11000033.0
+[INFO 2018-12-18 15:19:39]        #31 count=             31   0.08% 000059F-HAP032497F-000059F.16000026.1
+[INFO 2018-12-18 15:19:39]        #63 count=             63   0.17% 000136F-HAP013660F-000136F.7000019.1
+[INFO 2018-12-18 15:19:39]       #127 count=            127   0.34% 000094F-HAP035709F-000094F.3000015.0
+[INFO 2018-12-18 15:19:39]       #255 count=            255   0.67% 000007F-HAP031106F-000007F.33000158.1
+[INFO 2018-12-18 15:19:39]       #511 count=            511   1.35% 000019F-HAP015085F-000019F.33000101.0
+[INFO 2018-12-18 15:19:39]     #1,023 count=          1,023   2.70% 000186F-HAP031312F-000186F.3000028.0
+[INFO 2018-12-18 15:19:40]     #2,047 count=          2,047   5.41% 000220F-HAP024800F-000220F.3000004.0
+[INFO 2018-12-18 15:19:40]     #4,095 count=          4,095  10.82% 000009F-HAP008510F-000009F.15000054.1
+[INFO 2018-12-18 15:19:41]     #7,880 count=          7,880  20.82% 000658F-HAP033694F-000658F.1000001.0
+[INFO 2018-12-18 15:19:42]    #11,665 count=         11,665  30.82% 000095F-HAP015179F-000095F.34000025.0
+[INFO 2018-12-18 15:19:42]    #15,450 count=         15,450  40.82% 000002F-HAP005607F-000002F.94000227.0
+[INFO 2018-12-18 15:19:43]    #19,235 count=         19,235  50.82% 000001F-HAP008637F-000001F.48000223.1
+[INFO 2018-12-18 15:19:44]    #23,020 count=         23,020  60.82% 000090F-HAP028333F-000090F.15000049.0
+[INFO 2018-12-18 15:19:44]    #26,805 count=         26,805  70.82% 000007F-HAP023063F-000007F.25000107.1
+[INFO 2018-12-18 15:19:45]    #30,590 count=         30,590  80.81% 000331F-HAP033389F-000331F.1000002.0
+[INFO 2018-12-18 15:19:46]    #34,375 count=         34,375  90.81% 000015F-HAP011170F-000015F.37000070.1
+[INFO 2018-12-18 15:19:47] Done loading haplotigs.
+[INFO 2018-12-18 15:19:47] Loading sg_edges_list.
+[INFO 2018-12-18 15:19:47] Counting 298,625,824 bytes from
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-18 15:19:47]         #1 count=             56   0.00% 
+[INFO 2018-12-18 15:19:47]         #3 count=            166   0.00% 
+[INFO 2018-12-18 15:19:47]         #6 count=            337   0.00% 
+[INFO 2018-12-18 15:19:47]        #11 count=            614   0.00% 
+[INFO 2018-12-18 15:19:47]        #19 count=          1,074   0.00% 
+[INFO 2018-12-18 15:19:47]        #35 count=          1,998   0.00% 
+[INFO 2018-12-18 15:19:47]        #67 count=          3,830   0.00% 
+[INFO 2018-12-18 15:19:47]       #129 count=          7,439   0.00% 
+[INFO 2018-12-18 15:19:47]       #254 count=         14,656   0.00% 
+[INFO 2018-12-18 15:19:47]       #504 count=         28,992   0.01% 
+[INFO 2018-12-18 15:19:47]     #1,001 count=         57,674   0.02% 
+[INFO 2018-12-18 15:19:47]     #1,995 count=        115,049   0.04% 
+[INFO 2018-12-18 15:19:47]     #3,984 count=        229,795   0.08% 
+[INFO 2018-12-18 15:19:47]     #7,960 count=        459,212   0.15% 
+[INFO 2018-12-18 15:19:47]    #15,914 count=        918,015   0.31% 
+[INFO 2018-12-18 15:19:47]    #31,816 count=      1,835,545   0.61% 
+[INFO 2018-12-18 15:19:47]    #63,615 count=      3,670,560   1.23% 
+[INFO 2018-12-18 15:19:47]   #127,216 count=      7,340,618   2.46% 
+[INFO 2018-12-18 15:19:47]   #254,436 count=     14,680,668   4.92% 
+[INFO 2018-12-18 15:19:52]   #508,872 count=     29,360,775   9.83% 
+[INFO 2018-12-18 15:19:53] #1,017,606 count=     58,720,934  19.66% 
+[INFO 2018-12-18 15:19:54] #1,535,111 count=     88,583,516  29.66% 
+[INFO 2018-12-18 15:19:56] #2,052,568 count=    118,446,126  39.66% 
+[INFO 2018-12-18 15:20:01] #2,570,066 count=    148,308,712  49.66% 
+[INFO 2018-12-18 15:20:03] #3,087,571 count=    178,171,335  59.66% 
+[INFO 2018-12-18 15:20:04] #3,605,086 count=    208,033,937  69.66% 
+[INFO 2018-12-18 15:20:05] #4,122,602 count=    237,896,564  79.66% 
+[INFO 2018-12-18 15:20:12] #4,640,092 count=    267,759,147  89.66% 
+[INFO 2018-12-18 15:20:13] #5,157,590 count=    297,621,759  99.66% 
+[INFO 2018-12-18 15:20:13] #5,174,990 count=    298,625,824 100.00% 
+[INFO 2018-12-18 15:20:13] Counted 298,625,824 bytes in 5174990 calls from:
+  "../../1-hasm/sg_edges_list"
+[INFO 2018-12-18 15:20:13] Done loading sg_edges_list.
+[INFO 2018-12-18 15:20:13] Running 1 units of work.
+[INFO 2018-12-18 15:20:13] UOW #0 of 1 ...
+[INFO 2018-12-18 15:20:13] Entering generate_haplotigs_for_ctg(ctg_id=u'001110F', out_dir='./uow-001110F', base_dir=u'../../..'
+[INFO 2018-12-18 15:20:13] New logging FileHandler: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/uow-001110F/prototype.log'
+[INFO 2018-12-18 15:20:13] Started processing contig: "001110F".
+[INFO 2018-12-18 15:20:13] Writing snp_haplotigs for reproducibility.
+
+[INFO 2018-12-18 15:20:13] Writing p_ctg_tiling_path for reproducibility.
+
+[INFO 2018-12-18 15:20:13] Loading minced ctg seqs from u'../../0-phasing/001110F/uow-00/proto/minced.fasta' .
+[INFO 2018-12-18 15:20:13] Counting 32,997 bytes from
+  "/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/0-phasing/001110F/uow-00/proto/minced.fasta"
+[INFO 2018-12-18 15:20:13]         #1 count=         32,996 100.00% 
+[INFO 2018-12-18 15:20:13] Loading the phase relation graph from u'../../0-phasing/001110F/uow-00/proto/phase_relation_graph.gexf' .
+[INFO 2018-12-18 15:20:13] Loading all regions from u'../../0-phasing/001110F/uow-00/proto/regions.json' .
+[INFO 2018-12-18 15:20:13] Making bubble region list.
+[INFO 2018-12-18 15:20:13] Retupling.
+[INFO 2018-12-18 15:20:13] Assigning sequences to all regions.
+[INFO 2018-12-18 15:20:13] Writing haplotigs to disk: './uow-001110F/aln_snp_hasm_ctg.fasta'
+[INFO 2018-12-18 15:20:13] [IS] Writing 1, h_name = 001110F-HAP035503F-001110F.1000001.0
+[INFO 2018-12-18 15:20:13] [IS] Writing 2, h_name = 001110F-HAP035630F-001110F.1000001.1
+[EXECUTE 2018-12-18 15:20:13] [2018/12/18 21:20:13] Executing "blasr --minMatch 15 --maxMatch 25 --advanceHalf --advanceExactMatches 10 --bestn 1 --nproc 16 --noSplitSubreads ./uow-001110F/aln_snp_hasm_ctg.fasta ../../0-phasing/001110F/uow-00/proto/ref.fa --sam --out ./uow-001110F/aln_snp_hasm_ctg.tmp.sam"
+[INFO] 2018-12-18T15:20:14 [blasr] started.
+[INFO] 2018-12-18T15:20:14 [blasr] ended.
+[EXECUTE 2018-12-18 15:20:14] [2018/12/18 21:20:14]  Finished subprocess.
+[EXECUTE 2018-12-18 15:20:14] [2018/12/18 21:20:14] Executing "samtools sort ./uow-001110F/aln_snp_hasm_ctg.tmp.sam -o ./uow-001110F/aln_snp_hasm_ctg.sam"
+[EXECUTE 2018-12-18 15:20:15] [2018/12/18 21:20:15]  Finished subprocess.
+[EXECUTE 2018-12-18 15:20:15] [2018/12/18 21:20:15] Executing "rm -f ./uow-001110F/aln_snp_hasm_ctg.tmp.sam"
+[EXECUTE 2018-12-18 15:20:15] [2018/12/18 21:20:15]  Finished subprocess.
+[INFO 2018-12-18 15:20:15] Loading the alignments.
+[INFO 2018-12-18 15:20:15] Loaded alignments:
+[INFO 2018-12-18 15:20:15] ['001110F-HAP035503F-001110F.1000001.0', '001110F', -219, 99.58642174239982, 0, 0, 18618, 18618, 1, 4943, 23673, 32973, 254, <pysam.libcalignedsegment.AlignedSegment object at 0x7f9c3f1b60b8>]
+[INFO 2018-12-18 15:20:15] ['001110F-HAP035630F-001110F.1000001.1', '001110F', -103, 99.5665163142171, 0, 0, 17071, 17071, 1, 6045, 23096, 32973, 254, <pysam.libcalignedsegment.AlignedSegment object at 0x7f9c3f1b6120>]
+[INFO 2018-12-18 15:20:15] Reorienting haplotigs.
+[INFO 2018-12-18 15:20:15]   - qname = 001110F-HAP035503F-001110F.1000001.0
+[INFO 2018-12-18 15:20:15] 
+[INFO 2018-12-18 15:20:15]   - qname = 001110F-HAP035630F-001110F.1000001.1
+[INFO 2018-12-18 15:20:15] 
+[INFO 2018-12-18 15:20:15]  start = (4943, 0), end = (6045, 1095)
+[INFO 2018-12-18 15:20:15]  start = (6045, 1095), end = (23096, 18057)
+[INFO 2018-12-18 15:20:15]  start = (23096, 18057), end = (23673, 18618)
+[INFO 2018-12-18 15:20:15] pos_of_interest for q_name: 001110F-HAP035503F-001110F.1000001.0
+[INFO 2018-12-18 15:20:15] ((4943, 0), (6045, 1095), '001110F-HAP035503F-001110F.1000001.0', 18618, '001110F', 32973, ('001110F', 1000001, 0))
+[INFO 2018-12-18 15:20:15] ((6045, 1095), (23096, 18057), '001110F-HAP035503F-001110F.1000001.0', 18618, '001110F', 32973, ('001110F', 1000001, 0))
+[INFO 2018-12-18 15:20:15] ((23096, 18057), (23673, 18618), '001110F-HAP035503F-001110F.1000001.0', 18618, '001110F', 32973, ('001110F', 1000001, 0))
+[INFO 2018-12-18 15:20:15] 
+[INFO 2018-12-18 15:20:15]  start = (6045, 0), end = (23096, 17071)
+[INFO 2018-12-18 15:20:15] pos_of_interest for q_name: 001110F-HAP035630F-001110F.1000001.1
+[INFO 2018-12-18 15:20:15] ((6045, 0), (23096, 17071), '001110F-HAP035630F-001110F.1000001.1', 17071, '001110F', 32973, ('001110F', 1000001, 1))
+[INFO 2018-12-18 15:20:15] 
+[INFO 2018-12-18 15:20:15] [filter_haplotigs_by_len] Testing: htig_name = 001110F-HAP035630F-001110F.1000001.1-0, region_of_interest = ((6045, 0), (23096, 17071), '001110F-HAP035630F-001110F.1000001.1', 17071, '001110F', 32973, ('001110F', 1000001, 1))
+[INFO 2018-12-18 15:20:15]   Passed.
+[INFO 2018-12-18 15:20:15] [filter_haplotigs_by_len] Testing: htig_name = 001110F-HAP035503F-001110F.1000001.0-0, region_of_interest = ((4943, 0), (6045, 1095), '001110F-HAP035503F-001110F.1000001.0', 18618, '001110F', 32973, ('001110F', 1000001, 0))
+[INFO 2018-12-18 15:20:15]   Passed.
+[INFO 2018-12-18 15:20:15] [filter_haplotigs_by_len] Testing: htig_name = 001110F-HAP035503F-001110F.1000001.0-1, region_of_interest = ((6045, 1095), (23096, 18057), '001110F-HAP035503F-001110F.1000001.0', 18618, '001110F', 32973, ('001110F', 1000001, 0))
+[INFO 2018-12-18 15:20:15]   Passed.
+[INFO 2018-12-18 15:20:15] [filter_haplotigs_by_len] Testing: htig_name = 001110F-HAP035503F-001110F.1000001.0-2, region_of_interest = ((23096, 18057), (23673, 18618), '001110F-HAP035503F-001110F.1000001.0', 18618, '001110F', 32973, ('001110F', 1000001, 0))
+[INFO 2018-12-18 15:20:15]   Passed.
+[INFO 2018-12-18 15:20:15] Function: "__main__"
+[INFO 2018-12-18 15:20:15] len(sorted_bubble_regions) = 1
+[INFO 2018-12-18 15:20:15] Handling prefix.
+[INFO 2018-12-18 15:20:15] Entered function: "__main__"
+[INFO 2018-12-18 15:20:15] Info: pos_start = 0, pos_end = 6045, seq len: 32973
+[INFO 2018-12-18 15:20:15] Extracting subpath.
+[INFO 2018-12-18 15:20:15] Extracting the seq.
+[INFO 2018-12-18 15:20:15] len(new_path) = 1
+[INFO 2018-12-18 15:20:15] Forming the haplotig.
+[INFO 2018-12-18 15:20:15] Exiting function: "__main__"
+[INFO 2018-12-18 15:20:15] Handling infix.
+[INFO 2018-12-18 15:20:15] Handling suffix.
+[INFO 2018-12-18 15:20:15] Entered function: "__main__"
+[INFO 2018-12-18 15:20:15] Info: pos_start = 23096, pos_end = 32973, seq len: 32973
+[INFO 2018-12-18 15:20:15] Extracting subpath.
+[INFO 2018-12-18 15:20:15] Extracting the seq.
+[INFO 2018-12-18 15:20:15] len(new_path) = 1
+[INFO 2018-12-18 15:20:15] Forming the haplotig.
+[INFO 2018-12-18 15:20:15] Exiting function: "__main__"
+[INFO 2018-12-18 15:20:15] Dunn!
+[INFO 2018-12-18 15:20:15] Creating a haplotig graph.
+[INFO 2018-12-18 15:20:15]   - Adding nodes.
+[INFO 2018-12-18 15:20:15]     - region_id = 0, region_type = linear, region_pos_start = 0, region_pos_end = 6045
+[INFO 2018-12-18 15:20:15]       - [haplotig graph, adding node] key = 001110F_linear2_0:6045_base
+[INFO 2018-12-18 15:20:15]     - region_id = 1, region_type = diploid, region_pos_start = 6045, region_pos_end = 23096
+[INFO 2018-12-18 15:20:15]       - [haplotig graph, adding node] key = 001110F-HAP035630F-001110F.1000001.1-0
+[INFO 2018-12-18 15:20:15]       - [haplotig graph, adding node] key = 001110F-HAP035503F-001110F.1000001.0-1
+[INFO 2018-12-18 15:20:15]     - region_id = 2, region_type = linear, region_pos_start = 23096, region_pos_end = 32973
+[INFO 2018-12-18 15:20:15]       - [haplotig graph, adding node] key = 001110F_linear2_23096:32973_base
+[INFO 2018-12-18 15:20:15]   - Adding edges.
+[INFO 2018-12-18 15:20:15]       - [haplotig graph, adding edge] v = 001110F_linear2_0:6045_base, w = 001110F-HAP035630F-001110F.1000001.1-0
+[INFO 2018-12-18 15:20:15]       - [haplotig graph, adding edge] v = 001110F_linear2_0:6045_base, w = 001110F-HAP035503F-001110F.1000001.0-1
+[INFO 2018-12-18 15:20:15]       - [haplotig graph, adding edge] v = 001110F-HAP035630F-001110F.1000001.1-0, w = 001110F_linear2_23096:32973_base
+[INFO 2018-12-18 15:20:15]       - [haplotig graph, adding edge] v = 001110F-HAP035503F-001110F.1000001.0-1, w = 001110F_linear2_23096:32973_base
+[INFO 2018-12-18 15:20:15]   - Writing the haplotig graph in the gexf format.
+[INFO 2018-12-18 15:20:15] Writing the haplotig_graph.gfa.
+[INFO 2018-12-18 15:20:15] Beginning to extract all p_ctg and h_ctg.
+[INFO 2018-12-18 15:20:15] Extracting primary contig: p_ctg_id = 001110F
+[INFO 2018-12-18 15:20:15] Extracting the associate haplotigs for p_ctg_id = 001110F
+[INFO 2018-12-18 15:20:15] Finished processing contig: 001110F.
+
+    #--bash-template-fn= # not needed
+    
+date
++ date
+2018-12-18 15:20:59,423 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2018-12-18 15:20:59,424 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+2018-12-18 15:20:59,424 - root - DEBUG - Checking existence of u'result-list.json' with timeout=30
+2018-12-18 15:20:59,424 - root - WARNING - CD: '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F' -> '/gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F'
+
+real	6m56.555s
+user	6m13.932s
+sys	0m33.676s
+touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/run.sh.done
++ touch /gscmnt/gc2758/analysis/reference_grant/Vietnamese_HG02059_PB_Assembly_Test/3-unzip/2-htigs/chunk_001110F/run.sh.done
+ returned: 0

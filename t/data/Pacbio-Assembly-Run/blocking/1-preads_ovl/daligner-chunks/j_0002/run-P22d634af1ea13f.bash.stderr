@@ -1,0 +1,71 @@
+executable=${PYPEFLOW_JOB_START_SCRIPT}
++ executable=/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002/run-P22d634af1ea13f.bash
+timeout=${PYPEFLOW_JOB_START_TIMEOUT:-60} # wait 60s by default
++ timeout=60
+
+# Wait up to timeout seconds for the executable to become "executable",
+# then exec.
+#timeleft = int(timeout)
+while [[ ! -x "${executable}" ]]; do
+    if [[ "${timeout}" == "0" ]]; then
+        echo "timed out waiting for (${executable})"
+        exit 77
+    fi
+    echo "not executable: '${executable}', waiting ${timeout}s"
+    sleep 1
+    timeout=$((timeout-1))
+done
++ [[ ! -x /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002/run-P22d634af1ea13f.bash ]]
+
+/bin/bash ${executable}
++ /bin/bash /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002/run-P22d634af1ea13f.bash
++ '[' '!' -d /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002 ']'
++ cd /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002
++ eval '/bin/bash run.sh'
+++ /bin/bash run.sh
+export PATH=$PATH:/bin
++ export PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
++ PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
+cd /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002
++ cd /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-10 00:18:41,288 - root - DEBUG - Running "/apps/pbassemble/lib/python2.7/site-packages/pypeflow/do_task.py /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002/task.json"
+2019-01-10 00:18:41,289 - root - DEBUG - Checking existence of '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002/task.json' with timeout=30
+2019-01-10 00:18:41,290 - root - DEBUG - Loading JSON from '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002/task.json'
+2019-01-10 00:18:41,290 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'all': u'../../daligner-split/all-units-of-work.json'},
+ u'outputs': {u'one': u'some-units-of-work.json'},
+ u'parameters': {u'pypeflow_mb': 4000, u'pypeflow_nproc': 1, u'split_idx': 2}}
+2019-01-10 00:18:41,290 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002' <- '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002'
+2019-01-10 00:18:41,290 - root - DEBUG - Checking existence of u'../../daligner-split/all-units-of-work.json' with timeout=30
+2019-01-10 00:18:41,290 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-10 00:18:41,291 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002' <- '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002'
+2019-01-10 00:18:41,291 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../daligner-split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=2
++ python -m falcon_kit.mains.generic_scatter_one_uow --all-uow-list-fn=../../daligner-split/all-units-of-work.json --one-uow-list-fn=some-units-of-work.json --split-idx=2
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+date
++ date
+2019-01-10 00:18:41,853 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-10 00:18:41,854 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002' -> '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002'
+2019-01-10 00:18:41,854 - root - DEBUG - Checking existence of u'some-units-of-work.json' with timeout=30
+2019-01-10 00:18:41,854 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002' -> '/mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002'
+
+real	0m0.852s
+user	0m0.404s
+sys	0m0.113s
+touch /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002/run.sh.done
++ touch /mnt/disks/data/assembly/ecoli-blocking/1-preads_ovl/daligner-chunks/j_0002/run.sh.done
++ finish
++ echo 'finish code: 0'

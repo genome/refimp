@@ -1,0 +1,97 @@
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split --heartbeat-file=/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-P57094a7c761a12 --exit-file=/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-P57094a7c761a12 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split', exit_file='/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-P57094a7c761a12', heartbeat_file='/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-P57094a7c761a12', rate=10.0)
+
+cwd:'/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split'
+hostname=pbassemble1-controller.c.washu-genome-hall-group-dev.internal
+heartbeat_fn='/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-P57094a7c761a12'
+exit_fn='/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-P57094a7c761a12'
+sleep_s=10.0
+before setpgid: pid=15779 pgid=15107
+ after setpgid: pid=15779 pgid=15779
+In cwd: /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
++ PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
+cd /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split
++ cd /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-09 20:05:55,278 - root - DEBUG - Running "/apps/pbassemble/lib/python2.7/site-packages/pypeflow/do_task.py /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split/task.json"
+2019-01-09 20:05:55,279 - root - DEBUG - Checking existence of '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split/task.json' with timeout=30
+2019-01-09 20:05:55,279 - root - DEBUG - Loading JSON from '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split/task.json'
+2019-01-09 20:05:55,280 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'config': u'../../General_config.json',
+             u'db': u'../build/preads.db',
+             u'length_cutoff': u'../build/length_cutoff'},
+ u'outputs': {u'bash_template': u'daligner_bash_template.sh',
+              u'split': u'all-units-of-work.json'},
+ u'parameters': {u'pypeflow_mb': 4000,
+                 u'pypeflow_nproc': 4,
+                 u'skip_checks': 0,
+                 u'topdir': u'../..',
+                 u'wildcards': u'dal1_id'}}
+2019-01-09 20:05:55,280 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split' <- '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split'
+2019-01-09 20:05:55,280 - root - DEBUG - Checking existence of u'../build/preads.db' with timeout=30
+2019-01-09 20:05:55,280 - root - DEBUG - Checking existence of u'../../General_config.json' with timeout=30
+2019-01-09 20:05:55,280 - root - DEBUG - Checking existence of u'../build/length_cutoff' with timeout=30
+2019-01-09 20:05:55,280 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-09 20:05:55,280 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split' <- '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split'
+2019-01-09 20:05:55,280 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+python -m falcon_kit.mains.dazzler --config=../../General_config.json --db=../build/preads.db --nproc=4  daligner-split --wildcards=dal1_id --length-cutoff-fn=../build/length_cutoff --split-fn=all-units-of-work.json --bash-template-fn=daligner_bash_template.sh
++ python -m falcon_kit.mains.dazzler --config=../../General_config.json --db=../build/preads.db --nproc=4 daligner-split --wildcards=dal1_id --length-cutoff-fn=../build/length_cutoff --split-fn=all-units-of-work.json --bash-template-fn=daligner_bash_template.sh
+falcon-kit 1.2.4
+pypeflow 2.1.1
+[INFO]Log-level: INFO
+[INFO]config('../../General_config.json'):
+{u'falcon_sense_greedy': False, u'pa_fasta_filter_option': u'pass', u'seed_coverage': u'20', u'overlap_filtering_setting': u'--max-diff 100 --max-cov 100 --min-cov 2', u'length_cutoff_pr': u'1000', u'pa_REPmask_code': u'0,300;0,300;0,300', u'pa_HPCdaligner_option': u'-v -B128 -M24', u'ver': u'100', u'bestn': 12, u'pa_HPCTANmask_option': u'', u'input_type': u'raw', u'pa_DBsplit_option': u'-x500 -s200', u'fc_ovlp_to_graph_option': u' --min-len 1000', u'input_fofn': u'input.fof', u'genome_size': u'0', u'avoid_text_file_busy': True, u'pa_dazcon_option': u'-j 4 -x -l 500', u'skip_checks': False, u'ovlp_daligner_option': u'-e.9 -l2500 -k24 -h1024 -w6 -s100', u'target': u'assembly', u'falcon_sense_skip_contained': False, u'pa_daligner_option': u'-e.8 -l2000 -k18 -h480  -w8 -s100', u'length_cutoff': u'1000', u'pa_DBdust_option': u'', u'ovlp_HPCdaligner_option': u'-v -B128 -M24', u'LA4Falcon_preload': False, u'dazcon': False, u'falcon_sense_option': u'--output-multi --min-idt 0.70 --min-cov 2 --max-n-read 1800', u'ovlp_DBsplit_option': u'-x500 -s200'}
+[INFO]our subset of config:
+{'daligner_opt': u'-e.9 -l2500 -k24 -h1024 -w6 -s100 -v -B128 -M24', 'genome_size': 0, 'seed_coverage': 20.0, 'user_length_cutoff': 1000, 'fasta_filter_option': 'pass', 'DBsplit_opt': u'-x500 -s200'}
+[INFO]ln -sf ../build/preads.db preads.db
+[INFO]ln -sf ../build/.preads.bps .preads.bps
+[INFO]ln -sf ../build/.preads.dust.anno .preads.dust.anno
+[INFO]ln -sf ../build/.preads.dust.data .preads.dust.data
+[INFO]ln -sf ../build/.preads.idx .preads.idx
+[INFO]ln -sf ../build/length_cutoff CUTOFF
+[INFO]$('bash -vex split_db.sh')
+#!/bin/bash
+set -vex
++ set -vex
+
+#LB=$(cat db_block_count)
+CUTOFF=$(cat CUTOFF)
+++ cat CUTOFF
++ CUTOFF=1000
+rm -f daligner-jobs.*
++ rm -f 'daligner-jobs.*'
+echo "SMRT_PYTHON_PATH_PREPEND=$SMRT_PYTHON_PATH_PREPEND"
++ echo SMRT_PYTHON_PATH_PREPEND=
+echo "PATH=$PATH"
++ echo PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
+which HPC.daligner
++ which HPC.daligner
+HPC.daligner -P. -e.9 -l2500 -k24 -h1024 -w6 -s100 -v -B128 -M24 -mdust -H$CUTOFF -fdaligner-jobs preads
++ HPC.daligner -P. -e.9 -l2500 -k24 -h1024 -w6 -s100 -v -B128 -M24 -mdust -H1000 -fdaligner-jobs preads
+    
+
+date
++ date
+2019-01-09 20:05:55,489 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-09 20:05:55,489 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split' -> '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split'
+2019-01-09 20:05:55,489 - root - DEBUG - Checking existence of u'all-units-of-work.json' with timeout=30
+2019-01-09 20:05:55,489 - root - DEBUG - Checking existence of u'daligner_bash_template.sh' with timeout=30
+2019-01-09 20:05:55,489 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split' -> '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split'
+
+real	0m0.362s
+user	0m0.294s
+sys	0m0.067s
+touch /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split/run.sh.done
++ touch /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-split/run.sh.done
+ returned: 0

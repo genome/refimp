@@ -1,0 +1,63 @@
++ python2.7 -m pwatcher.mains.fs_heartbeat --directory=/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered --heartbeat-file=/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-Pbaf458df613c17 --exit-file=/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-Pbaf458df613c17 --rate=10.0 /bin/bash run.sh
+Namespace(command=['/bin/bash', 'run.sh'], directory='/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered', exit_file='/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-Pbaf458df613c17', heartbeat_file='/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-Pbaf458df613c17', rate=10.0)
+
+cwd:'/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered'
+hostname=pbassemble1-controller.c.washu-genome-hall-group-dev.internal
+heartbeat_fn='/mnt/disks/data/assembly/ecoli/mypwatcher/heartbeats/heartbeat-Pbaf458df613c17'
+exit_fn='/mnt/disks/data/assembly/ecoli/mypwatcher/exits/exit-Pbaf458df613c17'
+sleep_s=10.0
+before setpgid: pid=15940 pgid=15107
+ after setpgid: pid=15940 pgid=15940
+In cwd: /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered, Blocking call: '/bin/bash run.sh'
+export PATH=$PATH:/bin
++ export PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
++ PATH=/apps/pbassemble/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/apps/slurm/current/bin:/apps/slurm/current/sbin:/home/ebelter_wustl_edu/.local/bin:/home/ebelter_wustl_edu/bin:/bin
+cd /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered
++ cd /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered
+/bin/bash task.sh
++ /bin/bash task.sh
+pypeflow 2.1.1
+2019-01-09 20:09:07,739 - root - DEBUG - Running "/apps/pbassemble/lib/python2.7/site-packages/pypeflow/do_task.py /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered/task.json"
+2019-01-09 20:09:07,740 - root - DEBUG - Checking existence of '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered/task.json' with timeout=30
+2019-01-09 20:09:07,740 - root - DEBUG - Loading JSON from '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered/task.json'
+2019-01-09 20:09:07,741 - root - DEBUG - {u'bash_template_fn': u'template.sh',
+ u'inputs': {u'jobj_0000': u'../daligner-runs/j_0000/some-done-files.json',
+             u'jobj_0001': u'../daligner-runs/j_0001/some-done-files.json',
+             u'jobj_0002': u'../daligner-runs/j_0002/some-done-files.json'},
+ u'outputs': {u'gathered': u'gathered-done-files.json',
+              u'result_fn_list': u'result-fn-list.json'},
+ u'parameters': {u'pypeflow_mb': 4000, u'pypeflow_nproc': 1}}
+2019-01-09 20:09:07,741 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered' <- '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered'
+2019-01-09 20:09:07,741 - root - DEBUG - Checking existence of u'../daligner-runs/j_0001/some-done-files.json' with timeout=30
+2019-01-09 20:09:07,741 - root - DEBUG - Checking existence of u'../daligner-runs/j_0000/some-done-files.json' with timeout=30
+2019-01-09 20:09:07,741 - root - DEBUG - Checking existence of u'../daligner-runs/j_0002/some-done-files.json' with timeout=30
+2019-01-09 20:09:07,741 - root - DEBUG - Checking existence of u'template.sh' with timeout=30
+2019-01-09 20:09:07,741 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered' <- '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered'
+2019-01-09 20:09:07,741 - root - INFO - $('/bin/bash user_script.sh')
+hostname
++ hostname
+pwd
++ pwd
+date
++ date
+# Substitution will be similar to snakemake "shell".
+
+python -m falcon_kit.mains.generic_unsplit --result-fn-list-fn=result-fn-list.json --gathered-fn=gathered-done-files.json
++ python -m falcon_kit.mains.generic_unsplit --result-fn-list-fn=result-fn-list.json --gathered-fn=gathered-done-files.json
+falcon-kit 1.2.4
+pypeflow 2.1.1
+
+date
++ date
+2019-01-09 20:09:07,923 - root - DEBUG - Call '/bin/bash user_script.sh' returned 0.
+2019-01-09 20:09:07,923 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered' -> '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered'
+2019-01-09 20:09:07,923 - root - DEBUG - Checking existence of u'gathered-done-files.json' with timeout=30
+2019-01-09 20:09:07,923 - root - DEBUG - Checking existence of u'result-fn-list.json' with timeout=30
+2019-01-09 20:09:07,923 - root - WARNING - CD: '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered' -> '/mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered'
+
+real	0m0.451s
+user	0m0.269s
+sys	0m0.047s
+touch /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered/run.sh.done
++ touch /mnt/disks/data/assembly/ecoli/1-preads_ovl/daligner-gathered/run.sh.done
+ returned: 0
