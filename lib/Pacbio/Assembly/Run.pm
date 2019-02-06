@@ -85,7 +85,8 @@ sub get_stage_from_file_name {
     shift @components if $components[0] eq ''; # remove the root
     do {
         shift @components;
-    } until $components[0] =~ /^\d\-/;
+    } until !@components or $components[0] =~ /^\d\-/;
+    return if not @components;
     pop @components if $components[$#components] eq 'run.sh.done'; # remove run.sh.done
 
     # Remove the chunked steps: j_0000 000000F chunk_000000F segr000
