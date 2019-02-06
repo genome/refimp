@@ -1,12 +1,12 @@
 language: perl
 perl:
   - "5.26.0"
-sudo: false
+sudo: true
 addon:
   apt:
     update: true
 before_install:
-  - apt-get install -y libgd-dev
+  - sudo apt-get install -y libgd-dev
   - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
   - source ~/travis-perl-helpers/init
   - build-perl
