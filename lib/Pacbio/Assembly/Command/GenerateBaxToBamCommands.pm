@@ -8,6 +8,7 @@ use List::Util;
 use Pacbio::Run;
 use Pacbio::Run::AnalysisFactoryForRsii;
 use Path::Class;
+use Util::IO;
 
 class Pacbio::Assembly::Command::GenerateBaxToBamCommands {
     is => 'Command::V2',
@@ -67,12 +68,7 @@ sub __init__ {
     if ( $commands_file and $commands_file ne '-' and -s $commands_file ) {
         $self->fatal_message("Output commands file exists: $commands_file. Please change detination, or remove it.");
     }
-
-    $self->_commands_fh(
-        ( $commands_file eq '-' )
-        ? 'STDOUT'
-        : IO::File->new($commands_file, 'w')
-    );
+    $self->_commands_fh( Util::IO::open_file_for_writing($commands_file) );
     $self->fatal_message('Failed to open commands file! %s', $commands_file) if not $self->_commands_fh;
 
     my $bam_output_directory = $self->bam_output_directory;

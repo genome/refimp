@@ -130,7 +130,7 @@ subtest 'failures' => sub{
         commands_file => '/foo/bar',
     );
     ok($cmd, 'create command');
-    throws_ok(sub{ $cmd->execute; }, qr/Failed to open commands file/, 'fails when cannot open commands file');
+    throws_ok(sub{ $cmd->execute; }, qr#Failed to open /foo/bar#, 'fails when cannot open commands file');
 
 };
 
