@@ -695,8 +695,6 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="PROCESSING" minOccurs="0" maxOccurs="1" type="ProcessingType"/>
-
       <xs:element name="EXPERIMENT_LINKS" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation> Links to resources related to this experiment or experiment set (publication, datasets, online databases).
