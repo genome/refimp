@@ -146,7 +146,7 @@ sub render_xml {
         library_name => $self->sample_name,
         bioproject => $self->bioproject,
         biosample => $self->biosample,
-        instrument => 'PacBio RS II',
+        instrument => $self->run->instrumnet_model,
         version => ( sort( List::Util::uniq( map { $_->version } @$analyses ) ) )[0],
         library_strategy => 'WGS',
         library_source => 'GENOMIC',
