@@ -82,7 +82,7 @@ sub get_pacbio_runs {
         );
 
     }
-    $self->fatal_message('No runs to submit!') if not @runs;
+    $self->fatal_message('Did not find runs for run directories!') if not @runs;
 
     $self->runs(\@runs);
 }
@@ -146,7 +146,7 @@ sub render_xml {
         library_name => $self->sample_name,
         bioproject => $self->bioproject,
         biosample => $self->biosample,
-        instrument => 'PacBio RS II',
+        instrument => ( List::Util::uniq( map { $_->instrument_model } @{$self->runs}) )[0],
         version => ( sort( List::Util::uniq( map { $_->version } @$analyses ) ) )[0],
         library_strategy => 'WGS',
         library_source => 'GENOMIC',

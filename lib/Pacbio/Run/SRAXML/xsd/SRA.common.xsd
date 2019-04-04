@@ -626,8 +626,8 @@
 
   <xs:simpleType name="typePacBioModel">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="PacBio RS"/>
       <xs:enumeration value="PacBio RS II"/>
+      <xs:enumeration value="PacBio Sequel"/>
     </xs:restriction>
   </xs:simpleType>
 

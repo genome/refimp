@@ -12,6 +12,12 @@ use Pacbio::Run::AnalysisFactoryForRsii;
 use Pacbio::Run::AnalysisFactoryForSequel;
 
 sub valid_machine_types { (qw/ rsii sequel /) }
+sub instrument_model {
+    my ($self) = @_;
+    return 'PacBio RS II' if $self->machine_type eq 'rsii';
+    return 'PacBio Sequel'if $self->machine_type eq 'sequel';
+    die "Unkown machne type: ".$self->machine_type;
+}
 
 sub __name__ { join(' ', map { $_[0]->$_ } (qw/ directory machine_type /)) }
 

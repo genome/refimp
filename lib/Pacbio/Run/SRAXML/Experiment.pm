@@ -55,11 +55,6 @@ sub data_struct {
                    },
                },
         PLATFORM => {PACBIO_SMRT => {INSTRUMENT_MODEL => $self->instrument} },
-        PROCESSING => {PIPELINE => {PIPE_SECTION => {STEP_INDEX => '',
-                                                     PREV_STEP_INDEX => '',
-                                                     PROGRAM => $self->instrument,
-                                                     VERSION => $self->version,
-                                                 } }},
     };
     return $struct;
 }
