@@ -13,6 +13,7 @@ class Pacbio::Run::Command::View {
         machine_type => {
             is => 'Text',
             valid_values => [ Pacbio::Run->valid_machine_types ],
+            default_value => [ Pacbio::Run->valid_machine_types ]->[0],
             doc => 'Machine type for run: '.join(' ', Pacbio::Run->valid_machine_types),
         },
         run_directory => {

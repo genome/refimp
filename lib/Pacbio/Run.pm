@@ -11,7 +11,7 @@ use List::MoreUtils;
 use Pacbio::Run::AnalysisFactoryForRsii;
 use Pacbio::Run::AnalysisFactoryForSequel;
 
-sub valid_machine_types { (qw/ rsii sequel /) }
+sub valid_machine_types { (qw/ sequel rsii /) }
 sub instrument_model {
     my ($self) = @_;
     return 'PacBio RS II' if $self->machine_type eq 'rsii';

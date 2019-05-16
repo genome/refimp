@@ -14,6 +14,7 @@ class Pacbio::Run::Command::ShowLibraryNames {
         machine_type => {
             is => 'Text',
             valid_values => [ Pacbio::Run->valid_machine_types ],
+            default_value => [ Pacbio::Run->valid_machine_types ]->[0],
             doc => 'Machine type for run: '.join(' ', Pacbio::Run->valid_machine_types),
         },
         run_directory=> {
@@ -43,7 +44,7 @@ sub execute {
     );
     my $analyses = $run->analyses;
     if ( not $analyses ) {
-        $self->error_message('No analyses or files found! Is diectory and machine_type correct?');
+        $self->error_message('No analyses or files found! Is the directory and machine_type correct?');
         return;
     }
 
