@@ -26,6 +26,7 @@ class Pacbio::Run::Command::PrepareSubmission {
         machine_type => {
             is => 'Text',
             valid_values => [ Pacbio::Run->valid_machine_types ],
+            default_value => [ Pacbio::Run->valid_machine_types ]->[0],
             doc => 'Machine type for run: '.join(' ', Pacbio::Run->valid_machine_types),
         },
         output_path  => {
@@ -99,7 +100,10 @@ sub get_analyses_from_runs {
     for my $run ( @{$self->runs} ) {
         my $sample_analyses = $run->analyses_for_sample($regex);
         if ( not $sample_analyses ) {
-            $self->fatal_message('Did not find analyses for %s on run %s!', $library_name, $run->directory);
+            $self->fatal_message(
+                "No analyses for %s on run %s. Is the library name pattern correct?\nThis run contains these libraries: %s",
+                $library_name, $run->directory, join(' ', map { $_->library_name } @{$run->analyses}),
+            );
         }
         push @rows, [ $run->directory, $run->analyses_count, scalar(@$sample_analyses) ];
         push @analyses, @$sample_analyses;

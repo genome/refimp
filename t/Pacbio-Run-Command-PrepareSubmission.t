@@ -11,7 +11,7 @@ use File::Temp;
 use Path::Class;
 use Sub::Install;
 use Test::Exception;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my %test;
 subtest 'setup' => sub{
@@ -36,6 +36,34 @@ subtest 'setup' => sub{
         });
 
 };
+
+subtest 'failures' => sub{
+    plan tests => 2;
+
+    my $run_id = '6U00I7';
+    my $machine_type = 'sequel';
+    my $output_path = $test{tempdir}->subdir($machine_type);
+    my $run_dir = $test{data_directory}->subdir($run_id)->stringify;
+    my %params = (
+        bioproject => 'BIOPROJECT',
+        biosample => 'BIOSAMPLE',
+        output_path => "$output_path",
+        sample_name => 'HG03486_Mende_4808Ll',
+        library_name => 'HG_03486',
+        submission_alias => $run_id,
+        run_directories => [$run_dir],
+    );
+
+    my $cmd = $test{class}->create(%params);
+    ok($cmd, 'create command');
+    throws_ok(
+        sub{ $cmd->execute; },
+        qr/No analyses for HG_03486 on run $run_dir\. Is the library name pattern correct\?\nThis run contains these libraries: HG03486/,
+        'fails when not finding library name on run',
+    );
+
+};
+
 
 subtest 'execute rsii' => sub{
     plan tests => 20;
@@ -85,7 +113,6 @@ subtest 'execute sequel' => sub{
     my %params = (
         bioproject => 'BIOPROJECT',
         biosample => 'BIOSAMPLE',
-        machine_type => 'sequel',
         output_path => "$output_path",
         sample_name => 'HG03486_Mende_4808Ll',
         library_name => 'HG03486',
